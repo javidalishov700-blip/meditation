@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #120814;
+  --color-ink-2: #1c0c22;
+  --color-ink-3: #2a1233;
+  --color-plum: #4a1948;
+  --color-rose: #f472b6;
+  --color-rose-2: #fb7185;
+  --color-orchid: #e879f9;
+  --color-lilac: #ddd6fe;
+  --color-cream: #fff1f5;
+  --color-mute: #c4b0c4;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-ink);
+  color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  background:
+    radial-gradient(1200px 700px at 80% -10%, rgba(244, 114, 182, 0.18), transparent 55%),
+    radial-gradient(900px 600px at -10% 20%, rgba(168, 85, 247, 0.16), transparent 50%),
+    radial-gradient(800px 500px at 50% 120%, rgba(190, 24, 93, 0.12), transparent 50%),
+    var(--color-ink);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.safe-bottom {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}
+
+.safe-top {
+  padding-top: calc(0.75rem + env(safe-area-inset-top));
+}
+
+@keyframes pulse-orb {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes breathe {
+  0% {
+    transform: scale(0.86);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  55% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(0.86);
+  }
+}
+
+.orb-pulse {
+  animation: pulse-orb 3.6s ease-in-out infinite;
+}
+
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
+}
