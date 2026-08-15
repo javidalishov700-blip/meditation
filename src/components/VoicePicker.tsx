@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Capacitor } from '@capacitor/core'
 import { useI18n } from '../lib/i18n'
 import {
   listVoices,
@@ -20,13 +21,13 @@ export function VoicePicker() {
   const [pace, setPace] = useState<ReadMode>(() => readReadMode())
 
   useEffect(() => {
-    warmVoices()
     const sync = () => {
       setVoices(listVoices(meta.bcp47))
       setUri(readVoiceUri(meta.bcp47))
       setPace(readReadMode())
     }
     sync()
+    void warmVoices().then(sync)
     window.speechSynthesis?.addEventListener?.('voiceschanged', sync)
     return () => window.speechSynthesis?.removeEventListener?.('voiceschanged', sync)
   }, [meta.bcp47])
@@ -100,6 +101,17 @@ export function VoicePicker() {
         })}
       </div>
       {shown.length === 0 ? <p className="mt-3 text-sm text-white/45">{t('voice_none')}</p> : null}
+      {shown.length === 0 && Capacitor.getPlatform() === 'android' ? (
+        <button
+          type="button"
+          className="mt-3 rounded-full bg-white/10 px-4 py-2 text-sm text-white"
+          onClick={() => {
+            void import('@capacitor-community/text-to-speech').then(({ TextToSpeech }) => TextToSpeech.openInstall())
+          }}
+        >
+          {t('voice_install')}
+        </button>
+      ) : null}
       <button
         type="button"
         className="mt-4 rounded-full bg-white/10 px-4 py-2 text-sm text-white"

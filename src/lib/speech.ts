@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core'
 import { audio } from './audio'
 import { readJson, writeJson } from './storage'
 
@@ -67,6 +68,7 @@ function setSpeaking(on: boolean) {
 }
 
 function refreshVoices() {
+  if (Capacitor.isNativePlatform()) return voicesCache
   const list = window.speechSynthesis?.getVoices?.() ?? []
   if (list.length) voicesCache = list
   return voicesCache
@@ -294,6 +296,37 @@ function jitter(base: number, spread: number) {
   return Math.max(0.72, Math.min(1.08, base + (Math.random() * 2 - 1) * spread))
 }
 
+function nativeVoiceIndex(bcp: string): number | undefined {
+  const voice = pickVoice(bcp)
+  if (!voice || !voicesCache.length) return undefined
+  const i = voicesCache.findIndex((v) => v.voiceURI === voice.voiceURI)
+  return i >= 0 ? i : undefined
+}
+
+async function speakNative(text: string, bcp: string, opts: { rate: number; pitch: number }) {
+  const { TextToSpeech } = await import('@capacitor-community/text-to-speech')
+  await TextToSpeech.speak({
+    text,
+    lang: bcp,
+    rate: opts.rate,
+    pitch: opts.pitch,
+    volume: 1,
+    category: 'playback',
+    queueStrategy: 0,
+    voice: nativeVoiceIndex(bcp),
+  })
+}
+
+async function stopNative() {
+  if (!Capacitor.isNativePlatform()) return
+  try {
+    const { TextToSpeech } = await import('@capacitor-community/text-to-speech')
+    await TextToSpeech.stop()
+  } catch {
+    /* ignore */
+  }
+}
+
 function utter(text: string, bcp: string, opts: { rate: number; pitch: number }) {
   const u = new SpeechSynthesisUtterance(text)
   const voice = pickVoice(bcp)
@@ -338,17 +371,24 @@ export function stopSpeak() {
   held = null
   stopKeepAlive()
   setSpeaking(false)
+  void stopNative()
   if (keep || window.speechSynthesis) window.speechSynthesis.cancel()
 }
 
 export function speak(text: string, opts: SpeakOpts = {}): void {
-  if (!window.speechSynthesis) {
+  const native = Capacitor.isNativePlatform()
+  if (!native && !window.speechSynthesis) {
     opts.onend?.()
     return
   }
-  stopSpeak()
-  cancelled = false
+  cancelled = true
+  speakGen += 1
   const gen = speakGen
+  cancelled = false
+  held = null
+  stopKeepAlive()
+  if (window.speechSynthesis) window.speechSynthesis.cancel()
+
   const bcp = resolveLang(opts.lang)
   const prefix = langPrefix(bcp)
   const mode = opts.mode ?? readReadMode()
@@ -363,9 +403,8 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
   const started = Date.now()
   let i = 0
   audio.hushForVoice()
-  refreshVoices()
   setSpeaking(true)
-  startKeepAlive()
+  if (!native) startKeepAlive()
 
   const finish = () => {
     if (gen !== speakGen) return
@@ -393,14 +432,28 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
       return
     }
     const live = mode === 'slow'
-    const u = utter(part.text, bcp, {
-      rate: live ? jitter(baseRate, 0.012) : baseRate,
-      pitch: live ? jitter(basePitch, 0.012) : basePitch,
-    })
+    const rate = live ? jitter(baseRate, 0.012) : baseRate
+    const pitch = live ? jitter(basePitch, 0.012) : basePitch
+    const gap = () => (live ? part.pause + Math.floor(Math.random() * 60) : part.pause)
+
+    if (native) {
+      void speakNative(part.text, bcp, { rate, pitch })
+        .then(() => {
+          if (cancelled || gen !== speakGen) return
+          void wait(gap()).then(next)
+        })
+        .catch(() => {
+          if (cancelled || gen !== speakGen) return
+          next()
+        })
+      return
+    }
+
+    refreshVoices()
+    const u = utter(part.text, bcp, { rate, pitch })
     u.onend = () => {
       if (cancelled || gen !== speakGen) return
-      const gap = live ? part.pause + Math.floor(Math.random() * 60) : part.pause
-      void wait(gap).then(next)
+      void wait(gap()).then(next)
     }
     u.onerror = () => {
       if (cancelled || gen !== speakGen) return
@@ -409,11 +462,12 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     window.speechSynthesis.speak(u)
   }
 
-  void wait(80).then(() => {
+  void (async () => {
+    await stopNative()
     if (cancelled || gen !== speakGen) return
     refreshVoices()
     next()
-  })
+  })()
 }
 
 export function speakCue(text: string, lang?: string) {
@@ -437,11 +491,20 @@ export function sampleLine(bcp47: string) {
   return VOICE_SAMPLE[langPrefix(bcp47)] || VOICE_SAMPLE.en!
 }
 
-export function warmVoices() {
+export function warmVoices(): Promise<void> {
+  if (Capacitor.isNativePlatform()) {
+    return import('@capacitor-community/text-to-speech')
+      .then(({ TextToSpeech }) => TextToSpeech.getSupportedVoices())
+      .then(({ voices }) => {
+        if (voices?.length) voicesCache = voices
+      })
+      .catch(() => undefined)
+  }
   const synth = window.speechSynthesis
-  if (!synth) return
+  if (!synth) return Promise.resolve()
   refreshVoices()
   synth.addEventListener?.('voiceschanged', () => {
     refreshVoices()
   })
+  return Promise.resolve()
 }

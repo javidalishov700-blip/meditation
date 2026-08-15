@@ -24,15 +24,24 @@ export function localeMeta(id: string): LocaleMeta {
   return LOCALES.find((l) => l.id === id) ?? LOCALES[1]!
 }
 
-export function detectLocale(): LocaleId {
-  const raw = (navigator.language || 'en').toLowerCase()
-  const short = raw.slice(0, 2)
+function matchLocale(raw: string): LocaleId | null {
+  const short = (raw || '').slice(0, 2).toLowerCase()
   if (short === 'tr' || short === 'az') return 'tr'
   if (short === 'es') return 'es'
   if (short === 'fr') return 'fr'
   if (short === 'de') return 'de'
   if (short === 'it') return 'it'
   if (short === 'en') return 'en'
+  return null
+}
+
+export function detectLocale(): LocaleId {
+  if (typeof navigator === 'undefined') return 'en'
+  const listed = [...(navigator.languages || []), navigator.language]
+  for (const raw of listed) {
+    const hit = matchLocale(raw)
+    if (hit) return hit
+  }
   return 'en'
 }
 

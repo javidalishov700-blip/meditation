@@ -41,6 +41,7 @@ workflows:
             npx cap add ios
           fi
           npx cap sync ios
+          node scripts/patch-native-locales.mjs
       - name: CocoaPods
         script: cd ios/App && pod install
       - name: Code signing
