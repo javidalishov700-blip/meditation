@@ -120,17 +120,19 @@ export function isLoading() {
   return loadingFlag
 }
 
+let snapCache: SpeechSnap = {
+  speaking: false,
+  loading: false,
+  paused: false,
+  volume: readVoiceVolume(),
+  error: null,
+  voice: readTtsVoice(),
+  elapsedMs: 0,
+  durationMs: 0,
+}
+
 export function speechSnap(): SpeechSnap {
-  return {
-    speaking: speakingFlag,
-    loading: loadingFlag,
-    paused: pausedFlag,
-    volume: readVoiceVolume(),
-    error: errorFlag,
-    voice: readTtsVoice(),
-    elapsedMs: liveElapsed(),
-    durationMs: clockDuration,
-  }
+  return snapCache
 }
 
 export function subscribeSpeak(fn: () => void) {
@@ -141,6 +143,16 @@ export function subscribeSpeak(fn: () => void) {
 }
 
 function emit() {
+  snapCache = {
+    speaking: speakingFlag,
+    loading: loadingFlag,
+    paused: pausedFlag,
+    volume: readVoiceVolume(),
+    error: errorFlag,
+    voice: readTtsVoice(),
+    elapsedMs: liveElapsed(),
+    durationMs: clockDuration,
+  }
   listeners.forEach((fn) => fn())
 }
 

@@ -21,7 +21,11 @@ export function readRecordList<T extends object>(key: string): T[] {
 }
 
 export function writeJson<T>(key: string, value: T): void {
-  localStorage.setItem(PREFIX + key, JSON.stringify(value))
+  try {
+    localStorage.setItem(PREFIX + key, JSON.stringify(value))
+  } catch {
+    /* quota / private mode */
+  }
 }
 
 export function removeKey(key: string): void {

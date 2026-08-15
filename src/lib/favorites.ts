@@ -9,7 +9,10 @@ export type FavItem = {
 const KEY = 'favorites'
 
 export function readFavorites(): FavItem[] {
-  return readJson<FavItem[]>(KEY, [])
+  const v = readJson<unknown>(KEY, [])
+  return Array.isArray(v)
+    ? v.filter((x): x is FavItem => Boolean(x) && typeof x === 'object' && typeof (x as FavItem).to === 'string')
+    : []
 }
 
 export function isFavorite(to: string): boolean {
