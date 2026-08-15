@@ -9,10 +9,13 @@ let speakingFlag = false
 let keepAliveTimer: number | null = null
 const speakListeners = new Set<() => void>()
 
+export type ReadMode = 'natural' | 'slow'
+
 type SpeakOpts = {
   rate?: number
   pitch?: number
   lang?: string
+  mode?: ReadMode
   onend?: () => void
 }
 
@@ -34,6 +37,14 @@ export function readVoiceUri(bcp47: string): string | null {
 
 export function writeVoiceUri(bcp47: string, uri: string | null) {
   writeJson(voiceKey(bcp47), uri)
+}
+
+export function readReadMode(): ReadMode {
+  return readJson<string>('readMode', 'natural') === 'slow' ? 'slow' : 'natural'
+}
+
+export function writeReadMode(mode: ReadMode) {
+  writeJson('readMode', mode)
 }
 
 export function isSpeaking() {
@@ -105,11 +116,14 @@ function pickVoice(bcp47: string): SpeechSynthesisVoice | null {
   return voices[0] ?? null
 }
 
-function humanize(text: string, prefix: string): string {
-  let out = text
-    .replace(/\s+/g, ' ')
-    .replace(/[·•]/g, ',')
-    .replace(/\s*[—–]\s*/g, ', ')
+function humanize(text: string, prefix: string, mode: ReadMode): string {
+  let out = text.replace(/\s+/g, ' ')
+  if (mode === 'natural') {
+    out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
+  } else {
+    out = out.replace(/[·•]/g, ',').replace(/\s*[—–]\s*/g, ', ')
+  }
+  out = out
     .replace(/(\d)-(\d)-(\d)/g, '$1, $2, $3')
     .replace(/Hz/gi, 'hertz')
     .replace(/['’]/g, ' ')
@@ -122,46 +136,50 @@ function humanize(text: string, prefix: string): string {
 
 type Phrase = { text: string; pause: number }
 
-function splitLong(text: string, max = 108): string[] {
+function splitLong(text: string, max: number): string[] {
   if (text.length <= max) return [text]
-  const words = text.split(' ')
   const chunks: string[] = []
-  let cur = ''
-  for (const word of words) {
-    const next = cur ? `${cur} ${word}` : word
-    if (next.length > max && cur) {
-      chunks.push(cur)
-      cur = word
-    } else {
-      cur = next
-    }
+  let rest = text.trim()
+  while (rest.length > max) {
+    const window = rest.slice(0, max)
+    const punct = Math.max(
+      window.lastIndexOf(', '),
+      window.lastIndexOf('; '),
+      window.lastIndexOf(': '),
+    )
+    const space = window.lastIndexOf(' ')
+    const cut = punct >= max * 0.45 ? punct + 1 : space > 40 ? space : max
+    chunks.push(rest.slice(0, cut).trim())
+    rest = rest.slice(cut).trim()
   }
-  if (cur) chunks.push(cur)
+  if (rest) chunks.push(rest)
   return chunks
 }
 
-function phrases(text: string, prefix: string): Phrase[] {
-  const clean = humanize(text, prefix)
+function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
+  const clean = humanize(text, prefix, mode)
   if (!clean) return []
+  const max = mode === 'slow' ? 108 : 220
   const sentences = clean.split(/(?<=[.!?…])\s+/).filter(Boolean)
   const out: Phrase[] = []
   for (const sentence of sentences) {
-    const endPause = /[.!?…]$/.test(sentence) ? 540 : 320
-    if (sentence.length > 110 && /,\s/.test(sentence)) {
+    const endPause = mode === 'slow' ? (/[.!?…]$/.test(sentence) ? 540 : 320) : /[.!?…]$/.test(sentence) ? 260 : 140
+    const midPause = mode === 'slow' ? 170 : 80
+    if (mode === 'slow' && sentence.length > 110 && /,\s/.test(sentence)) {
       const parts = sentence.split(/,\s+/)
       parts.forEach((raw, i) => {
         const piece = raw.trim()
         if (!piece) return
         const last = i === parts.length - 1
-        splitLong(last ? piece : `${piece},`).forEach((bit, j, arr) => {
+        splitLong(last ? piece : `${piece},`, max).forEach((bit, j, arr) => {
           const tail = last && j === arr.length - 1
           out.push({ text: bit, pause: tail ? endPause : 200 })
         })
       })
       continue
     }
-    splitLong(sentence).forEach((bit, i, arr) => {
-      out.push({ text: bit, pause: i === arr.length - 1 ? endPause : 170 })
+    splitLong(sentence, max).forEach((bit, i, arr) => {
+      out.push({ text: bit, pause: i === arr.length - 1 ? endPause : midPause })
     })
   }
   return out
@@ -231,12 +249,13 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
   const gen = speakGen
   const bcp = resolveLang(opts.lang)
   const prefix = langPrefix(bcp)
-  const parts = phrases(text, prefix)
+  const mode = opts.mode ?? readReadMode()
+  const parts = phrases(text, prefix, mode)
   if (!parts.length) {
     opts.onend?.()
     return
   }
-  const baseRate = opts.rate ?? 0.88
+  const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : 1)
   const basePitch = opts.pitch ?? 1
   let i = 0
   audio.hushForVoice()
@@ -261,12 +280,13 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     const part = parts[i]!
     i += 1
     const u = utter(part.text, bcp, {
-      rate: jitter(baseRate, 0.012),
-      pitch: jitter(basePitch, 0.012),
+      rate: mode === 'slow' ? jitter(baseRate, 0.012) : baseRate,
+      pitch: mode === 'slow' ? jitter(basePitch, 0.012) : basePitch,
     })
     u.onend = () => {
       if (cancelled || gen !== speakGen) return
-      void wait(part.pause + Math.floor(Math.random() * 60)).then(next)
+      const gap = mode === 'slow' ? part.pause + Math.floor(Math.random() * 60) : part.pause
+      void wait(gap).then(next)
     }
     u.onerror = () => {
       if (cancelled || gen !== speakGen) return
@@ -283,19 +303,20 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
 }
 
 export function speakCue(text: string, lang?: string) {
+  const mode = readReadMode()
   const prefix = langPrefix(resolveLang(lang))
-  const line = humanize(text, prefix)
+  const line = humanize(text, prefix, mode)
   if (!line) return
-  speak(line, { lang, rate: 0.9, pitch: 1 })
+  speak(line, { lang, pitch: 1, mode })
 }
 
 export const VOICE_SAMPLE: Record<string, string> = {
-  tr: 'Şimdi yavaşça konuşuyorum. Nefes al. Omuzların insin. Yanında duran biri gibi.',
-  en: 'I am speaking slowly now. Breathe in. Let the shoulders drop. Like someone in the room with you.',
-  es: 'Ahora hablo despacio. Inhala. Deja caer los hombros. Como alguien en la habitación.',
-  fr: 'Je parle lentement. Inspire. Laisse descendre les épaules. Comme quelqu un dans la pièce.',
-  de: 'Ich spreche jetzt langsam. Atme ein. Lass die Schultern sinken. Wie jemand im Raum.',
-  it: 'Parlo piano adesso. Inspira. Lascia scendere le spalle. Come qualcuno nella stanza.',
+  tr: 'Şimdi normal bir hızda konuşuyorum. Nefes al, omuzların insin. Yanında duran biri gibi, cümleyi bölmeden.',
+  en: 'I am speaking at a normal pace now. Breathe in, let the shoulders drop. Like someone in the room, without chopping the sentence.',
+  es: 'Ahora hablo a un ritmo normal. Inhala, deja caer los hombros. Como alguien en la habitación, sin cortar la frase.',
+  fr: 'Je parle maintenant à un rythme normal. Inspire, laisse descendre les épaules. Comme quelqu un dans la pièce, sans couper la phrase.',
+  de: 'Ich spreche jetzt in normalem Tempo. Atme ein, lass die Schultern sinken. Wie jemand im Raum, ohne den Satz zu zerteilen.',
+  it: 'Parlo ora a un ritmo normale. Inspira, lascia scendere le spalle. Come qualcuno nella stanza, senza spezzare la frase.',
 }
 
 export function sampleLine(bcp47: string) {

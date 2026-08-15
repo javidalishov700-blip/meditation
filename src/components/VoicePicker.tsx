@@ -2,24 +2,29 @@ import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import {
   listVoices,
+  readReadMode,
   readVoiceUri,
   sampleLine,
   speak,
   stopSpeak,
   warmVoices,
+  writeReadMode,
   writeVoiceUri,
+  type ReadMode,
 } from '../lib/speech'
 
 export function VoicePicker() {
   const { t, meta } = useI18n()
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>(() => listVoices(meta.bcp47))
   const [uri, setUri] = useState<string | null>(() => readVoiceUri(meta.bcp47))
+  const [pace, setPace] = useState<ReadMode>(() => readReadMode())
 
   useEffect(() => {
     warmVoices()
     const sync = () => {
       setVoices(listVoices(meta.bcp47))
       setUri(readVoiceUri(meta.bcp47))
+      setPace(readReadMode())
     }
     sync()
     window.speechSynthesis?.addEventListener?.('voiceschanged', sync)
@@ -31,11 +36,37 @@ export function VoicePicker() {
     setUri(next)
   }
 
+  function pickPace(next: ReadMode) {
+    writeReadMode(next)
+    setPace(next)
+  }
+
   const shown = voices.slice(0, 8)
 
   return (
     <div>
-      <p className="text-xs text-mute">{t('voice')}</p>
+      <p className="text-xs text-mute">{t('voice_pace')}</p>
+      <p className="mt-2 text-sm leading-6 text-white/55">{t('voice_pace_hint')}</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {(['natural', 'slow'] as const).map((id) => {
+          const on = pace === id
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => pickPace(id)}
+              className={`lang-chip rounded-full px-3.5 py-2 text-sm ${
+                on
+                  ? 'bg-[#7B61FF] text-white shadow-[0_0_18px_rgba(123,97,255,0.28)]'
+                  : 'bg-white/[0.05] text-cream/85'
+              }`}
+            >
+              {id === 'natural' ? t('voice_natural') : t('voice_slow')}
+            </button>
+          )
+        })}
+      </div>
+      <p className="mt-6 text-xs text-mute">{t('voice')}</p>
       <p className="mt-2 text-sm leading-6 text-white/55">{t('voice_hint')}</p>
       <div className="mt-4 flex flex-wrap gap-2">
         <button
@@ -73,7 +104,7 @@ export function VoicePicker() {
         className="mt-4 rounded-full bg-white/10 px-4 py-2 text-sm text-white"
         onClick={() => {
           stopSpeak()
-          speak(sampleLine(meta.bcp47), { lang: meta.bcp47 })
+          speak(sampleLine(meta.bcp47), { lang: meta.bcp47, mode: pace })
         }}
       >
         {t('voice_try')}
