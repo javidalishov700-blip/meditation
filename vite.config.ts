@@ -47,8 +47,8 @@ export default defineConfig(({ mode }) => {
           ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,json}'],
-          globIgnores: ['**/voice/clips/*.mp3'],
+          globPatterns: ['**/*.{js,css,html,svg,ico,webmanifest,json}'],
+          globIgnores: ['**/voice/clips/*.mp3', '**/covers/**'],
           runtimeCaching: [
             {
               urlPattern: ({ url }) =>
