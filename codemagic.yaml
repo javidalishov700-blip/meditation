@@ -30,9 +30,20 @@ workflows:
       node: 22
       xcode: latest
       cocoapods: default
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - public/voice/clips
     scripts:
       - name: Install npm
         script: npm ci
+      - name: Bake store MP3s
+        script: |
+          if [ -n "$OPENAI_API_KEY" ]; then
+            npm run bake-voice
+          else
+            echo "OPENAI_API_KEY unset — IPA will have no baked voice clips"
+          fi
       - name: Build web
         script: npm run build
       - name: Add iOS platform

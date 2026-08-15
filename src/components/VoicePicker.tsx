@@ -38,7 +38,7 @@ export function VoicePicker() {
         className="mt-4 rounded-full bg-white/10 px-4 py-2 text-sm text-white"
         onClick={() => {
           stopSpeak()
-          speak(sampleLine(meta.bcp47), { lang: meta.bcp47, mode: 'calm' })
+          speak(sampleLine(meta.bcp47), { lang: meta.bcp47, mode: 'calm', clipId: 'sample' })
         }}
       >
         {t('voice_try')}

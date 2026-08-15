@@ -1,15 +1,19 @@
 import { audio } from './audio'
+import { isVoiceLang } from './locales'
 import { readJson, writeJson } from './storage'
+import { VOICE_SAMPLE } from './voice-lines'
 
 export type ReadMode = 'natural' | 'slow' | 'calm'
 export type TtsVoice = 'nova' | 'shimmer'
 
-type SpeakOpts = {
+export type SpeakOpts = {
   lang?: string
   mode?: ReadMode
   rate?: number
   fillMs?: number
   startMs?: number
+  /** Catalog id, e.g. med:first-settle or lib:lighthouse. Store plays baked MP3s when present. */
+  clipId?: string
   onend?: () => void
 }
 
@@ -209,9 +213,12 @@ function splitLong(text: string, max: number) {
 }
 
 function breathHold(sentence: string) {
-  if (/üç nefes|three breaths|tres respir|trois souff|drei atem|tre respir/i.test(sentence)) return 16000
-  if (/iki nefes|two breaths|dos respir|deux souff|zwei atem|due respir/i.test(sentence)) return 11000
-  if (/bir nefes|one breath|un aliento|un souffle|ein atemzug|un respiro/i.test(sentence)) return 6000
+  if (/üç nefes|üç nəfəs|three breaths|tres respir|trois souff|drei atem|tre respir|три дыхания/i.test(sentence))
+    return 16000
+  if (/iki nefes|iki nəfəs|two breaths|dos respir|deux souff|zwei atem|due respir|два дыхания/i.test(sentence))
+    return 11000
+  if (/bir nefes|bir nəfəs|one breath|un aliento|un souffle|ein atemzug|un respiro|одно дыхание/i.test(sentence))
+    return 6000
   return 0
 }
 
@@ -354,6 +361,121 @@ function ttsUrl() {
   return `${base}/api/tts`
 }
 
+function voiceRoot() {
+  const base = (import.meta.env.BASE_URL as string | undefined) || '/'
+  const root = base.endsWith('/') ? base : `${base}/`
+  return `${root}voice/`
+}
+
+type VoiceManifest = { clips?: Record<string, string> }
+
+let manifestWait: Promise<Record<string, string>> | null = null
+
+function loadManifest() {
+  if (!manifestWait) {
+    manifestWait = fetch(`${voiceRoot()}manifest.json`)
+      .then((r) => (r.ok ? (r.json() as Promise<VoiceManifest>) : { clips: {} }))
+      .then((j) => j.clips || {})
+      .catch(() => ({} as Record<string, string>))
+  }
+  return manifestWait
+}
+
+function bakedSrc(rel: string) {
+  const clean = rel.replace(/^\/+/, '')
+  const path = clean.startsWith('clips/') ? clean : `clips/${clean}`
+  return `${voiceRoot()}${path}`
+}
+
+async function bakedUrls(prefix: string, clipId?: string) {
+  if (!clipId || !isVoiceLang(prefix)) return null
+  const clips = await loadManifest()
+  const raw = clips[`${prefix}:${clipId}`]
+  if (!raw) return null
+  const parts = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  if (!parts.length) return null
+  return parts.map(bakedSrc)
+}
+
+function mediaDuration(url: string) {
+  return new Promise<number>((resolve) => {
+    const a = new Audio()
+    a.preload = 'metadata'
+    const timer = window.setTimeout(() => finish(0), 8000)
+    function finish(ms: number) {
+      window.clearTimeout(timer)
+      a.onloadedmetadata = null
+      a.onerror = null
+      a.removeAttribute('src')
+      a.load()
+      resolve(ms)
+    }
+    a.onloadedmetadata = () => finish(Math.max(0, (a.duration || 0) * 1000))
+    a.onerror = () => finish(0)
+    a.src = url
+  })
+}
+
+async function finishSpeak(gen: number, opts: SpeakOpts, err?: string) {
+  if (gen !== speakGen) return
+  audio.hold(false)
+  audio.duck(false)
+  stopClock()
+  if (err) {
+    setFlags({ error: err, loading: false, speaking: false, paused: false })
+  } else {
+    setFlags({ speaking: false, loading: false, paused: false })
+  }
+  opts.onend?.()
+}
+
+/** Play store MP3s. Returns false if files are missing so live TTS can take over. */
+async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
+  const durs = await Promise.all(urls.map(mediaDuration))
+  if (cancelled || gen !== speakGen) return true
+  if (durs.some((d) => d < 80)) return false
+  const total = durs.reduce((n, d) => n + d, 0)
+  const startMs = Math.max(0, opts.startMs ?? 0)
+  clockStartMs = startMs
+  clockOrigin = Date.now()
+  clockPauseTotal = 0
+  clockPausedAt = 0
+  clockDuration = opts.fillMs ?? total
+  setFlags({ speaking: true, loading: true, paused: false, error: null })
+  armClock()
+  audio.hushForVoice()
+  try {
+    let skip = startMs
+    for (let i = 0; i < urls.length; i++) {
+      if (cancelled || gen !== speakGen) return true
+      const durMs = durs[i]!
+      if (skip >= durMs - 40) {
+        skip -= durMs
+        continue
+      }
+      setFlags({ loading: true })
+      await playUrl(urls[i]!, gen, skip / 1000)
+      skip = 0
+      if (cancelled || gen !== speakGen) return true
+    }
+    if (opts.fillMs) {
+      const rest = Math.max(0, opts.fillMs - liveElapsed())
+      if (rest > 80) await wait(rest, gen)
+    }
+  } catch (err) {
+    if (cancelled || gen !== speakGen) return true
+    const code = err instanceof Error ? err.message : 'tts_fail'
+    await finishSpeak(gen, opts, code === 'missing_key' ? 'missing_key' : 'tts_fail')
+    return true
+  }
+  if (cancelled || gen !== speakGen) return true
+  await finishSpeak(gen, opts)
+  return true
+}
+
 async function playUrl(url: string, gen: number, offsetSec = 0) {
   const node = player()
   node.volume = readVoiceVolume()
@@ -472,6 +594,15 @@ async function runSpeak(text: string, opts: SpeakOpts) {
   cancelled = false
   const gen = speakGen
   const prefix = langPrefix(resolveLang(opts.lang))
+
+  const urls = await bakedUrls(prefix, opts.clipId)
+  if (cancelled || gen !== speakGen) return
+  if (urls) {
+    const used = await runBaked(urls, gen, opts)
+    if (used) return
+    if (cancelled || gen !== speakGen) return
+  }
+
   const mode = opts.mode ?? readReadMode()
   let parts = phrases(text, prefix, mode)
   if (!parts.length) {
@@ -544,14 +675,7 @@ export function speakCue(text: string, lang?: string) {
   speak(line, { lang, mode })
 }
 
-export const VOICE_SAMPLE: Record<string, string> = {
-  tr: 'Şimdi yanındayım. Yavaş konuşuyorum. Omuzların insin. Nefes burada.',
-  en: 'I am here with you. I speak slowly. Let the shoulders drop. The breath is here.',
-  es: 'Estoy aquí. Hablo despacio. Deja caer los hombros. El aliento está aquí.',
-  fr: 'Je suis là. Je parle lentement. Laisse descendre les épaules. Le souffle est là.',
-  de: 'Ich bin hier. Ich spreche langsam. Lass die Schultern sinken. Der Atem ist hier.',
-  it: 'Sono qui. Parlo piano. Lascia scendere le spalle. Il respiro è qui.',
-}
+export { VOICE_SAMPLE }
 
 export function sampleLine(bcp47: string) {
   return VOICE_SAMPLE[langPrefix(bcp47)] || VOICE_SAMPLE.en!

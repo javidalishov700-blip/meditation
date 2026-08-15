@@ -179,6 +179,7 @@ function MeditationPlayer({
       lang: meta.bcp47,
       mode: 'calm',
       fillMs,
+      clipId: `med:${step.id}`,
     })
     const tick = window.setInterval(() => {
       pausedRef.current = speechSnap().paused
@@ -216,6 +217,7 @@ function MeditationPlayer({
         mode: 'calm',
         fillMs: total * 1000,
         startMs: elapsedRef.current * 1000,
+        clipId: `med:${step.id}`,
       })
       return
     }

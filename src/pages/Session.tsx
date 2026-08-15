@@ -470,6 +470,7 @@ function ScriptView({
             onend: () => setSpeaking(false),
             lang: meta.bcp47,
             mode: kind === 'meditation' || kind === 'sleeplab' || kind === 'story' ? 'calm' : undefined,
+            clipId: sid && kind && ['story', 'writing', 'sleeplab', 'clarity', 'extra'].includes(kind) ? `lib:${sid}` : undefined,
           })
         }}
       >

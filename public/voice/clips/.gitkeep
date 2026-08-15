@@ -1,0 +1,1 @@
+# Keep the clips folder in git. MP3s are gitignored; bake with npm run bake-voice.
