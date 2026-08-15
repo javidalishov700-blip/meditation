@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { audio } from '../lib/audio'
 import { formatDuration } from '../lib/format'
+import { useI18n } from '../lib/i18n'
 import { addPassed } from '../lib/passed'
-import { pick, SOS_SENTENCES, TAP_SENTENCES } from '../lib/phrases'
+import { pick } from '../lib/phrases'
+import { sosSentences, tapSentences } from '../lib/sosPhrases'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { CrisisLink, GhostButton, Kicker, PrimaryButton } from '../components/ui'
 
@@ -11,15 +13,17 @@ type Phase = 'idle' | 'inhale' | 'hold' | 'exhale' | 'phrase' | 'tap' | 'done'
 
 export function Sos() {
   const navigate = useNavigate()
+  const { t, locale, meta } = useI18n()
   const [phase, setPhase] = useState<Phase>('idle')
-  const [label, setLabel] = useState('Hazır')
+  const [label, setLabel] = useState(t('sos_ready'))
   const [seconds, setSeconds] = useState(0)
   const [taps, setTaps] = useState(0)
-  const [sentence, setSentence] = useState(() => pick(TAP_SENTENCES))
+  const [sentence, setSentence] = useState(() => pick(tapSentences(locale)))
   const [livePhrase, setLivePhrase] = useState('')
   const started = useRef(0)
   const running = useRef(false)
   const cycle = useRef(0)
+  const lang = meta.bcp47
 
   useEffect(() => {
     return () => {
@@ -39,10 +43,10 @@ export function Sos() {
 
   function wait(ms: number) {
     return new Promise<void>((resolve) => {
-      const t = window.setTimeout(resolve, ms)
+      const timeout = window.setTimeout(resolve, ms)
       const check = window.setInterval(() => {
         if (!running.current) {
-          window.clearTimeout(t)
+          window.clearTimeout(timeout)
           window.clearInterval(check)
           resolve()
         }
@@ -52,29 +56,33 @@ export function Sos() {
   }
 
   async function loop() {
+    const inn = t('sos_in')
+    const hold = t('sos_hold')
+    const out = t('sos_out')
+    const lineK = t('sos_line')
     while (running.current) {
       setPhase('inhale')
-      setLabel('Nefes al')
-      speakCue('Nefes al')
+      setLabel(inn)
+      speakCue(inn, lang)
       await wait(4000)
       if (!running.current) return
       setPhase('hold')
-      setLabel('Tut')
-      speakCue('Tut')
+      setLabel(hold)
+      speakCue(hold, lang)
       await wait(2000)
       if (!running.current) return
       setPhase('exhale')
-      setLabel('Ver')
-      speakCue('Ver')
+      setLabel(out)
+      speakCue(out, lang)
       await wait(6000)
       if (!running.current) return
       cycle.current += 1
       if (cycle.current % 3 === 0) {
-        const line = pick(SOS_SENTENCES)
+        const line = pick(sosSentences(locale))
         setPhase('phrase')
-        setLabel('Cümle')
+        setLabel(lineK)
         setLivePhrase(line)
-        speak(line, { rate: 0.9 })
+        speak(line, { rate: 0.9, lang })
         await wait(4200)
         setLivePhrase('')
       }
@@ -87,14 +95,14 @@ export function Sos() {
     cycle.current = 0
     setSeconds(0)
     setTaps(0)
-    setSentence(pick(TAP_SENTENCES))
+    setSentence(pick(tapSentences(locale)))
     try {
       navigator.vibrate?.(40)
     } catch {
       /* ignore */
     }
     await audio.playSosBed()
-    speakCue('Nefes al')
+    speakCue(t('sos_in'), lang)
     void loop()
   }
 
@@ -106,8 +114,8 @@ export function Sos() {
     const secs = Math.max(1, Math.floor((ended - (started.current || ended)) / 1000))
     setSeconds(secs)
     setPhase('tap')
-    setLabel('Geçti')
-    speak(sentence, { rate: 0.88 })
+    setLabel(t('sos_passed'))
+    speak(sentence, { rate: 0.88, lang })
   }
 
   function tap() {
@@ -128,7 +136,7 @@ export function Sos() {
         sentence,
       })
       stopSpeak()
-      speak('Bırakıyorum. Küçük bir şükran yeter. Nefes alabildiğim için.', { rate: 0.9 })
+      speak(t('sos_thanks'), { rate: 0.9, lang })
       setPhase('done')
     }
   }
@@ -141,16 +149,14 @@ export function Sos() {
       <div className="flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
         <div className="flex items-center justify-between">
           <button type="button" className="text-sm text-mute" onClick={() => navigate(-1)}>
-            Geri
+            {t('back')}
           </button>
           <CrisisLink />
         </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <Kicker>Kilitlenmez</Kicker>
-          <h1 className="mt-3 font-display text-4xl">Dalga geldiyse bas</h1>
-          <p className="mt-3 max-w-xs text-sm text-mute">
-            174 Hz ve kahverengi gürültü. Sesli al / tut / ver. Arada kısa şimdiki zaman cümleleri. Kitap alıntısı yok.
-          </p>
+          <Kicker>{t('home_sos_sub').split('·')[3]?.trim() || 'SOS'}</Kicker>
+          <h1 className="mt-3 font-display text-4xl">{t('sos_title')}</h1>
+          <p className="mt-3 max-w-xs text-sm text-mute">{t('sos_sub')}</p>
           <button
             type="button"
             onClick={() => void start()}
@@ -159,7 +165,9 @@ export function Sos() {
             <span className="font-display text-4xl">SOS</span>
           </button>
         </div>
-        <p className="text-center text-[11px] text-mute">Tıbbi acil: 112. Steady tedavi değildir.</p>
+        <p className="text-center text-[11px] text-mute">
+          {t('crisis')}: {meta.emergency}. {t('not_medical')}
+        </p>
       </div>
     )
   }
@@ -167,16 +175,18 @@ export function Sos() {
   if (phase === 'tap') {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center">
-        <Kicker>Dalga indi</Kicker>
-        <p className="mt-2 text-sm text-mute">{formatDuration(seconds)}</p>
+        <Kicker>{t('sos_passed')}</Kicker>
+        <p className="mt-2 text-sm text-mute">{formatDuration(seconds, locale)}</p>
         <h1 className="mt-6 font-display text-3xl leading-tight">{sentence}</h1>
-        <p className="mt-3 text-sm text-mute">Bu cümleye on kez dokun. {taps}/10</p>
+        <p className="mt-3 text-sm text-mute">
+          {t('sos_tap')} {taps}/10
+        </p>
         <button
           type="button"
           onClick={tap}
           className="mt-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200 to-fuchsia-600 text-lg font-medium shadow-[0_0_70px_rgba(244,114,182,0.5)]"
         >
-          Dokun
+          {t('sos_tap_btn')}
         </button>
       </div>
     )
@@ -185,15 +195,15 @@ export function Sos() {
   if (phase === 'done') {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center">
-        <Kicker>Bırakış · şükran</Kicker>
-        <h1 className="mt-4 font-display text-3xl">Geçti. Sen buradasın.</h1>
-        <p className="mt-3 max-w-sm text-sm text-mute">
-          Süre kaydedildi. Geçmiş listesi Pro’dadır; bu dalga yine de yazıldı. Küçük şükran yeter: nefes, yer, oda.
-        </p>
+        <Kicker>
+          {t('release')} · {t('gratitude')}
+        </Kicker>
+        <h1 className="mt-4 font-display text-3xl">{t('sos_done')}</h1>
+        <p className="mt-3 max-w-sm text-sm text-mute">{t('me_history_locked')}</p>
         <div className="mt-8 w-full max-w-xs space-y-3">
-          <PrimaryButton onClick={() => navigate('/')}>Ana iskeleye dön</PrimaryButton>
+          <PrimaryButton onClick={() => navigate('/')}>{t('sos_back')}</PrimaryButton>
           <Link to="/me" className="block text-sm text-rose-200">
-            Geçti geçmişi
+            {t('me_history')}
           </Link>
         </div>
       </div>
@@ -203,7 +213,7 @@ export function Sos() {
   return (
     <div className="flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-mute">{formatDuration(seconds)}</p>
+        <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
         <CrisisLink />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
@@ -216,12 +226,20 @@ export function Sos() {
         {livePhrase ? (
           <p className="mt-8 max-w-xs text-center font-display text-xl leading-snug text-rose-100">{livePhrase}</p>
         ) : (
-          <p className="mt-8 text-sm text-mute">Dalga inince Geçti.</p>
+          <p className="mt-8 text-sm text-mute">{t('sos_wave_in')}</p>
         )}
       </div>
-      <PrimaryButton onClick={passed}>Geçti</PrimaryButton>
-      <GhostButton className="mt-3 w-full" onClick={() => { running.current = false; audio.stop(); stopSpeak(); navigate('/') }}>
-        Sesleri durdur
+      <PrimaryButton onClick={passed}>{t('sos_passed')}</PrimaryButton>
+      <GhostButton
+        className="mt-3 w-full"
+        onClick={() => {
+          running.current = false
+          audio.stop()
+          stopSpeak()
+          navigate('/')
+        }}
+      >
+        {t('sos_stop')}
       </GhostButton>
     </div>
   )

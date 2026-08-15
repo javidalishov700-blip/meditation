@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { LangPicker } from '../components/LangPicker'
 import { PinPad } from '../components/LockScreen'
 import { Card, GhostButton, Kicker, LegalNote, PrimaryButton, ProChip } from '../components/ui'
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatClock, formatDuration } from '../lib/format'
+import { useI18n } from '../lib/i18n'
 import { useLock } from '../lib/lock'
 import { readPassed } from '../lib/passed'
 
 export function Me() {
+  const { t, locale } = useI18n()
   const { pro, lockDemo } = useEntitlement()
   const { hasPin, setupPin, clearPin, lockNow } = useLock()
   const [pinMode, setPinMode] = useState<'off' | 'set' | 'confirm'>('off')
@@ -17,53 +20,54 @@ export function Me() {
 
   return (
     <div className="pb-8">
-      <Kicker>Ben</Kicker>
-      <h1 className="mt-2 font-display text-3xl">Sessiz hesap</h1>
-      <p className="mt-2 text-sm text-mute">Hesap yok, sağlık senkronu yok, saat yok. Her şey bu cihazda.</p>
+      <Kicker>{t('nav_me')}</Kicker>
+      <h1 className="mt-2 font-display text-3xl">{t('me_title')}</h1>
+      <p className="mt-2 text-sm text-mute">{t('me_sub')}</p>
 
       <Card className="mt-6">
-        <p className="text-xs uppercase tracking-wider text-mute">Katman</p>
-        <p className="mt-1 font-display text-2xl">{pro ? 'Pro (cihaz demosu)' : 'Ücretsiz — dar'}</p>
+        <LangPicker />
+      </Card>
+
+      <Card className="mt-4">
+        <p className="text-xs uppercase tracking-wider text-mute">{t('me_tier')}</p>
+        <p className="mt-1 font-display text-2xl">{pro ? t('me_pro') : t('me_free')}</p>
         {pro ? (
           <GhostButton className="mt-4" onClick={lockDemo}>
-            Demo Pro’yu kapat
+            {t('me_demo_off')}
           </GhostButton>
         ) : (
           <Link to="/paywall" className="mt-4 inline-block text-sm text-rose-200">
-            Vitrini aç
+            {t('me_vitrine')}
           </Link>
         )}
       </Card>
 
       <Card className="mt-4">
-        <Kicker>Dört haneli kilit</Kicker>
-        <p className="mt-2 text-sm text-mute">
-          SOS kilit ekranından da açılır. Kilit, kriz yatağını kapatmaz. PIN yalnızca bu tarayıcıda, özetlenmiş olarak
-          durur.
-        </p>
+        <Kicker>{t('me_pin')}</Kicker>
+        <p className="mt-2 text-sm text-mute">{t('me_pin_body')}</p>
         {hasPin ? (
-          <div className="mt-4 flex gap-2">
-            <GhostButton onClick={lockNow}>Şimdi kilitle</GhostButton>
-            <GhostButton onClick={clearPin}>Kilit kaldır</GhostButton>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <GhostButton onClick={lockNow}>{t('me_lock_now')}</GhostButton>
+            <GhostButton onClick={clearPin}>{t('me_lock_off')}</GhostButton>
           </div>
         ) : pinMode === 'off' ? (
           <PrimaryButton className="mt-4" onClick={() => setPinMode('set')}>
-            Kilit kur
+            {t('me_lock_set')}
           </PrimaryButton>
         ) : (
           <div className="mt-6">
             <PinPad
-              title={pinMode === 'set' ? 'Yeni PIN' : 'Yeniden gir'}
+              title={pinMode === 'set' ? t('me_pin_new') : t('me_pin_again')}
               hint={msg}
               onComplete={(pin) => {
                 if (pinMode === 'set') {
                   setFirst(pin)
                   setPinMode('confirm')
-                  setMsg('Onay için aynı dört hane')
+                  setMsg(t('me_pin_match'))
                   return
                 }
                 if (pin !== first) {
-                  setMsg('Eşleşmedi. Baştan.')
+                  setMsg(t('me_pin_fail'))
                   setPinMode('set')
                   setFirst('')
                   return
@@ -80,27 +84,27 @@ export function Me() {
 
       <Card className="mt-4">
         <div className="flex items-center gap-2">
-          <Kicker>Geçti geçmişi</Kicker>
+          <Kicker>{t('me_history')}</Kicker>
           {!pro ? <ProChip /> : null}
         </div>
         {!pro ? (
           <div className="mt-3">
             <p className="text-sm text-mute">
-              Kayıtlar tutulur, liste Pro’dadır. {history.length} dalga bu cihazda gizli duruyor.
+              {t('me_history_locked')} {t('waves_hidden', { n: history.length })}
             </p>
             <Link to="/paywall" className="mt-3 inline-block text-sm text-rose-200">
-              Listeyi aç
+              {t('list_open')}
             </Link>
           </div>
         ) : history.length === 0 ? (
-          <p className="mt-3 text-sm text-mute">Henüz Geçti yok. SOS, süre yazar.</p>
+          <p className="mt-3 text-sm text-mute">{t('me_history_empty')}</p>
         ) : (
           <ul className="mt-3 space-y-2">
             {history.map((h) => (
               <li key={h.id} className="rounded-2xl border border-white/10 px-3 py-2 text-sm">
-                <p>{formatClock(h.endedAt)}</p>
+                <p>{formatClock(h.endedAt, locale)}</p>
                 <p className="text-mute">
-                  {formatDuration(h.seconds)} · {h.taps} dokunuş
+                  {formatDuration(h.seconds, locale)} · {t('taps_n', { n: h.taps })}
                 </p>
                 <p className="mt-1 text-rose-100">{h.sentence}</p>
               </li>
@@ -110,11 +114,8 @@ export function Me() {
       </Card>
 
       <Card className="mt-4">
-        <Kicker>Yaklaşım</Kicker>
-        <p className="mt-2 text-sm leading-6 text-mute">
-          Rahat beden. Kısa şimdiki zaman olumlu cümle. Zihinsel sahne. Gece tohumu. Bırakış. Şükran. Bir kitap metninden
-          alıntı yok; yalnızca bu iskelet.
-        </p>
+        <Kicker>{t('me_approach').split('.')[0]}</Kicker>
+        <p className="mt-2 text-sm leading-6 text-mute">{t('me_approach')}</p>
       </Card>
 
       <div className="mt-8">

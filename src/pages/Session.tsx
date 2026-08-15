@@ -7,11 +7,13 @@ import { useEntitlement } from '../lib/entitlement-store'
 import {
   breathById,
   clarityById,
+  extraById,
   meditationById,
   sleepLabById,
   storyById,
   writingById,
 } from '../lib/library'
+import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import type { BreathPattern, LibraryItem, ProgramDay, SessionKind } from '../lib/types'
@@ -27,7 +29,8 @@ function isKind(s: string | undefined): s is SessionKind {
     s === 'sleeplab' ||
     s === 'tone' ||
     s === 'nature' ||
-    s === 'clarity'
+    s === 'clarity' ||
+    s === 'extra'
   )
 }
 
@@ -47,6 +50,7 @@ export function Session() {
 
 function ToneSession({ id }: { id: string }) {
   const { pro } = useEntitlement()
+  const { t } = useI18n()
   const tone = TONES.find((t) => t.id === id)
   const trialCap = tone?.trialSeconds ?? 0
   const usedKey = `trial.${id}`
@@ -87,21 +91,22 @@ function ToneSession({ id }: { id: string }) {
   return (
     <div className="pb-8">
       <Link to="/sounds" className="text-sm text-mute">
-        Tonlar
+        {t('cat_tones')}
       </Link>
       <Kicker>{tone.hz} Hz</Kicker>
       <h1 className="mt-2 font-display text-3xl">{tone.title}</h1>
-      <p className="mt-2 text-sm text-mute">{tone.subtitle}. Tedavi iddiası yok. Web Audio sine + alçak kahverengi katman.</p>
+      <p className="mt-2 text-sm text-mute">{t('no_file')}</p>
       {expired ? (
         <Card className="mt-8">
-          <p className="font-display text-2xl">Deneme bitti</p>
-          <p className="mt-2 text-sm text-mute">3 dakika doldu. Sınırsız yatak Pro’da. SOS hâlâ kilitlenmez.</p>
+          <p className="font-display text-2xl">{t('trial_done')}</p>
+          <p className="mt-2 text-sm text-mute">{t('trial_done_sub')}</p>
           <Link to="/paywall" className="mt-4 inline-block text-sm text-rose-200">
-            Vitrini aç
+            {t('me_vitrine')}
           </Link>
         </Card>
       ) : (
-        <div className="mt-10 text-center">
+        <div className="relative mt-8 overflow-hidden rounded-[2rem] border border-white/10 py-10 text-center">
+          <div className="scene-tone pointer-events-none absolute inset-0" />
           <button
             type="button"
             onClick={async () => {
@@ -113,14 +118,16 @@ function ToneSession({ id }: { id: string }) {
               await audio.playTone(tone.hz, tone.title)
               setOn(true)
             }}
-            className="mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-700 font-display text-xl shadow-[0_0_60px_rgba(192,132,252,0.4)]"
+            className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-700 font-display text-xl shadow-[0_0_60px_rgba(192,132,252,0.4)]"
           >
-            {on ? 'Durdur' : 'Çal'}
+            {on ? t('stop') : t('play')}
           </button>
           {!pro && tone.trialSeconds ? (
-            <p className="mt-4 text-sm text-mute">Kalan deneme: {left} sn</p>
+            <p className="relative mt-4 text-sm text-mute">
+              {t('remaining')}: {t('sec_n', { n: left })}
+            </p>
           ) : (
-            <p className="mt-4 text-sm text-mute">{on ? 'Çalıyor' : 'Hazır'}</p>
+            <p className="relative mt-4 text-sm text-mute">{on ? t('playing') : t('ready')}</p>
           )}
         </div>
       )}
@@ -132,6 +139,7 @@ function ToneSession({ id }: { id: string }) {
 }
 
 function NatureSession({ id }: { id: string }) {
+  const { t } = useI18n()
   const scene = NATURE_SCENES.find((s) => s.id === id)
   const [minutes, setMinutes] = useState<(typeof TIMER_MINUTES)[number]>(30)
   const [on, setOn] = useState(false)
@@ -143,11 +151,11 @@ function NatureSession({ id }: { id: string }) {
   return (
     <div className="pb-8">
       <Link to="/sleep" className="text-sm text-mute">
-        Uyku
+        {t('nav_sleep')}
       </Link>
-      <Kicker>Doğa sahnesi</Kicker>
+      <Kicker>{t('nature_k')}</Kicker>
       <h1 className="mt-2 font-display text-3xl">{scene.title}</h1>
-      <p className="mt-2 text-sm text-mute">{scene.subtitle}. Üretilmiş gürültü ve süzgeç; dosya yok.</p>
+      <p className="mt-2 text-sm text-mute">{scene.subtitle}. {t('no_file')}</p>
       <div className="mt-6 flex flex-wrap gap-2">
         {TIMER_MINUTES.map((m) => (
           <button
@@ -158,12 +166,12 @@ function NatureSession({ id }: { id: string }) {
               minutes === m ? 'bg-rose-400/30 text-cream' : 'border border-white/10 text-mute'
             }`}
           >
-            {m} dk
+            {t('min_n', { n: m })}
           </button>
         ))}
       </div>
       {done ? (
-        <p className="mt-8 text-sm text-mute">Süre doldu. Gece tohumu: aynı sahne, gözler kapalı, bırak.</p>
+        <p className="mt-8 text-sm text-mute">{t('timer_done')}</p>
       ) : null}
       <PrimaryButton
         className="mt-8"
@@ -182,7 +190,7 @@ function NatureSession({ id }: { id: string }) {
           setOn(true)
         }}
       >
-        {on ? 'Durdur' : `${minutes} dk başlat`}
+        {on ? t('stop') : t('start_min', { n: minutes })}
       </PrimaryButton>
     </div>
   )
@@ -190,7 +198,8 @@ function NatureSession({ id }: { id: string }) {
 
 function BreathSession({ id }: { id: string }) {
   const b = breathById(id)
-  const [phase, setPhase] = useState('Hazır')
+  const { t, meta } = useI18n()
+  const [phase, setPhase] = useState(t('ready'))
   const [on, setOn] = useState(false)
   const running = useRef(false)
 
@@ -199,10 +208,10 @@ function BreathSession({ id }: { id: string }) {
 
   function wait(ms: number) {
     return new Promise<void>((resolve) => {
-      const t = window.setTimeout(resolve, ms)
+      const timeout = window.setTimeout(resolve, ms)
       const c = window.setInterval(() => {
         if (!running.current) {
-          window.clearTimeout(t)
+          window.clearTimeout(timeout)
           window.clearInterval(c)
           resolve()
         }
@@ -212,41 +221,43 @@ function BreathSession({ id }: { id: string }) {
   }
 
   async function loop(pat: BreathPattern) {
+    const inn = t('sos_in')
+    const hold = t('sos_hold')
+    const out = t('sos_out')
     for (let i = 0; i < pat.cycles && running.current; i++) {
-      setPhase(pat.voice.inhale)
-      speakCue(pat.voice.inhale)
+      setPhase(inn)
+      speakCue(inn, meta.bcp47)
       await wait(pat.inhale * 1000)
       if (pat.hold1 && running.current) {
-        setPhase(pat.voice.hold)
-        speakCue(pat.voice.hold)
+        setPhase(hold)
+        speakCue(hold, meta.bcp47)
         await wait(pat.hold1 * 1000)
       }
       if (!running.current) return
-      setPhase(pat.voice.exhale)
-      speakCue(pat.voice.exhale)
+      setPhase(out)
+      speakCue(out, meta.bcp47)
       await wait(pat.exhale * 1000)
       if (pat.hold2 && running.current) {
-        setPhase(pat.voice.rest ?? 'Boşluk')
-        if (pat.voice.rest) speakCue(pat.voice.rest)
+        setPhase(hold)
         await wait(pat.hold2 * 1000)
       }
     }
     running.current = false
     setOn(false)
-    setPhase('Bırakış')
-    speak('Bırakıyorum. Küçük bir şükran: bu nefes.')
+    setPhase(t('leave'))
+    speak(t('sos_thanks'), { lang: meta.bcp47 })
   }
 
-  const scale = phase.includes('al') || phase.includes('Al') ? 1.1 : phase.includes('Ver') || phase.includes('ver') ? 0.88 : 1
+  const scale = phase === t('sos_in') ? 1.1 : phase === t('sos_out') ? 0.88 : 1
 
   return (
     <div className="pb-8">
       <Link to="/practice" className="text-sm text-mute">
-        Pratik
+        {t('nav_more')}
       </Link>
-      <Kicker>Nefes</Kicker>
+      <Kicker>{t('breath_k')}</Kicker>
       <h1 className="mt-2 font-display text-3xl">{b.label}</h1>
-      <p className="mt-2 text-sm text-mute">{b.subtitle}. Sesli rehber, kayıt yok.</p>
+      <p className="mt-2 text-sm text-mute">{b.subtitle}</p>
       <div className="mt-10 flex flex-col items-center">
         <div
           className="flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-300 to-violet-800 font-display text-xl transition-transform duration-1000"
@@ -261,7 +272,7 @@ function BreathSession({ id }: { id: string }) {
               running.current = false
               stopSpeak()
               setOn(false)
-              setPhase('Durdu')
+              setPhase(t('stop'))
               return
             }
             running.current = true
@@ -269,7 +280,7 @@ function BreathSession({ id }: { id: string }) {
             void loop(b)
           }}
         >
-          {on ? 'Durdur' : 'Sesli başlat'}
+          {on ? t('stop') : t('voice_start')}
         </PrimaryButton>
       </div>
     </div>
@@ -277,27 +288,31 @@ function BreathSession({ id }: { id: string }) {
 }
 
 function ProgramSession({ id, day }: { id: string; day: number }) {
+  const { t } = useI18n()
   const d = programDay(id, day)
   if (!d) return <Navigate to="/treat" replace />
-  return <ScriptView kicker={`Program · gün ${day}`} item={d} />
+  return <ScriptView kicker={`${t('program')} · ${t('day_n', { n: day })}`} item={d} />
 }
 
 function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
+  const { t } = useI18n()
   const item: LibraryItem | undefined = useMemo(() => {
     if (kind === 'story') return storyById(id)
     if (kind === 'writing') return writingById(id)
     if (kind === 'meditation') return meditationById(id)
     if (kind === 'sleeplab') return sleepLabById(id)
     if (kind === 'clarity') return clarityById(id)
+    if (kind === 'extra') return extraById(id)
     return undefined
   }, [kind, id])
   if (!item) return <Navigate to="/" replace />
   const kickers: Record<string, string> = {
-    story: 'Hikâye · sesli okuma',
-    writing: 'Yazı',
-    meditation: 'Meditasyon',
-    sleeplab: 'Uyku laboratuvarı',
-    clarity: 'Zihinsel netlik',
+    story: t('cat_stories'),
+    writing: t('cat_write'),
+    meditation: t('cat_meditate'),
+    sleeplab: t('lab_k'),
+    clarity: t('home_clarity'),
+    extra: t('nav_more'),
   }
   return <ScriptView kicker={kickers[kind] ?? ''} item={item} />
 }
@@ -309,6 +324,7 @@ function ScriptView({
   kicker: string
   item: LibraryItem | ProgramDay
 }) {
+  const { t, meta } = useI18n()
   const [speaking, setSpeaking] = useState(false)
   const title = 'title' in item ? item.title : ''
   const body =
@@ -340,7 +356,7 @@ function ScriptView({
           window.history.back()
         }}
       >
-        Geri
+        {t('back')}
       </button>
       <Kicker>{kicker}</Kicker>
       <h1 className="mt-2 font-display text-3xl leading-tight">{title}</h1>
@@ -360,25 +376,29 @@ function ScriptView({
 
       {sentence ? (
         <Card className="mt-6 border-rose-300/25">
-          <Kicker>Cümle</Kicker>
+          <Kicker>{t('sentence')}</Kicker>
           <p className="mt-2 font-display text-2xl leading-snug">{sentence}</p>
         </Card>
       ) : null}
       {scene ? (
         <Card className="mt-3">
-          <Kicker>Sahne</Kicker>
+          <Kicker>{t('scene')}</Kicker>
           <p className="mt-2 text-sm leading-6">{scene}</p>
         </Card>
       ) : null}
       {release ? (
-        <p className="mt-4 text-sm text-mute">Bırakış: {release}</p>
+        <p className="mt-4 text-sm text-mute">
+          {t('release')}: {release}
+        </p>
       ) : null}
       {gratitude ? (
-        <p className="mt-2 text-sm text-mute">Şükran: {gratitude}</p>
+        <p className="mt-2 text-sm text-mute">
+          {t('gratitude')}: {gratitude}
+        </p>
       ) : null}
       {nightSeed ? (
         <Card className="mt-4">
-          <Kicker>Gece tohumu</Kicker>
+          <Kicker>{t('night_seed')}</Kicker>
           <p className="mt-2 font-display text-xl">{nightSeed}</p>
         </Card>
       ) : null}
@@ -392,10 +412,10 @@ function ScriptView({
             return
           }
           setSpeaking(true)
-          speak(script, { onend: () => setSpeaking(false) })
+          speak(script, { onend: () => setSpeaking(false), lang: meta.bcp47 })
         }}
       >
-        {speaking ? 'Okumayı durdur' : 'Sesli oku'}
+        {speaking ? t('speak_stop') : t('speak')}
       </PrimaryButton>
       <GhostButton
         className="mt-3 w-full"
@@ -404,7 +424,7 @@ function ScriptView({
           setSpeaking(false)
         }}
       >
-        Bırak
+        {t('leave')}
       </GhostButton>
       <div className="mt-8">
         <LegalNote compact />

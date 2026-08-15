@@ -1,13 +1,18 @@
-export function formatDuration(seconds: number): string {
+import type { LocaleId } from './locales'
+import { translate } from './strings'
+
+export function formatDuration(seconds: number, locale: LocaleId = 'en'): string {
   const s = Math.max(0, Math.floor(seconds))
   const m = Math.floor(s / 60)
   const r = s % 60
-  if (m <= 0) return `${r} sn`
-  return `${m} dk ${r.toString().padStart(2, '0')} sn`
+  if (m <= 0) return translate('sec_n', locale, { n: r })
+  return `${translate('min_n', locale, { n: m })} ${String(r).padStart(2, '0')}`
 }
 
-export function formatClock(ts: number): string {
-  return new Date(ts).toLocaleString('tr-TR', {
+export function formatClock(ts: number, locale: LocaleId = 'en'): string {
+  const bcp =
+    locale === 'zh' ? 'zh-CN' : locale === 'az' ? 'az-AZ' : `${locale}-${locale.toUpperCase()}`
+  return new Date(ts).toLocaleString(bcp, {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
@@ -15,10 +20,10 @@ export function formatClock(ts: number): string {
   })
 }
 
-export function greeting(now = new Date()): string {
+export function greeting(now = new Date(), locale: LocaleId = 'en'): string {
   const h = now.getHours()
-  if (h < 6) return 'Gece yarısı'
-  if (h < 12) return 'Günaydın'
-  if (h < 18) return 'İyi günler'
-  return 'İyi akşamlar'
+  if (h < 6) return translate('greet_night', locale)
+  if (h < 12) return translate('greet_morn', locale)
+  if (h < 18) return translate('greet_day', locale)
+  return translate('greet_eve', locale)
 }

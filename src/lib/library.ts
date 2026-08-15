@@ -474,3 +474,60 @@ export function sleepLabById(id: string) {
 export function clarityById(id: string) {
   return clarity.find((c) => c.id === id)
 }
+
+export const extras: LibraryItem[] = [
+  {
+    id: 'ground54321',
+    title: '5-4-3-2-1',
+    subtitle: 'Gör, dokun, işit, kokla, tat',
+    minutes: 4,
+    free: true,
+    sentence: 'Oda geri geldi, ben buradayım.',
+    body: 'Beş görülen. Dört dokunulan. Üç işitilen. İki koklanan. Bir tadılan. Yüksek sesle, yavaş. Sis yorumu yok. Bırakış: listeyi mahkeme yapma. Şükran: bu kenarlar.',
+  },
+  {
+    id: 'values',
+    title: 'Değer pusulası',
+    subtitle: 'Bir milim yön',
+    minutes: 8,
+    sentence: 'Bu saatte küçük bir yönüm var.',
+    body: 'Üç değer adı yaz: örneğin nezaket, duruluk, bağlılık. Bugün hangisine bir milim yaklaşabilirsin? Bir davranış, abartısız. ACT tarzı öz: duyguyu taşı, küçük adımı seç. Alıntı değil. Bırakış: pusulayı mükemmel yapma.',
+  },
+  {
+    id: 'kind-friend',
+    title: 'Nazik arkadaş',
+    subtitle: 'İç sesin tonu',
+    minutes: 6,
+    sentence: 'Kendime yorgun bir dosta konuşurum.',
+    body: 'İçerideki sert cümleyi duy. Aynı cümleyi, yorgun bir arkadaşa söyler gibi yeniden yaz. Bir kez sesli. Bırakış: kendine dava açma. Şükran: bu milim yumuşaklık.',
+  },
+  {
+    id: 'ten-steps',
+    title: 'On adım',
+    subtitle: 'Taban, yer, sayı',
+    minutes: 5,
+    free: true,
+    sentence: 'Adımlarımı içeriden atıyorum.',
+    body: 'On adım. Her birinde topuk-parmak. “Bir, yer.” Koşu yok. İzleyici kamerasını kapat. Bırakış: adımı performans yapma.',
+  },
+  {
+    id: 'tension-drop',
+    title: 'Gerilim bırakışı',
+    subtitle: 'Omuz, çene, el',
+    minutes: 5,
+    sentence: 'Omuzlarım iniyor, ben iniyorum.',
+    body: 'Omuzları kulaklara yaklaştır, bırak. Çeneyi milim aç. Avuçları sık, aç. Üç tur. Bırakış asıl iş. Şükran: bu iniş.',
+  },
+  {
+    id: 'morning-light',
+    title: 'Sabah ışığı',
+    subtitle: 'Yön ve pencere',
+    minutes: 6,
+    sentence: 'Işık bir yerden geliyor.',
+    body: 'Pencereye bakmadan önce omuzları bırak. Sonra yönü söyle. Gölgeyi söyle. Ekran değil, gün ışığı tercihi. Bırakış: ışığı düzeltmeye çalışma.',
+  },
+]
+
+export function extraById(id: string) {
+  return extras.find((e) => e.id === id)
+}

@@ -1,10 +1,22 @@
 let cancelled = false
 let watchdog: number | null = null
 
-function pickVoice(): SpeechSynthesisVoice | null {
+type SpeakOpts = {
+  rate?: number
+  pitch?: number
+  lang?: string
+  onend?: () => void
+}
+
+function resolveLang(lang?: string): string {
+  return lang || document.documentElement.lang || 'en-US'
+}
+
+function pickVoice(bcp47: string): SpeechSynthesisVoice | null {
   const voices = window.speechSynthesis?.getVoices?.() ?? []
-  const tr = voices.find((v) => v.lang.toLowerCase().startsWith('tr'))
-  if (tr) return tr
+  const prefix = bcp47.slice(0, 2).toLowerCase()
+  const hit = voices.find((v) => v.lang.toLowerCase().startsWith(prefix))
+  if (hit) return hit
   return voices.find((v) => v.lang.toLowerCase().startsWith('en')) ?? voices[0] ?? null
 }
 
@@ -42,12 +54,6 @@ function startWatchdog() {
   }, 9000)
 }
 
-type SpeakOpts = {
-  rate?: number
-  pitch?: number
-  onend?: () => void
-}
-
 export function stopSpeak() {
   cancelled = true
   clearWatchdog()
@@ -67,7 +73,8 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     return
   }
   let i = 0
-  const voice = pickVoice()
+  const bcp = resolveLang(opts.lang)
+  const voice = pickVoice(bcp)
   const next = () => {
     if (cancelled) return
     if (i >= chunks.length) {
@@ -77,7 +84,7 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     }
     const u = new SpeechSynthesisUtterance(chunks[i]!)
     i += 1
-    u.lang = 'tr-TR'
+    u.lang = bcp
     u.rate = opts.rate ?? 0.92
     u.pitch = opts.pitch ?? 0.95
     u.volume = 1
@@ -90,18 +97,19 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
   next()
 }
 
-export function speakCue(text: string) {
+export function speakCue(text: string, lang?: string) {
   if (!window.speechSynthesis) return
   cancelled = true
   clearWatchdog()
   window.speechSynthesis.cancel()
   cancelled = false
+  const bcp = resolveLang(lang)
   const u = new SpeechSynthesisUtterance(text)
-  u.lang = 'tr-TR'
+  u.lang = bcp
   u.rate = 0.88
   u.pitch = 0.92
   u.volume = 1
-  const voice = pickVoice()
+  const voice = pickVoice(bcp)
   if (voice) u.voice = voice
   window.speechSynthesis.speak(u)
 }

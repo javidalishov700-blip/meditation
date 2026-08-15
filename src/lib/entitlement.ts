@@ -1,4 +1,5 @@
-import { breaths, meditations, sleepLab, stories, writings } from './library'
+import { breaths, extras, meditations, sleepLab, stories, writings } from './library'
+import { quotes } from './quotes'
 import { programs } from './content'
 import { TONES } from './audio'
 import { readJson, writeJson } from './storage'
@@ -59,7 +60,12 @@ export function isItemFree(kind: SessionKind, id: string, extra?: { day?: number
   if (kind === 'sleeplab') return sleepLab.find((s) => s.id === id)?.free === true
   if (kind === 'tone') return TONES.find((t) => t.id === id)?.trialSeconds != null
   if (kind === 'nature') return false
+  if (kind === 'extra') return extras.find((e) => e.id === id)?.free === true
   return false
+}
+
+export function quoteFree(id: string): boolean {
+  return quotes.find((q) => q.id === id)?.free === true
 }
 
 export function canAccess(kind: SessionKind, id: string, extra?: { day?: number }): boolean {

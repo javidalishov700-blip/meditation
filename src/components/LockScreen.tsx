@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useI18n } from '../lib/i18n'
 import { useLock } from '../lib/lock'
 import { PrimaryButton } from './ui'
 
@@ -62,17 +63,18 @@ export function PinPad({
 
 export function LockScreen() {
   const { tryUnlock, setSosBypass } = useLock()
+  const { t, meta } = useI18n()
   const navigate = useNavigate()
   const [err, setErr] = useState(false)
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-ink px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(3rem+env(safe-area-inset-top))]">
       <div className="text-center">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-rose-300/80">Steady kilitli</p>
-        <p className="mt-3 font-display text-3xl">Dört hane</p>
+        <p className="text-[11px] uppercase tracking-[0.28em] text-rose-300/80">{t('sos_lock_title')}</p>
+        <p className="mt-3 font-display text-3xl">{t('sos_four')}</p>
       </div>
       <PinPad
-        hint={err ? 'Eşleşmedi. Yeniden dene.' : 'Uygulama kilidi'}
+        hint={err ? t('me_pin_fail') : t('me_pin')}
         onComplete={async (pin) => {
           const ok = await tryUnlock(pin)
           setErr(!ok)
@@ -85,9 +87,11 @@ export function LockScreen() {
             navigate('/sos')
           }}
         >
-          SOS — kilitten açılır
+          {t('sos_open_lock')}
         </PrimaryButton>
-        <p className="text-center text-[11px] text-mute">Krizde 112. Kilit SOS’u kapatmaz.</p>
+        <p className="text-center text-[11px] text-mute">
+          {t('crisis')}: {meta.emergency}. {t('home_sos_sub')}
+        </p>
       </div>
     </div>
   )

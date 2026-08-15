@@ -13,6 +13,7 @@ export type SessionKind =
   | 'tone'
   | 'nature'
   | 'clarity'
+  | 'extra'
 
 export type BreathPattern = {
   id: string

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { CRISIS, LEGAL } from '../lib/phrases'
+import { useI18n } from '../lib/i18n'
 
 export function Kicker({ children }: { children: ReactNode }) {
   return (
@@ -21,20 +21,24 @@ export function Card({
 }
 
 export function LegalNote({ compact = false }: { compact?: boolean }) {
+  const { t, meta } = useI18n()
   return (
     <p className={`text-mute/80 ${compact ? 'text-[11px] leading-5' : 'text-xs leading-5'}`}>
-      {compact ? CRISIS + ' · Tıbbi tedavi değildir.' : LEGAL}
+      {compact
+        ? `${t('crisis')}: ${meta.emergency} · ${t('legal_short')}`
+        : `${t('legal_full')} ${t('crisis')}: ${meta.emergency}.`}
     </p>
   )
 }
 
 export function CrisisLink() {
+  const { t, meta } = useI18n()
   return (
     <a
-      href="tel:112"
+      href={`tel:${meta.tel}`}
       className="inline-flex items-center gap-2 rounded-full border border-rose-400/30 bg-rose-500/10 px-3 py-1.5 text-xs text-rose-100"
     >
-      Acil 112
+      {t('crisis')} {meta.emergency}
     </a>
   )
 }

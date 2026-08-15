@@ -1,8 +1,21 @@
 # Steady
 
-Panik atak, anksiyete, derealizasyon ve depersonalizasyon için sakinleşme PWA’sı. Meditopia kopyası değil. Tıbbi teşhis veya tedavi iddiası yoktur; “tedavi sekmeleri” başa çıkma araçlarıdır. Krizde acil hat: **112**.
+Panik atak, anksiyete, derealizasyon ve depersonalizasyon **yanı sıra** uyku, nefes, meditasyon, yazı, doğa, özler ve daha fazlası için sakinleşme PWA’sı. Meditopia kopyası değil. Tıbbi teşhis veya tedavi iddiası yoktur. Krizde yerel acil hat (TR: **112**).
 
-Joseph Murphy / *Bilinçaltının Gücü* alıntısı yoktur. Yalnızca yaklaşım iskeleti: rahat beden, kısa şimdiki zaman olumlu cümle, zihinsel sahne, gece tohumu, bırakış, şükran.
+16 dil: Türkçe, English, Azərbaycan, Русский, Español, Français, Deutsch, Italiano, Português, العربية, Nederlands, Polski, Українська, 日本語, فارسی, 中文. Dil: Ben sayfası veya ana ekran.
+
+Joseph Murphy / *Bilinçaltının Gücü* alıntısı yoktur. Rahatlatıcı özler: kamu malı satırların kendi çevirisi (Epictetus, Seneca, Marcus Aurelius, William James) + yaklaşım özleri (CBT, ACT, grounding — alıntı değil).
+
+## Çalıştır
+
+```bash
+npm install
+npm run dev
+```
+
+## Sekmeler
+
+Ana · Keşfet · Uyku · Daha · Ben. Keşfet ızgarası kategoriler açar. Özler kartına basınca tam metin + sesli okuma. Daha fazla: 5-4-3-2-1, şükran, beden taraması, gece tohumu, kaygı penceresi ve diğer araçlar.
 
 ## Çalıştır
 

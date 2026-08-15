@@ -4,20 +4,19 @@ import { stories, sleepLab } from '../lib/library'
 import { useEntitlement } from '../lib/entitlement-store'
 import { canAccess } from '../lib/entitlement'
 import { Card, Kicker, LegalNote, ProChip } from '../components/ui'
+import { useI18n } from '../lib/i18n'
 
 export function Sleep() {
   const { pro } = useEntitlement()
+  const { t } = useI18n()
   return (
     <div className="pb-8">
-      <Kicker>Uyku</Kicker>
-      <h1 className="mt-2 font-display text-3xl">Gece iskelesi</h1>
-      <p className="mt-2 text-sm text-mute">
-        Orijinal hikâyeler, tarayıcı sesi ile okunur. Yedi gün bilim uykusu Pro’dadır. Doğa sahneleri Web Audio ile
-        üretilir — kayıtlı dosya yok.
-      </p>
+      <Kicker>{t('nav_sleep')}</Kicker>
+      <h1 className="mt-2 font-display text-3xl">{t('sleep_title')}</h1>
+      <p className="mt-2 text-sm text-mute">{t('sleep_sub')}</p>
 
       <section className="mt-8">
-        <Kicker>Epic hikâyeler</Kicker>
+        <Kicker>{t('cat_stories')}</Kicker>
         <div className="mt-3 space-y-3">
           {stories.map((s) => {
             const open = canAccess('story', s.id)
@@ -45,7 +44,7 @@ export function Sleep() {
 
       <section className="mt-10">
         <div className="flex items-center gap-2">
-          <Kicker>Uyku laboratuvarı</Kicker>
+          <Kicker>{t('lab_k')}</Kicker>
           {!pro ? <ProChip /> : null}
         </div>
         <p className="mt-2 text-sm text-mute">
@@ -71,7 +70,7 @@ export function Sleep() {
 
       <section className="mt-10">
         <div className="flex items-center gap-2">
-          <Kicker>Doğa + süre</Kicker>
+          <Kicker>{t('cat_nature')}</Kicker>
           {!pro ? <ProChip /> : null}
         </div>
         <p className="mt-2 text-xs text-mute">15 / 30 / 45 / 60 dk. Sahne seç, süre oturumda ayarlanır.</p>
