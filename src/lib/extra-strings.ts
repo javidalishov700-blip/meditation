@@ -122,6 +122,7 @@ export const EXTRA = {
   theme_light: R('Açık|Light mode|Claro|Clair|Hell|Chiaro'),
   presence_now: R('Şu anda da nefes alanlar var|People are meditating right now|Ahora también hay quien respira|Il y a aussi, maintenant, des souffles|Auch jetzt atmen Menschen|Anche ora c’è chi respira'),
   presence_sub: R('Canlı bir sayaç değil. Bu saatte de bir oda, bir nefes.|Not a live counter. A reminder that a room and a breath exist at this hour too.|No es un contador en vivo. Un recordatorio: a esta hora también hay una habitación, un aliento.|Ce n’est pas un compteur en direct. Un rappel : à cette heure aussi, une pièce, un souffle.|Kein Live-Zähler. Eine Erinnerung: auch um diese Stunde gibt es einen Raum, einen Atem.|Non è un contatore dal vivo. Un richiamo: anche a quest’ora c’è una stanza, un respiro.'),
+  presence_live: R('{n} kişi meditasyon yapıyor|{n} people meditating|{n} personas meditando|{n} personnes méditent|{n} Menschen meditieren|{n} persone meditano'),
   mood_history: R('Ruh hâli geçmişi|Mood history|Historial de ánimo|Historique d’humeur|Stimmungsverlauf|Cronologia umore'),
   freeze_title: R('Seri donması|Streak freeze|Congelación de racha|Gel de série|Serien-Freeze|Blocco serie'),
   freeze_left: R('Bu hafta {n} donma hakkı kaldı|{n} freeze left this week|Queda {n} congelación esta semana|{n} gel restant cette semaine|{n} Freeze diese Woche übrig|{n} blocco rimasto questa settimana'),

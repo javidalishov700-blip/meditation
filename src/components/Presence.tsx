@@ -1,45 +1,60 @@
+import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 
-const FIGURES = [
-  { x: 18, delay: 0, scale: 1 },
-  { x: 38, delay: 0.7, scale: 0.92 },
-  { x: 56, delay: 1.4, scale: 1.08 },
-  { x: 76, delay: 0.35, scale: 0.86 },
-  { x: 96, delay: 1.1, scale: 1 },
-  { x: 116, delay: 1.8, scale: 0.94 },
-  { x: 134, delay: 0.55, scale: 1.04 },
+const FACES = [
+  '/covers/face-1.png',
+  '/covers/face-2.png',
+  '/covers/face-3.png',
+  '/covers/face-4.png',
+  '/covers/face-5.png',
+  '/covers/face-6.png',
 ]
 
-function Sit({ x, delay, scale }: { x: number; delay: number; scale: number }) {
-  return (
-    <g className="sit-fig" style={{ animationDelay: `${delay}s` }} transform={`translate(${x} 28) scale(${scale})`}>
-      <ellipse cx="12" cy="34" rx="10" ry="3.2" fill="currentColor" opacity="0.18" />
-      <circle cx="12" cy="8" r="4.2" fill="currentColor" />
-      <path
-        d="M4.5 16c2.2-3.2 13.8-3.2 16 0 1.2 1.8 1.4 6.4-1 10.2-1.6 2.6-5.2 4.4-7 4.4s-5.4-1.8-7-4.4c-2.4-3.8-2.2-8.4-1-10.2Z"
-        fill="currentColor"
-      />
-    </g>
-  )
+export function presenceCount(now = Date.now()): number {
+  const d = new Date(now)
+  const h = d.getHours()
+  const m = d.getMinutes()
+  const s = d.getSeconds()
+  const base = h >= 21 || h < 6 ? 842 : h >= 18 ? 671 : h >= 12 && h < 14 ? 508 : h >= 8 && h < 10 ? 394 : 286
+  const wave = Math.sin((m * 60 + s) / 95) * 28
+  const tick = Math.floor(s / 5) % 6
+  return Math.max(64, Math.round(base + wave + tick * 2 + (m % 13)))
 }
 
 export function Presence() {
-  const { t } = useI18n()
+  const { t, meta } = useI18n()
+  const [n, setN] = useState(() => presenceCount())
+
+  useEffect(() => {
+    const id = window.setInterval(() => setN(presenceCount()), 3500)
+    return () => window.clearInterval(id)
+  }, [])
+
   return (
-    <section className="mt-10 overflow-hidden rounded-[1.6rem] surface">
-      <div className="relative">
-        <img src="/covers/cover-presence.png" alt="" className="h-36 w-full object-cover keep-dark" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10 keep-dark" />
-        <svg viewBox="0 0 160 70" className="absolute inset-x-4 bottom-2 h-16 text-white/90 keep-dark" aria-hidden>
-          {FIGURES.map((f) => (
-            <Sit key={f.x} {...f} />
+    <div className="mt-8 flex justify-center">
+      <div
+        className="keep-dark pointer-events-none inline-flex max-w-full items-center gap-2 rounded-full bg-black/78 py-1.5 pl-1.5 pr-3.5 shadow-[0_10px_32px_rgba(0,0,0,0.38)] backdrop-blur-md"
+        role="status"
+      >
+        <span className="flex -space-x-2.5">
+          {FACES.map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              className="face-breathe h-8 w-8 rounded-full object-cover ring-[1.5px] ring-black/80"
+              style={{ animationDelay: `${i * 0.45}s`, zIndex: FACES.length - i }}
+            />
           ))}
-        </svg>
+        </span>
+        <span className="relative ml-1 flex h-2.5 w-2.5">
+          <span className="live-ping absolute inset-0 rounded-full bg-emerald-400/80" />
+          <span className="relative m-auto h-2 w-2 rounded-full bg-emerald-400" />
+        </span>
+        <span className="text-[13px] font-medium tracking-tight text-white">
+          {t('presence_live', { n: n.toLocaleString(meta.bcp47) })}
+        </span>
       </div>
-      <div className="px-4 pb-4 pt-3">
-        <p className="text-[15px] font-semibold leading-snug">{t('presence_now')}</p>
-        <p className="mt-1 text-[12px] leading-5 text-mute">{t('presence_sub')}</p>
-      </div>
-    </section>
+    </div>
   )
 }
