@@ -37,7 +37,6 @@ const MED_BEDS = [
 ] as const
 
 const SKIP = 15
-let medEpoch = 0
 
 function readBed(fallback: string) {
   const v = readJson<string | null>('med.bed', null)
@@ -63,8 +62,15 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
   const done = completedSteps(path.id)
   const pct = pathPercent(path)
 
+  useEffect(
+    () => () => {
+      stopSpeak()
+      audio.stop(0.4)
+    },
+    [],
+  )
+
   function closeStep() {
-    medEpoch += 1
     stopSpeak()
     audio.stop(0.4)
     const next = new URLSearchParams(params)
@@ -114,7 +120,10 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                   const clipId = `med:${s.id}`
                   const fillMs = s.minutes * 60 * 1000
                   const bedId = readBed(s.bed)
-                  void audio.playNature(bedId)
+                  audio.unlock()
+                  void audio.playNature(bedId).then(() => {
+                    if (speechClipId() === clipId && !speechSnap().paused) audio.hushForVoice()
+                  })
                   speak(s.body, {
                     lang: meta.bcp47,
                     mode: 'calm',
@@ -195,11 +204,11 @@ function MeditationPlayer({
     markSession('meditation', path.id)
     const fillMs = total * 1000
     const clipId = `med:${step.id}`
-    const epoch = ++medEpoch
     const live = speechSnap()
     const keep =
       speechClipId() === clipId && (live.speaking || live.loading || live.paused)
     if (!keep) {
+      audio.unlock()
       void audio.playNature(bed)
       speak(step.body, {
         lang: meta.bcp47,
@@ -221,15 +230,8 @@ function MeditationPlayer({
       setElapsed(s)
       if (total > 0 && s >= total && !done.current) finish()
     }, 200)
-    return () => {
-      window.clearInterval(tick)
-      window.setTimeout(() => {
-        if (medEpoch !== epoch) return
-        stopSpeak()
-        audio.stop(0.4)
-      }, 80)
-    }
-  }, [path.id, step.id, step.body, total, meta.bcp47])
+    return () => window.clearInterval(tick)
+  }, [path.id, step.id, total, meta.bcp47])
 
   function finish() {
     if (done.current) return
@@ -242,6 +244,7 @@ function MeditationPlayer({
 
   function toggleOrResume() {
     if (!snap.speaking && !snap.loading && !snap.paused) {
+      audio.unlock()
       speak(step.body, {
         lang: meta.bcp47,
         mode: 'calm',
@@ -322,6 +325,13 @@ function MeditationPlayer({
         style={{ top: 'max(1.15rem, calc(env(safe-area-inset-top) + 0.35rem))' }}
       >
         {step.title}
+      </p>
+      <p
+        className="pointer-events-none absolute inset-x-10 z-20 text-center text-[11px] uppercase tracking-[0.14em] text-white/45"
+        style={{ top: 'max(3.1rem, calc(env(safe-area-inset-top) + 2.15rem))' }}
+      >
+        {sceneName(bed, locale)}
+        {snap.loading ? ` · ${t('voice_loading')}` : ''}
       </p>
 
       <button

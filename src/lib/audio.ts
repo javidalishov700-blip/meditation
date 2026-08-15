@@ -279,6 +279,7 @@ function impulse(ctx: AudioContext, seconds = 2.2, decay = 3) {
 export class AudioEngine {
   private ctx: AudioContext | null = null
   private master: GainNode | null = null
+  private voiceBus: GainNode | null = null
   private space: ConvolverNode | null = null
   private stops: StopHandle[] = []
   private timer: number | null = null
@@ -326,9 +327,30 @@ export class AudioEngine {
       this.master = this.ctx.createGain()
       this.master.gain.value = 0.32
       this.master.connect(this.ctx.destination)
+      this.voiceBus = this.ctx.createGain()
+      this.voiceBus.gain.value = 1
+      this.voiceBus.connect(this.ctx.destination)
     }
     if (this.ctx.state === 'suspended') await this.ctx.resume()
     return this.ctx
+  }
+
+  /** Resume the graph in the same turn as a tap. Voice then plays through this context, not HTMLAudio. */
+  unlock() {
+    void this.ensure()
+  }
+
+  ctxTime() {
+    return this.ctx?.currentTime ?? 0
+  }
+
+  voiceGain() {
+    return this.voiceBus
+  }
+
+  setVoiceLevel(n: number) {
+    if (!this.voiceBus) return
+    this.voiceBus.gain.value = clamp(n, 0, 1)
   }
 
   private track(stop: StopHandle) {

@@ -75,7 +75,7 @@ export function CrisisChip() {
     <a
       href={`tel:${meta.tel}`}
       aria-label={t('crisis')}
-      className="fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.45rem,env(safe-area-inset-top))] z-[45] flex h-7 items-center gap-1 rounded-full border border-white/10 bg-ink/45 px-2.5 text-[11px] text-cream/70 backdrop-blur-md"
+      className="fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.45rem,env(safe-area-inset-top))] z-[500] flex h-7 items-center gap-1 rounded-full border border-white/10 bg-ink/45 px-2.5 text-[11px] text-cream/70 backdrop-blur-md"
     >
       <svg viewBox="0 0 24 24" className="h-3 w-3 opacity-80" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M6.6 4.2h2.8l1.2 3.6-2 1.2a13 13 0 0 0 6.4 6.4l1.2-2 3.6 1.2v2.8A15.5 15.5 0 0 1 6.6 4.2Z" />

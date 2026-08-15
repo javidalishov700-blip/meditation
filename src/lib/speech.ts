@@ -38,7 +38,6 @@ let loadingFlag = false
 let pausedFlag = false
 let errorFlag: string | null = null
 let pauseWait: (() => void) | null = null
-let el: HTMLAudioElement | null = null
 let lastJob: LastJob | null = null
 let clockOrigin = 0
 let clockPauseTotal = 0
@@ -46,8 +45,17 @@ let clockPausedAt = 0
 let clockStartMs = 0
 let clockDuration = 0
 let clockTick: number | null = null
-const cache = new Map<string, string>()
+const bufCache = new Map<string, AudioBuffer>()
 const listeners = new Set<() => void>()
+
+type SliceCtl = {
+  source: AudioBufferSourceNode
+  startedCtx: number
+  offset: number
+  settle: (nextOffset: number) => void
+}
+
+let sliceCtl: SliceCtl | null = null
 
 function liveElapsed() {
   if (!speakingFlag && !loadingFlag) return 0
@@ -100,8 +108,7 @@ export function readVoiceVolume() {
 export function writeVoiceVolume(n: number) {
   const v = Math.max(0, Math.min(1, n))
   writeJson('tts.volume', v)
-  const node = el
-  if (node) node.volume = v
+  audio.setVoiceLevel(v)
   emit()
 }
 
@@ -143,31 +150,6 @@ function setFlags(partial: { speaking?: boolean; loading?: boolean; paused?: boo
   if (partial.paused != null) pausedFlag = partial.paused
   if (partial.error !== undefined) errorFlag = partial.error
   emit()
-}
-
-function armInline(node: HTMLAudioElement) {
-  const media = node as HTMLAudioElement & { playsInline?: boolean }
-  media.playsInline = true
-  node.setAttribute('playsinline', 'true')
-  node.setAttribute('webkit-playsinline', 'true')
-  node.controls = false
-  node.preload = 'auto'
-  try {
-    node.disableRemotePlayback = true
-  } catch {
-    /* older webkit */
-  }
-  node.setAttribute('controlslist', 'nofullscreen nodownload noremoteplayback')
-}
-
-function player() {
-  if (!el) {
-    el = new Audio()
-    el.preload = 'auto'
-    el.volume = readVoiceVolume()
-  }
-  armInline(el)
-  return el
 }
 
 export async function primeAudio() {
@@ -287,17 +269,98 @@ async function fetchRes(url: string) {
   }
 }
 
-async function audioObjectUrl(url: string) {
-  const hit = cache.get(url)
+function decodeBuffer(ctx: AudioContext, data: ArrayBuffer) {
+  const copy = data.slice(0)
+  return new Promise<AudioBuffer>((resolve, reject) => {
+    let settled = false
+    const ok = (buf: AudioBuffer) => {
+      if (settled) return
+      settled = true
+      resolve(buf)
+    }
+    const bad = (err?: unknown) => {
+      if (settled) return
+      settled = true
+      reject(err ?? new Error('decode'))
+    }
+    try {
+      const ret = ctx.decodeAudioData(copy, ok, bad)
+      if (ret && typeof ret.then === 'function') ret.then(ok, bad)
+    } catch (err) {
+      bad(err)
+    }
+  })
+}
+
+async function decodeUrl(url: string, ctx: AudioContext) {
+  const hit = bufCache.get(url)
   if (hit) return hit
   const res = await fetchRes(url)
   if (!res) return null
-  const blob = await res.blob()
-  if (!blob.size) return null
-  if (!looksLikeAudio(blob.type || res.headers.get('content-type') || '')) return null
-  const obj = URL.createObjectURL(blob)
-  cache.set(url, obj)
-  return obj
+  const type = res.headers.get('content-type') || ''
+  if (type && (looksLikeHtml(type) || !looksLikeAudio(type))) return null
+  const data = await res.arrayBuffer()
+  if (data.byteLength < 80) return null
+  try {
+    const buf = await decodeBuffer(ctx, data)
+    if (buf.duration < 0.08) return null
+    bufCache.set(url, buf)
+    return buf
+  } catch {
+    return null
+  }
+}
+
+function haltSlice(nextOffset: number) {
+  const ctl = sliceCtl
+  if (!ctl) return
+  sliceCtl = null
+  ctl.settle(nextOffset)
+  try {
+    ctl.source.stop()
+  } catch {
+    /* already stopped */
+  }
+}
+
+function playSlice(ctx: AudioContext, buffer: AudioBuffer, offset: number, gen: number) {
+  return new Promise<number>((resolve, reject) => {
+    if (cancelled || gen !== speakGen) {
+      resolve(-1)
+      return
+    }
+    const gain = audio.voiceGain()
+    if (!gain) {
+      reject(new Error('play'))
+      return
+    }
+    const src = ctx.createBufferSource()
+    src.buffer = buffer
+    src.connect(gain)
+    const startOff = Math.min(Math.max(0, offset), Math.max(0, buffer.duration - 0.02))
+    let settled = false
+    const settle = (next: number) => {
+      if (settled) return
+      settled = true
+      if (sliceCtl?.source === src) sliceCtl = null
+      resolve(next)
+    }
+    src.onended = () => {
+      if (settled) return
+      settle(-1)
+    }
+    sliceCtl = { source: src, startedCtx: ctx.currentTime, offset: startOff, settle }
+    audio.setVoiceLevel(readVoiceVolume())
+    try {
+      src.start(0, startOff)
+    } catch (err) {
+      sliceCtl = null
+      reject(err)
+      return
+    }
+    audio.hushForVoice()
+    setFlags({ loading: false, speaking: true, paused: false })
+  })
 }
 
 async function loadManifest() {
@@ -335,25 +398,6 @@ async function bakedUrls(prefix: string, clipId?: string) {
   return urls?.length ? urls : null
 }
 
-function mediaDuration(url: string) {
-  const node = player()
-  return new Promise<number>((resolve) => {
-    const timer = window.setTimeout(() => finish(0), 8000)
-    function finish(ms: number) {
-      window.clearTimeout(timer)
-      node.removeEventListener('loadedmetadata', ok)
-      node.removeEventListener('error', bad)
-      resolve(ms)
-    }
-    const ok = () => finish(Math.max(0, (node.duration || 0) * 1000))
-    const bad = () => finish(0)
-    node.addEventListener('loadedmetadata', ok)
-    node.addEventListener('error', bad)
-    node.src = url
-    node.load()
-  })
-}
-
 async function finishSpeak(gen: number, opts: SpeakOpts, err?: string) {
   if (gen !== speakGen) return
   audio.hold(false)
@@ -367,19 +411,20 @@ async function finishSpeak(gen: number, opts: SpeakOpts, err?: string) {
   opts.onend?.()
 }
 
-/** Play store MP3s. Returns false if files are missing. */
+/** Play store MP3s through Web Audio. Returns false if files are missing. */
 async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
-  const blobs: string[] = []
+  const ctx = await audio.ensure()
+  if (cancelled || gen !== speakGen) return true
+  const buffers: AudioBuffer[] = []
   for (const url of urls) {
     if (cancelled || gen !== speakGen) return true
-    const obj = await audioObjectUrl(url)
-    if (!obj) return false
-    blobs.push(obj)
+    const buf = await decodeUrl(url, ctx)
+    if (!buf) return false
+    buffers.push(buf)
   }
-  const durs = await Promise.all(blobs.map(mediaDuration))
   if (cancelled || gen !== speakGen) return true
-  if (durs.some((d) => d < 80)) return false
-  const total = durs.reduce((n, d) => n + d, 0)
+  const total = buffers.reduce((n, b) => n + b.duration * 1000, 0)
+  if (total < 80) return false
   const startMs = Math.max(0, opts.startMs ?? 0)
   clockStartMs = startMs
   clockOrigin = Date.now()
@@ -389,18 +434,22 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   setFlags({ speaking: true, loading: true, paused: false, error: null })
   armClock()
   try {
-    let skip = startMs
-    for (let i = 0; i < blobs.length; i++) {
+    let skip = startMs / 1000
+    for (const buffer of buffers) {
       if (cancelled || gen !== speakGen) return true
-      const durMs = durs[i]!
-      if (skip >= durMs - 40) {
-        skip -= durMs
+      if (skip >= buffer.duration - 0.04) {
+        skip -= buffer.duration
         continue
       }
-      setFlags({ loading: true })
-      await playUrl(blobs[i]!, gen, skip / 1000)
+      let offset = skip
       skip = 0
-      if (cancelled || gen !== speakGen) return true
+      while (offset >= 0) {
+        if (cancelled || gen !== speakGen) return true
+        await waitWhilePaused()
+        if (cancelled || gen !== speakGen) return true
+        if (ctx.state === 'suspended') await ctx.resume()
+        offset = await playSlice(ctx, buffer, offset, gen)
+      }
     }
     if (opts.fillMs) {
       const rest = Math.max(0, opts.fillMs - liveElapsed())
@@ -416,86 +465,21 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   return true
 }
 
-async function playUrl(url: string, gen: number, offsetSec = 0) {
-  const node = player()
-  node.volume = readVoiceVolume()
-  await new Promise<void>((resolve, reject) => {
-    const ok = () => {
-      node.removeEventListener('loadeddata', ok)
-      node.removeEventListener('error', bad)
-      resolve()
-    }
-    const bad = () => {
-      node.removeEventListener('loadeddata', ok)
-      node.removeEventListener('error', bad)
-      reject(new Error('play'))
-    }
-    node.addEventListener('loadeddata', ok)
-    node.addEventListener('error', bad)
-    node.src = url
-    node.load()
-  })
-  if (cancelled || gen !== speakGen) return
-  if (offsetSec > 0 && Number.isFinite(node.duration) && node.duration > 0.08) {
-    node.currentTime = Math.min(offsetSec, node.duration - 0.05)
-  }
-  await waitWhilePaused()
-  if (cancelled || gen !== speakGen) return
-  ;(node as HTMLAudioElement & { playsInline?: boolean }).playsInline = true
-  await node.play()
-  audio.hushForVoice()
-  setFlags({ loading: false, speaking: true, paused: false })
-  await new Promise<void>((resolve, reject) => {
-    const done = window.setInterval(() => {
-      if (cancelled || gen !== speakGen) {
-        window.clearInterval(done)
-        node.removeEventListener('ended', ok)
-        node.removeEventListener('error', bad)
-        resolve()
-      }
-    }, 80)
-    const ok = () => {
-      window.clearInterval(done)
-      node.removeEventListener('ended', ok)
-      node.removeEventListener('error', bad)
-      resolve()
-    }
-    const bad = () => {
-      window.clearInterval(done)
-      node.removeEventListener('ended', ok)
-      node.removeEventListener('error', bad)
-      reject(new Error('play'))
-    }
-    node.addEventListener('ended', ok)
-    node.addEventListener('error', bad)
-  })
-}
-
 export function stopSpeak() {
   cancelled = true
   speakGen += 1
   pausedFlag = false
   pauseWait?.()
   pauseWait = null
+  haltSlice(-1)
   audio.hold(false)
   audio.duck(false)
   stopClock()
-  const node = el
-  if (node) {
-    try {
-      node.pause()
-      node.loop = false
-      node.removeAttribute('src')
-    } catch {
-      /* ignore */
-    }
-  }
   setFlags({ speaking: false, loading: false, paused: false })
 }
 
 export function togglePause() {
   if (!speakingFlag && !loadingFlag) return
-  const node = player()
   if (pausedFlag) {
     pausedFlag = false
     if (clockPausedAt) {
@@ -506,15 +490,16 @@ export function togglePause() {
     pauseWait = null
     audio.hold(false)
     audio.hushForVoice()
-    void node.play().catch(() => {
-      /* no clip yet */
-    })
     setFlags({ paused: false })
     return
   }
   pausedFlag = true
   clockPausedAt = Date.now()
-  node.pause()
+  const ctl = sliceCtl
+  if (ctl) {
+    const elapsed = ctl.offset + Math.max(0, audio.ctxTime() - ctl.startedCtx)
+    haltSlice(elapsed)
+  }
   audio.hold(true)
   setFlags({ paused: true })
 }
@@ -535,6 +520,7 @@ export function speechClipId() {
 }
 
 export function speak(text: string, opts: SpeakOpts = {}) {
+  audio.unlock()
   void runSpeak(text, opts)
 }
 

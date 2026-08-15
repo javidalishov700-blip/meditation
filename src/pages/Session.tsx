@@ -459,6 +459,7 @@ function ScriptView({
       <PrimaryButton
         className="mt-10"
         onClick={() => {
+          audio.unlock()
           if (speaking) {
             stopSpeak()
             setSpeaking(false)

@@ -2,30 +2,45 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { BottomNav } from './BottomNav'
 import { NowPlayingBar, useNowPlaying } from './NowPlaying'
 import { PremiumBanner } from './Sheets'
+import { SessionOverlay, useSessionListen } from './SessionStage'
 import { useEntitlement } from '../lib/entitlement-store'
 
 export function Layout() {
+  return (
+    <SessionOverlay>
+      <LayoutBody />
+    </SessionOverlay>
+  )
+}
+
+function LayoutBody() {
   const { pathname } = useLocation()
   const { pro } = useEntitlement()
   const now = useNowPlaying()
+  const listen = useSessionListen()
   const room = pathname.startsWith('/session')
-  const banner = !room && !pro
-  const dock = now.playing && (now.kind === 'nature' || now.kind === 'tone') && !room
-  const pad = room
-    ? 'pb-[calc(1.25rem+env(safe-area-inset-bottom))]'
-    : dock && banner
-      ? 'safe-bottom-banner-now'
-      : dock
-        ? 'safe-bottom-now'
-        : banner
-          ? 'safe-bottom-banner'
-          : 'safe-bottom'
+  const banner = !room && !listen && !pro
+  const dock = now.playing && (now.kind === 'nature' || now.kind === 'tone') && !room && !listen
+  const pad = listen
+    ? 'pb-0'
+    : room
+      ? 'pb-[calc(1.25rem+env(safe-area-inset-bottom))]'
+      : dock && banner
+        ? 'safe-bottom-banner-now'
+        : dock
+          ? 'safe-bottom-now'
+          : banner
+            ? 'safe-bottom-banner'
+            : 'safe-bottom'
+  const shell = listen
+    ? 'fixed inset-0 z-[400] max-w-none bg-[#1c0f32] px-0 pt-0'
+    : `relative z-10 safe-top mx-auto min-h-dvh max-w-lg px-5 ${pad}`
   return (
     <>
-      <div className={`relative safe-top mx-auto min-h-dvh max-w-lg px-5 ${pad} ${room ? 'z-[120]' : 'z-10'}`}>
+      <div className={shell}>
         <Outlet />
       </div>
-      {room ? null : (
+      {room || listen ? null : (
         <>
           {banner ? <PremiumBanner /> : null}
           <NowPlayingBar lift={Boolean(banner)} />
