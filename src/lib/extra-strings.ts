@@ -1,4 +1,4 @@
-/** 16-dil ekleri. strings.ts içinde CORE üzerine yayılır. */
+/** UI ekleri. strings.ts içinde CORE üzerine yayılır. */
 import { R } from './locales'
 
 export const EXTRA = {
@@ -51,4 +51,18 @@ export const EXTRA = {
   new_badge: R('YENİ|NEW|YENİ|НОВОЕ|NUEVO|NOUVEAU|NEU|NUOVO|NOVO|جديد|NIEUW|NOWE|НОВЕ|新着|جدید|新'),
   sos_short: R('SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS|SOS'),
   hold_save: R('Uzun bas, kaydet.|Long-press to save.|Basılı saxla, yadda saxla.|Долгое нажатие — сохранить.|Mantén pulsado para guardar.|Appui long pour enregistrer.|Lange drücken zum Speichern.|Tieni premuto per salvare.|Pressiona para guardar.|اضغط مطولاً للحفظ.|Lang indrukken om te bewaren.|Przytrzymaj, aby zapisać.|Утримуй, щоб зберегти.|長押しで保存。|برای ذخیره نگه دارید.|长按保存。'),
+  home_kicker: R('Steady · 6 dil|Steady · 6 languages|Steady · 6 idiomas|Steady · 6 langues|Steady · 6 Sprachen|Steady · 6 lingue'),
+  listen: R('Dinle|Listen|Escuchar|Écouter|Hören|Ascolta'),
+  tonight: R('Bu gece|Tonight|Esta noche|Cette nuit|Heute Nacht|Stasera'),
+  for_you: R('Sana göre|For you|Para ti|Pour toi|Für dich|Per te'),
+  now_playing: R('Çalıyor|Now playing|Reproduciendo|En lecture|Läuft|In riproduzione'),
+  voice: R('Okuma sesi|Reading voice|Voz de lectura|Voix de lecture|Lesestimme|Voce di lettura'),
+  voice_hint: R('En doğal sesi seç. Cihazındaki sesler değişir. Chrome veya Safari genelde daha insansı.|Pick the most natural voice. Voices depend on this device. Chrome or Safari usually sound more human.|Elige la voz más natural. Las voces dependen de este dispositivo. Chrome o Safari suenan más humanas.|Choisis la voix la plus naturelle. Les voix dépendent de cet appareil. Chrome ou Safari sonnent plus humain.|Wähle die natürlichste Stimme. Stimmen hängen von diesem Gerät ab. Chrome oder Safari klingen menschlicher.|Scegli la voce più naturale. Le voci dipendono da questo dispositivo. Chrome o Safari suonano più umane.'),
+  voice_try: R('Dene|Try|Probar|Essayer|Testen|Prova'),
+  voice_none: R('Bu dil için ses yok. Chrome veya Safari dene.|No voice for this language. Try Chrome or Safari.|No hay voz para este idioma. Prueba Chrome o Safari.|Pas de voix pour cette langue. Essaie Chrome ou Safari.|Keine Stimme für diese Sprache. Chrome oder Safari versuchen.|Nessuna voce per questa lingua. Prova Chrome o Safari.'),
+  voice_auto: R('Otomatik (en doğal)|Automatic (most natural)|Automático (más natural)|Automatique (le plus naturel)|Automatisch (am natürlichsten)|Automatico (più naturale)'),
+  tonight_sub: R('Açık bırak, yavaş kalsın.|Leave it on, keep it slow.|Déjalo puesto, despacio.|Laisse tourner, tout doucement.|Lass es laufen, bleib langsam.|Lascialo acceso, piano.'),
+  for_you_sub: R('Bu ruh hâline göre.|Matched to this mood.|Según este ánimo.|Selon cette humeur.|Passend zu dieser Stimmung.|In base a questo umore.'),
+  new_sounds: R('Yeni sesler|New sounds|Sonidos nuevos|Nouveaux sons|Neue Klänge|Suoni nuovi'),
+  stop_now: R('Durdur|Stop|Parar|Arrêter|Stopp|Ferma'),
 } as const

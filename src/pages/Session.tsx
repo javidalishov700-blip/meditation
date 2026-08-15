@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
-import { audio, NATURE_SCENES, TIMER_MINUTES, TONES } from '../lib/audio'
+import { audio, NATURE_SCENES, sceneBlurb, sceneName, TIMER_MINUTES, TONES } from '../lib/audio'
 import { programDay } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -115,7 +115,7 @@ function ToneSession({ id }: { id: string }) {
                   setOn(false)
                   return
                 }
-                await audio.playTone(tone.hz, tone.title)
+                await audio.playTone(tone.hz, tone.title, tone.id)
                 setOn(true)
               }}
               className="halo-wrap mt-12 h-44 w-44"
@@ -137,7 +137,7 @@ function ToneSession({ id }: { id: string }) {
 }
 
 function NatureSession({ id }: { id: string }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const scene = NATURE_SCENES.find((s) => s.id === id)
   const [minutes, setMinutes] = useState<(typeof TIMER_MINUTES)[number]>(30)
   const [on, setOn] = useState(false)
@@ -153,8 +153,8 @@ function NatureSession({ id }: { id: string }) {
         {t('back')}
       </Link>
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <h1 className="font-display text-4xl">{scene.title}</h1>
-        <p className="mt-3 text-sm text-mute">{scene.subtitle}</p>
+        <h1 className="font-display text-4xl">{sceneName(scene.id, locale)}</h1>
+        <p className="mt-3 text-sm text-mute">{sceneBlurb(scene.id, locale)}</p>
         <button
           type="button"
           className="halo-wrap mt-12 h-44 w-44"

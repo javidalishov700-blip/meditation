@@ -1,3 +1,5 @@
+import type { LocaleId } from './locales'
+
 export const DOORS = ['panic', 'anxiety', 'derealization', 'depersonalization'] as const
 export type DoorId = (typeof DOORS)[number]
 
@@ -78,6 +80,8 @@ export type NatureScene = {
   id: string
   title: string
   subtitle: string
+  names: Record<LocaleId, string>
+  blurbs: Record<LocaleId, string>
 }
 
 export type Tone = {

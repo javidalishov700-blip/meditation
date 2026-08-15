@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, FoldList, GhostButton, PrimaryButton, ProChip } from '../components/ui'
 import { audio } from '../lib/audio'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
 import { quotes, type Quote } from '../lib/quotes'
-import { speak, stopSpeak } from '../lib/speech'
+import { isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
 
 export function Quotes() {
   const { t, locale, meta } = useI18n()
   const navigate = useNavigate()
   const [open, setOpen] = useState<Quote | null>(null)
+  const [reading, setReading] = useState(() => isSpeaking())
   const pro = isPro()
+  useEffect(() => subscribeSpeak(() => setReading(isSpeaking())), [])
 
   return (
     <div className="pb-8">
@@ -63,11 +65,15 @@ export function Quotes() {
           <div className="mt-auto space-y-3">
             <PrimaryButton
               onClick={() => {
+                if (reading) {
+                  stopSpeak()
+                  return
+                }
                 if (!audio.playing) void audio.playPad()
                 speak(open.text[locale], { lang: meta.bcp47 })
               }}
             >
-              {t('quotes_listen')}
+              {reading ? t('speak_stop') : t('quotes_listen')}
             </PrimaryButton>
             <GhostButton
               className="w-full"

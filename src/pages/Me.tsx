@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
+import { VoicePicker } from '../components/VoicePicker'
 import { Card, GhostButton, LegalNote } from '../components/ui'
 import { activityStats, monthTitle, weekdayLetters } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -135,11 +136,15 @@ export function Me() {
         </div>
       </Card>
 
+      <Card className="mt-4">
+        <VoicePicker />
+      </Card>
+      <Card className="mt-3">
+        <LangPicker />
+      </Card>
+
       {settings ? (
         <>
-          <Card className="mt-4">
-            <LangPicker />
-          </Card>
           <Card className="mt-3">
             <p className="text-xs text-white/40">{t('me_tier')}</p>
             <p className="mt-1 text-xl font-semibold">{tier}</p>

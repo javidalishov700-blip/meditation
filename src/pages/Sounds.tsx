@@ -2,9 +2,23 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CoverCard, ChipRow, Rail } from '../components/CoverCard'
 import { CircleIconBtn, SearchSheet } from '../components/Sheets'
-import { groupItems, hrefFor } from '../lib/catalog'
+import { groupItems, hrefFor, ITEMS } from '../lib/catalog'
 import { canAccess } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
+
+const FRESH_IDS = [
+  'nat-storm',
+  'nat-river',
+  'nat-birds',
+  'nat-cafe',
+  'nat-snow',
+  'nat-bowl',
+  'nat-fan',
+  'nat-waves',
+  'nat-piano',
+  'nat-forest',
+  'nat-fire',
+]
 
 export function Sounds() {
   const { t, locale } = useI18n()
@@ -12,8 +26,10 @@ export function Sounds() {
   const [chip, setChip] = useState('sounds')
   const sounds = groupItems('sounds')
   const music = groupItems('music')
+  const fresh = FRESH_IDS.map((id) => ITEMS.find((i) => i.id === id)).filter((i): i is (typeof ITEMS)[number] => Boolean(i))
   const rainOpen = canAccess('nature', 'rain')
   const timerTo = canAccess('tone', '174') ? '/session/tone/174' : '/paywall'
+  const row = chip === 'music' ? music : chip === 'trend' ? fresh : sounds
 
   return (
     <div className="pb-8">
@@ -65,25 +81,29 @@ export function Sounds() {
         ]}
       />
 
-      <Rail title={t('all_sounds')}>
-        <Link
-          to={timerTo}
-          className="relative h-[15.6rem] w-[10.6rem] shrink-0 overflow-hidden rounded-[1.45rem] bg-[#0b1b33]"
-        >
-          <div className="timer-ring absolute left-1/2 top-[42%] h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-          <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[9px] font-semibold tracking-[0.1em] text-white/95 backdrop-blur-md">
-            {t('relaxing')}
-          </span>
-          <p className="absolute inset-x-3 bottom-3 text-[15px] font-semibold text-white">{t('timer')}</p>
-        </Link>
-        <CoverCard
-          to={rainOpen ? '/session/nature/rain' : '/paywall'}
-          cover="/covers/cover-lighthouse.png"
-          title={t('thunder_rain')}
-          badge="sound"
-          locked={!rainOpen}
-        />
-        {(chip === 'music' ? music : sounds).map((item, i) => (
+      <Rail title={chip === 'music' ? t('all_music') : chip === 'trend' ? t('new_sounds') : t('all_sounds')}>
+        {chip === 'sounds' ? (
+          <Link
+            to={timerTo}
+            className="relative h-[15.6rem] w-[10.6rem] shrink-0 overflow-hidden rounded-[1.45rem] bg-[#0b1b33]"
+          >
+            <div className="timer-ring absolute left-1/2 top-[42%] h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+            <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[9px] font-semibold tracking-[0.1em] text-white/95 backdrop-blur-md">
+              {t('relaxing')}
+            </span>
+            <p className="absolute inset-x-3 bottom-3 text-[15px] font-semibold text-white">{t('timer')}</p>
+          </Link>
+        ) : null}
+        {chip === 'sounds' ? (
+          <CoverCard
+            to={rainOpen ? '/session/nature/storm' : '/paywall'}
+            cover="/covers/cover-clouds.png"
+            title={t('thunder_rain')}
+            badge="sound"
+            locked={!rainOpen}
+          />
+        ) : null}
+        {row.map((item, i) => (
           <CoverCard
             key={item.id}
             to={hrefFor(item)}
@@ -93,6 +113,22 @@ export function Sounds() {
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
             kenDelay={i}
+          />
+        ))}
+      </Rail>
+
+      <Rail title={t('new_sounds')} toAll="/sounds">
+        {fresh.map((item, i) => (
+          <CoverCard
+            key={`f-${item.id}`}
+            to={hrefFor(item)}
+            cover={item.cover}
+            title={item.title[locale]}
+            minutes={item.minutes}
+            badge={item.badge}
+            locked={hrefFor(item) === '/paywall'}
+            kenDelay={i * 0.8}
+            wide={i % 4 === 0}
           />
         ))}
       </Rail>

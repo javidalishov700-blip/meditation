@@ -12,7 +12,7 @@ const CORE = {
   nav_more: R('Daha|More|Daha|Ещё|Más|Plus|Mehr|Altro|Mais|المزيد|Meer|Więcej|Ще|もっと|بیشتر|更多'),
   nav_me: R('Profil|Profile|Profil|Профиль|Perfil|Profil|Profil|Profilo|Perfil|حساب|Profiel|Profil|Профіль|プロフィール|نمایه|我的'),
 
-  home_kicker: R('Steady · 16 dil|Steady · 16 languages|Steady · 16 dil|Steady · 16 языков|Steady · 16 idiomas|Steady · 16 langues|Steady · 16 Sprachen|Steady · 16 lingue|Steady · 16 idiomas|Steady · 16 لغة|Steady · 16 talen|Steady · 16 języków|Steady · 16 мов|Steady · 16言語|Steady · ۱۶ زبان|Steady · 16 种语言'),
+  home_kicker: R('Steady · 6 dil|Steady · 6 languages|Steady · 6 idiomas|Steady · 6 langues|Steady · 6 Sprachen|Steady · 6 lingue'),
   home_headline: R('Buradasın.|You’re here.|Buradasan.|Ты здесь.|Estás aquí.|Tu es là.|Du bist hier.|Sei qui.|Você está aqui.|أنت هنا.|Je bent hier.|Jesteś tutaj.|Ти тут.|ここにいる。|اینجایی.|你在这里。'),
   home_calm: R('Yavaş. Bugün bir şey yeter.|Slow. One thing is enough today.|Yavaş. Bu gün bir şey bəsdir.|Медленно. Сегодня хватит одного.|Despacio. Hoy basta una cosa.|Lentement. Une chose suffit aujourd’hui.|Langsam. Heute reicht eines.|Piano. Oggi basta una cosa.|Devagar. Hoje uma coisa chega.|على مهل. شيء واحد يكفي اليوم.|Traag. Vandaag is één ding genoeg.|Powoli. Dziś wystarczy jedno.|Повільно. Сьогодні досить одного.|ゆっくり。今日は一つで足りる。|آرام. امروز یک چیز بس است.|慢慢来。今天一件就够。'),
   disc_calm: R('Bugün yalnızca birini seç.|Choose only one, today.|Bu gün yalnız birini seç.|Сегодня выбери только одно.|Hoy elige solo uno.|Aujourd’hui, n’en choisis qu’un.|Heute nur eines wählen.|Oggi scegline solo uno.|Hoje escolhe só um.|اليوم اختر واحدًا فقط.|Kies er vandaag maar één.|Dziś wybierz tylko jedno.|Сьогодні обери лише одне.|今日は一つだけ選ぶ。|امروز فقط یکی را انتخاب کن.|今天只选一个。'),

@@ -2,7 +2,7 @@
 
 Panik atak, anksiyete, derealizasyon ve depersonalizasyon **yanı sıra** uyku, nefes, meditasyon, yazı, doğa, özler ve daha fazlası için sakinleşme PWA’sı. Meditopia kopyası değil. Tıbbi teşhis veya tedavi iddiası yoktur. Krizde yerel acil hat (TR: **112**).
 
-16 dil: Türkçe, English, Azərbaycan, Русский, Español, Français, Deutsch, Italiano, Português, العربية, Nederlands, Polski, Українська, 日本語, فارسی, 中文. Dil: Ben sayfası veya ana ekran.
+6 dil: Türkçe, English, Español, Français, Deutsch, Italiano. Dil: Profil veya karşılama.
 
 Joseph Murphy / *Bilinçaltının Gücü* alıntısı yoktur. Rahatlatıcı özler: kamu malı satırların kendi çevirisi (Epictetus, Seneca, Marcus Aurelius, William James) + yaklaşım özleri (CBT, ACT, grounding — alıntı değil).
 

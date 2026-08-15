@@ -67,6 +67,22 @@ a {
   padding-bottom: calc(8.2rem + env(safe-area-inset-bottom));
 }
 
+.safe-bottom-now {
+  padding-bottom: calc(8.4rem + env(safe-area-inset-bottom));
+}
+
+.safe-bottom-banner-now {
+  padding-bottom: calc(11.1rem + env(safe-area-inset-bottom));
+}
+
+.now-bar {
+  bottom: calc(4.7rem + env(safe-area-inset-bottom));
+}
+
+.now-bar-lift {
+  bottom: calc(7.6rem + env(safe-area-inset-bottom));
+}
+
 .safe-top {
   padding-top: calc(2.15rem + env(safe-area-inset-top));
 }

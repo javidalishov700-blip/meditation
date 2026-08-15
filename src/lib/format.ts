@@ -1,4 +1,4 @@
-import type { LocaleId } from './locales'
+import { localeMeta, type LocaleId } from './locales'
 import { translate } from './strings'
 
 export function formatDuration(seconds: number, locale: LocaleId = 'en'): string {
@@ -10,8 +10,7 @@ export function formatDuration(seconds: number, locale: LocaleId = 'en'): string
 }
 
 export function formatClock(ts: number, locale: LocaleId = 'en'): string {
-  const bcp =
-    locale === 'zh' ? 'zh-CN' : locale === 'az' ? 'az-AZ' : `${locale}-${locale.toUpperCase()}`
+  const bcp = localeMeta(locale).bcp47
   return new Date(ts).toLocaleString(bcp, {
     day: 'numeric',
     month: 'short',

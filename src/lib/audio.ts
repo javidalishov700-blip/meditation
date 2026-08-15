@@ -1,3 +1,4 @@
+import { R, type LocaleId } from './locales'
 import type { NatureScene, Tone } from './types'
 
 export const TONES: Tone[] = [
@@ -17,13 +18,122 @@ export const TONES: Tone[] = [
 ]
 
 export const NATURE_SCENES: NatureScene[] = [
-  { id: 'rain', title: 'Yağmur camı', subtitle: 'Camdaki damla ve uzak gök' },
-  { id: 'ocean', title: 'Gece koyu', subtitle: 'Yavaş dalga, çakıl, tuz' },
-  { id: 'forest', title: 'Çam altı', subtitle: 'Yaprak, uzak kuş, rüzgâr' },
-  { id: 'fire', title: 'Köz', subtitle: 'Çıtırtı ve alçak ısı' },
-  { id: 'wind', title: 'Bozkır rüzgârı', subtitle: 'Geniş, boş, yavaş' },
-  { id: 'night', title: 'Kır gecesi', subtitle: 'Cırcır ve uzak ova' },
+  {
+    id: 'rain',
+    title: 'Yağmur camı',
+    subtitle: 'Camdaki damla ve uzak gök',
+    names: R('Yağmur camı|Rain on glass|Lluvia en el cristal|Pluie sur la vitre|Regen am Glas|Pioggia sul vetro'),
+    blurbs: R('Camdaki damla ve uzak gök|Drops on glass, distant sky|Gotas en el cristal|Gouttes sur la vitre|Tropfen am Glas|Gocce sul vetro'),
+  },
+  {
+    id: 'ocean',
+    title: 'Gece koyu',
+    subtitle: 'Yavaş dalga, çakıl, tuz',
+    names: R('Gece koyu|Night cove|Cala nocturna|Anse de nuit|Nachtbucht|Cala notturna'),
+    blurbs: R('Yavaş dalga, çakıl, tuz|Slow wave, pebble, salt|Ola lenta, guijarro, sal|Vague lente, galet, sel|Langsame Welle, Kiesel, Salz|Onda lenta, ciottolo, sale'),
+  },
+  {
+    id: 'forest',
+    title: 'Çam altı',
+    subtitle: 'Yaprak, uzak kuş, rüzgâr',
+    names: R('Çam altı|Under the pines|Bajo los pinos|Sous les pins|Unter den Kiefern|Sotto i pini'),
+    blurbs: R('Yaprak, uzak kuş, rüzgâr|Leaves, distant bird, wind|Hojas, pájaro lejano, viento|Feuilles, oiseau lointain, vent|Blätter, ferner Vogel, Wind|Foglie, uccello lontano, vento'),
+  },
+  {
+    id: 'fire',
+    title: 'Köz',
+    subtitle: 'Çıtırtı ve alçak ısı',
+    names: R('Köz|Embers|Brasas|Braises|Glut|Braci'),
+    blurbs: R('Çıtırtı ve alçak ısı|Crackling and low heat|Crepitar y calor bajo|Crépitement et chaleur basse|Knistern und niedrige Wärme|Scoppiettio e calore basso'),
+  },
+  {
+    id: 'wind',
+    title: 'Bozkır rüzgârı',
+    subtitle: 'Geniş, boş, yavaş',
+    names: R('Bozkır rüzgârı|Steppe wind|Viento de estepa|Vent de steppe|Steppenwind|Vento di steppa'),
+    blurbs: R('Geniş, boş, yavaş|Wide, empty, slow|Amplio, vacío, lento|Large, vide, lent|Weit, leer, langsam|Ampio, vuoto, lento'),
+  },
+  {
+    id: 'night',
+    title: 'Kır gecesi',
+    subtitle: 'Cırcır ve uzak ova',
+    names: R('Kır gecesi|Country night|Noche de campo|Nuit des champs|Landnacht|Notte di campagna'),
+    blurbs: R('Cırcır ve uzak ova|Crickets and a far field|Grillos y campo lejano|Grillons et plaine lointaine|Grillen und fernes Feld|Grilli e campo lontano'),
+  },
+  {
+    id: 'storm',
+    title: 'Gök gürültüsü',
+    subtitle: 'Uzak gürleme, yağmur',
+    names: R('Gök gürültüsü|Thunder|Trueno|Tonnerre|Donner|Tuono'),
+    blurbs: R('Uzak gürleme, yağmur|Distant rumble, rain|Rumores lejanos, lluvia|Rumeur lointaine, pluie|Fernes Grollen, Regen|Rombo lontano, pioggia'),
+  },
+  {
+    id: 'river',
+    title: 'Dere',
+    subtitle: 'Taş, su, sürekli akış',
+    names: R('Dere|Stream|Arroyo|Ruisseau|Bach|Ruscello'),
+    blurbs: R('Taş, su, sürekli akış|Stone, water, steady flow|Piedra, agua, flujo constante|Pierre, eau, flux continu|Stein, Wasser, stetiger Fluss|Pietra, acqua, flusso costante'),
+  },
+  {
+    id: 'birds',
+    title: 'Sabah kuşları',
+    subtitle: 'Uzak ötüş, yaprak',
+    names: R('Sabah kuşları|Morning birds|Pájaros de mañana|Oiseaux du matin|Morgenvögel|Uccelli del mattino'),
+    blurbs: R('Uzak ötüş, yaprak|Distant song, leaves|Canto lejano, hojas|Chant lointain, feuilles|Ferner Gesang, Blätter|Canto lontano, foglie'),
+  },
+  {
+    id: 'cafe',
+    title: 'Sessiz kafe',
+    subtitle: 'Uzak mırıltı, fincan',
+    names: R('Sessiz kafe|Quiet cafe|Café silencioso|Café calme|Stilles Café|Caffè quieto'),
+    blurbs: R('Uzak mırıltı, fincan|Distant murmur, cup|Murmullo lejano, taza|Murmure lointain, tasse|Fernes Gemurmel, Tasse|Mormorio lontano, tazza'),
+  },
+  {
+    id: 'snow',
+    title: 'Kar',
+    subtitle: 'Yumuşak, yüksek, boş',
+    names: R('Kar|Snow|Nieve|Neige|Schnee|Neve'),
+    blurbs: R('Yumuşak, yüksek, boş|Soft, high, empty|Suave, alto, vacío|Doux, aigu, vide|Weich, hoch, leer|Morbido, acuto, vuoto'),
+  },
+  {
+    id: 'bowl',
+    title: 'Çan kâsesi',
+    subtitle: 'Tek ton, yavaş sönüş',
+    names: R('Çan kâsesi|Singing bowl|Cuenco tibetano|Bol chantant|Klangschale|Campana tibetana'),
+    blurbs: R('Tek ton, yavaş sönüş|One tone, slow fade|Un tono, desvanecer lento|Un ton, fade lent|Ein Ton, langsames Ausklingen|Un tono, fade lento'),
+  },
+  {
+    id: 'fan',
+    title: 'Vantilatör',
+    subtitle: 'Düz, kapalı oda',
+    names: R('Vantilatör|Fan|Ventilador|Ventilateur|Ventilator|Ventilatore'),
+    blurbs: R('Düz, kapalı oda|Flat, closed room|Plano, habitación cerrada|Plat, pièce fermée|Flach, geschlossener Raum|Piatto, stanza chiusa'),
+  },
+  {
+    id: 'waves',
+    title: 'Açık deniz',
+    subtitle: 'Daha büyük dalga',
+    names: R('Açık deniz|Open sea|Mar abierto|Mer ouverte|Offenes Meer|Mare aperto'),
+    blurbs: R('Daha büyük dalga|A larger wave|Una ola más grande|Une vague plus large|Eine größere Welle|Un’onda più grande'),
+  },
+  {
+    id: 'piano',
+    title: 'Gece piyanosu',
+    subtitle: 'Seyrek nota, pad',
+    names: R('Gece piyanosu|Night piano|Piano nocturno|Piano de nuit|Nachtklavier|Pianoforte notturno'),
+    blurbs: R('Seyrek nota, pad|Sparse notes, pad|Notas escasas, fondo|Notes rares, nappe|Spärliche Töne, Pad|Note rade, pad'),
+  },
 ]
+
+export function sceneName(id: string, locale: LocaleId): string {
+  const scene = NATURE_SCENES.find((s) => s.id === id)
+  return scene?.names[locale] || scene?.title || id
+}
+
+export function sceneBlurb(id: string, locale: LocaleId): string {
+  const scene = NATURE_SCENES.find((s) => s.id === id)
+  return scene?.blurbs[locale] || scene?.subtitle || ''
+}
 
 export const TIMER_MINUTES = [15, 30, 45, 60] as const
 
@@ -98,7 +208,28 @@ export class AudioEngine {
   private epoch = 0
   playing = false
   label = ''
+  route = ''
+  id = ''
+  kind = ''
+  now = { playing: false, label: '', route: '', id: '', kind: '' }
   private restGain = 0.55
+  private listeners = new Set<() => void>()
+
+  subscribe(fn: () => void) {
+    this.listeners.add(fn)
+    return () => this.listeners.delete(fn)
+  }
+
+  private emit() {
+    this.now = {
+      playing: this.playing,
+      label: this.label,
+      route: this.route,
+      id: this.id,
+      kind: this.kind,
+    }
+    this.listeners.forEach((fn) => fn())
+  }
 
   async ensure(): Promise<AudioContext> {
     if (!this.ctx) {
@@ -213,6 +344,10 @@ export class AudioEngine {
     this.stops = []
     this.playing = false
     this.label = ''
+    this.route = ''
+    this.id = ''
+    this.kind = ''
+    this.emit()
     window.setTimeout(() => {
       handles.forEach((h) => h())
       if (this.epoch === epoch && this.master && ctx) {
@@ -221,16 +356,25 @@ export class AudioEngine {
     }, fade * 1000 + 40)
   }
 
-  private beginPlay(label: string, targetGain: number, fadeIn: number) {
+  private beginPlay(
+    label: string,
+    targetGain: number,
+    fadeIn: number,
+    extra?: { route?: string; id?: string; kind?: string },
+  ) {
     this.epoch += 1
     this.playing = true
     this.label = label
+    this.route = extra?.route ?? ''
+    this.id = extra?.id ?? ''
+    this.kind = extra?.kind ?? ''
     this.restGain = targetGain
     if (!this.ctx || !this.master) return
     const now = this.ctx.currentTime
     this.master.gain.cancelScheduledValues(now)
     this.master.gain.setValueAtTime(0.0001, now)
     this.fadeMaster(targetGain, fadeIn)
+    this.emit()
   }
 
   duck(on: boolean) {
@@ -250,7 +394,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.05)
     await this.ensure()
-    this.beginPlay('SOS', 0.5, 1.4)
+    this.beginPlay('SOS', 0.5, 1.4, { route: '/sos', id: 'sos', kind: 'sos' })
     this.startSpace(ctx, 0.22)
     this.warmPad(ctx, [87, 174], 0.03)
 
@@ -294,11 +438,11 @@ export class AudioEngine {
     })
   }
 
-  async playTone(hz: number, label: string) {
+  async playTone(hz: number, label: string, id = String(hz)) {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.beginPlay(label, 0.58, 1.8)
+    this.beginPlay(label, 0.58, 1.8, { route: `/session/tone/${id}`, id, kind: 'tone' })
     this.startSpace(ctx, 0.4)
     this.warmPad(ctx, [hz / 2, hz, hz * 1.5], 0.045)
 
@@ -347,7 +491,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.beginPlay('Onboard', 0.4, 3.2)
+    this.beginPlay('Onboard', 0.4, 3.2, { kind: 'onboard' })
     this.startSpace(ctx, 0.58)
     this.warmPad(ctx, [98, 146.83, 196, 246.94], 0.038)
 
@@ -401,7 +545,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.beginPlay('Yatak', 0.52, 2.6)
+    this.beginPlay('Yatak', 0.52, 2.6, { kind: 'pad' })
     this.startSpace(ctx, 0.48)
     this.warmPad(ctx, [110, 164.81, 220, 329.63], 0.05)
     const brown = loopNoise(ctx, 'brown', 6, 2)
@@ -432,7 +576,11 @@ export class AudioEngine {
     this.stop(0.08)
     await this.ensure()
     const scene = NATURE_SCENES.find((s) => s.id === id)
-    this.beginPlay(scene?.title ?? 'Doğa', 0.62, 2)
+    this.beginPlay(scene?.title ?? 'Doğa', 0.62, 2, {
+      route: `/session/nature/${id}`,
+      id,
+      kind: 'nature',
+    })
     this.startSpace(ctx, 0.36)
 
     if (id === 'rain') this.rain(ctx)
@@ -440,6 +588,15 @@ export class AudioEngine {
     else if (id === 'forest') this.forest(ctx)
     else if (id === 'fire') this.fire(ctx)
     else if (id === 'wind') this.wind(ctx)
+    else if (id === 'storm') this.storm(ctx)
+    else if (id === 'river') this.river(ctx)
+    else if (id === 'birds') this.birds(ctx)
+    else if (id === 'cafe') this.cafe(ctx)
+    else if (id === 'snow') this.snow(ctx)
+    else if (id === 'bowl') this.bowl(ctx)
+    else if (id === 'fan') this.fan(ctx)
+    else if (id === 'waves') this.waves(ctx)
+    else if (id === 'piano') this.piano(ctx)
     else this.night(ctx)
   }
 
@@ -688,6 +845,259 @@ export class AudioEngine {
       o.stop(ctx.currentTime + 0.05)
     }
     const id = window.setInterval(cricket, 260)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private storm(ctx: AudioContext) {
+    this.rain(ctx)
+    const rumble = loopNoise(ctx, 'brown', 6, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 90
+    const g = ctx.createGain()
+    g.gain.value = 0.12
+    rumble.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.35)
+    rumble.start()
+    this.track(() => {
+      try {
+        rumble.stop()
+        rumble.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+    const crack = () => {
+      if (!this.playing || !this.ctx) return
+      const n = loopNoise(ctx, 'white', 0.35, 2)
+      const hp = ctx.createBiquadFilter()
+      hp.type = 'highpass'
+      hp.frequency.value = 900
+      const cg = ctx.createGain()
+      const now = ctx.currentTime
+      cg.gain.setValueAtTime(0.0001, now)
+      cg.gain.linearRampToValueAtTime(0.16, now + 0.04)
+      cg.gain.exponentialRampToValueAtTime(0.0001, now + 0.55)
+      n.connect(hp)
+      hp.connect(cg)
+      this.out(cg, 0.7, 0.5)
+      n.start()
+      n.stop(now + 0.6)
+    }
+    const id = window.setInterval(crack, 7200)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private river(ctx: AudioContext) {
+    this.warmPad(ctx, [98, 147], 0.02)
+    const src = loopNoise(ctx, 'pink', 4, 2)
+    const bp = ctx.createBiquadFilter()
+    bp.type = 'bandpass'
+    bp.frequency.value = 620
+    bp.Q.value = 0.55
+    const g = ctx.createGain()
+    g.gain.value = 0.22
+    src.connect(bp)
+    bp.connect(g)
+    this.out(g, 0.9, 0.5)
+    src.start()
+    this.lfo(ctx, g.gain, 0.09, 0.05, 0.22)
+    this.lfo(ctx, bp.frequency, 0.07, 80, 640)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        bp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private birds(ctx: AudioContext) {
+    this.forest(ctx)
+    const chirp = () => {
+      if (!this.playing || !this.ctx) return
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      const start = 1800 + Math.random() * 1400
+      o.frequency.setValueAtTime(start, ctx.currentTime)
+      o.frequency.exponentialRampToValueAtTime(start * (1.1 + Math.random() * 0.2), ctx.currentTime + 0.18)
+      const cg = ctx.createGain()
+      cg.gain.setValueAtTime(0.0001, ctx.currentTime)
+      cg.gain.linearRampToValueAtTime(0.035, ctx.currentTime + 0.04)
+      cg.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22)
+      o.connect(cg)
+      this.out(cg, 0.45, 0.85)
+      o.start()
+      o.stop(ctx.currentTime + 0.24)
+    }
+    const id = window.setInterval(chirp, 1600)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private cafe(ctx: AudioContext) {
+    this.warmPad(ctx, [110, 165], 0.018)
+    const src = loopNoise(ctx, 'brown', 5, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 380
+    const g = ctx.createGain()
+    g.gain.value = 0.16
+    src.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.4)
+    src.start()
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+    const clink = () => {
+      if (!this.playing || !this.ctx) return
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = 1200 + Math.random() * 800
+      const cg = ctx.createGain()
+      cg.gain.setValueAtTime(0.03, ctx.currentTime)
+      cg.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.2)
+      o.connect(cg)
+      this.out(cg, 0.5, 0.6)
+      o.start()
+      o.stop(ctx.currentTime + 0.22)
+    }
+    const id = window.setInterval(clink, 3400)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private snow(ctx: AudioContext) {
+    this.warmPad(ctx, [196, 247], 0.03)
+    const src = loopNoise(ctx, 'white', 4, 2)
+    const hp = ctx.createBiquadFilter()
+    hp.type = 'highpass'
+    hp.frequency.value = 1800
+    const g = ctx.createGain()
+    g.gain.value = 0.06
+    src.connect(hp)
+    hp.connect(g)
+    this.out(g, 0.7, 0.55)
+    src.start()
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        hp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private bowl(ctx: AudioContext) {
+    const strike = () => {
+      if (!this.playing || !this.ctx) return
+      const now = ctx.currentTime
+      for (const f of [256, 384, 512]) {
+        const o = ctx.createOscillator()
+        o.type = 'sine'
+        o.frequency.value = f
+        const g = ctx.createGain()
+        g.gain.setValueAtTime(0.0001, now)
+        g.gain.linearRampToValueAtTime(0.07, now + 0.08)
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 6.5)
+        o.connect(g)
+        this.out(g, 0.55, 0.95)
+        o.start(now)
+        o.stop(now + 6.8)
+      }
+    }
+    strike()
+    const id = window.setInterval(strike, 7800)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private fan(ctx: AudioContext) {
+    const src = loopNoise(ctx, 'brown', 4, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 220
+    const g = ctx.createGain()
+    g.gain.value = 0.24
+    src.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.15)
+    src.start()
+    this.lfo(ctx, g.gain, 0.18, 0.02, 0.24)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private waves(ctx: AudioContext) {
+    this.ocean(ctx)
+    const src = loopNoise(ctx, 'brown', 7, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 280
+    const g = ctx.createGain()
+    g.gain.value = 0.18
+    src.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.55)
+    src.start()
+    this.lfo(ctx, g.gain, 0.035, 0.12, 0.18)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private piano(ctx: AudioContext) {
+    this.warmPad(ctx, [110, 165, 220], 0.04)
+    const notes = [220, 246.94, 261.63, 329.63, 392, 329.63, 261.63, 220]
+    let i = 0
+    const play = () => {
+      if (!this.playing || !this.ctx) return
+      const f = notes[i % notes.length]!
+      i += 1
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      const g = ctx.createGain()
+      const now = ctx.currentTime
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.05, now + 0.12)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 2.8)
+      o.connect(g)
+      this.out(g, 0.5, 0.9)
+      o.start(now)
+      o.stop(now + 3)
+    }
+    play()
+    const id = window.setInterval(play, 3200)
     this.track(() => window.clearInterval(id))
   }
 }
