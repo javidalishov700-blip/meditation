@@ -223,7 +223,7 @@ async function waitWhilePaused() {
   })
 }
 
-const VOICE_CACHE = 'steady-voice-v4'
+const VOICE_CACHE = 'steady-voice-v5'
 type VoiceManifest = { clips?: Record<string, string> }
 
 let manifestWait: Promise<Record<string, string[]>> | null = null
@@ -423,7 +423,7 @@ async function readManifestRes(res: Response | null) {
 
 async function fetchManifestJson(root: string) {
   const cache = await cacheStore()
-  const urls = [`${root}manifest.json?v=4`, `${root}manifest.json`]
+  const urls = [`${root}manifest.json?v=5`, `${root}manifest.json`]
   if (canHitNetwork(urls[0]!)) {
     for (const url of urls) {
       try {

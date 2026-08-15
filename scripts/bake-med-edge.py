@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Bake meditation MP3s with Microsoft Edge neural voices (no OpenAI)."""
+"""Bake meditation MP3s with Microsoft Edge neural voices (no OpenAI).
+
+Never pass SSML as the utterance. Edge reads tags aloud
+("version 1.0", "minus 12 percent", "minus 2 hertz") when Communicate()
+is given a <speak> string. Rate and pitch go in the constructor kwargs.
+"""
 from __future__ import annotations
 
 import asyncio
@@ -7,7 +12,7 @@ import hashlib
 import json
 import subprocess
 import sys
-import xml.sax.saxutils as sax
+from datetime import datetime, timezone
 from pathlib import Path
 
 import edge_tts
@@ -23,42 +28,35 @@ VOICES = {
     "ru": "ru-RU-SvetlanaNeural",
     "es": "es-ES-ElviraNeural",
 }
-LANG = {
-    "en": "en-US",
-    "tr": "tr-TR",
-    "az": "az-AZ",
-    "ru": "ru-RU",
-    "es": "es-ES",
-}
 RATE = "-12%"
 PITCH = "-2Hz"
+# Hash prefix must change if we ever spoke SSML, so old tagged files are not reused.
+HASH_MARK = "edge-plain"
 
 
 def hash_name(locale: str, clip_id: str, text: str) -> str:
-    raw = f"edge-tts|{VOICES.get(locale, '')}|{RATE}|{locale}|{clip_id}|{text}"
+    raw = f"{HASH_MARK}|{VOICES.get(locale, '')}|{RATE}|{PITCH}|{locale}|{clip_id}|{text}"
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
 
 
-def to_ssml(locale: str, text: str) -> str:
-    voice = VOICES[locale]
-    lang = LANG[locale]
+def spoken_text(text: str) -> str:
+    """Keep paragraph breaks; never wrap in SSML."""
     parts = [p.strip() for p in text.replace("\r\n", "\n").split("\n\n") if p.strip()]
-    body = '<break time="900ms"/>'.join(sax.escape(p) for p in parts)
-    return (
-        f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="{lang}">'
-        f'<voice name="{voice}"><prosody rate="{RATE}" pitch="{PITCH}">{body}</prosody></voice>'
-        f"</speak>"
-    )
+    return "\n\n".join(parts)
 
 
 async def bake_one(locale: str, clip_id: str, text: str, dest: Path) -> None:
     voice = VOICES[locale]
-    ssml = to_ssml(locale, text)
+    line = spoken_text(text)
+    if not line:
+        raise RuntimeError("empty text")
+    if "<speak" in line.lower() or "<prosody" in line.lower():
+        raise RuntimeError("refusing SSML in meditation text")
     last = None
     tmp = dest.with_suffix(".raw.mp3")
     for attempt in range(5):
         try:
-            comm = edge_tts.Communicate(ssml, voice)
+            comm = edge_tts.Communicate(line, voice, rate=RATE, pitch=PITCH)
             await comm.save(str(tmp))
             if tmp.stat().st_size < 800:
                 raise RuntimeError("tiny mp3")
@@ -127,6 +125,10 @@ async def main() -> int:
     clips = [c for c in clips if c.get("locale") in VOICES and (c.get("text") or "").strip()]
     q: asyncio.Queue = asyncio.Queue()
     planned: list[tuple[str, str]] = []
+    old_med: set[str] = set()
+    for key, rel in (manifest.get("clips") or {}).items():
+        if ":med:" in key:
+            old_med.add(rel)
     for c in clips:
         locale = c["locale"]
         clip_id = c["id"]
@@ -147,13 +149,21 @@ async def main() -> int:
     await q.join()
     await asyncio.gather(*workers)
 
+    kept: set[str] = set()
     for key, rel in planned:
         path = ROOT / "public" / "voice" / rel
         if path.exists() and path.stat().st_size > 800:
             manifest["clips"][key] = rel
-    from datetime import datetime, timezone
+            kept.add(rel)
+
+    for rel in old_med - kept:
+        stale = ROOT / "public" / "voice" / rel
+        if stale.exists():
+            stale.unlink()
+            print(f"drop {rel}", flush=True)
 
     manifest["updated"] = datetime.now(timezone.utc).isoformat()
+    manifest["medVoice"] = "edge-plain"
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"done new={made[0]} cached={skipped[0]} failed={len(failed)} med={len(planned)}")
     for line in failed:

@@ -71,7 +71,7 @@ export default defineConfig(({ mode }) => {
                 url.pathname.includes('/voice/') || Boolean(voiceHost && url.href.startsWith(voiceHost)),
               handler: 'CacheFirst',
               options: {
-                cacheName: 'steady-voice-v4',
+                cacheName: 'steady-voice-v5',
                 expiration: {
                   maxEntries: 800,
                   maxAgeSeconds: 60 * 60 * 24 * 400,
