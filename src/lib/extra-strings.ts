@@ -149,4 +149,9 @@ export const EXTRA = {
   skill_courage: R('Cesaret|Courage|Coraje|Courage|Mut|Coraggio'),
   skill_locked: R('Göstermeye devam et.|Keep showing up.|Sigue apareciendo.|Continue à te montrer.|Weiter erscheinen.|Continua a presentarti.'),
   breath_rail: R('Nefes egzersizleri|Breath exercises|Ejercicios de respiración|Exercices de souffle|Atemübungen|Esercizi di respiro'),
+  med_pct: R('{n}% tamamlandı|{n}% complete|{n}% completado|{n}% terminé|{n}% fertig|{n}% completato'),
+  med_step: R('{n}. seans|Session {n}|Sesión {n}|Séance {n}|Sitzung {n}|Sessione {n}'),
+  med_locked: R('Önceki seansı bitir|Finish the previous session|Termina la sesión anterior|Termine la séance précédente|Vorherige Sitzung beenden|Termina la sessione precedente'),
+  med_done: R('Tamamlandı|Done|Hecho|Terminé|Fertig|Fatto'),
+  med_tap: R('Dokun: süre|Tap: time|Toca: tiempo|Toucher : temps|Tippen: Zeit|Tocca: tempo'),
 } as const

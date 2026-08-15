@@ -91,3 +91,19 @@ export type Tone = {
   subtitle: string
   trialSeconds?: number
 }
+
+export type MedStep = {
+  id: string
+  title: string
+  minutes: number
+  bed: string
+  body: string
+}
+
+export type MedPath = {
+  id: string
+  title: string
+  subtitle: string
+  free?: boolean
+  steps: MedStep[]
+}

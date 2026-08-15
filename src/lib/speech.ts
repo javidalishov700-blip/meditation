@@ -16,6 +16,7 @@ type SpeakOpts = {
   pitch?: number
   lang?: string
   mode?: ReadMode
+  fillMs?: number
   onend?: () => void
 }
 
@@ -206,6 +207,23 @@ function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
   return out
 }
 
+function estimateMs(parts: Phrase[], rate: number): number {
+  const cps = Math.max(8, 14 * rate)
+  return parts.reduce((n, p) => n + (p.text.length / cps) * 1000 + p.pause, 0)
+}
+
+function stretchTo(parts: Phrase[], targetMs: number, rate: number): Phrase[] {
+  const est = estimateMs(parts, rate)
+  const extra = targetMs - est - 5000
+  if (extra <= 0 || !parts.length) return parts
+  const heavy = parts.map((p, i) => ({ i, p })).filter((x) => x.p.pause >= 800)
+  const slots = heavy.length ? heavy : parts.map((p, i) => ({ i, p }))
+  const each = extra / slots.length
+  return parts.map((p, i) =>
+    slots.some((s) => s.i === i) ? { ...p, pause: Math.round(p.pause + each) } : p,
+  )
+}
+
 function wait(ms: number) {
   return new Promise<void>((resolve) => {
     window.setTimeout(resolve, ms)
@@ -274,13 +292,15 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
   const bcp = resolveLang(opts.lang)
   const prefix = langPrefix(bcp)
   const mode = opts.mode ?? readReadMode()
-  const parts = phrases(text, prefix, mode)
+  let parts = phrases(text, prefix, mode)
   if (!parts.length) {
     opts.onend?.()
     return
   }
   const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : mode === 'calm' ? 0.93 : 1)
   const basePitch = opts.pitch ?? (mode === 'calm' ? 0.97 : 1)
+  if (opts.fillMs) parts = stretchTo(parts, opts.fillMs, baseRate)
+  const started = Date.now()
   let i = 0
   audio.hushForVoice()
   refreshVoices()
@@ -298,6 +318,11 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
   const next = () => {
     if (cancelled || gen !== speakGen) return
     if (i >= parts.length) {
+      const rest = opts.fillMs ? Math.max(0, opts.fillMs - (Date.now() - started)) : 0
+      if (rest > 80) {
+        void wait(rest).then(finish)
+        return
+      }
       finish()
       return
     }

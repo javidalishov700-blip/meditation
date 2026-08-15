@@ -1,7 +1,7 @@
 import { NATURE_SCENES, TONES } from './audio'
 import { packRecord, packTitle } from './copy'
 import { R, type LocaleId } from './locales'
-import { breaths, extras, meditations, sleepLab, stories, writings } from './library'
+import { breaths, extras, meditations, pathMinutes, sleepLab, stories, writings } from './library'
 import { quotes } from './quotes'
 import { canAccess } from './entitlement'
 import type { SessionKind } from './types'
@@ -64,43 +64,33 @@ export const ITEMS: CatalogItem[] = [
     group: 'sleep',
   },
   {
-    id: 'med-body',
+    id: 'med-first',
     kind: 'meditation',
-    to: '/session/meditation/body-drop',
-    title: R('Beden bırakışı|Body release|Bədən buraxılışı|Отпускание тела|Soltar el cuerpo|Lâcher le corps|Körper loslassen|Rilascio del corpo|Soltar o corpo|إفلات الجسد|Lichaam loslaten|Puszczenie ciała|Відпускання тіла|体を手放す|رها کردن بدن|放下身体'),
+    to: '/session/meditation/first',
+    title: R('İlk adım|First step|Primer paso|Premier pas|Erster Schritt|Primo passo'),
     cover: `${C}/cover-palms.png`,
-    minutes: 12,
+    minutes: 18,
     badge: 'journey',
     group: 'start',
   },
   {
     id: 'med-room',
     kind: 'meditation',
-    to: '/session/meditation/known-room',
-    title: R('Bilinen oda|Known room|Tanış otaq|Знакомая комната|Habitación conocida|Pièce connue|Bekannter Raum|Stanza nota|Quarto conhecido|غرفة مألوفة|Bekende kamer|Znany pokój|Знайома кімната|知っている部屋|اتاق آشنا|熟悉的房间'),
+    to: '/session/meditation/room',
+    title: R('Bilinen oda|Known room|Habitación conocida|Pièce connue|Bekannter Raum|Stanza nota'),
     cover: `${C}/cover-forest.png`,
-    minutes: 12,
+    minutes: 18,
     badge: 'program',
     group: 'start',
   },
   {
     id: 'med-shore',
     kind: 'meditation',
-    to: '/session/meditation/shore-sit',
-    title: R('Kıyıda oturuş|Sitting on the shore|Sahildə oturuş|Сидя на берегу|Sentado en la orilla|Assis sur le rivage|Am Ufer sitzen|Seduto sulla riva|Sentado na margem|جلوس على الشاطئ|Zitten aan de oever|Siedzenie na brzegu|Сидіння на березі|岸に座る|نشستن در ساحل|坐在岸边'),
+    to: '/session/meditation/shore',
+    title: R('Kıyıda|On the shore|En la orilla|Sur le rivage|Am Ufer|Sulla riva'),
     cover: `${C}/cover-lake.png`,
-    minutes: 12,
+    minutes: 18,
     badge: 'journey',
-    group: 'viz',
-  },
-  {
-    id: 'med-window',
-    kind: 'meditation',
-    to: '/session/meditation/window-light',
-    title: R('Pencere ışığı|Window light|Pəncərə işığı|Свет из окна|Luz de la ventana|Lumière de fenêtre|Fensterlicht|Luce della finestra|Luz da janela|ضوء النافذة|Raamlicht|Światło okna|Світло вікна|窓の光|نور پنجره|窗光'),
-    cover: `${C}/cover-clouds.png`,
-    minutes: 10,
-    badge: 'program',
     group: 'viz',
   },
   {
@@ -504,26 +494,6 @@ export const ITEMS: CatalogItem[] = [
     group: 'sleep',
   },
   {
-    id: 'med-stone',
-    kind: 'meditation',
-    to: '/session/meditation/warm-stone',
-    title: R('Avuçta taş|Stone in the palm|Piedra en la palma|Pierre dans la paume|Stein in der Handfläche|Pietra nel palmo'),
-    cover: `${C}/cover-mountain.png`,
-    minutes: 10,
-    badge: 'journey',
-    group: 'start',
-  },
-  {
-    id: 'med-feet',
-    kind: 'meditation',
-    to: '/session/meditation/feet-press',
-    title: R('Taban basışı|Feet press|Presión de plantas|Pression des plantes|Sohlendruck|Pressione delle piante'),
-    cover: `${C}/cover-forest.png`,
-    minutes: 10,
-    badge: 'journey',
-    group: 'start',
-  },
-  {
     id: 'write-colors',
     kind: 'writing',
     to: '/session/writing/three-colors',
@@ -724,16 +694,6 @@ export const ITEMS: CatalogItem[] = [
     group: 'daily',
   },
   {
-    id: 'med-seed',
-    kind: 'meditation',
-    to: '/session/meditation/seed-only',
-    title: R('Yalnız tohum|Seed only|Sólo semilla|Graine seule|Nur Samen|Solo seme'),
-    cover: `${C}/cover-moon.png`,
-    minutes: 8,
-    badge: 'sleep',
-    group: 'viz',
-  },
-  {
     id: 'extra-ground',
     kind: 'extra',
     to: '/session/extra/ground54321',
@@ -860,7 +820,9 @@ const UNIQUE_COVER: Record<string, string> = {
   'breath-sigh': `${C}/cover-sigh.png`,
   'breath-equal': `${C}/cover-equal.png`,
   'breath-count8': `${C}/cover-count8.png`,
-  'med-seed': `${C}/cover-seed.png`,
+  'med-first': `${C}/cover-palms.png`,
+  'med-room': `${C}/cover-forest.png`,
+  'med-shore': `${C}/cover-lake.png`,
 }
 
 for (const item of ITEMS) {
@@ -909,7 +871,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       to: `/session/meditation/${s.id}`,
       title: packRecord(s.id, s.title),
       cover: `${C}/cover-forest.png`,
-      minutes: s.minutes,
+      minutes: pathMinutes(s),
       badge: 'journey' as const,
       group: 'start' as const,
     })),
@@ -1014,11 +976,11 @@ export const TONIGHT_IDS = [
 ] as const
 
 export const FOR_YOU_IDS: Record<string, string[]> = {
-  calm: ['nat-forest', 'nat-bowl', 'nat-piano', 'med-body', 'story-bath', 'extra-sound'],
-  tense: ['breath-wave', 'extra-objects', 'nat-rain', 'nat-ocean', 'med-feet', 'write-wave'],
+  calm: ['nat-forest', 'nat-bowl', 'nat-piano', 'med-first', 'story-bath', 'extra-sound'],
+  tense: ['breath-wave', 'extra-objects', 'nat-rain', 'nat-ocean', 'med-first', 'write-wave'],
   sleepless: ['story-lighthouse', 'story-harbor', 'nat-night', 'nat-snow', 'lab-1', 'story-attic'],
   wave: ['nat-waves', 'nat-ocean', 'write-wave', 'breath-wave', 'breath-count8', 'story-coral'],
-  distant: ['med-room', 'extra-objects', 'nat-forest', 'nat-cafe', 'med-feet', 'write-colors'],
+  distant: ['med-room', 'extra-objects', 'nat-forest', 'nat-cafe', 'med-first', 'write-colors'],
 }
 
 export function itemsById(ids: string[]): CatalogItem[] {
@@ -1034,12 +996,9 @@ const COPY_BY_CATALOG: Record<string, string> = {
   'story-attic': 'attic',
   'story-coral': 'coral',
   'story-library': 'library',
-  'med-body': 'body-drop',
-  'med-room': 'known-room',
-  'med-shore': 'shore-sit',
-  'med-window': 'window-light',
-  'med-stone': 'warm-stone',
-  'med-feet': 'feet-press',
+  'med-first': 'first',
+  'med-room': 'room',
+  'med-shore': 'shore',
   'lab-1': 'lab-1',
   'breath-wave': 'wave',
   'breath-equal': 'equal',
@@ -1063,7 +1022,6 @@ const COPY_BY_CATALOG: Record<string, string> = {
   'guide-hour': 'first-hour',
   'guide-sleep': 'about-sleep',
   'cast-table': 'night-table',
-  'med-seed': 'seed-only',
   'extra-ground': 'ground54321',
   'extra-kind': 'kind-friend',
   'extra-tension': 'tension-drop',
@@ -1078,36 +1036,36 @@ export function itemTitle(item: CatalogItem, locale: LocaleId): string {
 export function nowIds(mood: MoodId | null, hour: number): string[] {
   const night = hour >= 21 || hour < 6
   if (mood === 'tense' || mood === 'wave') {
-    return ['extra-objects', 'breath-wave', 'med-feet', 'write-wave', 'nat-rain', 'story-lighthouse', 'write-colors', 'nat-ocean']
+    return ['extra-objects', 'breath-wave', 'med-first', 'write-wave', 'nat-rain', 'story-lighthouse', 'write-colors', 'nat-ocean']
   }
   if (mood === 'sleepless' || night) {
-    return ['story-lighthouse', 'story-harbor', 'story-attic', 'nat-night', 'nat-rain', 'lab-1', 'nat-piano', 'med-stone']
+    return ['story-lighthouse', 'story-harbor', 'story-attic', 'nat-night', 'nat-rain', 'lab-1', 'nat-piano', 'med-shore']
   }
   if (mood === 'distant') {
-    return ['extra-objects', 'med-room', 'med-feet', 'nat-forest', 'story-bath', 'write-colors', 'nat-cafe', 'med-window']
+    return ['extra-objects', 'med-room', 'med-first', 'nat-forest', 'story-bath', 'write-colors', 'nat-cafe', 'med-shore']
   }
-  return ['story-lighthouse', 'breath-wave', 'med-body', 'extra-objects', 'story-harbor', 'write-colors', 'med-feet', 'nat-rain']
+  return ['story-lighthouse', 'breath-wave', 'med-first', 'extra-objects', 'story-harbor', 'write-colors', 'med-shore', 'nat-rain']
 }
 
 export const SOUND_RAIL_IDS = ['nat-rain', 'nat-drone', 'nat-bowl', 'nat-ocean', 'nat-swell', 'nat-forest', 'nat-ohm', 'nat-piano'] as const
 
 export const EXPLORE_TAB_IDS = {
-  start: ['med-body', 'med-room', 'med-stone', 'med-feet', 'extra-objects', 'guide-hour', 'breath-wave', 'extra-ground'],
+  start: ['med-first', 'med-room', 'med-shore', 'extra-objects', 'guide-hour', 'breath-wave', 'extra-ground'],
   programs: ['prog-panic', 'prog-anx', 'prog-dr', 'prog-dp'],
-  trending: ['story-lighthouse', 'breath-wave', 'nat-rain', 'med-body', 'story-harbor', 'nat-bowl', 'work-desk', 'talk-evening'],
-  quick: ['breath-wave', 'breath-equal', 'extra-objects', 'write-colors', 'med-stone', 'extra-sound', 'extra-kind'],
+  trending: ['story-lighthouse', 'breath-wave', 'nat-rain', 'med-first', 'story-harbor', 'nat-bowl', 'work-desk', 'talk-evening'],
+  quick: ['breath-wave', 'breath-equal', 'extra-objects', 'write-colors', 'med-first', 'extra-sound', 'extra-kind'],
   talks: ['talk-evening', 'talk-room', 'cast-table'],
   work: ['work-desk', 'work-task', 'breath-box', 'nat-cafe', 'nat-fan', 'extra-tension'],
   exercises: ['breath-wave', 'breath-box', 'breath-478', 'breath-sigh', 'breath-equal', 'breath-count8', 'extra-tension', 'extra-ground'],
   newsletter: ['news-week', 'guide-hour'],
   journeys: ['prog-panic', 'prog-anx', 'prog-dr', 'prog-dp', 'lab-1'],
-  guide: ['guide-hour', 'guide-sleep', 'extra-objects', 'med-feet'],
+  guide: ['guide-hour', 'guide-sleep', 'extra-objects', 'med-first'],
   podcast: ['cast-table', 'talk-evening', 'talk-room'],
 } as const
 
 export const SLEEP_TAB_IDS = {
-  sleep_med: ['med-body', 'med-stone', 'med-seed', 'lab-1', 'med-feet'],
-  viz: ['med-shore', 'med-window', 'lab-1', 'med-seed'],
+  sleep_med: ['med-first', 'med-room', 'med-shore', 'lab-1'],
+  viz: ['med-shore', 'med-room', 'lab-1', 'med-first'],
   stories: ['story-lighthouse', 'story-meadow', 'story-wagon', 'story-harbor', 'story-bath', 'story-attic', 'story-coral', 'story-library'],
   sleep_sounds: ['nat-night', 'nat-rain', 'nat-fan', 'nat-snow', 'nat-brown', 'nat-ocean'],
   sleep_music: ['nat-piano', 'nat-bowl', 'nat-drone', 'nat-harp', 'nat-swell', 'nat-radio'],
@@ -1116,7 +1074,7 @@ export const SLEEP_TAB_IDS = {
   instrumental: ['nat-piano', 'nat-harp', 'nat-bowl', 'nat-radio'],
   noise: ['nat-white', 'nat-pink', 'nat-brown', 'nat-fan'],
   rain: ['nat-rain', 'nat-storm', 'story-harbor', 'story-attic'],
-  more: ['guide-sleep', 'lab-1', 'med-seed'],
+  more: ['guide-sleep', 'lab-1', 'med-shore'],
 } as const
 
 export const SOUND_TAB_IDS = {

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { breaths, meditations, todaysClarity, writings } from '../lib/library'
-import { locBreath, locLibrary } from '../lib/copy'
+import { breaths, meditations, pathMinutes, todaysClarity, writings } from '../lib/library'
+import { locBreath, locLibrary, locMedPath } from '../lib/copy'
 import { canAccess } from '../lib/entitlement'
+import { pathPercent } from '../lib/med-progress'
 import { Card, FoldList, Kicker, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
@@ -53,11 +54,12 @@ export function Practice() {
         <Kicker>{t('cat_meditate')}</Kicker>
         <div className="mt-4">
           <FoldList
-            items={meditations.map((m) => locLibrary(m, locale))}
+            items={meditations.map((m) => locMedPath(m, locale))}
             preview={1}
             getKey={(m) => m.id}
             render={(m) => {
               const open = canAccess('meditation', m.id)
+              const pct = pathPercent(m)
               return (
                 <Link
                   to={open ? `/session/meditation/${m.id}` : '/paywall'}
@@ -65,9 +67,15 @@ export function Practice() {
                 >
                   <div>
                     <p className="font-medium">{m.title}</p>
-                    <p className="text-xs text-mute">{m.subtitle}</p>
+                    <p className="text-xs text-mute">
+                      {m.subtitle} · {t('med_pct', { n: pct })}
+                    </p>
                   </div>
-                  {open ? <span className="text-xs text-mute">{t('min_n', { n: m.minutes })}</span> : <ProChip />}
+                  {open ? (
+                    <span className="text-xs text-mute">{t('min_n', { n: pathMinutes(m) })}</span>
+                  ) : (
+                    <ProChip />
+                  )}
                 </Link>
               )
             }}

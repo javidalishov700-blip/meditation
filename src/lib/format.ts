@@ -9,6 +9,13 @@ export function formatDuration(seconds: number, locale: LocaleId = 'en'): string
   return `${translate('min_n', locale, { n: m })} ${String(r).padStart(2, '0')}`
 }
 
+export function formatMmSs(seconds: number): string {
+  const s = Math.max(0, Math.floor(seconds))
+  const m = Math.floor(s / 60)
+  const r = s % 60
+  return `${m}:${String(r).padStart(2, '0')}`
+}
+
 export function formatClock(ts: number, locale: LocaleId = 'en'): string {
   const bcp = localeMeta(locale).bcp47
   return new Date(ts).toLocaleString(bcp, {

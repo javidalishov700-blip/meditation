@@ -5,15 +5,8 @@ import { locBreath, locDay, locLibrary } from '../lib/copy'
 import { programDay } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
-import {
-  breathById,
-  clarityById,
-  extraById,
-  meditationById,
-  sleepLabById,
-  storyById,
-  writingById,
-} from '../lib/library'
+import { MED_ALIAS, breathById, clarityById, extraById, sleepLabById, storyById, writingById } from '../lib/library'
+import { MeditationSession } from './MeditationPlay'
 import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { markSession } from '../lib/activity'
@@ -42,12 +35,14 @@ export function Session() {
   const [params] = useSearchParams()
   const day = Number(params.get('day') || '1')
   if (!isKind(kind) || !id) return <Navigate to="/" replace />
-  if (!canAccess(kind, id, { day })) return <Navigate to="/paywall" replace />
+  const accessId = kind === 'meditation' ? (MED_ALIAS[id]?.path ?? id) : id
+  if (!canAccess(kind, accessId, { day })) return <Navigate to="/paywall" replace />
 
   if (kind === 'tone') return <ToneSession id={id} />
   if (kind === 'nature') return <NatureSession id={id} />
   if (kind === 'breath') return <BreathSession id={id} />
   if (kind === 'program') return <ProgramSession id={id} day={day} />
+  if (kind === 'meditation') return <MeditationSession id={id} />
   return <TextSession kind={kind} id={id} />
 }
 
@@ -320,7 +315,6 @@ function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
     let raw: LibraryItem | undefined
     if (kind === 'story') raw = storyById(id)
     else if (kind === 'writing') raw = writingById(id)
-    else if (kind === 'meditation') raw = meditationById(id)
     else if (kind === 'sleeplab') raw = sleepLabById(id)
     else if (kind === 'clarity') raw = clarityById(id)
     else if (kind === 'extra') raw = extraById(id)

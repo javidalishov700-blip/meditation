@@ -1,5 +1,5 @@
 import type { LocaleId } from './locales'
-import type { BreathPattern, LibraryItem, ProgramDay } from './types'
+import type { BreathPattern, LibraryItem, MedPath, ProgramDay } from './types'
 import type { Door } from './treatments'
 
 export function L(tr: string, en: string, es: string, fr: string, de: string, it: string): Record<LocaleId, string> {
@@ -417,6 +417,118 @@ med(
   ),
 )
 
+PACK.first = {
+  title: L('İlk adım', 'First step', 'Primer paso', 'Premier pas', 'Erster Schritt', 'Primo passo'),
+  subtitle: L('Üç seans. Yerleş, nefes, yer.', 'Three sessions. Arrive, breath, ground.', 'Tres sesiones. Llegar, respirar, suelo.', 'Trois séances. Arriver, souffle, sol.', 'Drei Sitzungen. Ankommen, Atem, Boden.', 'Tre sessioni. Arrivare, respiro, terra.'),
+}
+PACK['first-settle'] = {
+  title: L('Yerleş', 'Arrive', 'Llegar', 'Arriver', 'Ankommen', 'Arrivare'),
+  body: L(
+    '',
+    'This is not a treatment. Sit or lie down. The room stays the room. Notice the forehead. Soft jaw. Shoulders may drop. Stay for three breaths. Palms. Belly. Soles. No command to relax. Only arrive.',
+    'Esto no es un tratamiento. Siéntate o acuéstate. La habitación sigue. Frente. Mandíbula suave. Hombros. Quédate tres respiraciones. Palmas. Vientre. Plantas. Sin orden de relajarte. Solo llegar.',
+    'Ce n’est pas un traitement. Assieds-toi ou allonge-toi. La pièce reste. Front. Mâchoire douce. Épaules. Reste trois souffles. Paumes. Ventre. Plantes. Pas d’ordre. Seulement arriver.',
+    'Das ist keine Behandlung. Sitz oder lieg. Der Raum bleibt. Stirn. Weicher Kiefer. Schultern. Bleib drei Atemzüge. Handflächen. Bauch. Sohlen. Kein Befehl. Nur ankommen.',
+    'Non è una cura. Siediti o sdraiati. La stanza resta. Fronte. Mascella morbida. Spalle. Resta tre respiri. Palmi. Ventre. Piante. Niente ordine. Solo arrivare.',
+  ),
+}
+PACK['first-breath'] = {
+  title: L('Nefesini izle', 'Watch the breath', 'Mira la respiración', 'Regarde le souffle', 'Den Atem ansehen', 'Guarda il respiro'),
+  body: L(
+    '',
+    'This is not a treatment. Do not change the breath. Feel air at the nose or the chest. In. Out. Stay for three breaths. If the mind leaves, return to one exhale. You are not managing air. You are watching.',
+    'Esto no es un tratamiento. No cambies el aliento. Aire en la nariz o el pecho. Entra. Sale. Quédate tres respiraciones. Si la mente se va, vuelve a una exhalación. No gestionas el aire. Lo miras.',
+    'Ce n’est pas un traitement. Ne change pas le souffle. Air au nez ou à la poitrine. Entre. Sort. Reste trois souffles. Si l’esprit part, reviens à une expiration. Tu ne gères pas l’air. Tu regardes.',
+    'Das ist keine Behandlung. Ändere den Atem nicht. Luft an der Nase oder Brust. Ein. Aus. Bleib drei Atemzüge. Wenn der Kopf geht, zurück zu einem Ausatem. Du steuerst die Luft nicht. Du siehst zu.',
+    'Non è una cura. Non cambiare il respiro. Aria al naso o al petto. Entra. Esce. Resta tre respiri. Se la mente parte, torna a un’espirazione. Non gestisci l’aria. La guardi.',
+  ),
+}
+PACK['first-ground'] = {
+  title: L('Yer tutuyor', 'The ground holds', 'El suelo sostiene', 'Le sol tient', 'Der Boden hält', 'Il suolo tiene'),
+  body: L(
+    '',
+    'This is not a treatment. Two soles on the floor. Heel. Arch. Toes. Stay for three breaths. Weight can drop a millimetre. No race. The ground holds you.',
+    'Esto no es un tratamiento. Dos plantas en el suelo. Talón. Arco. Dedos. Quédate tres respiraciones. El peso puede bajar un milímetro. Sin carrera. El suelo te sostiene.',
+    'Ce n’est pas un traitement. Deux plantes au sol. Talon. Voûte. Orteils. Reste trois souffles. Le poids peut descendre d’un millimètre. Pas de course. Le sol te tient.',
+    'Das ist keine Behandlung. Zwei Sohlen am Boden. Ferse. Gewölbe. Zehen. Bleib drei Atemzüge. Gewicht darf einen Millimeter sinken. Kein Wettkampf. Der Boden hält dich.',
+    'Non è una cura. Due piante a terra. Tallone. Arco. Dita. Resta tre respiri. Il peso può scendere di un millimetro. Niente gara. Il suolo ti tiene.',
+  ),
+}
+PACK.room = {
+  title: L('Bilinen oda', 'Known room', 'Habitación conocida', 'Pièce connue', 'Bekannter Raum', 'Stanza nota'),
+  subtitle: L('Üç seans. Kapı, ışık, eller.', 'Three sessions. Door, light, hands.', 'Tres sesiones. Puerta, luz, manos.', 'Trois séances. Porte, lumière, mains.', 'Drei Sitzungen. Tür, Licht, Hände.', 'Tre sessioni. Porta, luce, mani.'),
+}
+PACK['room-door'] = {
+  title: L('Kapı yerinde', 'The door is there', 'La puerta está', 'La porte est là', 'Die Tür ist da', 'La porta c’è'),
+  body: L(
+    '',
+    'This is not a treatment. A room you know. See the door. Four edges. Window. Floor. Stay for three breaths. Three objects are enough. You will not redecorate.',
+    'Esto no es un tratamiento. Una habitación que conoces. La puerta. Cuatro bordes. Ventana. Suelo. Quédate tres respiraciones. Tres objetos bastan. No redecorarás.',
+    'Ce n’est pas un traitement. Une pièce que tu connais. La porte. Quatre bords. Fenêtre. Sol. Reste trois souffles. Trois objets suffisent. Tu ne redécoreras pas.',
+    'Das ist keine Behandlung. Ein Raum, den du kennst. Die Tür. Vier Kanten. Fenster. Boden. Bleib drei Atemzüge. Drei Dinge reichen. Du dekorierst nicht um.',
+    'Non è una cura. Una stanza che conosci. La porta. Quattro bordi. Finestra. Pavimento. Resta tre respiri. Tre oggetti bastano. Non arredi di nuovo.',
+  ),
+}
+PACK['room-light'] = {
+  title: L('Pencere ışığı', 'Window light', 'Luz de la ventana', 'Lumière de fenêtre', 'Fensterlicht', 'Luce della finestra'),
+  body: L(
+    '',
+    'This is not a treatment. Soft eyes. Where is the light coming from. Where does the shadow fall. Stay for three breaths. Draw one edge. Do not sharpen the image.',
+    'Esto no es un tratamiento. Ojos suaves. De dónde viene la luz. Dónde cae la sombra. Quédate tres respiraciones. Un borde. No nítidez.',
+    'Ce n’est pas un traitement. Yeux doux. D’où vient la lumière. Où tombe l’ombre. Reste trois souffles. Un bord. Ne nettoie pas l’image.',
+    'Das ist keine Behandlung. Weiche Augen. Woher das Licht. Wohin der Schatten. Bleib drei Atemzüge. Eine Kante. Das Bild nicht schärfen.',
+    'Non è una cura. Occhi morbidi. Da dove arriva la luce. Dove cade l’ombra. Resta tre respiri. Un bordo. Non mettere a fuoco.',
+  ),
+}
+PACK['room-hands'] = {
+  title: L('El ve nabız', 'Hand and pulse', 'Mano y pulso', 'Main et pouls', 'Hand und Puls', 'Mano e polso'),
+  body: L(
+    '',
+    'This is not a treatment. Two hands. One wrist. If you find a pulse, do not count it. Heat is enough. Stay for three breaths. Whisper your name. Do not make the pulse a proof.',
+    'Esto no es un tratamiento. Dos manos. Una muñeca. Si hay pulso, no lo cuentes. El calor basta. Quédate tres respiraciones. Susurra tu nombre. No hagas del pulso una prueba.',
+    'Ce n’est pas un traitement. Deux mains. Un poignet. S’il y a un pouls, ne compte pas. La chaleur suffit. Reste trois souffles. Chuchote ton nom. N’en fais pas une preuve.',
+    'Das ist keine Behandlung. Zwei Hände. Ein Handgelenk. Wenn Puls da ist, nicht zählen. Wärme reicht. Bleib drei Atemzüge. Flüstere deinen Namen. Mach den Puls nicht zum Beweis.',
+    'Non è una cura. Due mani. Un polso. Se c’è un battito, non contare. Il calore basta. Resta tre respiri. Sussurra il tuo nome. Non fare del polso una prova.',
+  ),
+}
+PACK.shore = {
+  title: L('Kıyıda', 'On the shore', 'En la orilla', 'Sur le rivage', 'Am Ufer', 'Sulla riva'),
+  subtitle: L('Üç seans. Kenar, taş, tohum.', 'Three sessions. Edge, stone, seed.', 'Tres sesiones. Orilla, piedra, semilla.', 'Trois séances. Bord, pierre, graine.', 'Drei Sitzungen. Rand, Stein, Samen.', 'Tre sessioni. Orlo, pietra, seme.'),
+}
+PACK['shore-edge'] = {
+  title: L('Kenarda otur', 'Sit at the edge', 'Siéntate al borde', 'Assieds-toi au bord', 'Am Rand sitzen', 'Siediti sul bordo'),
+  body: L(
+    '',
+    'This is not a treatment. A pier or a stone. The wave comes. The pier stays. You are the pier. Stay for three breaths. The exhale may be long. No force.',
+    'Esto no es un tratamiento. Un muelle o una piedra. La ola llega. El muelle queda. Eres el muelle. Quédate tres respiraciones. La exhalación puede ser larga. Sin fuerza.',
+    'Ce n’est pas un traitement. Un ponton ou une pierre. La vague vient. Le ponton reste. Tu es le ponton. Reste trois souffles. L’expiration peut être longue. Sans forcer.',
+    'Das ist keine Behandlung. Steg oder Stein. Die Welle kommt. Der Steg bleibt. Du bist der Steg. Bleib drei Atemzüge. Der Ausatem darf lang sein. Kein Zwang.',
+    'Non è una cura. Un molo o una pietra. L’onda arriva. Il molo resta. Sei il molo. Resta tre respiri. L’espirazione può essere lunga. Senza forza.',
+  ),
+}
+PACK['shore-stone'] = {
+  title: L('Avuçta ağırlık', 'Weight in the palm', 'Peso en la palma', 'Poids dans la paume', 'Gewicht in der Hand', 'Peso nel palmo'),
+  body: L(
+    '',
+    'This is not a treatment. A stone, a key, or a cup. Weight. Edge. Heat or cool. Stay for three breaths. If the mind makes a story, return to the object.',
+    'Esto no es un tratamiento. Una piedra, una llave o una taza. Peso. Borde. Calor o fresco. Quédate tres respiraciones. Si la mente inventa, vuelve al objeto.',
+    'Ce n’est pas un traitement. Une pierre, une clé ou une tasse. Poids. Bord. Chaud ou frais. Reste trois souffles. Si l’esprit invente, reviens à l’objet.',
+    'Das ist keine Behandlung. Ein Stein, ein Schlüssel oder eine Tasse. Gewicht. Kante. Warm oder kühl. Bleib drei Atemzüge. Wenn der Kopf eine Geschichte baut, zurück zum Ding.',
+    'Non è una cura. Una pietra, una chiave o una tazza. Peso. Bordo. Caldo o fresco. Resta tre respiri. Se la mente inventa, torna all’oggetto.',
+  ),
+}
+PACK['shore-seed'] = {
+  title: L('Tek kare', 'One frame', 'Un fotograma', 'Un cadre', 'Ein Bild', 'Un fotogramma'),
+  body: L(
+    '',
+    'This is not a treatment. One scene: a closed garden, a warm stone, a small lamp. Do not make a film. Stay for three breaths. Leave the seed to the night.',
+    'Esto no es un tratamiento. Una escena: jardín cerrado, piedra tibia, lámpara. No hagas cine. Quédate tres respiraciones. Deja la semilla a la noche.',
+    'Ce n’est pas un traitement. Une scène : jardin fermé, pierre tiède, lampe. Pas un film. Reste trois souffles. Laisse la graine à la nuit.',
+    'Das ist keine Behandlung. Eine Szene: geschlossener Garten, warmer Stein, Lampe. Kein Film. Bleib drei Atemzüge. Lass den Samen der Nacht.',
+    'Non è una cura. Una scena: giardino chiuso, pietra tiepida, lampada. Niente film. Resta tre respiri. Lascia il seme alla notte.',
+  ),
+}
+
 function lab(
   id: string,
   title: ReturnType<typeof L>,
@@ -820,6 +932,23 @@ PACK.depersonalization = {
     'Komm vom Zuschauersitz zurück zum Stoff des Stuhls.',
     'Torna dal sedile dello spettatore al tessuto della sedia.',
   ),
+}
+
+export function locMedPath(path: MedPath, locale: LocaleId): MedPath {
+  const p = PACK[path.id]
+  return {
+    ...path,
+    title: pickPack(p?.title, locale, path.title),
+    subtitle: pickPack(p?.subtitle, locale, path.subtitle),
+    steps: path.steps.map((step) => {
+      const sp = PACK[step.id]
+      return {
+        ...step,
+        title: pickPack(sp?.title, locale, step.title),
+        body: locale === 'tr' ? step.body : pickPack(sp?.body, locale, step.body),
+      }
+    }),
+  }
 }
 
 export function locLibrary(item: LibraryItem, locale: LocaleId): LibraryItem {
