@@ -293,7 +293,24 @@ function MeditationPlayer({
           <p className="font-display text-4xl text-white/80">{t('med_done')}</p>
           <p className="mt-3 text-sm text-white/40">{t('med_pct', { n: pathPercent(path) })}</p>
           {next ? (
-            <PrimaryButton className="mt-10 max-w-xs" onClick={() => onNext(next.id)}>
+            <PrimaryButton
+              className="mt-10 max-w-xs"
+              onClick={() => {
+                const fillMs = next.minutes * 60 * 1000
+                const clipId = `med:${next.id}`
+                audio.unlock()
+                void audio.playNature(readBed(next.bed)).then(() => {
+                  if (speechClipId() === clipId && !speechSnap().paused) audio.hushForVoice()
+                })
+                speak(next.body, {
+                  lang: meta.bcp47,
+                  mode: 'calm',
+                  fillMs,
+                  clipId,
+                })
+                onNext(next.id)
+              }}
+            >
               {next.title}
             </PrimaryButton>
           ) : null}

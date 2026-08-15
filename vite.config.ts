@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'voice/manifest.json'],
+        includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'],
         manifest: {
           name: 'Steady',
           short_name: 'Steady',
@@ -47,21 +47,30 @@ export default defineConfig(({ mode }) => {
           ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,svg,ico,webmanifest,json}'],
-          globIgnores: ['**/voice/clips/*.mp3', '**/covers/**'],
+          globPatterns: ['**/*.{js,css,html,svg,ico,webmanifest}'],
+          globIgnores: ['**/voice/**', '**/covers/**'],
           navigateFallbackDenylist: [/^\/voice\//, /\.mp3$/i],
           runtimeCaching: [
+            {
+              urlPattern: ({ url }) => /\/voice\/manifest\.json/i.test(url.pathname),
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'steady-voice-manifest-v4',
+                networkTimeoutSeconds: 4,
+                expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 },
+              },
+            },
             {
               urlPattern: ({ url }) =>
                 url.pathname.includes('/voice/') || Boolean(voiceHost && url.href.startsWith(voiceHost)),
               handler: 'CacheFirst',
               options: {
-                cacheName: 'steady-voice',
+                cacheName: 'steady-voice-v4',
                 expiration: {
                   maxEntries: 800,
                   maxAgeSeconds: 60 * 60 * 24 * 400,
                 },
-                cacheableResponse: { statuses: [0, 200] },
+                cacheableResponse: { statuses: [200] },
               },
             },
           ],

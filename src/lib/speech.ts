@@ -1,5 +1,4 @@
 import { audio } from './audio'
-import { isVoiceLang } from './locales'
 import { readJson, writeJson } from './storage'
 import { voiceRoots } from './voice-host'
 import { VOICE_SAMPLE } from './voice-lines'
@@ -56,6 +55,9 @@ type SliceCtl = {
 }
 
 let sliceCtl: SliceCtl | null = null
+let synthUtter: SpeechSynthesisUtterance | null = null
+let synthChunks: string[] = []
+let usingSynth = false
 
 function liveElapsed() {
   if (!speakingFlag && !loadingFlag) return 0
@@ -221,10 +223,12 @@ async function waitWhilePaused() {
   })
 }
 
-const VOICE_CACHE = 'steady-voice-v1'
+const VOICE_CACHE = 'steady-voice-v4'
 type VoiceManifest = { clips?: Record<string, string> }
 
 let manifestWait: Promise<Record<string, string[]>> | null = null
+let manifestMap: Record<string, string[]> | null = null
+let synthWatch: number | null = null
 
 function clipRel(rel: string) {
   const clean = rel.replace(/^\/+/, '')
@@ -307,19 +311,39 @@ function decodeBuffer(ctx: AudioContext, data: ArrayBuffer) {
 async function decodeUrl(url: string, ctx: AudioContext) {
   const hit = bufCache.get(url)
   if (hit) return hit
-  const res = await fetchRes(url)
-  if (!res) return null
-  const type = res.headers.get('content-type') || ''
-  if (type && (looksLikeHtml(type) || !looksLikeAudio(type))) return null
-  const data = await res.arrayBuffer()
-  if (data.byteLength < 80) return null
-  try {
+  const tryOnce = async (reload: boolean) => {
+    const res = reload
+      ? await fetch(url, { cache: 'reload', mode: 'cors', credentials: 'omit' }).catch(() => null)
+      : await fetchRes(url)
+    if (!res || !res.ok) return null
+    const type = res.headers.get('content-type') || ''
+    if (type && (looksLikeHtml(type) || !looksLikeAudio(type))) return null
+    const data = await res.arrayBuffer()
+    if (data.byteLength < 80) return null
     const buf = await decodeBuffer(ctx, data)
     if (buf.duration < 0.08) return null
+    return buf
+  }
+  try {
+    const buf = (await tryOnce(false)) || (await tryOnce(true))
+    if (!buf) return null
     bufCache.set(url, buf)
     return buf
   } catch {
-    return null
+    try {
+      const cache = await cacheStore()
+      await cache?.delete(url)
+    } catch {
+      /* ignore */
+    }
+    try {
+      const buf = await tryOnce(true)
+      if (!buf) return null
+      bufCache.set(url, buf)
+      return buf
+    } catch {
+      return null
+    }
   }
 }
 
@@ -381,8 +405,11 @@ async function loadManifest() {
       const merged: Record<string, string[]> = {}
       for (const root of voiceRoots()) {
         try {
-          const res = await fetchRes(`${root}manifest.json`)
-          if (!res) continue
+          const url = `${root}manifest.json?v=4`
+          const res = await fetch(url, { cache: 'no-store', mode: 'cors', credentials: 'omit' })
+          if (!res.ok) continue
+          const type = res.headers.get('content-type') || ''
+          if (looksLikeHtml(type)) continue
           const j = (await res.json()) as VoiceManifest
           for (const [key, raw] of Object.entries(j.clips || {})) {
             if (merged[key]?.length) continue
@@ -397,6 +424,7 @@ async function loadManifest() {
           /* try next root */
         }
       }
+      manifestMap = merged
       return merged
     })()
   }
@@ -404,8 +432,8 @@ async function loadManifest() {
 }
 
 async function bakedUrls(prefix: string, clipId?: string) {
-  if (!clipId || !isVoiceLang(prefix)) return null
-  const clips = await loadManifest()
+  if (!clipId) return null
+  const clips = manifestMap ?? (await loadManifest())
   const urls = clips[`${prefix}:${clipId}`]
   return urls?.length ? urls : null
 }
@@ -431,9 +459,9 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   for (const url of urls) {
     if (cancelled || gen !== speakGen) return true
     const buf = await decodeUrl(url, ctx)
-    if (!buf) return false
-    buffers.push(buf)
+    if (buf) buffers.push(buf)
   }
+  if (!buffers.length) return false
   if (cancelled || gen !== speakGen) return true
   const total = buffers.reduce((n, b) => n + b.duration * 1000, 0)
   if (total < 80) return false
@@ -470,8 +498,211 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
     }
   } catch {
     if (cancelled || gen !== speakGen) return true
+    return false
+  }
+  if (cancelled || gen !== speakGen) return true
+  await finishSpeak(gen, opts)
+  return true
+}
+
+function haltSynth() {
+  usingSynth = false
+  synthUtter = null
+  if (synthWatch != null) {
+    window.clearInterval(synthWatch)
+    synthWatch = null
+  }
+  try {
+    window.speechSynthesis.cancel()
+  } catch {
+    /* no speechSynthesis */
+  }
+}
+
+function unlockSynth(lang?: string) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  try {
+    window.speechSynthesis.resume()
+    const u = new SpeechSynthesisUtterance(' ')
+    u.volume = 0
+    u.rate = 1
+    u.lang = lang || document.documentElement.lang || 'en-US'
+    window.speechSynthesis.speak(u)
+  } catch {
+    /* ignore */
+  }
+}
+
+function waitVoices() {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return Promise.resolve()
+  const ready = window.speechSynthesis.getVoices()
+  if (ready.length) return Promise.resolve()
+  return new Promise<void>((resolve) => {
+    const done = () => resolve()
+    window.speechSynthesis.addEventListener('voiceschanged', done, { once: true })
+    window.setTimeout(done, 700)
+  })
+}
+
+function pickVoice(prefix: string) {
+  const voices = window.speechSynthesis.getVoices()
+  const lang = prefix === 'az' ? ['az', 'tr'] : prefix === 'en' ? ['en'] : [prefix]
+  const pool = voices.filter((v) => lang.some((p) => v.lang.toLowerCase().startsWith(p)))
+  const female =
+    /female|samantha|karen|moira|serena|fiona|tessa|veena|yelda|filiz|monica|paulina|alice|federica|milena|katya|zira|hazel|siri|ava|jenny|aria|emma|michelle|susan|victoria|kathy|google uk english female|google us english/i
+  return (
+    pool.find((v) => female.test(v.name)) ||
+    pool.find((v) => /neural|premium|enhanced/i.test(v.name)) ||
+    pool.find((v) => v.localService) ||
+    pool[0] ||
+    null
+  )
+}
+
+function splitForSynth(text: string) {
+  const paras = text
+    .split(/\n{2,}/)
+    .map((s) => s.replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+  const out: string[] = []
+  for (const p of paras) {
+    if (p.length <= 220) {
+      out.push(p)
+      continue
+    }
+    const bits = p.split(/(?<=[.!?…])\s+/)
+    let buf = ''
+    for (const b of bits) {
+      const next = buf ? `${buf} ${b}` : b
+      if (next.length > 220 && buf) {
+        out.push(buf)
+        buf = b
+      } else buf = next
+    }
+    if (buf) out.push(buf)
+  }
+  return out
+}
+
+function synthRate(opts: SpeakOpts) {
+  if (opts.rate) return Math.max(0.6, Math.min(1.05, opts.rate))
+  const mode = opts.mode || readReadMode()
+  if (mode === 'slow') return 0.72
+  if (mode === 'natural') return 0.94
+  return 0.8
+}
+
+function speakUtterance(text: string, prefix: string, opts: SpeakOpts, gen: number) {
+  return new Promise<void>((resolve, reject) => {
+    if (cancelled || gen !== speakGen) {
+      resolve()
+      return
+    }
+    const u = new SpeechSynthesisUtterance(text)
+    const voice = pickVoice(prefix)
+    if (voice) {
+      u.voice = voice
+      u.lang = voice.lang || `${prefix}-${prefix.toUpperCase()}`
+    } else {
+      u.lang =
+        prefix === 'en'
+          ? 'en-US'
+          : prefix === 'tr'
+            ? 'tr-TR'
+            : prefix === 'az'
+              ? 'az-AZ'
+              : prefix === 'ru'
+                ? 'ru-RU'
+                : prefix === 'es'
+                  ? 'es-ES'
+                  : prefix === 'it'
+                    ? 'it-IT'
+                    : `${prefix}-${prefix.toUpperCase()}`
+    }
+    u.rate = synthRate(opts)
+    u.pitch = 0.98
+    u.volume = Math.max(0.15, readVoiceVolume())
+    synthUtter = u
+    u.onend = () => {
+      if (synthUtter === u) synthUtter = null
+      resolve()
+    }
+    u.onerror = (ev) => {
+      if (synthUtter === u) synthUtter = null
+      if (ev.error === 'canceled' || ev.error === 'interrupted') resolve()
+      else reject(new Error(ev.error || 'synth'))
+    }
+    try {
+      window.speechSynthesis.resume()
+    } catch {
+      /* ignore */
+    }
+    window.speechSynthesis.speak(u)
+  })
+}
+
+async function runSynth(text: string, gen: number, opts: SpeakOpts, prefix: string) {
+  const line = humanize(text, prefix, opts.mode || readReadMode())
+  if (!line || typeof window === 'undefined' || !window.speechSynthesis) return false
+  await waitVoices()
+  if (cancelled || gen !== speakGen) return true
+  synthChunks = splitForSynth(line)
+  if (!synthChunks.length) return false
+  const words = line.split(/\s+/).filter(Boolean).length
+  const estMs = Math.max(1200, (words / (synthRate(opts) * 2.35)) * 1000)
+  const startMs = Math.max(0, opts.startMs ?? 0)
+  clockStartMs = startMs
+  clockOrigin = Date.now()
+  clockPauseTotal = 0
+  clockPausedAt = 0
+  clockDuration = opts.fillMs ?? estMs
+  usingSynth = true
+  setFlags({ speaking: true, loading: false, paused: false, error: null })
+  armClock()
+  audio.hushForVoice()
+  if (synthWatch != null) window.clearInterval(synthWatch)
+  synthWatch = window.setInterval(() => {
+    if (!usingSynth || cancelled || gen !== speakGen) return
+    try {
+      window.speechSynthesis.resume()
+    } catch {
+      /* Chrome drops long utterances unless resumed */
+    }
+  }, 8000)
+  let skip = startMs / Math.max(1, estMs)
+  let acc = 0
+  try {
+    await wait(40, gen)
+    for (let i = 0; i < synthChunks.length; i++) {
+      if (cancelled || gen !== speakGen) return true
+      await waitWhilePaused()
+      if (cancelled || gen !== speakGen) return true
+      const share = 1 / synthChunks.length
+      acc += share
+      if (skip >= acc) continue
+      await speakUtterance(synthChunks[i]!, prefix, opts, gen)
+      if (cancelled || gen !== speakGen) return true
+      await wait(380, gen)
+    }
+    if (opts.fillMs) {
+      audio.duck(false)
+      const rest = Math.max(0, opts.fillMs - liveElapsed())
+      if (rest > 80) await wait(rest, gen)
+    }
+  } catch {
+    if (cancelled || gen !== speakGen) return true
+    usingSynth = false
+    if (synthWatch != null) {
+      window.clearInterval(synthWatch)
+      synthWatch = null
+    }
     await finishSpeak(gen, opts, 'tts_fail')
     return true
+  }
+  usingSynth = false
+  if (synthWatch != null) {
+    window.clearInterval(synthWatch)
+    synthWatch = null
   }
   if (cancelled || gen !== speakGen) return true
   await finishSpeak(gen, opts)
@@ -485,6 +716,7 @@ export function stopSpeak() {
   pauseWait?.()
   pauseWait = null
   haltSlice(-1)
+  haltSynth()
   audio.hold(false)
   audio.duck(false)
   stopClock()
@@ -502,6 +734,13 @@ export function togglePause() {
     pauseWait?.()
     pauseWait = null
     audio.hold(false)
+    if (usingSynth) {
+      try {
+        window.speechSynthesis.resume()
+      } catch {
+        /* iOS often ignores resume */
+      }
+    }
     audio.hushForVoice()
     setFlags({ paused: false })
     return
@@ -514,6 +753,13 @@ export function togglePause() {
     haltSlice(elapsed)
   }
   audio.hold(true)
+  if (usingSynth) {
+    try {
+      window.speechSynthesis.pause()
+    } catch {
+      /* iOS often ignores pause */
+    }
+  }
   setFlags({ paused: true })
 }
 
@@ -534,6 +780,7 @@ export function speechClipId() {
 
 export function speak(text: string, opts: SpeakOpts = {}) {
   audio.unlock()
+  unlockSynth(opts.lang)
   void runSpeak(text, opts)
 }
 
@@ -545,15 +792,31 @@ async function runSpeak(text: string, opts: SpeakOpts) {
   const prefix = langPrefix(resolveLang(opts.lang))
 
   setFlags({ speaking: true, loading: true, paused: false, error: null })
-  const urls = await bakedUrls(prefix, opts.clipId)
+  await wait(90, gen)
   if (cancelled || gen !== speakGen) return
-  if (!urls) {
+  if (!text.trim()) {
     await finishSpeak(gen, opts, 'voice_missing')
     return
   }
-  const used = await runBaked(urls, gen, opts)
+  let urls: string[] | null = null
+  try {
+    urls = await bakedUrls(prefix, opts.clipId)
+  } catch {
+    urls = null
+  }
   if (cancelled || gen !== speakGen) return
-  if (!used) await finishSpeak(gen, opts, 'voice_missing')
+  if (urls) {
+    try {
+      const used = await runBaked(urls, gen, opts)
+      if (cancelled || gen !== speakGen) return
+      if (used) return
+    } catch {
+      /* device voice next */
+    }
+  }
+  const spoken = await runSynth(text, gen, opts, prefix)
+  if (cancelled || gen !== speakGen) return
+  if (!spoken) await finishSpeak(gen, opts, 'voice_missing')
 }
 
 export function speakCue(text: string, lang?: string, clipId?: string) {
@@ -571,5 +834,14 @@ export function sampleLine(bcp47: string) {
 }
 
 export function warmVoices(): Promise<void> {
+  void loadManifest()
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    try {
+      window.speechSynthesis.getVoices()
+      window.speechSynthesis.addEventListener('voiceschanged', () => {}, { once: true })
+    } catch {
+      /* ignore */
+    }
+  }
   return Promise.resolve()
 }

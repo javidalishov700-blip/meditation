@@ -11,2112 +11,1172 @@ function pack(
   return { tr, en, es, it, az, ru }
 }
 
-/** Full spoken scripts. Present tense, body, no “relax” commands, not a treatment. */
-const RAW_SCRIPTS: Record<string, Record<LocaleId, string>> = {
+/**
+ * Spoken meditations. One thread each. Present tense, body, calming.
+ * Not a treatment. No “relax now” orders. No diagnosis.
+ */
+export const MED_SCRIPTS: Record<string, Record<LocaleId, string>> = {
   'first-settle': pack(
-    `Bu bir tedavi değildir. Sadece birkaç dakika. Oturuyorsun veya yatıyorsun. Oda aynı oda. Pencere aynı pencere. Doğru bir pozisyon yok. Omurga bir sütun olmak zorunda değil.
+    `Bu bir tedavi değildir. Birkaç dakika, sadece yerleşmek için. Oturuyorsun veya yatıyorsun. Doğru bir pozisyon yok. Omurga bir sütun olmak zorunda değil. Sandalye veya yatak seni tutuyor. Kumaşın dokunuşu var. Isı veya serinlik var. Bu yeter.
 
-Ağırlığın sandalyede veya yatakta nasıl dağıldığını fark et. Kalça. Sırt. Topuklar. Kumaşın dokunuşu. Isı veya serinlik. İsim yeter.
+Gözler kapanabilir, yarı açık da kalabilir. Odadaki ışık aynı ışık. Pencere aynı pencere. Dışarıdaki sesler de odanın parçası. Onları kapatmana gerek yok.
 
-Alın. Kaşlar gerilmek zorunda değil. Göz kapakları ağır olabilir, açık da kalabilir. Çene. Dişler birbirine kenetlenmek zorunda değil. Dil, üst damağın arkasında durabilir.
+Alnını fark et. Kaşların gerilmesine gerek yok. Göz kapakları ağırsa ağır. Çene yumuşak durabilir. Dişler birbirine kenetlenmek zorunda değil. Dil, üst dişlerin arkasında durabilir. Küçük bir yer. Güvenli bir yer.
 
-Burada üç nefes. Alış. Veriş. Değiştirme. Sadece izle.
+Şimdi üç nefes. Değiştirmiyorsun. Yönetmiyorsun. Hava giriyor. Hava çıkıyor. Alışta burunda biraz serinlik olabilir. Verişte biraz daha ılık. Bu bir teknik değil. Sadece duyum.
 
-Boynun iki yanı. Kulaklar. Omuzlar kulaklara yapışmak zorunda değil. Bir milim boşluk olsa da olur, olmasa da. Avuçlar. Parmaklar. Karın, nefesle hafifçe hareket edebilir. Zorlama.
+Boynun iki yanı. Kulaklar. Omuzlar kulaklara yapışmak zorunda değil. Bir milim boşluk olsa da olur. Avuçlar uylukta veya yanlarda. Parmaklar kıvrılmak zorunda değil. Karın, nefesle hafifçe hareket edebilir. Zorlama yok.
 
-Tabanlar yerdeyse yer seni tutuyor. Topuk. Kemer. Parmak uçları. Yatıyorsan yatak tutuyor. Burada iki nefes.
+Ayaklar yerdeyse yer seni tutuyor. Topuk. Kemer. Parmak uçları. Yatıyorsan yatak tutuyor. Ağırlık aşağıda durabilir. Yarış yok.
 
-Zihin bir listeye dönerse, bu bir hata değil. Bir bölgeye dön. Çene, veya avuç, veya taban. Sonra yine nefes.
+Zihin bir listeye dönerse, bu bir hata değil. Listeler böyle yapar. Bir bölgeye dön. Çene, veya avuç, veya taban. Sonra yine bu nefese.
 
-Omuzların ağırlığı. Göğsün önü. Nefes orada da olabilir, burunda da. Hangisi daha netse orada kal. Üç nefes daha.
+İçinden, yavaş: buradayım. Kanıt arama. Cümle, duyumun yanında duruyor. Oda çalışmıyor senin için. Sen odadasın.
 
-“Rahatla” emri yok. Sadece yerleş. Oda çalışmıyor senin için. Sen odadasın.
+Omuzların ağırlığı. Göğsün önü. Nefes orada da olabilir, burunda da. Hangisi daha netse orada kal. Üç nefes daha. Alış. Veriş. Alış. Veriş. Alış. Veriş.
 
-Ayak bilekleri. Dizler. Kalçalar. Ağırlık aşağıda durabilir. Yarış yok. Süre bir yarış değil.
+Sesler varsa sesler. Uzak bir motor, bir kuş, bir boru, bir adım. Oda onları da tutuyor. Sen de tutuluyorsun.
 
-İçinden, yavaş: buradayım. Kanıt arama. Cümle yeter.
+Bir veriş. Sonra bir tane daha. Zihin giderse bir avuca dön. Isı. Kenar. Gerçek.
 
-Alın bir kez daha. Çene. Avuçlar. Tabanlar. Üç nefes.
+Alın bir kez daha. Çene. Avuçlar. Tabanlar. Son üç nefes. Acele yok.
 
-Sesler varsa sesler. Uzak bir motor, bir kuş, bir boru. Onları kapatmak zorunda değilsin. Oda onları da tutuyor.
+Bırakış: bunu bir performans haline getirmeyeceksin. Oturduğun yer duruyor. Sen de duruyorsun. Bu birkaç dakika yeter.`,
+    `This is not a treatment. A few minutes, only to arrive. You sit or you lie down. There is no correct pose. The spine does not have to be a column. The chair or the bed is holding you. There is cloth. Heat or cool. That is enough.
 
-Bir veriş. Sonra bir tane daha. Zihin giderse bir avuca dön.
+The eyes may close, or stay half-open. The light in the room is the same light. The window is the same window. Sounds outside are part of the room. You do not have to shut them out.
 
-Omuzlar. Karın. Yer.
+Notice the forehead. The brows do not have to tighten. If the eyelids are heavy, they are heavy. The jaw can stay soft. The teeth do not have to lock. The tongue can rest behind the upper teeth. A small place. A safe place.
 
-Son üç nefes. Alış. Veriş. Alış. Veriş. Alış. Veriş.
+Three breaths now. You are not changing them. You are not managing them. Air arrives. Air leaves. On the in-breath there may be a little cool at the nose. On the out-breath, a little warmer. This is not a technique. Only a sensation.
 
-Bırakış: bunu bir performans haline getirmeyeceksin. Oturduğun yer duruyor. Sen de.`,
-    `This is not a treatment. Only a few minutes. You sit or you lie down. The room stays the room. The window stays the window. There is no correct pose. The spine does not have to be a column.
+The sides of the neck. The ears. The shoulders do not have to climb toward the ears. A millimetre of space is enough. Palms on the thighs or at the sides. The fingers do not have to curl. The belly may move a little with the breath. No force.
 
-Notice how the weight sits in the chair or the bed. Hips. Back. Heels. The cloth. Heat or cool. A name is enough.
+If the feet are on the floor, the floor is holding you. Heel. Arch. Toes. If you are lying down, the bed is holding you. Weight can rest low. There is no race.
 
-The forehead. The brows do not have to tighten. The eyelids may be heavy, or they may stay open. The jaw. The teeth do not have to lock. The tongue can rest behind the upper teeth.
+If the mind returns to a list, that is not a mistake. Lists do that. Come back to one place. Jaw, or palm, or sole. Then this breath again.
 
-Stay for three breaths. In. Out. Do not change them. Only watch.
+Quietly, inside: I am here. Do not look for proof. The sentence stands next to the sensation. The room is not working for you. You are in the room.
 
-The sides of the neck. The ears. The shoulders do not have to climb toward the ears. A millimetre of space is enough, and so is none. The palms. The fingers. The belly may move a little with the breath. No force.
+The weight of the shoulders. The front of the chest. The breath may be there, or at the nose. Stay where it is clearer. Three more breaths. In. Out. In. Out. In. Out.
 
-If the soles are on the floor, the floor is holding you. Heel. Arch. Toes. If you are lying down, the bed is holding you. Two breaths here.
+If there are sounds, there are sounds. A distant engine, a bird, a pipe, a footstep. The room holds them too. You are being held as well.
 
-If the mind returns to a list, that is not a mistake. Come back to one place. Jaw, or palm, or sole. Then the breath again.
+One out-breath. Then another. If the mind leaves, return to one palm. Heat. Edge. Actual.
 
-The weight of the shoulders. The front of the chest. The breath may be there, or at the nose. Stay where it is clearer. Three more breaths.
+Forehead once more. Jaw. Palms. Soles. Last three breaths. No hurry.
 
-There is no command to relax. Only arrive. The room is not working for you. You are in the room.
+Release: you will not turn this into a performance. The place you sit stays. You stay. These few minutes are enough.`,
+    `Esto no es un tratamiento. Unos minutos, solo para llegar. Estás sentada o tumbada. No hay una pose correcta. La columna no tiene que ser una columna de mármol. La silla o la cama te sostiene. Hay tela. Calor o fresco. Basta.
 
-Ankles. Knees. Hips. Weight can rest low. There is no race. Time is not a contest.
+Los ojos pueden cerrarse o quedar entornados. La luz de la habitación es la misma. La ventana es la misma. Los sonidos de fuera son parte de la habitación. No tienes que apagarlos.
 
-Quietly, inside: I am here. Do not look for proof. The sentence is enough.
+Nota la frente. Las cejas no tienen que tensarse. Si los párpados están pesados, están pesados. La mandíbula puede quedar suave. Los dientes no tienen que cerrarse con fuerza. La lengua puede descansar detrás de los dientes de arriba. Un sitio pequeño. Un sitio seguro.
 
-Forehead once more. Jaw. Palms. Soles. Three breaths.
+Tres respiraciones ahora. No las cambias. No las gestionas. El aire llega. El aire se va. Al entrar puede haber un poco de fresco en la nariz. Al salir, un poco más tibio. Esto no es una técnica. Solo una sensación.
 
-If there are sounds, there are sounds. A distant engine, a bird, a pipe. You do not have to shut them out. The room holds them too.
+Los lados del cuello. Las orejas. Los hombros no tienen que subir hacia las orejas. Un milímetro de espacio basta. Palmas en los muslos o a los lados. Los dedos no tienen que cerrarse. El vientre puede moverse un poco con el aliento. Sin fuerza.
 
-One out-breath. Then another. If the mind leaves, return to one palm.
+Si los pies están en el suelo, el suelo te sostiene. Talón. Arco. Dedos. Si estás tumbada, la cama te sostiene. El peso puede quedar abajo. No hay carrera.
 
-Shoulders. Belly. Ground.
+Si la mente vuelve a una lista, no es un error. Las listas hacen eso. Vuelve a un sitio. Mandíbula, o palma, o planta. Luego otra vez este aliento.
 
-Last three breaths. In. Out. In. Out. In. Out.
+Por dentro, despacio: estoy aquí. No busques una prueba. La frase está junto a la sensación. La habitación no trabaja para ti. Tú estás en la habitación.
 
-Release: you will not turn this into a performance. The place you sit stays. So do you.`,
-    `Esto no es un tratamiento. Solo unos minutos. Estás sentada o tumbada. La habitación sigue siendo la habitación. La ventana sigue. No hay una pose correcta. La columna no tiene que ser una columna de mármol.
+El peso de los hombros. El pecho por delante. El aliento puede estar ahí, o en la nariz. Quédate donde se note más. Tres respiraciones más. Entra. Sale. Entra. Sale. Entra. Sale.
 
-Nota cómo se reparte el peso en la silla o en la cama. Cadera. Espalda. Talones. La tela. Calor o fresco. Un nombre basta.
+Si hay sonidos, hay sonidos. Un motor lejano, un pájaro, una tubería, un paso. La habitación también los sostiene. A ti también te sostienen.
 
-La frente. Las cejas no tienen que tensarse. Los párpados pueden estar pesados, o abiertos. La mandíbula. Los dientes no tienen que cerrarse con fuerza. La lengua puede quedar detrás de los dientes de arriba.
+Una exhalación. Luego otra. Si la mente se va, vuelve a una palma. Calor. Borde. Real.
 
-Quédate tres respiraciones. Entra. Sale. No las cambies. Solo mira.
+La frente otra vez. Mandíbula. Palmas. Plantas. Las últimas tres respiraciones. Sin prisa.
 
-Los lados del cuello. Las orejas. Los hombros no tienen que subir hacia las orejas. Un milímetro de espacio basta, y también ninguno. Las palmas. Los dedos. El vientre puede moverse un poco con el aliento. Sin fuerza.
+Suelta: no vas a convertir esto en una actuación. El sitio donde estás sigue. Tú sigues. Estos minutos bastan.`,
+    `Non è una cura. Pochi minuti, solo per arrivare. Sei seduta o sdraiata. Non c’è una posa giusta. La schiena non deve essere una colonna. La sedia o il letto ti tiene. C’è stoffa. Caldo o fresco. Basta.
 
-Si las plantas están en el suelo, el suelo te sostiene. Talón. Arco. Dedos. Si estás tumbada, la cama te sostiene. Aquí dos respiraciones.
+Gli occhi possono chiudersi o restare socchiusi. La luce della stanza è la stessa. La finestra è la stessa. I suoni fuori fanno parte della stanza. Non devi spegnerli.
 
-Si la mente vuelve a una lista, no es un error. Vuelve a una zona. Mandíbula, o palma, o planta. Luego otra vez el aliento.
+Nota la fronte. Le sopracciglia non devono stringersi. Se le palpebre sono pesanti, sono pesanti. La mascella può restare morbida. I denti non devono chiudersi a forza. La lingua può stare dietro i denti di sopra. Un posto piccolo. Un posto sicuro.
 
-El peso de los hombros. El pecho por delante. El aliento puede estar ahí, o en la nariz. Quédate donde se note más. Tres respiraciones más.
+Tre respiri ora. Non li cambi. Non li gestisci. L’aria arriva. L’aria se ne va. All’ingresso può esserci un poco di fresco al naso. All’uscita, un poco più tiepido. Non è una tecnica. Solo una sensazione.
 
-No hay una orden de relajarte. Solo llegar. La habitación no trabaja para ti. Tú estás en la habitación.
+I lati del collo. Le orecchie. Le spalle non devono salire verso le orecchie. Un millimetro di spazio basta. Palmi sulle cosce o ai lati. Le dita non devono chiudersi. La pancia può muoversi un poco con il respiro. Senza forza.
 
-Tobillos. Rodillas. Caderas. El peso puede quedar abajo. No hay carrera. El tiempo no es un concurso.
+Se i piedi sono a terra, la terra ti tiene. Tallone. Arco. Dita. Se sei sdraiata, il letto ti tiene. Il peso può stare in basso. Non c’è una gara.
 
-Por dentro, despacio: estoy aquí. No busques una prueba. La frase basta.
+Se la mente torna a una lista, non è un errore. Le liste fanno così. Torna a un punto. Mascella, o palmo, o pianta. Poi di nuovo questo respiro.
 
-La frente otra vez. Mandíbula. Palmas. Plantas. Tres respiraciones.
+Dentro, piano: sono qui. Non cercare una prova. La frase sta accanto alla sensazione. La stanza non lavora per te. Tu sei nella stanza.
 
-Si hay sonidos, hay sonidos. Un motor lejano, un pájaro, una tubería. No tienes que apagarlos. La habitación también los sostiene.
+Il peso delle spalle. Il petto davanti. Il respiro può essere lì, o al naso. Resta dove è più chiaro. Altri tre respiri. Entra. Esce. Entra. Esce. Entra. Esce.
 
-Una exhalación. Luego otra. Si la mente se va, vuelve a una palma.
+Se ci sono suoni, ci sono suoni. Un motore lontano, un uccello, un tubo, un passo. La stanza li tiene anche loro. Anche tu sei tenuta.
 
-Hombros. Vientre. Suelo.
+Un’espirazione. Poi un’altra. Se la mente parte, torna a un palmo. Calore. Bordo. Vero.
 
-Las últimas tres respiraciones. Entra. Sale. Entra. Sale. Entra. Sale.
+La fronte ancora. Mascella. Palmi. Piante. Ultimi tre respiri. Senza fretta.
 
-Suelta: no vas a convertir esto en una actuación. El sitio donde estás sigue. Tú también.`,
-    `Non è una cura. Solo pochi minuti. Sei seduta o sdraiata. La stanza resta la stanza. La finestra resta. Non c’è una posa giusta. La schiena non deve essere una colonna.
+Rilascio: non farai di questo una recita. Il posto dove sei resta. Tu resti. Questi minuti bastano.`,
+    `Bu müalicə deyil. Bir neçə dəqiqə, yalnız yerləşmək üçün. Oturursan və ya uzanırsan. Düzgün poza yoxdur. Onurğa sütun olmaq məcburiyyətində deyil. Stul və ya çarpayı səni tutur. Parça var. İstilik və ya sərinlik var. Bu bəsdir.
 
-Nota come il peso si distribuisce sulla sedia o sul letto. Fianchi. Schiena. Talloni. La stoffa. Caldo o fresco. Un nome basta.
+Gözlər bağlana bilər, yarıaçıq da qala bilər. Otaqdakı işıq eyni işıqdır. Pəncərə eyni pəncərədir. Çöl səsləri də otağın parçasıdır. Onları bağlamağa ehtiyac yoxdur.
 
-La fronte. Le sopracciglia non devono stringersi. Le palpebre possono essere pesanti, o restare aperte. La mascella. I denti non devono chiudersi a forza. La lingua può stare dietro i denti di sopra.
+Alnını duy. Qaşlar gərilmək məcburiyyətində deyil. Göz qapaqları ağırdırsa ağırdır. Çənə yumşaq dura bilər. Dişlər sıxılmaq məcburiyyətində deyil. Dil üst dişlərin arxasında dura bilər. Kiçik bir yer. Təhlükəsiz bir yer.
 
-Resta tre respiri. Entra. Esce. Non cambiarli. Guarda soltanto.
+İndi üç nəfəs. Dəyişdirmirsən. İdarə etmirsən. Hava gəlir. Hava çıxır. Alışda burunda bir az sərinlik ola bilər. Verişdə bir az ilıq. Bu texnika deyil. Yalnız duyum.
 
-I lati del collo. Le orecchie. Le spalle non devono salire verso le orecchie. Un millimetro di spazio basta, e anche nessuno. I palmi. Le dita. La pancia può muoversi un poco con il respiro. Senza forza.
+Boyunun iki yanı. Qulaqlar. Çiyinlər qulaqlara yapışmaq məcburiyyətində deyil. Bir milim boşluq olsa da olar. Ovuc budda və ya yanlarda. Barmaqlar bükülmək məcburiyyətində deyil. Qarın nəfəslə bir az hərəkət edə bilər. Məcburiyyət yoxdur.
 
-Se le piante sono a terra, la terra ti tiene. Tallone. Arco. Dita. Se sei sdraiata, il letto ti tiene. Qui due respiri.
+Ayaqlar yerdədirsə yer səni tutur. Daban. Tağ. Barmaq ucları. Uzanırsansa çarpayı tutur. Ağırlıq aşağıda dura bilər. Yarış yoxdur.
 
-Se la mente torna a una lista, non è un errore. Torna a una zona. Mascella, o palmo, o pianta. Poi di nuovo il respiro.
+Ağıl siyahıya qayıdarsa bu səhv deyil. Siyahılar belə edir. Bir yerə qayıt. Çənə, ya ovuc, ya ayaq altı. Sonra yenə bu nəfəsə.
 
-Il peso delle spalle. Il petto davanti. Il respiro può essere lì, o al naso. Resta dove è più chiaro. Altri tre respiri.
+İçindən, yavaş: buradayam. Sübut axtarma. Cümlə duyumun yanında durur. Otaq sənin üçün işləmir. Sən otaqdasan.
 
-Non c’è un ordine di rilassarti. Solo arrivare. La stanza non lavora per te. Tu sei nella stanza.
+Çiyinlərin ağırlığı. Sinənin önü. Nəfəs orada da ola bilər, burunda da. Hansı daha aydındırsa orada qal. Daha üç nəfəs. Alış. Veriş. Alış. Veriş. Alış. Veriş.
 
-Caviglie. Ginocchia. Fianchi. Il peso può stare in basso. Non c’è una gara. Il tempo non è una prova.
+Səslər varsa səslər. Uzaq mühərrik, quş, boru, addım. Otaq onları da tutur. Sən də tutulursan.
 
-Dentro, piano: sono qui. Non cercare una prova. La frase basta.
+Bir veriş. Sonra bir də. Ağıl getsə bir ovuca qayıt. İstilik. Kənar. Gerçək.
 
-La fronte ancora. Mascella. Palmi. Piante. Tre respiri.
+Alın bir də. Çənə. Ovuc. Ayaq altı. Son üç nəfəs. Tələsmə.
 
-Se ci sono suoni, ci sono suoni. Un motore lontano, un uccello, un tubo. Non devi spegnerli. La stanza li tiene anche loro.
+Buraxılış: bunu tamaşa etməyəcəksən. Oturduğun yer durur. Sən də durursan. Bu dəqiqələr bəsdir.`,
+    `Это не лечение. Несколько минут — только чтобы прибыть. Ты сидишь или лежишь. Правильной позы нет. Позвоночник не обязан быть колонной. Стул или кровать держит тебя. Есть ткань. Тепло или прохлада. Этого достаточно.
 
-Un’espirazione. Poi un’altra. Se la mente parte, torna a un palmo.
+Глаза могут закрыться или остаться полуоткрытыми. Свет в комнате тот же. Окно то же. Звуки снаружи — часть комнаты. Тебе не нужно их выключать.
 
-Spalle. Pancia. Terra.
+Заметь лоб. Бровям не нужно напрягаться. Если веки тяжёлые — тяжёлые. Челюсть может оставаться мягкой. Зубам не нужно сжиматься. Язык может лежать за верхними зубами. Маленькое место. Безопасное место.
 
-Ultimi tre respiri. Entra. Esce. Entra. Esce. Entra. Esce.
+Сейчас три дыхания. Ты их не меняешь. Не управляешь. Воздух приходит. Воздух уходит. На вдохе у носа может быть чуть прохладнее. На выдохе — чуть теплее. Это не техника. Только ощущение.
 
-Rilascio: non farai di questo una recita. Il posto dove sei resta. Anche tu.`,
-    `Bu müalicə deyil. Yalnız bir neçə dəqiqə. Oturursan və ya uzanırsan. Otaq eyni otaqdır. Pəncərə eyni pəncərədir. Düzgün bir poza yoxdur. Onurğa sütun olmaq məcburiyyətində deyil.
+Стороны шеи. Уши. Плечам не нужно подниматься к ушам. Миллиметра пространства достаточно. Ладони на бёдрах или по бокам. Пальцам не нужно сжиматься. Живот может чуть двигаться с дыханием. Без силы.
 
-Ağırlığın stulda və ya çarpayıda necə paylandığını duy. Omba. Bel. Dabanlar. Parçanın toxunuşu. İstilik və ya sərinlik. Ad bəsdir.
+Если стопы на полу — пол держит тебя. Пятка. Свод. Пальцы. Если ты лежишь — кровать держит. Вес может оставаться внизу. Гонки нет.
 
-Alın. Qaşlar gərilmək məcburiyyətində deyil. Göz qapaqları ağır ola bilər, açıq da qala bilər. Çənə. Dişlər bir-birinə sıxılmaq məcburiyyətində deyil. Dil üst dişlərin arxasında dura bilər.
+Если ум возвращается к списку — это не ошибка. Списки так делают. Вернись к одному месту. Челюсть, или ладонь, или стопа. Потом снова к этому дыханию.
 
-Burada üç nəfəs. Alış. Veriş. Dəyişdirmə. Yalnız izlə.
+Внутри, тихо: я здесь. Не ищи доказательства. Предложение стоит рядом с ощущением. Комната не работает на тебя. Ты в комнате.
 
-Boyunun iki yanı. Qulaqlar. Çiyinlər qulaqlara yapışmaq məcburiyyətində deyil. Bir milim boşluq olsa da olar, olmasa da. Ovuc. Barmaqlar. Qarın nəfəslə bir az hərəkət edə bilər. Məcbur etmə.
+Вес плеч. Перед груди. Дыхание может быть там или в носу. Останься там, где яснее. Ещё три дыхания. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох.
 
-Ayaq altı yerdədirsə yer səni tutur. Daban. Tağ. Barmaq ucları. Uzanırsansa çarpayı tutur. Burada iki nəfəs.
+Если есть звуки — есть звуки. Далёкий мотор, птица, труба, шаг. Комната держит и их. Тебя тоже держат.
 
-Ağıl siyahıya qayıdarsa bu səhv deyil. Bir yerə qayıt. Çənə, ya ovuc, ya ayaq altı. Sonra yenə nəfəs.
+Один выдох. Потом ещё. Если ум ушёл — вернись к одной ладони. Тепло. Край. Настоящее.
 
-Çiyinlərin ağırlığı. Sinənin önü. Nəfəs orada da ola bilər, burunda da. Hansı daha aydındırsa orada qal. Daha üç nəfəs.
+Лоб ещё раз. Челюсть. Ладони. Стопы. Последние три дыхания. Без спешки.
 
-“Rahatla” əmri yoxdur. Yalnız yerləş. Otaq sənin üçün işləmir. Sən otaqdasan.
-
-Bilək. Diz. Omba. Ağırlıq aşağıda dura bilər. Yarış yoxdur. Vaxt yarış deyil.
-
-İçindən, yavaş: buradayam. Sübut axtarma. Cümlə bəsdir.
-
-Alın bir də. Çənə. Ovuc. Ayaq altı. Üç nəfəs.
-
-Səslər varsa səslər. Uzaq bir mühərrik, bir quş, bir boru. Onları bağlamaq məcburiyyətində deyilsən. Otaq onları da tutur.
-
-Bir veriş. Sonra bir də. Ağıl getsə bir ovuca qayıt.
-
-Çiyinlər. Qarın. Yer.
-
-Son üç nəfəs. Alış. Veriş. Alış. Veriş. Alış. Veriş.
-
-Buraxılış: bunu tamaşa etməyəcəksən. Oturduğun yer durur. Sən də.`,
-    `Это не лечение. Только несколько минут. Ты сидишь или лежишь. Комната остаётся комнатой. Окно остаётся окном. Правильной позы нет. Позвоночник не обязан быть колонной.
-
-Заметь, как вес распределяется в стуле или в постели. Бёдра. Спина. Пятки. Ткань. Тепло или прохлада. Имени достаточно.
-
-Лоб. Бровям не нужно напрягаться. Веки могут быть тяжёлыми или оставаться открытыми. Челюсть. Зубам не нужно сжиматься. Язык может лежать за верхними зубами.
-
-Здесь три дыхания. Вдох. Выдох. Не меняй их. Только смотри.
-
-Стороны шеи. Уши. Плечам не нужно подниматься к ушам. Миллиметр пространства достаточен, и его отсутствие тоже. Ладони. Пальцы. Живот может чуть двигаться с дыханием. Без силы.
-
-Если стопы на полу — пол держит тебя. Пятка. Свод. Пальцы. Если ты лежишь — кровать держит. Здесь два дыхания.
-
-Если ум возвращается к списку — это не ошибка. Вернись к одному месту. Челюсть, или ладонь, или стопа. Потом снова дыхание.
-
-Вес плеч. Передняя сторона груди. Дыхание может быть там или в носу. Останься там, где яснее. Ещё три дыхания.
-
-Нет команды расслабиться. Только прибыть. Комната не работает на тебя. Ты в комнате.
-
-Лодыжки. Колени. Бёдра. Вес может оставаться внизу. Гонки нет. Время — не состязание.
-
-Внутри, тихо: я здесь. Не ищи доказательства. Предложения достаточно.
-
-Лоб ещё раз. Челюсть. Ладони. Стопы. Три дыхания.
-
-Если есть звуки — есть звуки. Далёкий мотор, птица, труба. Тебе не нужно их выключать. Комната держит и их.
-
-Один выдох. Потом ещё. Если ум ушёл — вернись к одной ладони.
-
-Плечи. Живот. Земля.
-
-Последние три дыхания. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох.
-
-Отпускание: ты не сделаешь из этого представление. Место, где ты сидишь, остаётся. И ты тоже.`,
+Отпускание: ты не сделаешь из этого представление. Место, где ты сидишь, остаётся. Ты остаёшься. Этих минут достаточно.`,
   ),
 
   'first-breath': pack(
-    `Bu bir tedavi değildir. Nefesi değiştirme. Yönetme. Sadece izle.
+    `Bu bir tedavi değildir. Nefesi bir proje haline getirmeyeceksin. Sadece izliyorsun. Hava zaten geliyor. Hava zaten gidiyor. Sen hakem değilsin. Seyirci gibisin, yumuşak bir seyirci.
 
-Hava nerede daha net. Burun delikleri. Üst dudak. Göğsün önü. Kaburgaların yanları. Karın. Bir yer seç. Orada kal.
+Nerede daha net. Burun delikleri. Üst dudak. Göğsün önü. Kaburgaların yanları. Karın. Bir yer seç. Orada kal. Doğru yer yok. Net olan yer var.
 
-Alış. Hava giriyor. Veriş. Hava çıkıyor. Uzun yapmak zorunda değilsin. Kısa yapmak zorunda değilsin. Ritmi düzeltme.
+Alış. Göğüs hafifçe genişleyebilir. Veriş. Göğüs kendi kendine iner. Uzun yapmak zorunda değilsin. Kısa yapmak zorunda değilsin. Ritmi düzeltme. Bu nefes, bu nefes.
 
-Burada üç nefes. Alış. Veriş. Alış. Veriş. Alış. Veriş.
+Üç nefes burada. Alış. Veriş. Alış. Veriş. Alış. Veriş.
 
-Zihin bir cümleye giderse, bu da nefes gibi gelir ve gider. Bir verişe dön. Havanın bittiği yer. Omuzlar o verişte bir şey kanıtlamak zorunda değil.
+Zihin bir cümleye giderse, cümle de nefes gibi gelir ve gider. Onu kovalama. Bir verişe dön. Havanın bittiği yer. Omuzlar o verişte bir şey kanıtlamak zorunda değil. İnebilirler. İnmezlerse de olur.
 
-Göğüs yükseliyor olabilir. Karın da. İkisini yarıştırma. Hangisi varsa o.
+Veriş biraz uzun olabilir. Zorlama. Uzun olsun diye çekme. Kendiliğinden uzunsa uzun. Değilse değil. İki nefes. Sadece iz.
 
-İki nefes. Sadece iz.
+İçinden: izliyorum. Yönetmiyorum. Bu bir slogan değil. Avuçlar duruyor. Tabanlar duruyor. Nefes geçiyor.
 
-Veriş biraz uzun olabilir. Zorlama. Uzun olsun diye çekme. Kendiliğinden uzunsa uzun. Değilse değil.
+Burun ucu. Serinlik alışta. Biraz daha ılık verişte. Küçük bir fark. Yeter.
 
-İçinden: izliyorum. Yönetmiyorum.
+Zihin plan yaparsa planı izleme. Plan sonra da durur. Şimdi bir veriş yeter. Boyun. Çene. Nefes onları düzeltmek zorunda değil. Onlar duruyor. Nefes geçiyor.
 
-Burun ucu. Serinlik alışta, biraz daha ılık verişte. Bu bir teknik değil. Bir duyum.
+Alış. Küçük bir bekleme. Veriş. Küçük bir bekleme. Boşluk varsa boşluk. Doldurma. Hava bitmesin diye yarışma. Akciğerler işini biliyor.
 
-Üç nefes daha. Zihin plan yaparsa planı izleme. Bir veriş yeter.
+Omuzlar. Karın. Burun. Son dört nefes. Saymayı skora çevirme. Bitene kadar izle. Alış. Veriş. Alış. Veriş. Alış. Veriş. Alış. Veriş.
 
-Boyun. Çene. Nefes onları düzeltmek zorunda değil. Onlar duruyor. Nefes geçiyor.
+Oda duruyor. Sen duruyorsun. Nefes de durmuyor, geçiyor. Bu izlemek yeter.`,
+    `This is not a treatment. You will not turn the breath into a project. You are only watching. Air is already arriving. Air is already leaving. You are not the referee. You are a watcher, a soft one.
 
-Ayaklar yerdeyse yer. Avuçlar. Nefesle birlikte onları da fark edebilirsin. Zorunlu değil.
+Where it is clearer. The nostrils. The upper lip. The front of the chest. The sides of the ribs. The belly. Pick one place. Stay there. There is no correct place. There is the place that is clear.
 
-Alış. Bekleme. Veriş. Bekleme. Boşluk varsa boşluk. Doldurma.
+In. The chest may widen a little. Out. The chest falls on its own. You do not have to make it long. You do not have to make it short. Do not correct the rhythm. This breath, this breath.
 
-İki nefes.
+Three breaths here. In. Out. In. Out. In. Out.
 
-Hava bitmesin diye yarışma. Sen havayı yönetmiyorsun. Akciğerler işini biliyor. Sen seyircisin, hakem değilsin.
+If the mind goes to a sentence, the sentence also arrives and leaves, like breath. Do not chase it. Return to one exhale. The place where the air ends. The shoulders do not have to prove anything on that exhale. They may drop. If they do not, that is all right.
 
-Bir veriş. Sonra bir tane daha.
+The exhale may be a little longer. Do not force it. Do not pull it to make it long. If it is long by itself, it is long. If not, not. Two breaths. Only watch.
 
-Omuzlar. Karın. Burun.
+Inside: I am watching. I am not managing. This is not a slogan. The palms stay. The soles stay. The breath passes.
 
-Son dört nefes. Sayma. Sadece bitene kadar izle. Alış. Veriş. Alış. Veriş. Alış. Veriş. Alış. Veriş.
+The tip of the nose. Cool on the in-breath. A little warmer on the out. A small difference. Enough.
 
-Bırakış: nefesi bir proje haline getirmeyeceksin. Hava giriyor. Hava çıkıyor. Oda duruyor.`,
-    `This is not a treatment. Do not change the breath. Do not manage it. Only watch.
+If the mind makes a plan, do not follow the plan. The plan can wait. Right now one exhale is enough. Neck. Jaw. The breath does not have to fix them. They stay. The breath passes.
 
-Where the air is clearer. The nostrils. The upper lip. The front of the chest. The sides of the ribs. The belly. Pick one place. Stay there.
+In. A small pause. Out. A small pause. If there is a gap, there is a gap. Do not fill it. Do not race so the air will not run out. The lungs know the work.
 
-In. Air arrives. Out. Air leaves. You do not have to make it long. You do not have to make it short. Do not correct the rhythm.
+Shoulders. Belly. Nose. Last four breaths. Do not turn the count into a score. Watch until they finish. In. Out. In. Out. In. Out. In. Out.
 
-Stay for three breaths. In. Out. In. Out. In. Out.
+The room stays. You stay. The breath does not stay — it passes. Watching is enough.`,
+    `Esto no es un tratamiento. No vas a convertir el aliento en un proyecto. Solo miras. El aire ya llega. El aire ya se va. No eres árbitro. Eres quien mira, con suavidad.
 
-If the mind goes to a sentence, that sentence also arrives and leaves, like breath. Return to one exhale. The place where the air ends. The shoulders do not have to prove anything on that exhale.
+Dónde se nota más. Las fosas. El labio de arriba. El pecho por delante. Los lados de las costillas. El vientre. Elige un sitio. Quédate ahí. No hay un sitio correcto. Hay el sitio claro.
 
-The chest may be rising. The belly may be too. Do not race them. Whatever is there is there.
+Entra. El pecho puede ensancharse un poco. Sale. El pecho baja solo. No tienes que alargarlo. No tienes que acortarlo. No corrijas el ritmo. Este aliento, este aliento.
 
-Two breaths. Only watch.
+Tres respiraciones aquí. Entra. Sale. Entra. Sale. Entra. Sale.
 
-The exhale may be a little longer. Do not force it. Do not pull it to make it long. If it is long by itself, it is long. If not, not.
+Si la mente se va a una frase, la frase también llega y se va, como el aliento. No la persigas. Vuelve a una exhalación. El sitio donde el aire termina. Los hombros no tienen que demostrar nada en esa exhalación. Pueden bajar. Si no bajan, está bien.
 
-Inside: I am watching. I am not managing.
+La exhalación puede ser un poco más larga. No fuerces. No la estires. Si es larga sola, es larga. Si no, no. Dos respiraciones. Solo mira.
 
-The tip of the nose. Cool on the in-breath, a little warmer on the out. This is not a technique. A sensation.
+Por dentro: miro. No gestiono. Esto no es un lema. Las palmas están. Las plantas están. El aliento pasa.
 
-Three more breaths. If the mind makes a plan, do not follow the plan. One exhale is enough.
+La punta de la nariz. Fresco al entrar. Un poco más tibio al salir. Una diferencia pequeña. Basta.
 
-Neck. Jaw. The breath does not have to fix them. They stay. The breath passes.
+Si la mente hace un plan, no sigas el plan. El plan puede esperar. Ahora una exhalación basta. Cuello. Mandíbula. El aliento no tiene que arreglarlos. Ellos están. El aliento pasa.
 
-If the feet are on the floor, the floor. The palms. You can notice them with the breath. You do not have to.
+Entra. Una pausa pequeña. Sale. Una pausa pequeña. Si hay un hueco, hay un hueco. No lo llenes. No corras para que no se acabe el aire. Los pulmones saben el trabajo.
 
-In. A pause. Out. A pause. If there is a gap, there is a gap. Do not fill it.
+Hombros. Vientre. Nariz. Las últimas cuatro respiraciones. No conviertas la cuenta en un marcador. Mira hasta que terminen. Entra. Sale. Entra. Sale. Entra. Sale. Entra. Sale.
 
-Two breaths.
+La habitación sigue. Tú sigues. El aliento no se queda: pasa. Mirar basta.`,
+    `Non è una cura. Non farai del respiro un progetto. Guardi soltanto. L’aria sta già arrivando. L’aria sta già andando. Non sei l’arbitro. Sei chi guarda, con dolcezza.
 
-Do not race so the air will not run out. You are not managing the air. The lungs know the work. You are a watcher, not a referee.
+Dove è più chiaro. Le narici. Il labbro di sopra. Il petto davanti. I lati delle costole. La pancia. Scegli un punto. Resta lì. Non c’è un punto giusto. C’è il punto chiaro.
 
-One out-breath. Then another.
+Entra. Il petto può allargarsi un poco. Esce. Il petto scende da solo. Non devi allungarlo. Non devi accorciarlo. Non correggere il ritmo. Questo respiro, questo respiro.
 
-Shoulders. Belly. Nose.
+Tre respiri qui. Entra. Esce. Entra. Esce. Entra. Esce.
 
-Last four breaths. Do not count them as a score. Watch until they finish. In. Out. In. Out. In. Out. In. Out.
+Se la mente va a una frase, anche la frase arriva e se ne va, come il respiro. Non inseguirla. Torna a un’espirazione. Il punto in cui l’aria finisce. Le spalle non devono dimostrare niente in quell’espirazione. Possono scendere. Se non scendono, va bene.
 
-Release: you will not turn the breath into a project. Air arrives. Air leaves. The room stays.`,
-    `Esto no es un tratamiento. No cambies el aliento. No lo gestiones. Solo mira.
+L’espirazione può essere un poco più lunga. Non forzare. Non tirarla. Se è lunga da sola, è lunga. Se no, no. Due respiri. Guarda soltanto.
 
-Dónde el aire se nota más. Las fosas. El labio de arriba. El pecho por delante. Los lados de las costillas. El vientre. Elige un sitio. Quédate ahí.
+Dentro: guardo. Non gestisco. Non è uno slogan. I palmi restano. Le piante restano. Il respiro passa.
 
-Entra. El aire llega. Sale. El aire se va. No tienes que alargarlo. No tienes que acortarlo. No corrijas el ritmo.
+La punta del naso. Fresco all’ingresso. Un poco più tiepido all’uscita. Una piccola differenza. Basta.
 
-Quédate tres respiraciones. Entra. Sale. Entra. Sale. Entra. Sale.
+Se la mente fa un piano, non seguire il piano. Il piano può aspettare. Adesso un’espirazione basta. Collo. Mascella. Il respiro non deve aggiustarli. Restano. Il respiro passa.
 
-Si la mente se va a una frase, esa frase también llega y se va, como el aliento. Vuelve a una exhalación. El sitio donde el aire termina. Los hombros no tienen que demostrar nada en esa exhalación.
+Entra. Una piccola pausa. Esce. Una piccola pausa. Se c’è uno spazio, c’è uno spazio. Non riempirlo. Non correre perché l’aria non finisca. I polmoni sanno il lavoro.
 
-El pecho puede estar subiendo. El vientre también. No los hagas competir. Lo que hay, hay.
+Spalle. Pancia. Naso. Ultimi quattro respiri. Non fare del conto un punteggio. Guarda finché finiscono. Entra. Esce. Entra. Esce. Entra. Esce. Entra. Esce.
 
-Dos respiraciones. Solo mira.
+La stanza resta. Tu resti. Il respiro non resta: passa. Guardare basta.`,
+    `Bu müalicə deyil. Nəfəsi layihə etməyəcəksən. Yalnız izləyirsən. Hava artıq gəlir. Hava artıq çıxır. Sən hakim deyilsən. Tamaşaçısan, yumşaq bir tamaşaçı.
 
-La exhalación puede ser un poco más larga. No fuerces. No la estires para que sea larga. Si es larga sola, es larga. Si no, no.
+Harada daha aydındır. Burun dəlikləri. Üst dodaq. Sinənin önü. Qabırğaların yanı. Qarın. Bir yer seç. Orada qal. Düzgün yer yoxdur. Aydın olan yer var.
 
-Por dentro: miro. No gestiono.
-
-La punta de la nariz. Fresco al entrar, un poco más tibio al salir. Esto no es una técnica. Una sensación.
-
-Tres respiraciones más. Si la mente hace un plan, no sigas el plan. Una exhalación basta.
-
-Cuello. Mandíbula. El aliento no tiene que arreglarlos. Ellos están. El aliento pasa.
-
-Si los pies están en el suelo, el suelo. Las palmas. Puedes notarlos con el aliento. No es obligatorio.
-
-Entra. Una pausa. Sale. Una pausa. Si hay un hueco, hay un hueco. No lo llenes.
-
-Dos respiraciones.
-
-No corras para que no se acabe el aire. No gestionas el aire. Los pulmones saben el trabajo. Eres quien mira, no un árbitro.
-
-Una exhalación. Luego otra.
-
-Hombros. Vientre. Nariz.
-
-Las últimas cuatro respiraciones. No las cuentes como un marcador. Mira hasta que terminen. Entra. Sale. Entra. Sale. Entra. Sale. Entra. Sale.
-
-Suelta: no vas a convertir el aliento en un proyecto. El aire llega. El aire se va. La habitación sigue.`,
-    `Non è una cura. Non cambiare il respiro. Non gestirlo. Guarda soltanto.
-
-Dove l’aria è più chiara. Le narici. Il labbro di sopra. Il petto davanti. I lati delle costole. La pancia. Scegli un punto. Resta lì.
-
-Entra. L’aria arriva. Esce. L’aria se ne va. Non devi allungarlo. Non devi accorciarlo. Non correggere il ritmo.
-
-Resta tre respiri. Entra. Esce. Entra. Esce. Entra. Esce.
-
-Se la mente va a una frase, anche quella frase arriva e se ne va, come il respiro. Torna a un’espirazione. Il punto in cui l’aria finisce. Le spalle non devono dimostrare niente in quell’espirazione.
-
-Il petto può alzarsi. Anche la pancia. Non farli gareggiare. Quello che c’è, c’è.
-
-Due respiri. Guarda soltanto.
-
-L’espirazione può essere un poco più lunga. Non forzare. Non tirarla per farla lunga. Se è lunga da sola, è lunga. Se no, no.
-
-Dentro: guardo. Non gestisco.
-
-La punta del naso. Fresco all’ingresso, un poco più tiepido all’uscita. Non è una tecnica. Una sensazione.
-
-Altri tre respiri. Se la mente fa un piano, non seguire il piano. Un’espirazione basta.
-
-Collo. Mascella. Il respiro non deve aggiustarli. Restano. Il respiro passa.
-
-Se i piedi sono a terra, la terra. I palmi. Puoi notarli con il respiro. Non è obbligatorio.
-
-Entra. Una pausa. Esce. Una pausa. Se c’è uno spazio, c’è uno spazio. Non riempirlo.
-
-Due respiri.
-
-Non correre perché l’aria non finisca. Non gestisci l’aria. I polmoni sanno il lavoro. Sei chi guarda, non un arbitro.
-
-Un’espirazione. Poi un’altra.
-
-Spalle. Pancia. Naso.
-
-Ultimi quattro respiri. Non contarli come un punteggio. Guarda finché finiscono. Entra. Esce. Entra. Esce. Entra. Esce. Entra. Esce.
-
-Rilascio: non farai del respiro un progetto. L’aria arriva. L’aria se ne va. La stanza resta.`,
-    `Bu müalicə deyil. Nəfəsi dəyişdirmə. İdarə etmə. Yalnız izlə.
-
-Hava harada daha aydındır. Burun dəlikləri. Üst dodaq. Sinənin önü. Qabırğaların yanı. Qarın. Bir yer seç. Orada qal.
-
-Alış. Hava gəlir. Veriş. Hava çıxır. Uzun etmək məcburiyyətində deyilsən. Qısa etmək məcburiyyətində deyilsən. Ritmi düzəltmə.
+Alış. Sinə bir az açıla bilər. Veriş. Sinə öz-özünə enir. Uzun etmək məcburiyyətində deyilsən. Qısa etmək məcburiyyətində deyilsən. Ritmi düzəltmə. Bu nəfəs, bu nəfəs.
 
 Burada üç nəfəs. Alış. Veriş. Alış. Veriş. Alış. Veriş.
 
-Ağıl bir cümləyə getsə, o cümlə də nəfəs kimi gəlir və gedir. Bir verişə qayıt. Havanın bitdiyi yer. Çiyinlər o verişdə bir şey sübut etmək məcburiyyətində deyil.
+Ağıl bir cümləyə getsə, cümlə də nəfəs kimi gəlir və gedir. Qovma. Bir verişə qayıt. Havanın bitdiyi yer. Çiyinlər o verişdə bir şey sübut etmək məcburiyyətində deyil. Enə bilər. Enməsə də olar.
 
-Sinə qalxa bilər. Qarın da. Onları yarışdırma. Nə varsa odur.
+Veriş bir az uzun ola bilər. Məcbur etmə. Uzun olsun deyə çəkmə. Öz-özünə uzundursa uzundur. Deyilsə deyil. İki nəfəs. Yalnız izlə.
 
-İki nəfəs. Yalnız izlə.
+İçindən: izləyirəm. İdarə etmirəm. Bu şüar deyil. Ovuc durur. Ayaq altı durur. Nəfəs keçir.
 
-Veriş bir az uzun ola bilər. Məcbur etmə. Uzun olsun deyə çəkmə. Öz-özünə uzundursa uzundur. Deyilsə deyil.
+Burun ucu. Alışda sərin. Verişdə bir az ilıq. Kiçik fərq. Bəsdir.
 
-İçindən: izləyirəm. İdarə etmirəm.
+Ağıl plan qurarsa planı izləmə. Plan sonra da durar. İndi bir veriş bəsdir. Boyun. Çənə. Nəfəs onları düzəltmək məcburiyyətində deyil. Onlar durur. Nəfəs keçir.
 
-Burun ucu. Alışda sərin, verişdə bir az ilıq. Bu texnika deyil. Bir duyum.
+Alış. Kiçik gözləmə. Veriş. Kiçik gözləmə. Boşluq varsa boşluq. Doldurma. Hava bitməsin deyə yarışma. Ağciyərlər işini bilir.
 
-Daha üç nəfəs. Ağıl plan qurarsa planı izləmə. Bir veriş bəsdir.
+Çiyinlər. Qarın. Burun. Son dörd nəfəs. Sayımı xala çevirmə. Bitənə qədər izlə. Alış. Veriş. Alış. Veriş. Alış. Veriş. Alış. Veriş.
 
-Boyun. Çənə. Nəfəs onları düzəltmək məcburiyyətində deyil. Onlar durur. Nəfəs keçir.
+Otaq durur. Sən durursan. Nəfəs durmur, keçir. İzləmək bəsdir.`,
+    `Это не лечение. Ты не сделаешь из дыхания проект. Ты только смотришь. Воздух уже приходит. Воздух уже уходит. Ты не судья. Ты зритель, мягкий зритель.
 
-Ayaqlar yerdədirsə yer. Ovuc. Nəfəslə onları da duya bilərsən. Məcburi deyil.
+Где яснее. Ноздри. Верхняя губа. Перед груди. Бока рёбер. Живот. Выбери одно место. Останься там. Правильного места нет. Есть ясное место.
 
-Alış. Gözləmə. Veriş. Gözləmə. Boşluq varsa boşluq. Doldurma.
-
-İki nəfəs.
-
-Hava bitməsin deyə yarışma. Havanı idarə etmirsən. Ağciyərlər işini bilir. Sən tamaşaçısan, hakim deyilsən.
-
-Bir veriş. Sonra bir də.
-
-Çiyinlər. Qarın. Burun.
-
-Son dörd nəfəs. Xal sayma. Bitənə qədər izlə. Alış. Veriş. Alış. Veriş. Alış. Veriş. Alış. Veriş.
-
-Buraxılış: nəfəsi layihə etməyəcəksən. Hava gəlir. Hava çıxır. Otaq durur.`,
-    `Это не лечение. Не меняй дыхание. Не управляй им. Только смотри.
-
-Где воздух яснее. Ноздри. Верхняя губа. Перед груди. Бока рёбер. Живот. Выбери одно место. Останься там.
-
-Вдох. Воздух приходит. Выдох. Воздух уходит. Не нужно делать его длинным. Не нужно делать его коротким. Не правь ритм.
+Вдох. Грудь может чуть расшириться. Выдох. Грудь опускается сама. Не нужно делать его длинным. Не нужно делать его коротким. Не правь ритм. Это дыхание, это дыхание.
 
 Здесь три дыхания. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох.
 
-Если ум уходит в фразу, эта фраза тоже приходит и уходит, как дыхание. Вернись к одному выдоху. Место, где воздух кончается. Плечам не нужно ничего доказывать на этом выдохе.
+Если ум уходит в фразу, фраза тоже приходит и уходит, как дыхание. Не гонись за ней. Вернись к одному выдоху. Место, где воздух кончается. Плечам не нужно ничего доказывать на этом выдохе. Они могут опуститься. Если нет — тоже хорошо.
 
-Грудь может подниматься. Живот тоже. Не заставляй их соревноваться. Что есть — то есть.
+Выдох может быть чуть длиннее. Не принуждай. Не тяни. Если он длинный сам — длинный. Если нет — нет. Два дыхания. Только смотри.
 
-Два дыхания. Только смотри.
+Внутри: я смотрю. Я не управляю. Это не лозунг. Ладони остаются. Стопы остаются. Дыхание проходит.
 
-Выдох может быть чуть длиннее. Не принуждай. Не тяни, чтобы он стал длинным. Если он длинный сам — длинный. Если нет — нет.
+Кончик носа. Прохлада на вдохе. Чуть теплее на выдохе. Маленькая разница. Достаточно.
 
-Внутри: я смотрю. Я не управляю.
+Если ум строит план — не иди за планом. План может подождать. Сейчас одного выдоха достаточно. Шея. Челюсть. Дыханию не нужно их чинить. Они остаются. Дыхание проходит.
 
-Кончик носа. Прохлада на вдохе, чуть теплее на выдохе. Это не техника. Ощущение.
+Вдох. Маленькая пауза. Выдох. Маленькая пауза. Если есть промежуток — есть промежуток. Не заполняй. Не гонись, чтобы воздух не кончился. Лёгкие знают работу.
 
-Ещё три дыхания. Если ум строит план — не иди за планом. Одного выдоха достаточно.
+Плечи. Живот. Нос. Последние четыре дыхания. Не превращай счёт в очки. Смотри, пока они не закончатся. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох.
 
-Шея. Челюсть. Дыханию не нужно их чинить. Они остаются. Дыхание проходит.
-
-Если стопы на полу — пол. Ладони. Ты можешь заметить их вместе с дыханием. Это не обязательно.
-
-Вдох. Пауза. Выдох. Пауза. Если есть промежуток — есть промежуток. Не заполняй его.
-
-Два дыхания.
-
-Не гонись, чтобы воздух не кончился. Ты не управляешь воздухом. Лёгкие знают работу. Ты зритель, не судья.
-
-Один выдох. Потом ещё.
-
-Плечи. Живот. Нос.
-
-Последние четыре дыхания. Не считай их как очки. Смотри, пока они не закончатся. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох. Вдох. Выдох.
-
-Отпускание: ты не сделаешь из дыхания проект. Воздух приходит. Воздух уходит. Комната остаётся.`,
+Комната остаётся. Ты остаёшься. Дыхание не остаётся — проходит. Смотреть достаточно.`,
   ),
 
   'first-ground': pack(
-    `Bu bir tedavi değildir. İki taban. Yer. Bu kadar.
+    `Bu bir tedavi değildir. İki taban. Yer. Bu kadar basit ve bu kadar gerçek.
 
-Ayaklar yerdeyse: topuk, kemer, parmak. Çorap varsa çorap. Çıplaksa çıplak. Daha sert basmak yok. Sayı yok. Sadece basınç.
+Ayaklar yerdeyse: topuk, kemer, parmak. Çorap varsa çorap. Çıplaksa çıplak. Daha sert basmak yok. Sayı yok. Sadece basınç. Yer seni tutuyor. Sen yeri tutmak zorunda değilsin.
 
-Yatıyorsan: topuklar yatakta, baldırlar, kalça, kürek kemikleri. Yer yine tutuyor. Yatak da bir yer.
+Yatıyorsan topuklar yatakta, baldırlar, kalça, kürek kemikleri. Yatak da bir yer. O da tutuyor.
 
-Burada üç nefes. Her verişte ağırlık milim aşağı inebilir. İnmezse inmez. Yarış yok.
+Üç nefes. Her verişte ağırlık milim aşağı inebilir. İnmezse inmez. Yarış yok.
 
-İçinden: tabanlarım yerde. Kanıt arama. Cümle, duyumun yanında duruyor.
+İçinden: tabanlarım yerde. Kanıt arama. Cümle, duyumun yanında.
 
-Sol taban. Sağ taban. İkisini eşitlemek zorunda değilsin. Biri daha net olabilir. O yeter.
+Sol taban. Sağ taban. İkisini eşitlemek zorunda değilsin. Biri daha net olabilir. O yeter. Dizler. Dizlerin ağırlığı aşağı. Kalçalar sandalyede veya yatakta. Pelvis duruyor. Zorunlu bir imge yok. Sadece ağırlık.
 
-Dizler. Dizlerin ağırlığı aşağı. Kalçalar sandalyede veya yatakta. Pelvis bir kase gibi durabilir. Zorunlu bir imge değil. Sadece ağırlık.
-
-İki nefes.
-
-Eller. Avuçlar uylukta veya yanlarda veya göğüste. Onlar da bir yer. Parmak uçları.
-
-Zihin “gerçek gibi değil” derse, tartışma. Tabanlara dön. Basınç. Kumaş. Isı.
-
-Üç nefes.
+Eller. Avuçlar uylukta veya yanlarda. Onlar da bir yer. Parmak uçları. Zihin “gerçek gibi değil” derse, tartışma. Tabanlara dön. Basınç. Kumaş. Isı. Üç nefes.
 
 Ayak bilekleri. İnce kemikler. Çorabın lastiği varsa lastik. Ayakkabı varsa ayakkabının içi. Detay küçük. Detay gerçek.
 
-Yer seni tutuyor. Sen yeri tutmak zorunda değilsin.
+Omurga dik durmak zorunda değil. Bir milim kambur olsa da yer duruyor. İki nefes. İçinden yine: yer tutuyor. Ben duruyorum.
 
-Omurga dik durmak zorunda değil. Bir milim kambur olsa da yer duruyor.
+Başın ağırlığı boyunda. Boyun omuzlarda. Omuzlar gövdede. Gövde kalçada. Kalça yerde. Bir zincir. Koparmak yok. Sadece fark.
 
-İki nefes.
+Zihin geleceğe giderse, taban. Geçmişe giderse, taban. Listeye giderse, taban. Sol. Sağ. İkisi.
 
-İçinden yine: yer tutuyor. Ben duruyorum.
-
-Başın ağırlığı boyunda. Boyun omuzlarda. Omuzlar gövdede. Gövde kalçada. Kalça yerde. Zincir. Koparmak yok. Sadece fark.
-
-Üç nefes. Verişte milim.
-
-Zihin geleceğe giderse, taban. Geçmişe giderse, taban. Listeye giderse, taban.
-
-Sol. Sağ. İkisi.
-
-Son nefesler. Dört tane. Saymayı skora çevirme. Alış veriş, alış veriş, alış veriş, alış veriş.
-
-Ayaklar. Yer. Oda.
+Son dört nefes. Saymayı skora çevirme. Ayaklar. Yer. Oda. Sen.
 
 Bırakış: yeri bir sınav haline getirmeyeceksin. Tabanlar duruyor. Yer duruyor. Sen de.`,
-    `This is not a treatment. Two soles. The ground. That is all.
+    `This is not a treatment. Two soles. The ground. This simple, and this actual.
 
-If the feet are on the floor: heel, arch, toes. If there are socks, socks. If bare, bare. No pressing harder. No counting. Only pressure.
+If the feet are on the floor: heel, arch, toes. If there are socks, socks. If bare, bare. No pressing harder. No counting. Only pressure. The ground holds you. You do not have to hold the ground.
 
-If you are lying down: heels in the bed, calves, hips, shoulder blades. The ground is still holding. A bed is also ground.
+If you are lying down: heels in the bed, calves, hips, shoulder blades. A bed is also ground. It holds too.
 
-Stay for three breaths. On each exhale the weight may drop a millimetre. If it does not, it does not. No race.
+Three breaths. On each exhale the weight may drop a millimetre. If it does not, it does not. No race.
 
 Inside: my soles are on the floor. Do not look for proof. The sentence stands next to the sensation.
 
-Left sole. Right sole. You do not have to make them equal. One may be clearer. That is enough.
+Left sole. Right sole. You do not have to make them equal. One may be clearer. That is enough. Knees. The weight of the knees downward. Hips in the chair or the bed. The pelvis stays. No required image. Only weight.
 
-Knees. The weight of the knees downward. Hips in the chair or the bed. The pelvis may sit like a bowl. Not a required image. Only weight.
-
-Two breaths.
-
-Hands. Palms on the thighs or at the sides or on the chest. They are also a place. Fingertips.
-
-If the mind says it does not feel real, do not argue. Return to the soles. Pressure. Cloth. Heat.
-
-Three breaths.
+Hands. Palms on the thighs or at the sides. They are also a place. Fingertips. If the mind says it does not feel real, do not argue. Return to the soles. Pressure. Cloth. Heat. Three breaths.
 
 Ankles. Thin bones. If there is an elastic of a sock, the elastic. If there are shoes, the inside of the shoe. The detail is small. The detail is actual.
 
-The ground holds you. You do not have to hold the ground.
-
-The spine does not have to sit upright. A millimetre of curve, and the ground still stays.
-
-Two breaths.
-
-Inside again: the ground holds. I stay.
+The spine does not have to sit upright. A millimetre of curve, and the ground still stays. Two breaths. Inside again: the ground holds. I stay.
 
 The weight of the head in the neck. The neck in the shoulders. The shoulders in the torso. The torso in the hips. The hips on the ground. A chain. Do not break it. Only notice.
 
-Three breaths. A millimetre on the exhale.
+If the mind goes to the future, the soles. If it goes to the past, the soles. If it goes to a list, the soles. Left. Right. Both.
 
-If the mind goes to the future, the soles. If it goes to the past, the soles. If it goes to a list, the soles.
-
-Left. Right. Both.
-
-Last breaths. Four. Do not turn the count into a score. In out, in out, in out, in out.
-
-Feet. Ground. Room.
+Last four breaths. Do not turn the count into a score. Feet. Ground. Room. You.
 
 Release: you will not turn the ground into an exam. The soles stay. The ground stays. So do you.`,
-    `Esto no es un tratamiento. Dos plantas. El suelo. Eso es todo.
+    `Esto no es un tratamiento. Dos plantas. El suelo. Así de simple y así de real.
 
-Si los pies están en el suelo: talón, arco, dedos. Si hay calcetines, calcetines. Si estás descalza, descalza. No aprietes más. No cuentes. Solo la presión.
+Si los pies están en el suelo: talón, arco, dedos. Si hay calcetines, calcetines. Si estás descalza, descalza. No aprietes más. No cuentes. Solo la presión. El suelo te sostiene. Tú no tienes que sostener el suelo.
 
-Si estás tumbada: talones en la cama, pantorrillas, caderas, omóplatos. El suelo sigue sosteniendo. Una cama también es suelo.
+Si estás tumbada: talones en la cama, pantorrillas, caderas, omóplatos. Una cama también es suelo. También sostiene.
 
-Quédate tres respiraciones. En cada exhalación el peso puede bajar un milímetro. Si no baja, no baja. Sin carrera.
+Tres respiraciones. En cada exhalación el peso puede bajar un milímetro. Si no baja, no baja. Sin carrera.
 
 Por dentro: mis plantas están en el suelo. No busques una prueba. La frase está junto a la sensación.
 
-Planta izquierda. Planta derecha. No tienes que igualarlas. Una puede ser más clara. Basta.
+Planta izquierda. Planta derecha. No tienes que igualarlas. Una puede ser más clara. Basta. Rodillas. El peso de las rodillas hacia abajo. Caderas en la silla o en la cama. La pelvis está. No hay una imagen obligatoria. Solo peso.
 
-Rodillas. El peso de las rodillas hacia abajo. Caderas en la silla o en la cama. La pelvis puede quedar como un cuenco. No es una imagen obligatoria. Solo peso.
+Manos. Palmas en los muslos o a los lados. También son un sitio. Yemas. Si la mente dice que no se siente real, no discutas. Vuelve a las plantas. Presión. Tela. Calor. Tres respiraciones.
 
-Dos respiraciones.
+Tobillos. Huesos finos. Si hay el elástico de un calcetín, el elástico. Si hay zapatos, el interior. El detalle es pequeño. El detalle es real.
 
-Manos. Palmas en los muslos o a los lados o en el pecho. También son un sitio. Yemas.
-
-Si la mente dice que no se siente real, no discutas. Vuelve a las plantas. Presión. Tela. Calor.
-
-Tres respiraciones.
-
-Tobillos. Huesos finos. Si hay el elástico de un calcetín, el elástico. Si hay zapatos, el interior del zapato. El detalle es pequeño. El detalle es real.
-
-El suelo te sostiene. Tú no tienes que sostener el suelo.
-
-La columna no tiene que estar erguida. Un milímetro de curva, y el suelo sigue.
-
-Dos respiraciones.
-
-Por dentro otra vez: el suelo sostiene. Yo me quedo.
+La columna no tiene que estar erguida. Un milímetro de curva, y el suelo sigue. Dos respiraciones. Por dentro otra vez: el suelo sostiene. Yo me quedo.
 
 El peso de la cabeza en el cuello. El cuello en los hombros. Los hombros en el tronco. El tronco en las caderas. Las caderas en el suelo. Una cadena. No la rompas. Solo nota.
 
-Tres respiraciones. Un milímetro en la exhalación.
+Si la mente se va al futuro, las plantas. Al pasado, las plantas. A una lista, las plantas. Izquierda. Derecha. Las dos.
 
-Si la mente se va al futuro, las plantas. Si se va al pasado, las plantas. Si se va a una lista, las plantas.
-
-Izquierda. Derecha. Las dos.
-
-Últimas respiraciones. Cuatro. No conviertas la cuenta en un marcador. Entra sale, entra sale, entra sale, entra sale.
-
-Pies. Suelo. Habitación.
+Últimas cuatro respiraciones. No conviertas la cuenta en un marcador. Pies. Suelo. Habitación. Tú.
 
 Suelta: no vas a convertir el suelo en un examen. Las plantas siguen. El suelo sigue. Tú también.`,
-    `Non è una cura. Due piante. La terra. Tutto qui.
+    `Non è una cura. Due piante. La terra. Così semplice e così vero.
 
-Se i piedi sono a terra: tallone, arco, dita. Se ci sono calzini, calzini. Se sei scalza, scalza. Non premere più forte. Non contare. Solo la pressione.
+Se i piedi sono a terra: tallone, arco, dita. Se ci sono calzini, calzini. Se sei scalza, scalza. Non premere più forte. Non contare. Solo la pressione. La terra ti tiene. Tu non devi tenere la terra.
 
-Se sei sdraiata: talloni nel letto, polpacci, fianchi, scapole. La terra tiene ancora. Un letto è anche terra.
+Se sei sdraiata: talloni nel letto, polpacci, fianchi, scapole. Un letto è anche terra. Tiene anche lui.
 
-Resta tre respiri. A ogni espirazione il peso può scendere di un millimetro. Se non scende, non scende. Niente gara.
+Tre respiri. A ogni espirazione il peso può scendere di un millimetro. Se non scende, non scende. Niente gara.
 
 Dentro: le piante sono a terra. Non cercare una prova. La frase sta accanto alla sensazione.
 
-Pianta sinistra. Pianta destra. Non devi renderle uguali. Una può essere più chiara. Basta.
+Pianta sinistra. Pianta destra. Non devi renderle uguali. Una può essere più chiara. Basta. Ginocchia. Il peso delle ginocchia verso il basso. Fianchi sulla sedia o sul letto. Il bacino resta. Nessuna immagine obbligatoria. Solo peso.
 
-Ginocchia. Il peso delle ginocchia verso il basso. Fianchi sulla sedia o sul letto. Il bacino può stare come una ciotola. Non è un’immagine obbligatoria. Solo peso.
+Mani. Palmi sulle cosce o ai lati. Anche loro sono un luogo. Punte. Se la mente dice che non sembra reale, non discutere. Torna alle piante. Pressione. Stoffa. Calore. Tre respiri.
 
-Due respiri.
+Caviglie. Ossa sottili. Se c’è l’elastico del calzino, l’elastico. Se ci sono scarpe, l’interno. Il dettaglio è piccolo. Il dettaglio è vero.
 
-Mani. Palmi sulle cosce o ai lati o sul petto. Anche loro sono un luogo. Punte delle dita.
-
-Se la mente dice che non sembra reale, non discutere. Torna alle piante. Pressione. Stoffa. Calore.
-
-Tre respiri.
-
-Caviglie. Ossa sottili. Se c’è l’elastico del calzino, l’elastico. Se ci sono scarpe, l’interno della scarpa. Il dettaglio è piccolo. Il dettaglio è vero.
-
-La terra ti tiene. Tu non devi tenere la terra.
-
-La schiena non deve stare dritta. Un millimetro di curva, e la terra resta.
-
-Due respiri.
-
-Dentro di nuovo: la terra tiene. Io resto.
+La schiena non deve stare dritta. Un millimetro di curva, e la terra resta. Due respiri. Dentro di nuovo: la terra tiene. Io resto.
 
 Il peso della testa nel collo. Il collo nelle spalle. Le spalle nel busto. Il busto nei fianchi. I fianchi a terra. Una catena. Non spezzarla. Nota soltanto.
 
-Tre respiri. Un millimetro sull’espirazione.
+Se la mente va al futuro, le piante. Al passato, le piante. A una lista, le piante. Sinistra. Destra. Tutte e due.
 
-Se la mente va al futuro, le piante. Se va al passato, le piante. Se va a una lista, le piante.
-
-Sinistra. Destra. Tutte e due.
-
-Ultimi respiri. Quattro. Non fare del conto un punteggio. Entra esce, entra esce, entra esce, entra esce.
-
-Piedi. Terra. Stanza.
+Ultimi quattro respiri. Non fare del conto un punteggio. Piedi. Terra. Stanza. Tu.
 
 Rilascio: non farai della terra un esame. Le piante restano. La terra resta. Anche tu.`,
-    `Bu müalicə deyil. İki ayaq altı. Yer. Bu qədər.
+    `Bu müalicə deyil. İki ayaq altı. Yer. Bu qədər sadə və bu qədər gerçək.
 
-Ayaqlar yerdədirsə: daban, tağ, barmaq. Corab varsa corab. Çılpaqdırsa çılpaq. Daha bərk basmaq yoxdur. Say yoxdur. Yalnız təzyiq.
+Ayaqlar yerdədirsə: daban, tağ, barmaq. Corab varsa corab. Çılpaqdırsa çılpaq. Daha bərk basmaq yoxdur. Say yoxdur. Yalnız təzyiq. Yer səni tutur. Sən yeri tutmaq məcburiyyətində deyilsən.
 
-Uzanırsansa: dabanlar çarpayıda, baldırlar, omba, kürək sümükləri. Yer yenə tutur. Çarpayı da bir yerdir.
+Uzanırsansa dabanlar çarpayıda, baldırlar, omba, kürək sümükləri. Çarpayı da bir yerdir. O da tutur.
 
-Burada üç nəfəs. Hər verişdə ağırlıq milim aşağı enə bilər. Enməsə enməz. Yarış yoxdur.
+Üç nəfəs. Hər verişdə ağırlıq milim aşağı enə bilər. Enməsə enməz. Yarış yoxdur.
 
 İçindən: ayaq altım yerdədir. Sübut axtarma. Cümlə duyumun yanında durur.
 
-Sol ayaq altı. Sağ ayaq altı. Onları bərabər etmək məcburiyyətində deyilsən. Biri daha aydın ola bilər. O bəsdir.
+Sol ayaq altı. Sağ ayaq altı. Onları bərabər etmək məcburiyyətində deyilsən. Biri daha aydın ola bilər. O bəsdir. Dizlər. Dizlərin ağırlığı aşağı. Omba stulda və ya çarpayıda. Çanaq durur. Məcburi şəkil yoxdur. Yalnız ağırlıq.
 
-Dizlər. Dizlərin ağırlığı aşağı. Omba stulda və ya çarpayıda. Çanaq bir kasa kimi dura bilər. Məcburi bir şəkil deyil. Yalnız ağırlıq.
+Əllər. Ovuc budda və ya yanlarda. Onlar da bir yerdir. Barmaq ucları. Ağıl “real kimi deyil” desə, mübahisə etmə. Ayaq altına qayıt. Təzyiq. Parça. İstilik. Üç nəfəs.
 
-İki nəfəs.
+Biləklər. İncə sümüklər. Corabın rezinı varsa rezin. Ayaqqabı varsa içi. Detal kiçikdir. Detal gerçəkdir.
 
-Əllər. Ovuc budda və ya yanlarda və ya sinədə. Onlar da bir yerdir. Barmaq ucları.
-
-Ağıl “real kimi deyil” desə, mübahisə etmə. Ayaq altına qayıt. Təzyiq. Parça. İstilik.
-
-Üç nəfəs.
-
-Biləklər. İncə sümüklər. Corabın rezinı varsa rezin. Ayaqqabı varsa ayaqqabının içi. Detal kiçikdir. Detal gerçəkdir.
-
-Yer səni tutur. Sən yeri tutmaq məcburiyyətində deyilsən.
-
-Onurğa dik durmaq məcburiyyətində deyil. Bir milim əyri olsa da yer durur.
-
-İki nəfəs.
-
-İçindən yenə: yer tutur. Mən dururam.
+Onurğa dik durmaq məcburiyyətində deyil. Bir milim əyri olsa da yer durur. İki nəfəs. İçindən yenə: yer tutur. Mən dururam.
 
 Başın ağırlığı boyunda. Boyun çiyində. Çiyin gövdədə. Gövdə ombada. Omba yerdə. Zəncir. Qırma. Yalnız duy.
 
-Üç nəfəs. Verişdə milim.
+Ağıl gələcəyə getsə, ayaq altı. Keçmişə getsə, ayaq altı. Siyahıya getsə, ayaq altı. Sol. Sağ. İkisi.
 
-Ağıl gələcəyə getsə, ayaq altı. Keçmişə getsə, ayaq altı. Siyahıya getsə, ayaq altı.
-
-Sol. Sağ. İkisi.
-
-Son nəfəslər. Dörd. Sayımı xala çevirmə. Alış veriş, alış veriş, alış veriş, alış veriş.
-
-Ayaqlar. Yer. Otaq.
+Son dörd nəfəs. Sayımı xala çevirmə. Ayaqlar. Yer. Otaq. Sən.
 
 Buraxılış: yeri imtahan etməyəcəksən. Ayaq altı durur. Yer durur. Sən də.`,
-    `Это не лечение. Две стопы. Земля. Вот и всё.
+    `Это не лечение. Две стопы. Земля. Так просто и так по-настоящему.
 
-Если стопы на полу: пятка, свод, пальцы. Если есть носки — носки. Если босиком — босиком. Не дави сильнее. Не считай. Только давление.
+Если стопы на полу: пятка, свод, пальцы. Если есть носки — носки. Если босиком — босиком. Не дави сильнее. Не считай. Только давление. Земля держит тебя. Тебе не нужно держать землю.
 
-Если ты лежишь: пятки в постели, икры, бёдра, лопатки. Земля всё равно держит. Кровать тоже земля.
+Если ты лежишь: пятки в постели, икры, бёдра, лопатки. Кровать тоже земля. Она тоже держит.
 
-Здесь три дыхания. На каждом выдохе вес может опуститься на миллиметр. Если не опускается — не опускается. Без гонки.
+Три дыхания. На каждом выдохе вес может опуститься на миллиметр. Если не опускается — не опускается. Без гонки.
 
 Внутри: стопы на полу. Не ищи доказательства. Предложение стоит рядом с ощущением.
 
-Левая стопа. Правая стопа. Не нужно их уравнивать. Одна может быть яснее. Этого достаточно.
+Левая стопа. Правая стопа. Не нужно их уравнивать. Одна может быть яснее. Этого достаточно. Колени. Вес коленей вниз. Бёдра в стуле или в постели. Таз остаётся. Нет обязательного образа. Только вес.
 
-Колени. Вес коленей вниз. Бёдра в стуле или в постели. Таз может сидеть как чаша. Не обязательный образ. Только вес.
+Руки. Ладони на бёдрах или по бокам. Они тоже место. Кончики пальцев. Если ум говорит, что это не как настоящее — не спорь. Вернись к стопам. Давление. Ткань. Тепло. Три дыхания.
 
-Два дыхания.
+Лодыжки. Тонкие кости. Если есть резинка носка — резинка. Если есть обувь — внутренняя сторона. Деталь маленькая. Деталь настоящая.
 
-Руки. Ладони на бёдрах, или по бокам, или на груди. Они тоже место. Кончики пальцев.
-
-Если ум говорит, что это не как настоящее — не спорь. Вернись к стопам. Давление. Ткань. Тепло.
-
-Три дыхания.
-
-Лодыжки. Тонкие кости. Если есть резинка носка — резинка. Если есть обувь — внутренняя сторона обуви. Деталь маленькая. Деталь настоящая.
-
-Земля держит тебя. Тебе не нужно держать землю.
-
-Позвоночнику не нужно сидеть прямо. Миллиметр изгиба — и земля всё равно остаётся.
-
-Два дыхания.
-
-Внутри снова: земля держит. Я остаюсь.
+Позвоночнику не нужно сидеть прямо. Миллиметр изгиба — и земля всё равно остаётся. Два дыхания. Внутри снова: земля держит. Я остаюсь.
 
 Вес головы в шее. Шея в плечах. Плечи в туловище. Туловище в бёдрах. Бёдра на земле. Цепь. Не рви её. Только заметь.
 
-Три дыхания. Миллиметр на выдохе.
+Если ум уходит в будущее — стопы. В прошлое — стопы. В список — стопы. Левая. Правая. Обе.
 
-Если ум уходит в будущее — стопы. В прошлое — стопы. В список — стопы.
-
-Левая. Правая. Обе.
-
-Последние дыхания. Четыре. Не превращай счёт в очки. Вдох выдох, вдох выдох, вдох выдох, вдох выдох.
-
-Стопы. Земля. Комната.
+Последние четыре дыхания. Не превращай счёт в очки. Стопы. Земля. Комната. Ты.
 
 Отпускание: ты не сделаешь из земли экзамен. Стопы остаются. Земля остаётся. И ты тоже.`,
   ),
 
   'room-door': pack(
-    `Bu bir tedavi değildir. Bildiğin bir oda. İcat yok. Film seti yok.
+    `Bu bir tedavi değildir. Bildiğin bir oda. Bir kapı. Kapıyı açmak zorunda değilsin. Kapamak zorunda da değilsin. Sadece kapının olduğu odada duruyorsun.
 
-Kapıyı içinden gör. Dört kenar. Üst eşik. Alt eşik. Menteşe tarafı. Kol tarafı. Renk varsa renk. Yoksa sadece dikdörtgen yeter.
+Sırt yaslanabilir. Ayaklar yerde. Kapı odanın öteki ucunda veya hemen yanında. Mesafe önemli değil. Sen buradasın. Kapı orada.
 
-Burada üç nefes.
+Üç nefes. Değiştirme. Yönetme. Hava giriyor. Hava çıkıyor. Nefes kapıya gitmiyor. Sende kalıyor.
 
-Pencere. Cam. Perde varsa perde. Işık içeri giriyorsa giriyor. Girmiyorsa oda yine oda.
+Zihin tokmağa uzanabilir. Açılsa. Kapanmasa. İçerde ne var. Bu cümleler gelebilir. Onları kovalama. Tokmağa dokunma. Eşiğe dön. Ayak. Avuç. Bu nefes.
 
-Yerin cinsi. Parke, halı, fayans, beton. Çıplak ayak veya çorap. Bir isim.
+Kapı bir resim olabilir. Gerçek bir eşik de olabilir. İkisi de aynı daveti taşır: zorlamak yok. Beklemek boşluk değil. Beklemek burada olmak.
 
-Üç nesne. Birincisi. Adını içinden söyle. İkincisi. Üçüncüsü. Sıfat gerekmez. “Güzel” yok. Sadece ad.
+Omuzlar. Çene. Dil. Herbiri kendi ağırlığına bırakılabilir. Kapı kımıldamasa oturum bozulmaz. Sen kımıldamasan kapı bozulmaz.
 
-İki nefes.
+İçinden: eşikteyim. Kanıt arama. Cümle, duyumun yanında. Dört nefes. Bir: burun. İki: göğüs. Üç: çıkış. Dört: duruş. Sonra yine ayaklar.
 
-Kapı yerinde. Sen yerindesin. Odayı dekore etmeyeceksin. Nesneleri düzeltmeyeceksin.
+İçeride bir şey hazır değilse, hazır değil. Bu bir teşhis değil. Sadece şu an. Eşikte kalmak, içeri girmemek de bir seçim. Çıkmamak da.
 
-Zihin başka bir oda uydurursa, bu odaya dön. Bu kapı. Bu kenar.
+Sesler varsa sesler. Koridor, bir adım, uzak bir kapı. Oda onları da tutuyor. Sen de tutuluyorsun. Avuçlar uylukta. Isı. Kenar. Gerçek.
 
-Tavan. Dört köşe. Lamba varsa lamba. Kapalıysa kapalı.
+Son üç nefes. Acele yok. Kapı hâlâ orada. Sen hâlâ buradasın. İkisi de doğru olabilir.
 
-Üç nefes.
+Bırakış: kapıyı bir sınav haline getirmeyeceksin. Eşik duruyor. Oda duruyor. Sen de. Gözler yavaşça. Işık. Eller. Kapıya gitmek zorunda değilsin. Kalmak yeter.`,
+    `This is not a treatment. A room you know. A door. You do not have to open it. You do not have to close it. You are only staying in the room where the door is.
 
-Kulak. Odadaki bir ses. Buzdolabı, sokak, kendi nefesin. Ses bir kenar da olabilir.
+The back can rest. Feet on the floor. The door is at the other end of the room, or close beside you. Distance does not matter. You are here. The door is there.
 
-İçinden: bu oda. Bu kapı.
+Three breaths. Do not change them. Do not manage them. Air arrives. Air leaves. The breath does not go to the door. It stays with you.
 
-Eller. Avuç. Sonra yine kapının dikdörtgeni.
+The mind can reach for the handle. Let it open. Let it stay shut. What is inside. Those sentences can arrive. Do not chase them. Do not touch the handle. Return to the threshold. Foot. Palm. This breath.
 
-İki nefes.
+The door can be a picture. It can be a real doorway. Both carry the same invitation: no forcing. Waiting is not emptiness. Waiting is being here.
 
-Eşik. Geçmek zorunda değilsin. Kapı açık olsa da, kapalı olsa da, sen odadasın.
+Shoulders. Jaw. Tongue. Each can drop into its own weight. If the door does not move, the session is not broken. If you do not move, the door is not broken.
 
-Son dört nefes. Kapı. Pencere. Yer. Sen.
+Inside: I am at the threshold. Do not look for proof. The sentence stands next to the sensation. Four breaths. One: the nose. Two: the chest. Three: leaving. Four: stillness. Then the feet again.
 
-Bırakış: odayı bir kanıt haline getirmeyeceksin. Kapı duruyor. Sen duruyorsun.`,
-    `This is not a treatment. A room you know. No invention. No film set.
+If something inside is not ready, it is not ready. This is not a diagnosis. It is only this moment. Staying at the threshold, not going in, is also a choice. Not leaving is also a choice.
 
-See the door from the inside. Four edges. The top of the frame. The sill. The hinge side. The handle side. If there is a colour, the colour. If not, the rectangle is enough.
+If there are sounds, there are sounds. A hall, a step, a far door. The room holds them too. You are being held as well. Palms on the thighs. Heat. Edge. Actual.
 
-Stay for three breaths.
+Last three breaths. No hurry. The door is still there. You are still here. Both can be true.
 
-The window. Glass. If there is a curtain, the curtain. If light is coming in, it is coming in. If not, the room is still the room.
+Release: you will not turn the door into an exam. The threshold stays. The room stays. So do you. Eyes slowly. Light. Hands. You do not have to go to the door. Staying is enough.`,
+    `Esto no es un tratamiento. Una habitación que conoces. Una puerta. No tienes que abrirla. Tampoco cerrarla. Solo estás en la habitación donde está la puerta.
 
-The kind of floor. Wood, rug, tile, concrete. Bare feet or socks. One name.
+La espalda puede apoyarse. Los pies en el suelo. La puerta está al otro lado, o cerca. La distancia no importa. Tú estás aquí. La puerta está ahí.
 
-Three objects. The first. Say the name inside. The second. The third. No adjective needed. No “nice”. Only the name.
+Tres respiraciones. No las cambies. No las gestiones. El aire llega. El aire se va. El aliento no va a la puerta. Se queda contigo.
 
-Two breaths.
+La mente puede ir al picaporte. Que se abra. Que se quede cerrada. Qué hay dentro. Esas frases pueden llegar. No las persigas. No toques el picaporte. Vuelve al umbral. Pie. Palma. Este aliento.
 
-The door is in place. You are in place. You will not redecorate. You will not tidy the objects.
+La puerta puede ser una imagen. Puede ser un umbral real. Las dos traen la misma invitación: no forzar. Esperar no es vacío. Esperar es estar aquí.
 
-If the mind invents another room, return to this one. This door. This edge.
+Hombros. Mandíbula. Lengua. Cada uno puede caer en su peso. Si la puerta no se mueve, la sesión no se rompe. Si tú no te mueves, la puerta no se rompe.
 
-The ceiling. Four corners. If there is a lamp, the lamp. If it is off, it is off.
+Por dentro: estoy en el umbral. No busques una prueba. La frase está junto a la sensación. Cuatro respiraciones. Una: la nariz. Dos: el pecho. Tres: la salida. Cuatro: la quietud. Luego los pies otra vez.
 
-Three breaths.
+Si algo dentro no está listo, no está listo. Esto no es un diagnóstico. Es solo este momento. Quedarte en el umbral, no entrar, también es una elección. No salir también.
 
-The ear. One sound in the room. A fridge, a street, your own breath. A sound can also be an edge.
+Si hay sonidos, hay sonidos. Un pasillo, un paso, una puerta lejana. La habitación también los sostiene. A ti también. Palmas en los muslos. Calor. Borde. Real.
 
-Inside: this room. This door.
+Últimas tres respiraciones. Sin prisa. La puerta sigue ahí. Tú sigues aquí. Las dos cosas pueden ser ciertas.
 
-Hands. Palms. Then the rectangle of the door again.
+Suelta: no vas a convertir la puerta en un examen. El umbral sigue. La habitación sigue. Tú también. Los ojos despacio. Luz. Manos. No tienes que ir a la puerta. Quedarte basta.`,
+    `Non è una cura. Una stanza che conosci. Una porta. Non devi aprirla. Non devi chiuderla. Resti solo nella stanza dove c’è la porta.
 
-Two breaths.
+La schiena può appoggiarsi. I piedi a terra. La porta è in fondo, o accanto. La distanza non conta. Tu sei qui. La porta è lì.
 
-The threshold. You do not have to cross it. Whether the door is open or closed, you are in the room.
+Tre respiri. Non cambiarli. Non gestirli. L’aria arriva. L’aria se ne va. Il respiro non va alla porta. Resta con te.
 
-Last four breaths. Door. Window. Floor. You.
+La mente può andare alla maniglia. Che si apra. Che resti chiusa. Cosa c’è dentro. Quelle frasi possono arrivare. Non inseguirle. Non toccare la maniglia. Torna alla soglia. Piede. Palmo. Questo respiro.
 
-Release: you will not turn the room into a proof. The door stays. You stay.`,
-    `Esto no es un tratamiento. Una habitación que conoces. Sin inventar. Sin plató.
+La porta può essere un’immagine. Può essere una soglia vera. Entrambe portano lo stesso invito: non forzare. Aspettare non è vuoto. Aspettare è essere qui.
 
-Mira la puerta desde dentro. Cuatro bordes. El dintel. El umbral. El lado de los goznes. El lado del pomo. Si hay un color, el color. Si no, el rectángulo basta.
+Spalle. Mascella. Lingua. Ognuna può cadere nel proprio peso. Se la porta non si muove, la sessione non si rompe. Se tu non ti muovi, la porta non si rompe.
 
-Quédate tres respiraciones.
+Dentro: sono sulla soglia. Non cercare una prova. La frase sta accanto alla sensazione. Quattro respiri. Uno: il naso. Due: il petto. Tre: l’uscita. Quattro: la quiete. Poi di nuovo i piedi.
 
-La ventana. El cristal. Si hay cortina, la cortina. Si entra luz, entra. Si no, la habitación sigue.
+Se qualcosa dentro non è pronto, non è pronto. Questo non è una diagnosi. È solo questo momento. Restare sulla soglia, non entrare, è anche una scelta. Non uscire è anche una scelta.
 
-El tipo de suelo. Madera, alfombra, baldosa, cemento. Pies descalzos o calcetines. Un nombre.
+Se ci sono suoni, ci sono suoni. Un corridoio, un passo, una porta lontana. La stanza li tiene anche. Tieni anche tu. Palmi sulle cosce. Calore. Bordo. Vero.
 
-Tres objetos. El primero. Di el nombre por dentro. El segundo. El tercero. No hace falta un adjetivo. Nada de “bonito”. Solo el nombre.
+Ultimi tre respiri. Niente fretta. La porta è ancora lì. Tu sei ancora qui. Entrambe le cose possono essere vere.
 
-Dos respiraciones.
+Rilascio: non farai della porta un esame. La soglia resta. La stanza resta. Anche tu. Occhi piano. Luce. Mani. Non devi andare alla porta. Restare basta.`,
+    `Bu müalicə deyil. Tanıdığın bir otaq. Bir qapı. Açmaq məcburiyyətində deyilsən. Bağlamaq da. Yalnız qapının olduğu otaqdasan.
 
-La puerta está. Tú estás. No vas a redecorar. No vas a ordenar los objetos.
+Bel söykənə bilər. Ayaqlar yerdə. Qapı otağın o biri ucunda, ya da yanında. Məsafə fərq etməz. Sən buradasan. Qapı oradadır.
 
-Si la mente inventa otra habitación, vuelve a esta. Esta puerta. Este borde.
+Üç nəfəs. Dəyişdirmə. İdarə etmə. Hava girir. Hava çıxır. Nəfəs qapıya getmir. Səndə qalır.
 
-El techo. Cuatro esquinas. Si hay lámpara, la lámpara. Si está apagada, está apagada.
+Ağıl dəstəyə uzana bilər. Açılsın. Bağlı qalsın. İçində nə var. Bu cümlələr gələ bilər. Qovma. Dəstəyə toxunma. Eşiyə qayıt. Ayaq. Ovuc. Bu nəfəs.
 
-Tres respiraciones.
+Qapı bir şəkil ola bilər. Gerçək eşik də. Hər ikisi eyni dəvəti daşıyır: məcbur yoxdur. Gözləmək boşluq deyil. Gözləmək burada olmaqdır.
 
-El oído. Un sonido en la habitación. La nevera, la calle, tu propio aliento. Un sonido también puede ser un borde.
+Çiyinlər. Çənə. Dil. Hər biri öz ağırlığına buraxıla bilər. Qapı tərpənməsə oturum pozulmur. Sən tərpənməsən qapı pozulmur.
 
-Por dentro: esta habitación. Esta puerta.
+İçindən: eşikdəyəm. Sübut axtarma. Cümlə duyumun yanında. Dörd nəfəs. Bir: burun. İki: sinə. Üç: çıxış. Dörd: duruş. Sonra yenə ayaqlar.
 
-Manos. Palmas. Luego otra vez el rectángulo de la puerta.
+İçəridə bir şey hazır deyilsə, hazır deyil. Bu diaqnoz deyil. Yalnız bu an. Eşikdə qalmaq, içəri girməmək də seçimdir. Çıxmamaq da.
 
-Dos respiraciones.
+Səs varsa səs. Dəhliz, bir addım, uzaq qapı. Otaq onları da tutur. Sən də tutulursan. Ovuc budda. İstilik. Kənar. Gerçək.
 
-El umbral. No tienes que cruzarlo. La puerta esté abierta o cerrada, estás en la habitación.
+Son üç nəfəs. Tələsmə. Qapı hələ oradadır. Sən hələ buradasan. Hər ikisi doğru ola bilər.
 
-Últimas cuatro respiraciones. Puerta. Ventana. Suelo. Tú.
+Buraxılış: qapını imtahan etməyəcəksən. Eşik durur. Otaq durur. Sən də. Gözlər yavaş. Işıq. Əllər. Qapıya getmək məcburiyyətində deyilsən. Qalmaq bəsdir.`,
+    `Это не лечение. Комната, которую ты знаешь. Дверь. Её не нужно открывать. Не нужно и закрывать. Ты просто в комнате, где есть дверь.
 
-Suelta: no vas a convertir la habitación en una prueba. La puerta sigue. Tú sigues.`,
-    `Non è una cura. Una stanza che conosci. Niente invenzione. Niente set.
+Спина может опереться. Стопы на полу. Дверь в другом конце или рядом. Расстояние не важно. Ты здесь. Дверь там.
 
-Vedi la porta da dentro. Quattro bordi. L’architrave. La soglia. Il lato dei cardini. Il lato della maniglia. Se c’è un colore, il colore. Se no, il rettangolo basta.
+Три дыхания. Не меняй их. Не управляй. Воздух входит. Воздух выходит. Дыхание не идёт к двери. Оно остаётся с тобой.
 
-Resta tre respiri.
+Ум может потянуться к ручке. Пусть откроется. Пусть останется закрытой. Что внутри. Эти фразы могут прийти. Не гони их. Ручку не трогай. Вернись к порогу. Стопа. Ладонь. Этот вдох.
 
-La finestra. Il vetro. Se c’è una tenda, la tenda. Se entra luce, entra. Se no, la stanza resta.
+Дверь может быть картинкой. Может быть настоящим порогом. Оба несут одно приглашение: не торопить. Ожидание — не пустота. Ожидание — быть здесь.
 
-Il tipo di pavimento. Legno, tappeto, piastrella, cemento. Piedi nudi o calzini. Un nome.
+Плечи. Челюсть. Язык. Каждое может упасть в свой вес. Если дверь не двинется, сессия не сломана. Если не двинешься ты, дверь не сломана.
 
-Tre oggetti. Il primo. Dì il nome dentro. Il secondo. Il terzo. Non serve un aggettivo. Niente “bello”. Solo il nome.
+Внутри: я на пороге. Не ищи доказательства. Предложение стоит рядом с ощущением. Четыре дыхания. Один: нос. Два: грудь. Три: выход. Четыре: покой. Потом снова стопы.
 
-Due respiri.
+Если что-то внутри не готово — оно не готово. Это не диагноз. Только этот момент. Остаться на пороге, не входить — тоже выбор. Не уходить — тоже.
 
-La porta c’è. Tu ci sei. Non arredi di nuovo. Non riordini gli oggetti.
+Если есть звуки — есть звуки. Коридор, шаг, далёкая дверь. Комната держит и их. И тебя. Ладони на бёдрах. Тепло. Край. Настоящее.
 
-Se la mente inventa un’altra stanza, torna a questa. Questa porta. Questo bordo.
+Последние три дыхания. Без спешки. Дверь всё ещё там. Ты всё ещё здесь. Оба могут быть правдой.
 
-Il soffitto. Quattro angoli. Se c’è una lampada, la lampada. Se è spenta, è spenta.
-
-Tre respiri.
-
-L’orecchio. Un suono nella stanza. Il frigo, la strada, il tuo respiro. Un suono può essere anche un bordo.
-
-Dentro: questa stanza. Questa porta.
-
-Mani. Palmi. Poi di nuovo il rettangolo della porta.
-
-Due respiri.
-
-La soglia. Non devi attraversarla. La porta sia aperta o chiusa, sei nella stanza.
-
-Ultimi quattro respiri. Porta. Finestra. Pavimento. Tu.
-
-Rilascio: non farai della stanza una prova. La porta resta. Tu resti.`,
-    `Bu müalicə deyil. Bildiyin otaq. Uydurma yox. Film meydançası yox.
-
-Qapını içindən gör. Dörd kənar. Üst eşik. Alt eşik. Mentə şərəfi. Dəstək tərəfi. Rəng varsa rəng. Yoxdursa düzbucaqlı bəsdir.
-
-Burada üç nəfəs.
-
-Pəncərə. Şüşə. Pərdə varsa pərdə. İşıq girirsə girir. Girmirsə otaq yenə otaqdır.
-
-Döşəmənin cinsi. Parket, xalça, kafel, beton. Çılpaq ayaq və ya corab. Bir ad.
-
-Üç əşya. Birincisi. Adını içindən de. İkincisi. Üçüncüsü. Sifət lazım deyil. “Gözəl” yox. Yalnız ad.
-
-İki nəfəs.
-
-Qapı yerindədir. Sən yerindəsən. Otağı yenidən bəzəməyəcəksən. Əşyaları düzəltməyəcəksən.
-
-Ağıl başqa otaq uydurarsa bu otağa qayıt. Bu qapı. Bu kənar.
-
-Tavan. Dörd künc. Lampa varsa lampa. Sönüdürsə sönüdür.
-
-Üç nəfəs.
-
-Qulaq. Otaqdakı bir səs. Soyuducu, küçə, öz nəfəsin. Səs də bir kənar ola bilər.
-
-İçindən: bu otaq. Bu qapı.
-
-Əllər. Ovuc. Sonra yenə qapının düzbucaqlısı.
-
-İki nəfəs.
-
-Eşik. Keçmək məcburiyyətində deyilsən. Qapı açıq olsa da, bağlı olsa da, sən otaqdasan.
-
-Son dörd nəfəs. Qapı. Pəncərə. Yer. Sən.
-
-Buraxılış: otağı sübut etməyəcəksən. Qapı durur. Sən durursan.`,
-    `Это не лечение. Комната, которую ты знаешь. Без выдумки. Без съёмочной площадки.
-
-Увидь дверь изнутри. Четыре края. Верхняя перекладина. Порог. Сторона петель. Сторона ручки. Если есть цвет — цвет. Если нет — прямоугольника достаточно.
-
-Здесь три дыхания.
-
-Окно. Стекло. Если есть занавеска — занавеска. Если свет входит — входит. Если нет — комната всё равно комната.
-
-Род пола. Паркет, ковёр, плитка, бетон. Босые ноги или носки. Одно имя.
-
-Три предмета. Первый. Скажи имя внутри. Второй. Третий. Прилагательное не нужно. Никакого «красиво». Только имя.
-
-Два дыхания.
-
-Дверь на месте. Ты на месте. Ты не будешь заново обставлять. Ты не будешь поправлять вещи.
-
-Если ум выдумывает другую комнату — вернись в эту. Эта дверь. Этот край.
-
-Потолок. Четыре угла. Если есть лампа — лампа. Если она выключена — выключена.
-
-Три дыхания.
-
-Ухо. Один звук в комнате. Холодильник, улица, твоё дыхание. Звук тоже может быть краем.
-
-Внутри: эта комната. Эта дверь.
-
-Руки. Ладони. Потом снова прямоугольник двери.
-
-Два дыхания.
-
-Порог. Тебе не нужно его переступать. Открыта дверь или закрыта — ты в комнате.
-
-Последние четыре дыхания. Дверь. Окно. Пол. Ты.
-
-Отпускание: ты не сделаешь из комнаты доказательство. Дверь остаётся. Ты остаёшься.`,
+Отпускание: ты не сделаешь из двери экзамен. Порог остаётся. Комната остаётся. И ты. Глаза медленно. Свет. Руки. К двери идти не нужно. Остаться достаточно.`,
   ),
 
   'room-light': pack(
-    `Bu bir tedavi değildir. Gözler yumuşak. Kısık veya kapalı. Işığı keskinleştirme.
+    `Bu bir tedavi değildir. Odadaki ışık. Perde yarı açık olabilir. Öğleden sonra. Ya da bir lamba. Hangisi olursa, ışık bir yere düşüyor. Sen o yere oturuyorsun. Işığı kovalamıyorsun. Sadece yer veriyorsun.
 
-Işık nereden geliyor. Pencere. Lamba. Koridor. Telefonun kenarı. Bir kaynak yeter.
+Gözler kapanabilir. Işık yine orada. Kapakların arkasında pembe bir iz. Kovalama. Sadece fark et.
 
-Gölge nereye düşüyor. Yere. Duvara. Elinin sırtına. Bir kenar yeter.
+Üç nefes. İzle yarışma. Burnundan giriyor. Göğüste duruyor. Çıkıyor. Işık değişmese nefes değişebilir. Nefes değişmese ışık değişebilir. İkisi de senin işin değil. İkisi de oluyor.
 
-Burada üç nefes.
+Zihin karanlığı ölçebilir. Yetmez. Fazla. Bu cümleler gelebilir. Düzeltme. Avuçlara dön. Avuçlar birbirine değebilir. Ilık. Basit.
 
-Sis yorumunu büyütme. “Gerçek değil gibi” cümlesini uzatma. Işık bir yerden geliyor. Netleşmezse de ışık duruyor.
+Işık bir teşhis değil. Karanlık da değil. Odaların halleri var. Sen odanın hali değilsin. Sen buradasın, ışığın düştüğü yerde.
 
-Bir nesnenin kenarı. Masa. Kapı pervazı. Perde kıvrımı. Çiz. İçinden. Cetvel yok. Yaklaşık yeter.
+Omuzlar. Boyun. Çene. Dil. Herbiri kendi gölgesine bırakılabilir. Gölge korkutucu olmak zorunda değil. Sadece ışığın öteki yüzü.
 
-İki nefes.
+İçinden: ışık düşüyor. Ben buradayım. Kanıt arama. Beş nefes. Yavaş. Işığa gitmeden. Karanlığa gitmeden. Ortada, göğüste.
 
-Göz kapaklarının içindeki ışık. Kırmızımsı veya koyu. Zorunlu bir renk yok. Sadece parlaklık farkı.
+Pencere varsa dışarıdaki ses içeri sızabilir. Bırak. Kapı varsa koridor duruyor. Bırak. Sen ışığın düştüğü yerdesin. Alın. Kaşlar gerilmek zorunda değil. Bir milim boşluk.
 
-Alın. Kaşlar. Işık onları düzeltmek zorunda değil.
+Acele yok. Işık kalsa da solsa da ayaklar yerde. Bu yeterli bir haber. Avuç. Taban. Bu nefes.
 
-Üç nefes.
+Son üç nefes. Gözler yavaşça. Oda. Işığın düştüğü yer. Eller.
 
-Pencere camı. Toz varsa toz. Damla varsa damla. Temizlemek yok. Görmek var.
+Bırakış: ışığı bir sınav haline getirmeyeceksin. Düştüğü yer duruyor. Sen duruyorsun. Kalkmak zorunda değilsin hemen. Işık sönmez. Sen de sönmezsin.`,
+    `This is not a treatment. The light in the room. The curtain may be half open. Afternoon. Or a lamp. Either way, light falls somewhere. You sit in that place. You are not chasing the light. You are only making room for it.
 
-İçinden: ışık duruyor.
+Eyes can close. The light is still there. A pink trace behind the lids. Do not chase it. Only notice.
 
-Gölge hareket ediyorsa hareket. Etmiyorsa duruyor. İkisini yönetmeyeceksin.
+Three breaths. Do not race the trace. In through the nose. A stay in the chest. Out. The light can stay the same while the breath changes. The breath can stay the same while the light changes. Neither is your job. Both are happening.
 
-İki nefes.
+The mind can measure the dark. Not enough. Too much. Those sentences can arrive. Do not correct them. Return to the palms. Palms can touch. Warm. Simple.
 
-Odanın en koyu köşesi. En açık yeri. İkisini de adlandır. Yarış yok.
+Light is not a diagnosis. Dark is not either. Rooms have states. You are not a state of the room. You are here, where the light falls.
 
-Eller. Işık avuçta nasıl. Serin cam gibi değilse değil. Isı varsa ısı.
+Shoulders. Neck. Jaw. Tongue. Each can rest in its own shade. Shade does not have to be frightening. It is only the other face of light.
 
-Üç nefes.
+Inside: light is falling. I am here. Do not look for proof. Five breaths. Slow. Without going toward the light. Without going toward the dark. In the middle, in the chest.
 
-Zihin sahneyi keskinleştirirse, yumuşak göze dön. Kenar yeter. Fotoğraf değil.
+If there is a window, sound from outside can leak in. Let it. If there is a door, the hall is still there. Let it. You are where the light falls. Forehead. The brows do not have to tighten. A millimetre of space.
 
-Son dört nefes. Kaynak. Gölge. Kenar. Sen.
+No hurry. If the light stays, if it fades, the feet are on the floor. That is enough news. Palm. Sole. This breath.
 
-Bırakış: ışığı bir test haline getirmeyeceksin. Işık duruyor. Gölge duruyor.`,
-    `This is not a treatment. Soft eyes. Half-closed or closed. Do not sharpen the light.
+Last three breaths. Eyes slowly. Room. The place the light falls. Hands.
 
-Where the light is coming from. Window. Lamp. Hallway. The edge of a phone. One source is enough.
+Release: you will not turn the light into an exam. The place it falls stays. You stay. You do not have to stand up yet. The light does not go out. Neither do you.`,
+    `Esto no es un tratamiento. La luz de la habitación. La cortina puede estar a medio abrir. Tarde. O una lámpara. En cualquier caso, la luz cae en algún sitio. Tú te sientas ahí. No persigues la luz. Solo le das sitio.
 
-Where the shadow falls. On the floor. On the wall. On the back of a hand. One edge is enough.
+Los ojos pueden cerrarse. La luz sigue. Un rastro rosa detrás de los párpados. No lo persigas. Solo nótalo.
 
-Stay for three breaths.
+Tres respiraciones. No compitas con el rastro. Entra por la nariz. Se queda en el pecho. Sale. La luz puede quedarse igual mientras el aire cambia. El aire puede quedarse igual mientras la luz cambia. Ninguna es tu trabajo. Las dos ocurren.
 
-Do not grow the fog commentary. Do not stretch the sentence “it does not feel real”. Light is coming from somewhere. Even if it does not snap into focus, the light stays.
+La mente puede medir la oscuridad. No basta. Demasiado. Esas frases pueden llegar. No las corrijas. Vuelve a las palmas. Pueden tocarse. Tibias. Simples.
 
-The edge of one object. A table. A door frame. A fold of curtain. Draw it. Inside. No ruler. Approximate is enough.
+La luz no es un diagnóstico. La oscuridad tampoco. Las habitaciones tienen estados. Tú no eres un estado de la habitación. Estás aquí, donde cae la luz.
 
-Two breaths.
+Hombros. Cuello. Mandíbula. Lengua. Cada uno puede descansar en su sombra. La sombra no tiene que asustar. Es solo la otra cara de la luz.
 
-The light inside the eyelids. Reddish or dark. No required colour. Only a difference in brightness.
+Por dentro: la luz cae. Estoy aquí. No busques una prueba. Cinco respiraciones. Despacio. Sin ir hacia la luz. Sin ir hacia la oscuridad. En el medio, en el pecho.
 
-Forehead. Brows. The light does not have to fix them.
+Si hay ventana, el sonido de fuera puede colarse. Déjalo. Si hay puerta, el pasillo sigue. Déjalo. Tú estás donde cae la luz. Frente. Las cejas no tienen que tensarse. Un milímetro de espacio.
 
-Three breaths.
+Sin prisa. Si la luz se queda, si se apaga, los pies están en el suelo. Eso basta como noticia. Palma. Planta. Este aliento.
 
-The window glass. If there is dust, dust. If there is a drop, a drop. No cleaning. Only seeing.
+Últimas tres respiraciones. Los ojos despacio. La habitación. El sitio donde cae la luz. Las manos.
 
-Inside: the light stays.
+Suelta: no vas a convertir la luz en un examen. El sitio donde cae sigue. Tú sigues. No tienes que levantarte aún. La luz no se apaga. Tú tampoco.`,
+    `Non è una cura. La luce nella stanza. La tenda può essere socchiusa. Pomeriggio. O una lampada. In ogni caso la luce cade da qualche parte. Tu ti siedi lì. Non insegui la luce. Le fai solo spazio.
 
-If the shadow moves, it moves. If it does not, it stays. You will not manage either.
+Gli occhi possono chiudersi. La luce resta. Una traccia rosa dietro le palpebre. Non inseguirla. Notala soltanto.
 
-Two breaths.
+Tre respiri. Non gareggiare con la traccia. Entra dal naso. Resta nel petto. Esce. La luce può restare uguale mentre il respiro cambia. Il respiro può restare uguale mentre la luce cambia. Nessuno dei due è il tuo compito. Entrambi accadono.
 
-The darkest corner of the room. The brightest place. Name both. No race.
+La mente può misurare il buio. Non basta. Troppo. Quelle frasi possono arrivare. Non correggerle. Torna ai palmi. Possono toccarsi. Caldi. Semplici.
 
-Hands. How the light is in the palm. If it is not like cool glass, it is not. If there is heat, heat.
+La luce non è una diagnosi. Il buio nemmeno. Le stanze hanno stati. Tu non sei uno stato della stanza. Sei qui, dove cade la luce.
 
-Three breaths.
+Spalle. Collo. Mascella. Lingua. Ognuno può restare nella propria ombra. L’ombra non deve spaventare. È solo l’altra faccia della luce.
 
-If the mind sharpens the scene into a photograph, return to soft eyes. An edge is enough. Not a photo.
+Dentro: la luce cade. Io sono qui. Non cercare una prova. Cinque respiri. Lenti. Senza andare verso la luce. Senza andare verso il buio. In mezzo, nel petto.
 
-Last four breaths. Source. Shadow. Edge. You.
+Se c’è una finestra, il suono di fuori può entrare. Lascialo. Se c’è una porta, il corridoio resta. Lascialo. Tu sei dove cade la luce. Fronte. Le sopracciglia non devono stringersi. Un millimetro di spazio.
 
-Release: you will not turn the light into a test. The light stays. The shadow stays.`,
-    `Esto no es un tratamiento. Ojos suaves. Entornados o cerrados. No nítidez en la luz.
+Niente fretta. Se la luce resta, se svanisce, i piedi sono a terra. Questa è notizia abbastanza. Palmo. Pianta. Questo respiro.
 
-De dónde viene la luz. Ventana. Lámpara. Pasillo. El borde de un teléfono. Una fuente basta.
+Ultimi tre respiri. Occhi piano. Stanza. Il punto dove cade la luce. Mani.
 
-Dónde cae la sombra. En el suelo. En la pared. En el dorso de una mano. Un borde basta.
+Rilascio: non farai della luce un esame. Il punto dove cade resta. Tu resti. Non devi alzarti ancora. La luce non si spegne. Nemmeno tu.`,
+    `Bu müalicə deyil. Otaqdakı işıq. Pərdə yarı açıq ola bilər. Günorta. Və ya lampa. Hansı olsa, işıq bir yerə düşür. Sən o yerdə oturursan. Işığı qovmursan. Yalnız yer verirsən.
 
-Quédate tres respiraciones.
+Gözlər bağlana bilər. Işıq yenə oradadır. Qapaqların arxasında çəhrayı iz. Qovma. Yalnız gör.
 
-No agrandes el comentario de la niebla. No alargues la frase “no se siente real”. La luz viene de algún sitio. Aunque no enfoque, la luz sigue.
+Üç nəfəs. İzlə yarışma. Burundan girir. Sinədə qalır. Çıxır. Işıq dəyişməsə nəfəs dəyişə bilər. Nəfəs dəyişməsə işıq dəyişə bilər. Heç biri sənin işin deyil. Hər ikisi olur.
 
-El borde de un objeto. Una mesa. El marco de una puerta. Un pliegue de cortina. Dibuja. Por dentro. Sin regla. Lo aproximado basta.
+Ağıl qaranlığı ölçə bilər. Çatmır. Çoxdur. Bu cümlələr gələ bilər. Düzəltmə. Ovucalara qayıt. Ovucalar toxuna bilər. İsti. Sadə.
 
-Dos respiraciones.
+Işıq diaqnoz deyil. Qaranlıq da deyil. Otaqların halları var. Sən otağın halı deyilsən. Sən buradasan, işığın düşdüyü yerdə.
 
-La luz dentro de los párpados. Rojiza o oscura. No hay un color obligatorio. Solo una diferencia de brillo.
+Çiyinlər. Boyun. Çənə. Dil. Hər biri öz kölgəsinə buraxıla bilər. Kölgə qorxutmaq məcburiyyətində deyil. Yalnız işığın o biri üzüdür.
 
-Frente. Cejas. La luz no tiene que arreglarlas.
+İçindən: işıq düşür. Mən buradayam. Sübut axtarma. Beş nəfəs. Yavaş. Işığa getmədən. Qaranlığa getmədən. Ortada, sinədə.
 
-Tres respiraciones.
+Pəncərə varsa çöldən səs sızabilir. Burax. Qapı varsa dəhliz durur. Burax. Sən işığın düşdüyü yerdəsən. Alın. Qaşlar gərilmək məcburiyyətində deyil. Bir milim boşluq.
 
-El cristal de la ventana. Si hay polvo, polvo. Si hay una gota, una gota. No limpiar. Solo ver.
+Tələsmə. Işıq qalsa da getsə də ayaqlar yerdədir. Bu kifayət qədər xəbərdir. Ovuc. Ayaq altı. Bu nəfəs.
 
-Por dentro: la luz sigue.
+Son üç nəfəs. Gözlər yavaş. Otaq. Işığın düşdüyü yer. Əllər.
 
-Si la sombra se mueve, se mueve. Si no, está. No vas a gestionar ninguna de las dos.
+Buraxılış: işığı imtahan etməyəcəksən. Düşdüyü yer durur. Sən durursan. İndi durmaq məcburiyyətində deyilsən. Işıq sönmür. Sən də sönmürsən.`,
+    `Это не лечение. Свет в комнате. Штора может быть полуоткрыта. После полудня. Или лампа. В любом случае свет падает куда-то. Ты садишься туда. Ты не гонишься за светом. Ты только даёшь ему место.
 
-Dos respiraciones.
+Глаза могут закрыться. Свет всё ещё там. Розовый след за веками. Не гони его. Только заметь.
 
-El rincón más oscuro de la habitación. El sitio más claro. Nombra los dos. Sin carrera.
+Три дыхания. Не соревнуйся со следом. Вдох через нос. Пауза в груди. Выдох. Свет может остаться прежним, пока дыхание меняется. Дыхание может остаться прежним, пока меняется свет. Ни то ни другое — не твоя работа. Оба происходят.
 
-Manos. Cómo está la luz en la palma. Si no es como cristal fresco, no lo es. Si hay calor, calor.
+Ум может мерить темноту. Мало. Много. Эти фразы могут прийти. Не правь их. Вернись к ладоням. Ладони могут коснуться. Тёплые. Простые.
 
-Tres respiraciones.
+Свет — не диагноз. Темнота тоже. У комнат есть состояния. Ты не состояние комнаты. Ты здесь, там, куда падает свет.
 
-Si la mente convierte la escena en una foto nítida, vuelve a los ojos suaves. Un borde basta. No es una foto.
+Плечи. Шея. Челюсть. Язык. Каждое может остаться в своей тени. Тень не обязана пугать. Это только другая сторона света.
 
-Últimas cuatro respiraciones. Fuente. Sombra. Borde. Tú.
+Внутри: свет падает. Я здесь. Не ищи доказательства. Пять дыханий. Медленно. Не к свету. Не к темноте. Посередине, в груди.
 
-Suelta: no vas a convertir la luz en un examen. La luz sigue. La sombra sigue.`,
-    `Non è una cura. Occhi morbidi. Socchiusi o chiusi. Non mettere a fuoco la luce.
+Если есть окно, звук с улицы может войти. Пусть. Если есть дверь, коридор на месте. Пусть. Ты там, куда падает свет. Лоб. Бровям не нужно напрягаться. Миллиметр пространства.
 
-Da dove arriva la luce. Finestra. Lampada. Corridoio. Il bordo di un telefono. Una fonte basta.
+Без спешки. Если свет останется, если потускнеет — стопы на полу. Этого достаточно как новости. Ладонь. Стопа. Этот вдох.
 
-Dove cade l’ombra. Sul pavimento. Sul muro. Sul dorso di una mano. Un bordo basta.
+Последние три дыхания. Глаза медленно. Комната. Место, куда падает свет. Руки.
 
-Resta tre respiri.
-
-Non ingrandire il commento della nebbia. Non allungare la frase “non sembra reale”. La luce arriva da qualche parte. Anche se non mette a fuoco, la luce resta.
-
-Il bordo di un oggetto. Un tavolo. Lo stipite. Una piega di tenda. Traccia. Dentro. Senza riga. L’approssimato basta.
-
-Due respiri.
-
-La luce dentro le palpebre. Rossastra o scura. Nessun colore obbligatorio. Solo una differenza di luminosità.
-
-Fronte. Sopracciglia. La luce non deve aggiustarle.
-
-Tre respiri.
-
-Il vetro della finestra. Se c’è polvere, polvere. Se c’è una goccia, una goccia. Non pulire. Solo vedere.
-
-Dentro: la luce resta.
-
-Se l’ombra si muove, si muove. Se no, resta. Non gestirai né l’una né l’altra.
-
-Due respiri.
-
-L’angolo più scuro della stanza. Il punto più chiaro. Nomina entrambi. Niente gara.
-
-Mani. Com’è la luce nel palmo. Se non è come vetro fresco, non lo è. Se c’è calore, calore.
-
-Tre respiri.
-
-Se la mente affila la scena in una fotografia, torna agli occhi morbidi. Un bordo basta. Non è una foto.
-
-Ultimi quattro respiri. Fonte. Ombra. Bordo. Tu.
-
-Rilascio: non farai della luce un esame. La luce resta. L’ombra resta.`,
-    `Bu müalicə deyil. Gözlər yumşaq. Yarıbağlı və ya bağlı. İşığı itiləmə.
-
-İşıq haradandır. Pəncərə. Lampa. Dəhliz. Telefonun kənarı. Bir mənbə bəsdir.
-
-Kölgə hara düşür. Yerə. Divara. Əlin üstünə. Bir kənar bəsdir.
-
-Burada üç nəfəs.
-
-Sis şərhini böyütmə. “Real kimi deyil” cümləsini uzatma. İşıq bir yerdən gəlir. Netləşməsə də işıq durur.
-
-Bir əşyanın kənarı. Masa. Qapı çərçivəsi. Pərdə qatı. Çək. İçindən. Xətkeş yox. Təxmini bəsdir.
-
-İki nəfəs.
-
-Göz qapaqlarının içindəki işıq. Qırmızımtıl və ya tünd. Məcburi rəng yoxdur. Yalnız parlaqlıq fərqi.
-
-Alın. Qaşlar. İşıq onları düzəltmək məcburiyyətində deyil.
-
-Üç nəfəs.
-
-Pəncərə şüşəsi. Toz varsa toz. Damcı varsa damcı. Təmizləmək yox. Görmək var.
-
-İçindən: işıq durur.
-
-Kölgə hərəkət edirsə hərəkət. Etmirsə durur. İkisini idarə etməyəcəksən.
-
-İki nəfəs.
-
-Otağın ən tünd küncü. Ən açıq yeri. İkisini də adlandır. Yarış yoxdur.
-
-Əllər. İşıq ovucda necə. Sərin şüşə kimi deyilsə deyil. İstilik varsa istilik.
-
-Üç nəfəs.
-
-Ağıl səhnəni fotoşəkil kimi itiləsə, yumşaq gözə qayıt. Kənar bəsdir. Foto deyil.
-
-Son dörd nəfəs. Mənbə. Kölgə. Kənar. Sən.
-
-Buraxılış: işığı imtahan etməyəcəksən. İşıq durur. Kölgə durur.`,
-    `Это не лечение. Мягкие глаза. Полузакрытые или закрытые. Не заостряй свет.
-
-Откуда свет. Окно. Лампа. Коридор. Край телефона. Одного источника достаточно.
-
-Куда падает тень. На пол. На стену. На тыльную сторону руки. Одного края достаточно.
-
-Здесь три дыхания.
-
-Не раздувай комментарий про туман. Не растягивай фразу «как будто не настоящее». Свет идёт откуда-то. Даже если не становится резким — свет остаётся.
-
-Край одного предмета. Стол. Косяк двери. Складка шторы. Нарисуй. Внутри. Без линейки. Приблизительно достаточно.
-
-Два дыхания.
-
-Свет внутри век. Красноватый или тёмный. Нужного цвета нет. Только разница в яркости.
-
-Лоб. Брови. Свету не нужно их чинить.
-
-Три дыхания.
-
-Стекло окна. Если есть пыль — пыль. Если есть капля — капля. Не чистить. Только видеть.
-
-Внутри: свет остаётся.
-
-Если тень движется — движется. Если нет — стоит. Ты не будешь управлять ни тем ни другим.
-
-Два дыхания.
-
-Самый тёмный угол комнаты. Самое светлое место. Назови оба. Без гонки.
-
-Руки. Каков свет на ладони. Если это не как прохладное стекло — не как. Если есть тепло — тепло.
-
-Три дыхания.
-
-Если ум заостряет сцену в фотографию — вернись к мягким глазам. Края достаточно. Это не фото.
-
-Последние четыре дыхания. Источник. Тень. Край. Ты.
-
-Отпускание: ты не сделаешь из света экзамен. Свет остаётся. Тень остаётся.`,
+Отпускание: ты не сделаешь из света экзамен. Место, куда он падает, остаётся. Ты остаёшься. Вставать ещё не нужно. Свет не гаснет. И ты не гаснешь.`,
   ),
 
   'room-hands': pack(
-    `Bu bir tedavi değildir. Ayna yok. İki el. Bir bilek.
+    `Bu bir tedavi değildir. Eller. Bir iş yapmak zorunda değiller. Kucakta durabilirler. Dizlerde. Birbirine değerek. Sadece durmak.
 
-Elleri gör veya içinden çiz. On parmak. Tırnaklar. Çizgiler. Yüzük varsa yüzük. Saat varsa saat.
+Ayaklar yerde. Sırt yaslı. Eller kendi ağırlıklarında. Bu ağırlık bir haber. Buradasın.
 
-Burada üç nefes.
+Üç nefes. Nefes avuçlara gitmiyor. Avuçlar nefesi tutmuyor. İkisi yan yana. Burnundan giriyor. Çıkıyor. Avuçlar ılık kalıyor.
 
-Bir bileği diğer elin parmaklarıyla tut. Sıkma. Sadece temas. Nabız varsa nabız. Yoksa ısı yeter. Sayma. Kanıt yapma.
+Parmaklar. Başparmak. İşaret. Hepsi kendi yerinde. Sıkmak yok. Açmak yok. Sadece durmak. Tırnakların kenarı. Avuç içinin çizgisi. Küçük. Gerçek.
 
-İçinden adını fısılda. Bir kez. Sahne değil.
+Zihin elleri bir göreve çağırabilir. Yaz. Tut. Düzelt. Bu çağrı gelebilir. Eller göreve gitmek zorunda değil. Kucakta kalabilirler.
 
-İki nefes.
+İçinden: ellerim burada. Kanıt arama. Beş nefes. Avuçların ısısını fark et. Isı bir teşhis değil. Sadece ten. Nabız varsa nabız. Hızlı veya yavaş, ikisi de haber. Nabzı düzeltmek yok. Sadece duymak.
 
-Avuç içleri. Birbirine bakıyor olabilir, uylukta olabilir. Isı. Ter varsa ter. Kuruysa kuru.
+Bilekler. Önkol. Dirseklerin ağırlığı. Omuzlar kulaklara gitmek zorunda değil. Bir milim boşluk. Sonra yine avuçlar.
 
-Parmak uçları. Birbirine değdir, ayır. Değme gerçek. Ayırma gerçek.
+Oturum kısa. Kısa olduğu için acele yok. Eller hâlâ orada. Sen hâlâ buradasın. Çene. Dil. Avuç.
 
-Üç nefes.
+Son üç nefes. Gözler yavaşça. Oda. Eller.
 
-Nabzı hikâye etme. Hızlıysa hızlı. Yavaşsa yavaş. Yorum yok.
+Bırakış: elleri bir sınav haline getirmeyeceksin. Avuçlar açık kalabilir. Kaldırmak zorunda değilsin hemen. Bu da yeter.`,
+    `This is not a treatment. The hands. They do not have to do a job. They can rest in the lap. On the knees. Touching each other. Only staying.
 
-Eller sende. Bu bir slogan değil. Avuç, parmak, bilek.
+Feet on the floor. Back supported. Hands in their own weight. That weight is news. You are here.
 
-İki nefes.
+Three breaths. Breath does not go to the palms. The palms do not hold the breath. They sit side by side. In through the nose. Out. The palms stay warm.
 
-Başparmak. İşaret. Orta. Yüzük. Serçe. İsimler. Sıra bir performans değil.
+Fingers. Thumb. Index. Each in its place. No clenching. No spreading. Only staying. The edge of a nail. A line in the palm. Small. Actual.
 
-Zihin “ben değilmişim gibi” derse, tartışma. Avuca dön. Isı.
+The mind can call the hands to a task. Write. Hold. Fix. That call can arrive. The hands do not have to go. They can stay in the lap.
 
-Üç nefes.
+Inside: my hands are here. Do not look for proof. Five breaths. Notice the warmth of the palms. Warmth is not a diagnosis. It is only skin. If there is a pulse, there is a pulse. Fast or slow, both are news. You do not have to fix the pulse. Only hear it.
 
-Bilekteki kumaş veya deri. Saat kayışı. Kolun kıvrımı. Küçük veri.
+Wrists. Forearms. The weight of the elbows. The shoulders do not have to climb toward the ears. A millimetre of space. Then the palms again.
 
-Son dört nefes. El. Bilek. Isı. Ad.
+The session is short. Short does not mean hurry. The hands are still there. You are still here. Jaw. Tongue. Palm.
 
-Bırakış: nabzı bir kanıt haline getirmeyeceksin. Eller duruyor. Sen duruyorsun.`,
-    `This is not a treatment. No mirror. Two hands. One wrist.
+Last three breaths. Eyes slowly. Room. Hands.
 
-See the hands, or draw them inside. Ten fingers. Nails. Lines. If there is a ring, the ring. If there is a watch, the watch.
+Release: you will not turn the hands into an exam. Palms can stay open. You do not have to lift them yet. That is enough.`,
+    `Esto no es un tratamiento. Las manos. No tienen que hacer un trabajo. Pueden quedarse en el regazo. En las rodillas. Tocándose. Solo quedarse.
 
-Stay for three breaths.
+Los pies en el suelo. La espalda apoyada. Las manos en su propio peso. Ese peso es una noticia. Estás aquí.
 
-Hold one wrist with the fingers of the other hand. Do not squeeze. Only contact. If there is a pulse, a pulse. If not, heat is enough. Do not count. Do not make it a proof.
+Tres respiraciones. El aire no va a las palmas. Las palmas no sujetan el aire. Van juntas. Entra por la nariz. Sale. Las palmas siguen tibias.
 
-Whisper your name inside. Once. Not a scene.
+Dedos. Pulgar. Índice. Cada uno en su sitio. Sin apretar. Sin abrir. Solo quedarse. El borde de una uña. Una línea en la palma. Pequeño. Real.
 
-Two breaths.
+La mente puede llamar a las manos a una tarea. Escribe. Sujeta. Arregla. Esa llamada puede llegar. Las manos no tienen que ir. Pueden quedarse en el regazo.
 
-The palms. They may face each other, or rest on the thighs. Heat. If there is sweat, sweat. If dry, dry.
+Por dentro: mis manos están aquí. No busques una prueba. Cinco respiraciones. Nota el calor de las palmas. El calor no es un diagnóstico. Es solo piel. Si hay pulso, hay pulso. Rápido o lento, los dos son noticia. No tienes que arreglar el pulso. Solo oírlo.
 
-Fingertips. Touch them together, part them. The touch is actual. The parting is actual.
+Muñecas. Antebrazos. El peso de los codos. Los hombros no tienen que subir hacia las orejas. Un milímetro de espacio. Luego las palmas otra vez.
 
-Three breaths.
+La sesión es corta. Corta no significa prisa. Las manos siguen ahí. Tú sigues aquí. Mandíbula. Lengua. Palma.
 
-Do not make a story of the pulse. If it is fast, it is fast. If slow, slow. No commentary.
+Últimas tres respiraciones. Los ojos despacio. La habitación. Las manos.
 
-The hands are yours. This is not a slogan. Palm, finger, wrist.
+Suelta: no vas a convertir las manos en un examen. Las palmas pueden quedar abiertas. No tienes que levantarlas aún. Eso basta.`,
+    `Non è una cura. Le mani. Non devono fare un lavoro. Possono restare in grembo. Sulle ginocchia. Toccandosi. Solo restare.
 
-Two breaths.
+Piedi a terra. Schiena appoggiata. Mani nel proprio peso. Quel peso è una notizia. Sei qui.
 
-Thumb. Index. Middle. Ring. Little. Names. The order is not a performance.
+Tre respiri. Il respiro non va ai palmi. I palmi non tengono il respiro. Stanno accanto. Entra dal naso. Esce. I palmi restano caldi.
 
-If the mind says “as if these were not mine”, do not argue. Return to the palm. Heat.
+Dita. Pollice. Indice. Ognuna al suo posto. Senza stringere. Senza aprire. Solo restare. Il bordo di un’unghia. Una linea nel palmo. Piccolo. Vero.
 
-Three breaths.
+La mente può chiamare le mani a un compito. Scrivi. Tieni. Sistema. Quella chiamata può arrivare. Le mani non devono andare. Possono restare in grembo.
 
-Cloth or skin at the wrist. A watch strap. The crease of the arm. Small data.
+Dentro: le mie mani sono qui. Non cercare una prova. Cinque respiri. Nota il calore dei palmi. Il calore non è una diagnosi. È solo pelle. Se c’è un polso, c’è un polso. Veloce o lento, tutti e due sono notizia. Non devi sistemare il polso. Solo ascoltarlo.
 
-Last four breaths. Hand. Wrist. Heat. Name.
+Polsi. Avambracci. Il peso dei gomiti. Le spalle non devono salire verso le orecchie. Un millimetro di spazio. Poi di nuovo i palmi.
 
-Release: you will not turn the pulse into a proof. The hands stay. You stay.`,
-    `Esto no es un tratamiento. Sin espejo. Dos manos. Una muñeca.
+La sessione è breve. Breve non significa fretta. Le mani sono ancora lì. Tu sei ancora qui. Mascella. Lingua. Palmo.
 
-Mira las manos, o dibújalas por dentro. Diez dedos. Uñas. Líneas. Si hay un anillo, el anillo. Si hay un reloj, el reloj.
+Ultimi tre respiri. Occhi piano. Stanza. Mani.
 
-Quédate tres respiraciones.
+Rilascio: non farai delle mani un esame. I palmi possono restare aperti. Non devi alzarle ancora. Questo basta.`,
+    `Bu müalicə deyil. Əllər. İş görmək məcburiyyətində deyillər. Qucaqda dura bilər. Dizlərdə. Bir-birinə dəyərək. Yalnız durmaq.
 
-Sostén una muñeca con los dedos de la otra mano. No aprietes. Solo contacto. Si hay pulso, pulso. Si no, el calor basta. No cuentes. No lo hagas prueba.
+Ayaqlar yerdə. Bel dayaqlı. Əllər öz ağırlığında. Bu ağırlıq bir xəbərdir. Buradasan.
 
-Susurra tu nombre por dentro. Una vez. No es una escena.
+Üç nəfəs. Nəfəs ovucalara getmir. Ovucalar nəfəsi tutmur. Yan-yana dururlar. Burundan girir. Çıxır. Ovucalar isti qalır.
 
-Dos respiraciones.
+Barmaqlar. Baş barmaq. İşarə. Hər biri öz yerində. Sıxmaq yoxdur. Açmaq yoxdur. Yalnız durmaq. Dırnağın kənarı. Ovucun xətti. Kiçik. Gerçək.
 
-Las palmas. Pueden mirarse, o estar en los muslos. Calor. Si hay sudor, sudor. Si están secas, secas.
+Ağıl əlləri bir işə çağıra bilər. Yaz. Tut. Düzəlt. Bu çağırış gələ bilər. Əllər getmək məcburiyyətində deyil. Qucağda qala bilər.
 
-Yemas. Júntalas, sepáralas. El contacto es real. La separación es real.
+İçindən: əllərim buradadır. Sübut axtarma. Beş nəfəs. Ovucaların istiliyini gör. İstilik diaqnoz deyil. Yalnız dəri. Nəbz varsa nəbz. Tez və ya yavaş, hər ikisi xəbərdir. Nəbzi düzəltmək yoxdur. Yalnız eşitmək.
 
-Tres respiraciones.
+Biləklər. Ön qol. Dirsəklərin ağırlığı. Çiyinlər qulaqlara getmək məcburiyyətində deyil. Bir milim boşluq. Sonra yenə ovucalar.
 
-No hagas una historia del pulso. Si es rápido, es rápido. Si lento, lento. Sin comentario.
+Oturum qısadır. Qısa olduğu üçün tələsmək yoxdur. Əllər hələ oradadır. Sən hələ buradasan. Çənə. Dil. Ovuc.
 
-Las manos son tuyas. Esto no es un lema. Palma, dedo, muñeca.
+Son üç nəfəs. Gözlər yavaş. Otaq. Əllər.
 
-Dos respiraciones.
+Buraxılış: əlləri imtahan etməyəcəksən. Ovucalar açıq qala bilər. İndi qaldırmaq məcburiyyətində deyilsən. Bu da bəsdir.`,
+    `Это не лечение. Руки. Им не нужно делать работу. Они могут лежать на коленях. В лоне. Касаясь друг друга. Только оставаться.
 
-Pulgar. Índice. Medio. Anular. Meñique. Nombres. El orden no es una actuación.
+Стопы на полу. Спина с опорой. Руки в своём весе. Этот вес — новость. Ты здесь.
 
-Si la mente dice “como si no fueran mías”, no discutas. Vuelve a la palma. Calor.
+Три дыхания. Дыхание не идёт к ладоням. Ладони не держат дыхание. Они рядом. Вдох через нос. Выдох. Ладони остаются тёплыми.
 
-Tres respiraciones.
+Пальцы. Большой. Указательный. Каждый на своём месте. Не сжимать. Не раскрывать. Только оставаться. Край ногтя. Линия на ладони. Маленькое. Настоящее.
 
-Tela o piel en la muñeca. La correa. El pliegue del brazo. Dato pequeño.
+Ум может позвать руки к делу. Пиши. Держи. Исправь. Этот зов может прийти. Рукам не нужно идти. Они могут остаться в лоне.
 
-Últimas cuatro respiraciones. Mano. Muñeca. Calor. Nombre.
+Внутри: мои руки здесь. Не ищи доказательства. Пять дыханий. Заметь тепло ладоней. Тепло — не диагноз. Только кожа. Если есть пульс — есть пульс. Быстрый или медленный, оба — новость. Пульс не нужно чинить. Только слышать.
 
-Suelta: no vas a convertir el pulso en una prueba. Las manos siguen. Tú sigues.`,
-    `Non è una cura. Niente specchio. Due mani. Un polso.
+Запястья. Предплечья. Вес локтей. Плечам не нужно подниматься к ушам. Миллиметр пространства. Потом снова ладони.
 
-Vedi le mani, o tracciale dentro. Dieci dita. Unghie. Linee. Se c’è un anello, l’anello. Se c’è un orologio, l’orologio.
+Сессия короткая. Короткое не значит спешить. Руки всё ещё там. Ты всё ещё здесь. Челюсть. Язык. Ладонь.
 
-Resta tre respiri.
+Последние три дыхания. Глаза медленно. Комната. Руки.
 
-Tieni un polso con le dita dell’altra mano. Non stringere. Solo contatto. Se c’è un battito, un battito. Se no, il calore basta. Non contare. Non farne una prova.
-
-Sussurra il tuo nome dentro. Una volta. Non è una scena.
-
-Due respiri.
-
-I palmi. Possono guardarsi, o stare sulle cosce. Calore. Se c’è sudore, sudore. Se sono asciutti, asciutti.
-
-Punte. Uniscile, separale. Il contatto è vero. La separazione è vera.
-
-Tre respiri.
-
-Non fare una storia del polso. Se è veloce, è veloce. Se lento, lento. Niente commento.
-
-Le mani sono tue. Non è uno slogan. Palmo, dito, polso.
-
-Due respiri.
-
-Pollice. Indice. Medio. Anulare. Mignolo. Nomi. L’ordine non è una recita.
-
-Se la mente dice “come se non fossero mie”, non discutere. Torna al palmo. Calore.
-
-Tre respiri.
-
-Stoffa o pelle al polso. Il cinturino. La piega del braccio. Dato piccolo.
-
-Ultimi quattro respiri. Mano. Polso. Calore. Nome.
-
-Rilascio: non farai del polso una prova. Le mani restano. Tu resti.`,
-    `Bu müalicə deyil. Güzgü yox. İki əl. Bir bilək.
-
-Əlləri gör və ya içindən çək. On barmaq. Dırnaqlar. Xətlər. Üzük varsa üzük. Saat varsa saat.
-
-Burada üç nəfəs.
-
-Bir biləyi o biri əlin barmaqları ilə tut. Sıxma. Yalnız toxunuş. Nəbz varsa nəbz. Yoxdursa istilik bəsdir. Sayma. Sübut etmə.
-
-Adını içindən pıçılda. Bir dəfə. Səhnə deyil.
-
-İki nəfəs.
-
-Ovuc içi. Bir-birinə baxa bilər, budda ola bilər. İstilik. Tər varsa tər. Qurudursa quru.
-
-Barmaq ucları. Dəydir, ayır. Dəymə gerçəkdir. Ayırma gerçəkdir.
-
-Üç nəfəs.
-
-Nəbzi hekayə etmə. Tezdirsə tezdir. Yavaşdırsa yavaş. Şərh yox.
-
-Əllər səndədir. Bu şüar deyil. Ovuc, barmaq, bilək.
-
-İki nəfəs.
-
-Baş barmaq. Şəhadət. Orta. Adsız. Çeçələ. Adlar. Sıra tamaşa deyil.
-
-Ağıl “mənimki deyilmiş kimi” desə, mübahisə etmə. Ovuca qayıt. İstilik.
-
-Üç nəfəs.
-
-Biləkdə parça və ya dəri. Saat qayışı. Qolun qatı. Kiçik verilən.
-
-Son dörd nəfəs. Əl. Bilək. İstilik. Ad.
-
-Buraxılış: nəbzi sübut etməyəcəksən. Əllər durur. Sən durursan.`,
-    `Это не лечение. Без зеркала. Две руки. Одно запястье.
-
-Увидь руки или нарисуй их внутри. Десять пальцев. Ногти. Линии. Если есть кольцо — кольцо. Если есть часы — часы.
-
-Здесь три дыхания.
-
-Возьми одно запястье пальцами другой руки. Не сжимай. Только касание. Если есть пульс — пульс. Если нет — тепла достаточно. Не считай. Не делай доказательством.
-
-Шепни своё имя внутри. Один раз. Не сцена.
-
-Два дыхания.
-
-Ладони. Могут смотреть друг на друга или лежать на бёдрах. Тепло. Если есть пот — пот. Если сухо — сухо.
-
-Кончики пальцев. Соедини, разведи. Касание настоящее. Разведение настоящее.
-
-Три дыхания.
-
-Не делай из пульса историю. Если быстрый — быстрый. Если медленный — медленный. Без комментария.
-
-Руки твои. Это не лозунг. Ладонь, палец, запястье.
-
-Два дыхания.
-
-Большой. Указательный. Средний. Безымянный. Мизинец. Имена. Порядок не представление.
-
-Если ум говорит «как будто не мои» — не спорь. Вернись к ладони. Тепло.
-
-Три дыхания.
-
-Ткань или кожа на запястье. Ремешок. Складка руки. Маленькие данные.
-
-Последние четыре дыхания. Рука. Запястье. Тепло. Имя.
-
-Отпускание: ты не сделаешь из пульса доказательство. Руки остаются. Ты остаёшься.`,
+Отпускание: ты не сделаешь из рук экзамен. Ладони могут остаться открытыми. Поднимать их ещё не нужно. Этого достаточно.`,
   ),
 
   'shore-edge': pack(
-    `Bu bir tedavi değildir. İskele veya taş. Su varsa su. Yoksa ritmik bir ses yeter. Bir radyatör, bir fan, uzak bir yol.
+    `Bu bir tedavi değildir. Bir kıyı. Su gelir, su gider. Sen kenarda oturuyorsun. Dalgayı yönetmiyorsun. Dalgayı durdurmuyorsun. Sadece kenardasın.
 
-Kenarda oturuyorsun. Dalga gelir. Kenar kalır. Sen kenardasın. Dalgayı yönetmeyeceksin.
+Sırt yaslanabilir. Ayaklar yerde veya uzanmış. Kum, taş, tahta — hangisi varsa, o. Soğuk veya ılık, ikisi de kıyı.
 
-Burada üç nefes.
+Üç nefes. Nefes dalgaya benzemez zorunda değil. Giriyor. Çıkıyor. Su kendi işini bilir. Sen kendi yerini.
 
-Veriş uzun olabilir. Zorlama. Su çekiliyorsa çekiliyor. Sen çekilmek zorunda değilsin.
+Zihin dalgayı sayabilir. Yetmez. Fazla. Yakın. Uzak. Bu cümleler gelebilir. Saymayı bırak. Kenara dön. Avuç. Taban. Bu nefes.
 
-Ayaklar. Taşın soğuğu veya tahtanın oyu. Avuç, eğer bir kenara dayanıyorsa.
+İçinden: kenardayım. Kanıt arama. Su geliyorsa geliyor. Gidiyorsa gidiyor. İkisi de senin görevin değil.
 
-İki nefes.
+Omuzlar. Çene. Dil. Herbiri kendi ağırlığına. Rüzgâr varsa rüzgâr. Yoksa yok. Kıyı ikisini de tutar. Sen de tutuluyorsun.
 
-İçinden: kenardayım. İçeri düşmek yok. Kahramanlık yok. Sadece oturuş.
+Dört nefes. Bir geliş gibi alış. Bir gidiş gibi veriş. Benzetmek zorunda değilsin. Sadece sıra. Sonra yine ayaklar.
 
-Uzakta bir kuş veya motor. Onu sahnenin parçası yap. Kapatma.
+Derealizasyon cam anlatabilir. Camı kırmıyorsun. Kenar duruyor. Basınç duruyor. Bu da bir haber.
 
-Üç nefes.
+Sesler: su, uzak bir kuş, bir motor. Onları kapatma. Kenar onları da alır. Sen kenardasın, suyun içinde olmak zorunda değilsin.
 
-Su varsa renk. Gri, yeşil, koyu. İsim yeter. Şiir yok.
+Son üç nefes. Gözler yavaşça. Oda. Eller. Kıyı bir resimse resim. Gerçekse gerçek. Sen buradasın.
 
-Göğüs. Nefes. Dalga ile yarıştırma. İki ritim durabilir.
+Bırakış: kıyıyı bir sınav haline getirmeyeceksin. Kenar duruyor. Su durmuyor — geliyor, gidiyor. Sen duruyorsun. Bu yeter.`,
+    `This is not a treatment. A shore. Water arrives, water leaves. You sit at the edge. You are not managing the wave. You are not stopping the wave. You are only at the edge.
 
-İki nefes.
+The back can rest. Feet on the floor or stretched out. Sand, stone, wood — whichever is there, that. Cool or warm, both are shore.
 
-Zihin açık denize giderse, kenara dön. Taş. Tahta. Oturduğun yer.
+Three breaths. The breath does not have to resemble a wave. In. Out. The water knows its work. You know your place.
 
-Son dört nefes. Gelir. Kalır. Sen kalırsın.
+The mind can count the waves. Not enough. Too many. Near. Far. Those sentences can arrive. Leave the counting. Return to the edge. Palm. Sole. This breath.
 
-Bırakış: dalgayı bir metafor haline getirmeyeceksin. Kenar duruyor.`,
-    `This is not a treatment. A pier or a stone. If there is water, water. If not, a rhythmic sound is enough. A radiator, a fan, a distant road.
+Inside: I am at the edge. Do not look for proof. If water comes, it comes. If it leaves, it leaves. Neither is your task.
 
-You sit at the edge. The wave comes. The edge stays. You are at the edge. You will not manage the wave.
+Shoulders. Jaw. Tongue. Each in its own weight. If there is wind, there is wind. If not, not. The shore holds both. You are being held as well.
 
-Stay for three breaths.
+Four breaths. An in-breath like an arrival. An out-breath like a leaving. You do not have to force the likeness. Only the sequence. Then the feet again.
 
-The exhale may be long. No force. If the water pulls back, it pulls back. You do not have to pull back.
+Derealization can describe a pane of glass. You do not break the glass. The edge stays. Pressure stays. That is also news.
 
-Feet. The cool of stone or the grain of wood. A palm, if it rests on an edge.
+Sounds: water, a far bird, an engine. Do not shut them out. The edge takes them too. You are at the edge. You do not have to be inside the water.
 
-Two breaths.
+Last three breaths. Eyes slowly. Room. Hands. If the shore is a picture, a picture. If it is actual, actual. You are here.
 
-Inside: I am at the edge. No falling in. No heroics. Only sitting.
+Release: you will not turn the shore into an exam. The edge stays. The water does not stay — it comes, it goes. You stay. That is enough.`,
+    `Esto no es un tratamiento. Una orilla. El agua llega, el agua se va. Te sientas al borde. No gestionas la ola. No la detienes. Solo estás al borde.
 
-A bird or an engine far away. Let it be part of the scene. Do not shut it out.
+La espalda puede apoyarse. Los pies en el suelo o estirados. Arena, piedra, madera: lo que haya. Frío o calor, los dos son orilla.
 
-Three breaths.
+Tres respiraciones. El aliento no tiene que parecerse a una ola. Entra. Sale. El agua sabe su trabajo. Tú sabes tu sitio.
 
-If there is water, a colour. Grey, green, dark. A name is enough. No poem.
+La mente puede contar las olas. No basta. Demasiadas. Cerca. Lejos. Esas frases pueden llegar. Deja la cuenta. Vuelve al borde. Palma. Planta. Este aliento.
 
-Chest. Breath. Do not race it with the wave. Two rhythms can stay.
+Por dentro: estoy al borde. No busques una prueba. Si el agua llega, llega. Si se va, se va. Ninguna es tu tarea.
 
-Two breaths.
+Hombros. Mandíbula. Lengua. Cada uno en su peso. Si hay viento, hay viento. Si no, no. La orilla sostiene las dos cosas. A ti también.
 
-If the mind goes out to open sea, return to the edge. Stone. Wood. The place you sit.
+Cuatro respiraciones. Una entrada como una llegada. Una salida como una ida. No tienes que forzar el parecido. Solo la secuencia. Luego los pies otra vez.
 
-Last four breaths. It comes. It stays. You stay.
+La desrealización puede describir un cristal. No rompes el cristal. El borde sigue. La presión sigue. Eso también es noticia.
 
-Release: you will not turn the wave into a metaphor. The edge stays.`,
-    `Esto no es un tratamiento. Un muelle o una piedra. Si hay agua, agua. Si no, basta un sonido rítmico. Un radiador, un ventilador, una carretera lejana.
+Sonidos: agua, un pájaro lejano, un motor. No los apagues. El borde también los toma. Estás al borde. No tienes que estar dentro del agua.
 
-Estás sentada al borde. La ola llega. El borde queda. Tú estás al borde. No vas a gestionar la ola.
+Últimas tres respiraciones. Los ojos despacio. La habitación. Las manos. Si la orilla es una imagen, una imagen. Si es real, real. Estás aquí.
 
-Quédate tres respiraciones.
+Suelta: no vas a convertir la orilla en un examen. El borde sigue. El agua no se queda: llega, se va. Tú te quedas. Eso basta.`,
+    `Non è una cura. Una riva. L’acqua arriva, l’acqua se ne va. Siedi sul bordo. Non gestisci l’onda. Non la fermi. Sei solo sul bordo.
 
-La exhalación puede ser larga. Sin fuerza. Si el agua se retira, se retira. Tú no tienes que retirarte.
+La schiena può appoggiarsi. I piedi a terra o distesi. Sabbia, pietra, legno: quello che c’è. Freddo o caldo, tutti e due sono riva.
 
-Pies. El frío de la piedra o la veta de la madera. Una palma, si apoya en un borde.
+Tre respiri. Il respiro non deve assomigliare a un’onda. Entra. Esce. L’acqua sa il suo lavoro. Tu sai il tuo posto.
 
-Dos respiraciones.
+La mente può contare le onde. Non basta. Troppe. Vicine. Lontane. Quelle frasi possono arrivare. Lascia il conto. Torna al bordo. Palmo. Pianta. Questo respiro.
 
-Por dentro: estoy al borde. Sin caer. Sin heroicidad. Solo estar sentada.
+Dentro: sono sul bordo. Non cercare una prova. Se l’acqua arriva, arriva. Se se ne va, se ne va. Nessuna è il tuo compito.
 
-Un pájaro o un motor a lo lejos. Que sea parte de la escena. No lo apagues.
+Spalle. Mascella. Lingua. Ognuna nel proprio peso. Se c’è vento, c’è vento. Se no, no. La riva tiene entrambi. Tieni anche tu.
 
-Tres respiraciones.
+Quattro respiri. Un’inspirazione come un arrivo. Un’espirazione come una partenza. Non devi forzare la somiglianza. Solo la sequenza. Poi di nuovo i piedi.
 
-Si hay agua, un color. Gris, verde, oscuro. Un nombre basta. Sin poema.
+La derealizzazione può descrivere un vetro. Non rompi il vetro. Il bordo resta. La pressione resta. Anche questa è notizia.
 
-Pecho. Aliento. No lo hagas competir con la ola. Dos ritmos pueden quedar.
+Suoni: acqua, un uccello lontano, un motore. Non chiuderli fuori. Il bordo li prende anche. Sei sul bordo. Non devi essere dentro l’acqua.
 
-Dos respiraciones.
+Ultimi tre respiri. Occhi piano. Stanza. Mani. Se la riva è un’immagine, un’immagine. Se è vera, vera. Tu sei qui.
 
-Si la mente se va a mar abierto, vuelve al borde. Piedra. Madera. El sitio donde estás.
+Rilascio: non farai della riva un esame. Il bordo resta. L’acqua non resta: arriva, se ne va. Tu resti. Questo basta.`,
+    `Bu müalicə deyil. Bir sahil. Su gəlir, su gedir. Sən kənarda oturursan. Dalğanı idarə etmirsən. Dalğanı dayandırmırsan. Yalnız kənardasan.
 
-Últimas cuatro respiraciones. Llega. Queda. Tú quedas.
+Bel söykənə bilər. Ayaqlar yerdə və ya uzanıb. Qum, daş, taxta — hansı varsa, o. Soyuq ya isti, hər ikisi sahildir.
 
-Suelta: no vas a convertir la ola en una metáfora. El borde sigue.`,
-    `Non è una cura. Un molo o una pietra. Se c’è acqua, acqua. Se no, basta un suono ritmico. Un termosifone, un ventilatore, una strada lontana.
+Üç nəfəs. Nəfəs dalğaya bənzəmək məcburiyyətində deyil. Girir. Çıxır. Su öz işini bilir. Sən öz yerini.
 
-Sei seduta sul bordo. L’onda arriva. Il bordo resta. Tu sei sul bordo. Non gestirai l’onda.
+Ağıl dalğanı saya bilər. Çatmır. Çoxdur. Yaxın. Uzaq. Bu cümlələr gələ bilər. Sayımı burax. Kənara qayıt. Ovuc. Ayaq altı. Bu nəfəs.
 
-Resta tre respiri.
+İçindən: kənardayam. Sübut axtarma. Su gəlirsə gəlir. Gedirsə gedir. Heç biri sənin vəzifən deyil.
 
-L’espirazione può essere lunga. Senza forza. Se l’acqua si ritira, si ritira. Tu non devi ritirarti.
+Çiyinlər. Çənə. Dil. Hər biri öz ağırlığında. Külək varsa külək. Yoxdursa yox. Sahil ikisini də tutur. Sən də tutulursan.
 
-Piedi. Il freddo della pietra o la vena del legno. Un palmo, se poggia su un bordo.
+Dörd nəfəs. Gəliş kimi giriş. Gediş kimi çıxış. Bənzətmək məcburiyyətində deyilsən. Yalnız sıra. Sonra yenə ayaqlar.
 
-Due respiri.
+Derealizasiya şüşə danışa bilər. Şüşəni qırmırsan. Kənar durur. Təzyiq durur. Bu da bir xəbər.
 
-Dentro: sono sul bordo. Niente caduta. Niente eroismo. Solo stare seduta.
+Səslər: su, uzaq quş, bir motor. Onları bağlama. Kənar onları da alır. Sən kənardasan, suyun içində olmaq məcburiyyətində deyilsən.
 
-Un uccello o un motore lontano. Che sia parte della scena. Non spegnerlo.
+Son üç nəfəs. Gözlər yavaş. Otaq. Əllər. Sahil şəkilədirsə şəkil. Gerçəkdirsə gerçək. Sən buradasan.
 
-Tre respiri.
+Buraxılış: sahili imtahan etməyəcəksən. Kənar durur. Su durmur — gəlir, gedir. Sən durursan. Bu bəsdir.`,
+    `Это не лечение. Берег. Вода приходит, вода уходит. Ты сидишь на краю. Ты не управляешь волной. Ты её не останавливаешь. Ты просто на краю.
 
-Se c’è acqua, un colore. Grigio, verde, scuro. Un nome basta. Niente poesia.
+Спина может опереться. Стопы на полу или вытянуты. Песок, камень, дерево — что есть, то и есть. Холод или тепло — оба берег.
 
-Petto. Respiro. Non farlo gareggiare con l’onda. Due ritmi possono restare.
+Три дыхания. Дыханию не нужно быть похожим на волну. Вдох. Выдох. Вода знает свою работу. Ты знаешь своё место.
 
-Due respiri.
+Ум может считать волны. Мало. Много. Близко. Далеко. Эти фразы могут прийти. Оставь счёт. Вернись к краю. Ладонь. Стопа. Этот вдох.
 
-Se la mente va al mare aperto, torna al bordo. Pietra. Legno. Il posto dove sei.
+Внутри: я на краю. Не ищи доказательства. Если вода приходит — приходит. Если уходит — уходит. Ни то ни другое не твоя задача.
 
-Ultimi quattro respiri. Arriva. Resta. Tu resti.
+Плечи. Челюсть. Язык. Каждое в своём весе. Если есть ветер — есть ветер. Если нет — нет. Берег держит оба. И тебя.
 
-Rilascio: non farai dell’onda una metafora. Il bordo resta.`,
-    `Bu müalicə deyil. İskələ və ya daş. Su varsa su. Yoxdursa ritmik bir səs bəsdir. Radiator, fan, uzaq bir yol.
+Четыре дыхания. Вдох как приход. Выдох как уход. Не нужно насильно делать сходство. Только последовательность. Потом снова стопы.
 
-Kənarda oturursan. Dalğa gəlir. Kənar qalır. Sən kənardasan. Dalğanı idarə etməyəcəksən.
+Дереализация может описать стекло. Ты стекло не бьёшь. Край остаётся. Давление остаётся. Это тоже новость.
 
-Burada üç nəfəs.
+Звуки: вода, далёкая птица, мотор. Не закрывай их. Край берёт и их. Ты на краю. Тебе не нужно быть внутри воды.
 
-Veriş uzun ola bilər. Məcbur etmə. Su çəkilirsə çəkilir. Sən çəkilmək məcburiyyətində deyilsən.
+Последние три дыхания. Глаза медленно. Комната. Руки. Если берег — картинка, картинка. Если настоящий — настоящий. Ты здесь.
 
-Ayaqlar. Daşın soyuğu və ya taxtanın damarı. Ovuc, əgər bir kənara söykənirsə.
-
-İki nəfəs.
-
-İçindən: kənardayam. İçəri düşmək yox. Qəhrəmanlıq yox. Yalnız oturuş.
-
-Uzaqda bir quş və ya mühərrik. Onu səhnənin parçası et. Bağlama.
-
-Üç nəfəs.
-
-Su varsa rəng. Boz, yaşıl, tünd. Ad bəsdir. Şeir yox.
-
-Sinə. Nəfəs. Dalğa ilə yarışdırma. İki ritm dura bilər.
-
-İki nəfəs.
-
-Ağıl açıq dənizə getsə, kənara qayıt. Daş. Taxta. Oturduğun yer.
-
-Son dörd nəfəs. Gəlir. Qalır. Sən qalırsan.
-
-Buraxılış: dalğanı məcaza çevirməyəcəksən. Kənar durur.`,
-    `Это не лечение. Пирс или камень. Если есть вода — вода. Если нет — хватит ритмичного звука. Радиатор, вентилятор, далёкая дорога.
-
-Ты сидишь на краю. Волна приходит. Край остаётся. Ты на краю. Ты не будешь управлять волной.
-
-Здесь три дыхания.
-
-Выдох может быть длинным. Без силы. Если вода отступает — отступает. Тебе не нужно отступать.
-
-Стопы. Холод камня или волокно дерева. Ладонь, если она лежит на краю.
-
-Два дыхания.
-
-Внутри: я на краю. Без падения внутрь. Без героизма. Только сидение.
-
-Птица или мотор вдали. Пусть будет частью сцены. Не выключай.
-
-Три дыхания.
-
-Если есть вода — цвет. Серый, зелёный, тёмный. Имени достаточно. Без поэмы.
-
-Грудь. Дыхание. Не соревнуй его с волной. Два ритма могут оставаться.
-
-Два дыхания.
-
-Если ум уходит в открытое море — вернись к краю. Камень. Дерево. Место, где ты сидишь.
-
-Последние четыре дыхания. Приходит. Остаётся. Ты остаёшься.
-
-Отпускание: ты не сделаешь из волны метафору. Край остаётся.`,
+Отпускание: ты не сделаешь из берега экзамен. Край остаётся. Вода не остаётся — приходит, уходит. Ты остаёшься. Этого достаточно.`,
   ),
 
   'shore-stone': pack(
-    `Bu bir tedavi değildir. Bir taş, bir anahtar, bir kupa. Avuçta bir nesne. Yoksa iki eli birleştir. Ağırlık yine ağırlık.
+    `Bu bir tedavi değildir. Avuçta bir ağırlık. Taş olabilir. Anahtar. Telefon. Veya sadece avucun kendi ağırlığı. Hangisi varsa, o. Sıkmak yok. Sadece tutmak, sonra bırakmak.
 
-Kenar. Isı veya serinlik. Pürüz veya düz. Bir tane duyum seç. Orada kal.
+Ayaklar yerde. Sırt yaslı. Avuç açık veya yarı kapalı. Ağırlık aşağı. Aşağı bir emir değil. Yerçekimi.
 
-Burada üç nefes.
+Üç nefes. Nefes taşı taşımaz. Taş nefesi tutmaz. İkisi yan yana. Giriş. Çıkış. Ağırlık duruyor.
 
-Zihin hikâye uydurursa nesneye dön. Nereden geldiğini anlatma. Ne anlama geldiğini arama. Ağırlık.
+Zihin taşı bir anlama çevirebilir. Suç. Görev. Dert. Bu cümleler gelebilir. Taşa anlam yükleme. Sadece ağırlık. Isı. Kenar. Gerçek.
 
-İki nefes.
+İçinden: avucumda ağırlık var. Kanıt arama. Beş nefes. Her verişte milim bırakılabilir. Bırakılmazsa bırakılmaz. Yarış yok.
 
-Parmaklar nesnenin etrafında. Sıkma. Tutma yeter.
+Parmaklar taşı ezmek zorunda değil. Başparmak. Kenar. Taş soğuksa soğuk. Ilıksa ılık. İkisi de haber. Omuzlar. Çene. Dil. Ağırlık avuçta kalabilir, vücudun geri kalanı bırakılabilir.
 
-İçinden: bu ağırlık.
+Zihin “atayım” diyebilir. “Sonsuza kadar tutayım” da diyebilir. İkisini de şimdi yapmak zorunda değilsin. Şimdi sadece ağırlığı fark etmek.
 
-Nesneyi hafifçe çevir. Yeni bir kenar. Yeni bir ısı. Aynı nesne.
+Son üç nefes. İstersen taşı yavaşça bir masaya veya dize bırak. Bırakmazsan da avuç duruyor. Gözler yavaşça. Oda. Eller.
 
-Üç nefes.
+Bırakış: taşı bir sınav haline getirmeyeceksin. Ağırlık durabilir. Sen duruyorsun. Atmak zorunda değilsin. Sonsuza kadar tutmak da değil. Bu birkaç dakika yeter.`,
+    `This is not a treatment. A weight in the palm. It can be a stone. A key. A phone. Or only the weight of the palm itself. Whichever is there, that. No squeezing. Only holding, then setting down.
 
-Taşı kanıt yapma. “Gerçek dünya” sınavı yok. Sadece avuç.
+Feet on the floor. Back supported. Palm open or half closed. Weight down. Down is not an order. It is gravity.
 
-Masanın sesi, eğer koyarsan. Koymuyorsan avuçta kalsın.
+Three breaths. The breath does not carry the stone. The stone does not hold the breath. They sit side by side. In. Out. The weight stays.
 
-İki nefes.
+The mind can turn the stone into a meaning. Blame. Duty. Trouble. Those sentences can arrive. Do not load the stone with meaning. Only weight. Heat. Edge. Actual.
 
-Omuzlar. Nesne onları indirmiyor. Onlar duruyor. Nesne duruyor.
+Inside: there is weight in my palm. Do not look for proof. Five breaths. On each exhale a millimetre can be released. If it is not, it is not. No race.
 
-Alın. Çene. Sonra yine avuç.
+The fingers do not have to crush the stone. Thumb. Edge. If the stone is cold, cold. If warm, warm. Both are news. Shoulders. Jaw. Tongue. The weight can stay in the palm; the rest of the body can drop.
 
-Üç nefes.
+The mind can say throw it. It can also say hold it forever. You do not have to do either now. Now you only notice the weight.
 
-Adını içinden söyle, nesnenin adını. Taş. Anahtar. Kupa. El.
+Last three breaths. If you want, set the stone down slowly on a table or a knee. If you do not, the palm still stays. Eyes slowly. Room. Hands.
 
-Son dört nefes. Ağırlık. Kenar. Avuç. Sen.
+Release: you will not turn the stone into an exam. The weight can stay. You stay. You do not have to throw it. You do not have to keep it forever. These few minutes are enough.`,
+    `Esto no es un tratamiento. Un peso en la palma. Puede ser una piedra. Una llave. Un teléfono. O solo el peso de la palma. Lo que haya. Sin apretar. Solo sostener, luego dejar.
 
-Bırakış: nesneyi bir tılsım haline getirmeyeceksin. Avuç duruyor.`,
-    `This is not a treatment. A stone, a key, a cup. An object in the palm. If there is none, join the two hands. Weight is still weight.
+Los pies en el suelo. La espalda apoyada. Palma abierta o a medio cerrar. El peso hacia abajo. Abajo no es una orden. Es gravedad.
 
-Edge. Heat or cool. Rough or smooth. Pick one sensation. Stay there.
+Tres respiraciones. El aire no carga la piedra. La piedra no sujeta el aire. Van juntas. Entra. Sale. El peso sigue.
 
-Stay for three breaths.
+La mente puede convertir la piedra en un significado. Culpa. Deber. Problema. Esas frases pueden llegar. No cargues la piedra de sentido. Solo peso. Calor. Borde. Real.
 
-If the mind makes a story, return to the object. Do not tell where it came from. Do not hunt what it means. Weight.
+Por dentro: hay peso en mi palma. No busques una prueba. Cinco respiraciones. En cada exhalación se puede soltar un milímetro. Si no, no. Sin carrera.
 
-Two breaths.
+Los dedos no tienen que aplastar la piedra. Pulgar. Borde. Si la piedra está fría, fría. Si tibia, tibia. Las dos son noticia. Hombros. Mandíbula. Lengua. El peso puede quedarse en la palma; el resto del cuerpo puede caer.
 
-Fingers around the object. Do not squeeze. Holding is enough.
+La mente puede decir tírala. También puede decir reténla para siempre. No tienes que hacer ninguna de las dos ahora. Ahora solo notas el peso.
 
-Inside: this weight.
+Últimas tres respiraciones. Si quieres, deja la piedra despacio en una mesa o en una rodilla. Si no, la palma sigue. Los ojos despacio. La habitación. Las manos.
 
-Turn it a little. A new edge. A new heat. The same object.
+Suelta: no vas a convertir la piedra en un examen. El peso puede quedarse. Tú te quedas. No tienes que tirarla. Tampoco guardarla para siempre. Estos minutos bastan.`,
+    `Non è una cura. Un peso nel palmo. Può essere una pietra. Una chiave. Un telefono. O solo il peso del palmo. Quello che c’è. Senza stringere. Solo tenere, poi posare.
 
-Three breaths.
+Piedi a terra. Schiena appoggiata. Palmo aperto o mezzo chiuso. Peso in basso. Basso non è un ordine. È gravità.
 
-Do not make the stone a proof. There is no exam called “the real world”. Only the palm.
+Tre respiri. Il respiro non porta la pietra. La pietra non tiene il respiro. Stanno accanto. Entra. Esce. Il peso resta.
 
-The sound of the table, if you set it down. If you do not, it stays in the palm.
+La mente può trasformare la pietra in un significato. Colpa. Dovere. Problema. Quelle frasi possono arrivare. Non caricare la pietra di senso. Solo peso. Calore. Bordo. Vero.
 
-Two breaths.
+Dentro: c’è peso nel palmo. Non cercare una prova. Cinque respiri. A ogni espirazione si può lasciare un millimetro. Se no, no. Niente gara.
 
-Shoulders. The object is not lowering them. They stay. The object stays.
+Le dita non devono schiacciare la pietra. Pollice. Bordo. Se la pietra è fredda, fredda. Se tiepida, tiepida. Tutte e due sono notizia. Spalle. Mascella. Lingua. Il peso può restare nel palmo; il resto del corpo può cadere.
 
-Forehead. Jaw. Then the palm again.
+La mente può dire buttala. Può anche dire tienila per sempre. Non devi fare nessuna delle due ora. Ora noti solo il peso.
 
-Three breaths.
+Ultimi tre respiri. Se vuoi, posa la pietra piano su un tavolo o su un ginocchio. Se non lo fai, il palmo resta. Occhi piano. Stanza. Mani.
 
-Say the name inside, the name of the object. Stone. Key. Cup. Hand.
+Rilascio: non farai della pietra un esame. Il peso può restare. Tu resti. Non devi buttarla. Non devi tenerla per sempre. Questi minuti bastano.`,
+    `Bu müalicə deyil. Ovucda bir ağırlıq. Daş ola bilər. Açar. Telefon. Və ya yalnız ovucun öz ağırlığı. Hansı varsa, o. Sıxmaq yoxdur. Yalnız tutmaq, sonra buraxmaq.
 
-Last four breaths. Weight. Edge. Palm. You.
+Ayaqlar yerdə. Bel dayaqlı. Ovuc açıq və ya yarı bağlı. Ağırlıq aşağı. Aşağı əmr deyil. Cazibə.
 
-Release: you will not turn the object into a charm. The palm stays.`,
-    `Esto no es un tratamiento. Una piedra, una llave, una taza. Un objeto en la palma. Si no hay, junta las dos manos. El peso sigue siendo peso.
+Üç nəfəs. Nəfəs daşı daşımır. Daş nəfəsi tutmur. Yan-yana dururlar. Giriş. Çıxış. Ağırlıq durur.
 
-Borde. Calor o fresco. Áspero o liso. Elige una sensación. Quédate ahí.
+Ağıl daşı bir mənaya çevirə bilər. Günah. Vəzifə. Dərd. Bu cümlələr gələ bilər. Daşa məna yükləmə. Yalnız ağırlıq. İstilik. Kənar. Gerçək.
 
-Quédate tres respiraciones.
+İçindən: ovucumda ağırlıq var. Sübut axtarma. Beş nəfəs. Hər verişdə milim buraxıla bilər. Buraxılmazsa buraxılmaz. Yarış yoxdur.
 
-Si la mente inventa una historia, vuelve al objeto. No cuentes de dónde vino. No busques qué significa. Peso.
+Barmaqlar daşı əzmək məcburiyyətində deyil. Baş barmaq. Kənar. Daş soyuqsa soyuq. İstidirsə isti. Hər ikisi xəbərdir. Çiyinlər. Çənə. Dil. Ağırlıq ovucda qala bilər, bədənin qalanı buraxıla bilər.
 
-Dos respiraciones.
+Ağıl “atım” deyə bilər. “Sonsuza qədər tutum” da. İkisini də indi etmək məcburiyyətində deyilsən. İndi yalnız ağırlığı görmək.
 
-Los dedos alrededor del objeto. No aprietes. Sostener basta.
+Son üç nəfəs. İstəsən daşı yavaşca masaya və ya dizə qoy. Qoymasan da ovuc durur. Gözlər yavaş. Otaq. Əllər.
 
-Por dentro: este peso.
+Buraxılış: daşı imtahan etməyəcəksən. Ağırlıq qala bilər. Sən durursan. Atmaq məcburiyyətində deyilsən. Sonsuza qədər tutmaq da deyil. Bu bir neçə dəqiqə bəsdir.`,
+    `Это не лечение. Вес на ладони. Это может быть камень. Ключ. Телефон. Или только вес самой ладони. Что есть — то и есть. Не сжимать. Только держать, потом положить.
 
-Gíralo un poco. Un borde nuevo. Un calor nuevo. El mismo objeto.
+Стопы на полу. Спина с опорой. Ладонь открыта или полузакрыта. Вес вниз. Вниз — не приказ. Это сила тяжести.
 
-Tres respiraciones.
+Три дыхания. Дыхание не несёт камень. Камень не держит дыхание. Они рядом. Вдох. Выдох. Вес остаётся.
 
-No hagas de la piedra una prueba. No hay un examen llamado “el mundo real”. Solo la palma.
+Ум может превратить камень в смысл. Вина. Долг. Беда. Эти фразы могут прийти. Не нагружай камень смыслом. Только вес. Тепло. Край. Настоящее.
 
-El sonido de la mesa, si lo dejas. Si no, se queda en la palma.
+Внутри: на ладони есть вес. Не ищи доказательства. Пять дыханий. На каждом выдохе можно отпустить миллиметр. Если нет — нет. Без гонки.
 
-Dos respiraciones.
+Пальцам не нужно давить камень. Большой палец. Край. Если камень холодный — холодный. Если тёплый — тёплый. Оба — новость. Плечи. Челюсть. Язык. Вес может остаться на ладони; остальное тело может опуститься.
 
-Hombros. El objeto no los baja. Ellos están. El objeto está.
+Ум может сказать брось. Может сказать держи навсегда. Сейчас не нужно делать ни то ни другое. Сейчас ты только замечаешь вес.
 
-Frente. Mandíbula. Luego otra vez la palma.
+Последние три дыхания. Если хочешь, медленно положи камень на стол или на колено. Если нет — ладонь всё равно остаётся. Глаза медленно. Комната. Руки.
 
-Tres respiraciones.
-
-Di el nombre por dentro, el nombre del objeto. Piedra. Llave. Taza. Mano.
-
-Últimas cuatro respiraciones. Peso. Borde. Palma. Tú.
-
-Suelta: no vas a convertir el objeto en un amuleto. La palma sigue.`,
-    `Non è una cura. Una pietra, una chiave, una tazza. Un oggetto nel palmo. Se non c’è, unisci le due mani. Il peso resta peso.
-
-Bordo. Caldo o fresco. Ruvido o liscio. Scegli una sensazione. Resta lì.
-
-Resta tre respiri.
-
-Se la mente inventa una storia, torna all’oggetto. Non raccontare da dove viene. Non cercare che cosa significa. Peso.
-
-Due respiri.
-
-Dita intorno all’oggetto. Non stringere. Tenere basta.
-
-Dentro: questo peso.
-
-Giralo un poco. Un bordo nuovo. Un calore nuovo. Lo stesso oggetto.
-
-Tre respiri.
-
-Non fare della pietra una prova. Non c’è un esame chiamato “il mondo reale”. Solo il palmo.
-
-Il suono del tavolo, se lo posi. Se no, resta nel palmo.
-
-Due respiri.
-
-Spalle. L’oggetto non le abbassa. Restano. L’oggetto resta.
-
-Fronte. Mascella. Poi di nuovo il palmo.
-
-Tre respiri.
-
-Dì il nome dentro, il nome dell’oggetto. Pietra. Chiave. Tazza. Mano.
-
-Ultimi quattro respiri. Peso. Bordo. Palmo. Tu.
-
-Rilascio: non farai dell’oggetto un talismano. Il palmo resta.`,
-    `Bu müalicə deyil. Bir daş, bir açar, bir fincan. Ovucda bir əşya. Yoxdursa iki əli birləşdir. Ağırlıq yenə ağırlıqdır.
-
-Kənar. İstilik və ya sərinlik. Kələkötür və ya hamar. Bir duyum seç. Orada qal.
-
-Burada üç nəfəs.
-
-Ağıl hekayə uydurarsa əşyaya qayıt. Haradan gəldiyini danışma. Nə demək olduğunu axtarma. Ağırlıq.
-
-İki nəfəs.
-
-Barmaqlar əşyanın ətrafında. Sıxma. Tutmaq bəsdir.
-
-İçindən: bu ağırlıq.
-
-Bir az çevir. Yeni kənar. Yeni istilik. Eyni əşya.
-
-Üç nəfəs.
-
-Daşı sübut etmə. “Real dünya” imtahanı yoxdur. Yalnız ovuc.
-
-Masanın səsi, qoyarsan. Qoymursansa ovucda qalsın.
-
-İki nəfəs.
-
-Çiyinlər. Əşya onları endirmir. Onlar durur. Əşya durur.
-
-Alın. Çənə. Sonra yenə ovuc.
-
-Üç nəfəs.
-
-Adını içindən de, əşyanın adını. Daş. Açar. Fincan. Əl.
-
-Son dörd nəfəs. Ağırlıq. Kənar. Ovuc. Sən.
-
-Buraxılış: əşyanı tilsim etməyəcəksən. Ovuc durur.`,
-    `Это не лечение. Камень, ключ, чашка. Предмет на ладони. Если нет — соедини две руки. Вес всё равно вес.
-
-Край. Тепло или прохлада. Шершавое или гладкое. Выбери одно ощущение. Останься там.
-
-Здесь три дыхания.
-
-Если ум плетёт историю — вернись к предмету. Не рассказывай, откуда он. Не ищи, что он значит. Вес.
-
-Два дыхания.
-
-Пальцы вокруг предмета. Не сжимай. Держать достаточно.
-
-Внутри: этот вес.
-
-Поверни чуть. Новый край. Новое тепло. Тот же предмет.
-
-Три дыхания.
-
-Не делай камень доказательством. Нет экзамена под названием «настоящий мир». Только ладонь.
-
-Звук стола, если положишь. Если нет — пусть остаётся на ладони.
-
-Два дыхания.
-
-Плечи. Предмет их не опускает. Они остаются. Предмет остаётся.
-
-Лоб. Челюсть. Потом снова ладонь.
-
-Три дыхания.
-
-Скажи имя внутри, имя предмета. Камень. Ключ. Чашка. Рука.
-
-Последние четыре дыхания. Вес. Край. Ладонь. Ты.
-
-Отпускание: ты не сделаешь из предмета талисман. Ладонь остаётся.`,
+Отпускание: ты не сделаешь из камня экзамен. Вес может остаться. Ты остаёшься. Бросать не нужно. Держать навсегда тоже нет. Этих нескольких минут достаточно.`,
   ),
 
   'shore-seed': pack(
-    `Bu bir tedavi değildir. Tek sahne. Kapalı bahçe. Ilık taş. Küçük kandil. Film yok. Devam yok. Tek kare.
+    `Bu bir tedavi değildir. Tek bir kare. Tek bir tohum. Bütün geceyi, bütün hayatı planlamak yok. Sadece bir şey. Küçük. Tutulabilir.
 
-Kenarları çiz. Duvar veya çit. Taşın ısısı avuçta gibi. Kandilin camı.
+Gözler kapanabilir. Bir sahne seç. Büyük olmak zorunda değil. Bir fincan. Bir pencere. Bir kumaş. Bir isim. Hangisi gelirse, o. Değiştirmek yok. Zenginleştirmek yok. Tek kare.
 
-Burada üç nefes.
+Üç nefes. Tohum nefesi yönetmez. Nefes tohumu büyütmez. İkisi yan yana. Giriş. Çıkış. Kare duruyor.
 
-Kartpostal yeter. Kamerayı gezdirme. Bir kare. Dur.
+Zihin kareyi bir plana çevirebilir. Yarın. Liste. Düzeltme. Bu cümleler gelebilir. Planı kovalama. Kareye dön. Avuç. Taban. Bu nefes.
 
-İçinden: bu kare.
+İçinden: bir karem var. Kanıt arama. Beş nefes. Tohumu zorla büyütme. Bu gece filizlenmek zorunda değil. Sadece durmak.
 
-Rüzgâr yoksa rüzgâr yok. Varsa yaprak. Yorum yok.
+Omuzlar. Çene. Dil. Herbiri kendi ağırlığına. Kare zihinde solabilir. Solursa avuca dön. Isı. Kenar. Sonra, isterse, aynı kare yine.
 
-İki nefes.
+Küçük bir şükran, bağırış değil. Bu kumaş. Bu nefes. Bu oda. Fazlası yok.
 
-Tohumu geceye bırak. Uyku görev değil. Sahne bir ninninin yerini tutmak zorunda değil.
+Son üç nefes. Gözler yavaşça. Oda. Eller. Tohum sende kalabilir. Götürmek zorunda değilsin. Bırakmak da zorunda değilsin.
 
-Üç nefes.
+Bırakış: tohumu bir sınav haline getirmeyeceksin. Tek kare yeter. Oda duruyor. Sen duruyorsun. Bu birkaç dakika yeter.`,
+    `This is not a treatment. One frame. One seed. No plan for the whole night, or the whole life. Only one thing. Small. Holdable.
 
-Alın. Çene. Avuç. Sonra yine kandil.
+Eyes can close. Choose one scene. It does not have to be large. A cup. A window. A cloth. A name. Whichever arrives, that. Do not swap it. Do not enrich it. One frame.
 
-Zihin filmi uzatırsa, kareye dön. Bahçe. Taş. Kandil.
+Three breaths. The seed does not manage the breath. The breath does not grow the seed. They sit side by side. In. Out. The frame stays.
 
-İki nefes.
+The mind can turn the frame into a plan. Tomorrow. A list. A fix. Those sentences can arrive. Do not chase the plan. Return to the frame. Palm. Sole. This breath.
 
-Işık küçük. Oda büyük olmak zorunda değil.
+Inside: I have one frame. Do not look for proof. Five breaths. Do not force the seed to grow. It does not have to sprout tonight. Only stay.
 
-Son dört nefes. Kare. Tohum. Gece. Bırak.
+Shoulders. Jaw. Tongue. Each in its own weight. The frame can fade in the mind. If it fades, return to the palm. Heat. Edge. Then, if it wants, the same frame again.
 
-Bırakış: bunu bir dizi haline getirmeyeceksin. Tek kare yeter.`,
-    `This is not a treatment. One scene. A closed garden. A warm stone. A small lamp. No film. No sequel. One frame.
+A small thanks, not a shout. This cloth. This breath. This room. Nothing extra.
 
-Draw the edges. A wall or a hedge. The heat of the stone as if in the palm. The glass of the lamp.
+Last three breaths. Eyes slowly. Room. Hands. The seed can stay with you. You do not have to carry it away. You do not have to leave it.
 
-Stay for three breaths.
+Release: you will not turn the seed into an exam. One frame is enough. The room stays. You stay. These few minutes are enough.`,
+    `Esto no es un tratamiento. Un solo fotograma. Una semilla. No hay un plan para toda la noche ni para toda la vida. Solo una cosa. Pequeña. Que se puede sostener.
 
-A postcard is enough. Do not pan the camera. One frame. Stay.
+Los ojos pueden cerrarse. Elige una escena. No tiene que ser grande. Una taza. Una ventana. Una tela. Un nombre. Lo que llegue, eso. No la cambies. No la enriquezcas. Un fotograma.
 
-Inside: this frame.
+Tres respiraciones. La semilla no gestiona el aire. El aire no hace crecer la semilla. Van juntas. Entra. Sale. El fotograma sigue.
 
-If there is no wind, there is no wind. If there is, a leaf. No commentary.
+La mente puede convertir el fotograma en un plan. Mañana. Una lista. Un arreglo. Esas frases pueden llegar. No persigas el plan. Vuelve al fotograma. Palma. Planta. Este aliento.
 
-Two breaths.
+Por dentro: tengo un fotograma. No busques una prueba. Cinco respiraciones. No fuerces la semilla a crecer. No tiene que brotar esta noche. Solo quedarse.
 
-Leave the seed to the night. Sleep is not a task. The scene does not have to replace a lullaby.
+Hombros. Mandíbula. Lengua. Cada uno en su peso. El fotograma puede desvanecerse. Si se desvanece, vuelve a la palma. Calor. Borde. Luego, si quiere, el mismo fotograma otra vez.
 
-Three breaths.
+Una pequeña gracia, no un grito. Esta tela. Este aliento. Esta habitación. Nada de más.
 
-Forehead. Jaw. Palm. Then the lamp again.
+Últimas tres respiraciones. Los ojos despacio. La habitación. Las manos. La semilla puede quedarse contigo. No tienes que llevártela. Tampoco dejarla.
 
-If the mind stretches it into a film, return to the frame. Garden. Stone. Lamp.
+Suelta: no vas a convertir la semilla en un examen. Un fotograma basta. La habitación sigue. Tú sigues. Estos minutos bastan.`,
+    `Non è una cura. Un solo fotogramma. Un seme. Niente piano per tutta la notte, né per tutta la vita. Solo una cosa. Piccola. Che si può tenere.
 
-Two breaths.
+Gli occhi possono chiudersi. Scegli una scena. Non deve essere grande. Una tazza. Una finestra. Una stoffa. Un nome. Quella che arriva, quella. Non cambiarla. Non arricchirla. Un fotogramma.
 
-The light is small. The room does not have to be large.
+Tre respiri. Il seme non gestisce il respiro. Il respiro non fa crescere il seme. Stanno accanto. Entra. Esce. Il fotogramma resta.
 
-Last four breaths. Frame. Seed. Night. Leave it.
+La mente può trasformare il fotogramma in un piano. Domani. Una lista. Una correzione. Quelle frasi possono arrivare. Non inseguire il piano. Torna al fotogramma. Palmo. Pianta. Questo respiro.
 
-Release: you will not turn this into a series. One frame is enough.`,
-    `Esto no es un tratamiento. Una escena. Jardín cerrado. Piedra tibia. Lámpara pequeña. Sin cine. Sin continuación. Un fotograma.
+Dentro: ho un fotogramma. Non cercare una prova. Cinque respiri. Non forzare il seme a crescere. Non deve germogliare stanotte. Solo restare.
 
-Dibuja los bordes. Un muro o un seto. El calor de la piedra como en la palma. El cristal de la lámpara.
+Spalle. Mascella. Lingua. Ognuna nel proprio peso. Il fotogramma può sbiadire. Se sbiadisce, torna al palmo. Calore. Bordo. Poi, se vuole, lo stesso fotogramma di nuovo.
 
-Quédate tres respiraciones.
+Un piccolo grazie, non un grido. Questa stoffa. Questo respiro. Questa stanza. Niente in più.
 
-Una postal basta. No muevas la cámara. Un fotograma. Quédate.
+Ultimi tre respiri. Occhi piano. Stanza. Mani. Il seme può restare con te. Non devi portarlo via. Non devi lasciarlo.
 
-Por dentro: este fotograma.
+Rilascio: non farai del seme un esame. Un fotogramma basta. La stanza resta. Tu resti. Questi minuti bastano.`,
+    `Bu müalicə deyil. Tək bir kadr. Tək bir toxum. Bütün gecəni, bütün həyatı planlamaq yoxdur. Yalnız bir şey. Kiçik. Tutula bilər.
 
-Si no hay viento, no hay viento. Si hay, una hoja. Sin comentario.
+Gözlər bağlana bilər. Bir səhnə seç. Böyük olmaq məcburiyyətində deyil. Bir fincan. Bir pəncərə. Bir parça. Bir ad. Hansı gəlirsə, o. Dəyişdirmə. Zənginləşdirmə. Tək kadr.
 
-Dos respiraciones.
+Üç nəfəs. Toxum nəfəsi idarə etmir. Nəfəs toxumu böyütmür. Yan-yana dururlar. Giriş. Çıxış. Kadr durur.
 
-Deja la semilla a la noche. Dormir no es una tarea. La escena no tiene que sustituir una nana.
+Ağıl kadri bir plana çevirə bilər. Sabah. Siyahı. Düzəliş. Bu cümlələr gələ bilər. Planı qovma. Kadrə qayıt. Ovuc. Ayaq altı. Bu nəfəs.
 
-Tres respiraciones.
+İçindən: bir kadrım var. Sübut axtarma. Beş nəfəs. Toxumu zorla böyütmə. Bu gecə cücərmək məcburiyyətində deyil. Yalnız durmaq.
 
-Frente. Mandíbula. Palma. Luego otra vez la lámpara.
+Çiyinlər. Çənə. Dil. Hər biri öz ağırlığında. Kadr ağılda sönə bilər. Sönərsə ovuca qayıt. İstilik. Kənar. Sonra, istəsə, eyni kadr yenə.
 
-Si la mente lo alarga en una película, vuelve al fotograma. Jardín. Piedra. Lámpara.
+Kiçik bir minnətdarlıq, qışqırıq deyil. Bu parça. Bu nəfəs. Bu otaq. Artığı yoxdur.
 
-Dos respiraciones.
+Son üç nəfəs. Gözlər yavaş. Otaq. Əllər. Toxum səndə qala bilər. Aparmaq məcburiyyətində deyilsən. Buraxmaq da.
 
-La luz es pequeña. La habitación no tiene que ser grande.
+Buraxılış: toxumu imtahan etməyəcəksən. Tək kadr bəsdir. Otaq durur. Sən durursan. Bu bir neçə dəqiqə bəsdir.`,
+    `Это не лечение. Один кадр. Одно семя. Нет плана на всю ночь и на всю жизнь. Только одна вещь. Маленькая. Её можно удержать.
 
-Últimas cuatro respiraciones. Fotograma. Semilla. Noche. Déjalo.
+Глаза могут закрыться. Выбери одну сцену. Ей не нужно быть большой. Чашка. Окно. Ткань. Имя. Что пришло — то. Не меняй. Не украшай. Один кадр.
 
-Suelta: no vas a convertir esto en una serie. Un fotograma basta.`,
-    `Non è una cura. Una scena. Giardino chiuso. Pietra tiepida. Piccola lampada. Niente film. Niente seguito. Un fotogramma.
+Три дыхания. Семя не управляет дыханием. Дыхание не растит семя. Они рядом. Вдох. Выдох. Кадр остаётся.
 
-Traccia i bordi. Un muro o una siepe. Il calore della pietra come nel palmo. Il vetro della lampada.
+Ум может превратить кадр в план. Завтра. Список. Исправление. Эти фразы могут прийти. Не гонись за планом. Вернись к кадру. Ладонь. Стопа. Этот вдох.
 
-Resta tre respiri.
+Внутри: у меня есть один кадр. Не ищи доказательства. Пять дыханий. Не заставляй семя расти. Ему не нужно взойти этой ночью. Только оставаться.
 
-Una cartolina basta. Non muovere la camera. Un fotogramma. Resta.
+Плечи. Челюсть. Язык. Каждое в своём весе. Кадр может растаять в уме. Если растаял — вернись к ладони. Тепло. Край. Потом, если захочет, тот же кадр снова.
 
-Dentro: questo fotogramma.
+Маленькая благодарность, не крик. Эта ткань. Этот вдох. Эта комната. Ничего лишнего.
 
-Se non c’è vento, non c’è vento. Se c’è, una foglia. Niente commento.
+Последние три дыхания. Глаза медленно. Комната. Руки. Семя может остаться с тобой. Уносить его не нужно. Оставлять тоже не нужно.
 
-Due respiri.
-
-Lascia il seme alla notte. Il sonno non è un compito. La scena non deve sostituire una ninnananna.
-
-Tre respiri.
-
-Fronte. Mascella. Palmo. Poi di nuovo la lampada.
-
-Se la mente la allunga in un film, torna al fotogramma. Giardino. Pietra. Lampada.
-
-Due respiri.
-
-La luce è piccola. La stanza non deve essere grande.
-
-Ultimi quattro respiri. Fotogramma. Seme. Notte. Lascia.
-
-Rilascio: non farai di questo una serie. Un fotogramma basta.`,
-    `Bu müalicə deyil. Tək səhnə. Bağlı bağ. İlıq daş. Kiçik çıraq. Film yox. Davam yox. Tək kadr.
-
-Kənarları çək. Divar və ya çəpər. Daşın istiliyi ovucda kimi. Çırağın şüşəsi.
-
-Burada üç nəfəs.
-
-Açıqca bəsdir. Kameranı gəzdirmə. Bir kadr. Dur.
-
-İçindən: bu kadr.
-
-Külək yoxdursa külək yoxdur. Varsa yarpaq. Şərh yox.
-
-İki nəfəs.
-
-Toxumu gecəyə burax. Yuxu tapşırıq deyil. Səhnə ninni yerini tutmaq məcburiyyətində deyil.
-
-Üç nəfəs.
-
-Alın. Çənə. Ovuc. Sonra yenə çıraq.
-
-Ağıl filmi uzadarsa, kadrə qayıt. Bağ. Daş. Çıraq.
-
-İki nəfəs.
-
-İşıq kiçikdir. Otaq böyük olmaq məcburiyyətində deyil.
-
-Son dörd nəfəs. Kadr. Toxum. Gecə. Burax.
-
-Buraxılış: bunu serial etməyəcəksən. Tək kadr bəsdir.`,
-    `Это не лечение. Одна сцена. Закрытый сад. Тёплый камень. Маленький светильник. Не фильм. Не продолжение. Один кадр.
-
-Нарисуй края. Стена или изгородь. Тепло камня как на ладони. Стекло светильника.
-
-Здесь три дыхания.
-
-Открытки достаточно. Не води камеру. Один кадр. Оставайся.
-
-Внутри: этот кадр.
-
-Если ветра нет — ветра нет. Если есть — лист. Без комментария.
-
-Два дыхания.
-
-Оставь семя ночи. Сон не задание. Сцена не обязана заменить колыбельную.
-
-Три дыхания.
-
-Лоб. Челюсть. Ладонь. Потом снова светильник.
-
-Если ум растягивает это в фильм — вернись к кадру. Сад. Камень. Светильник.
-
-Два дыхания.
-
-Свет маленький. Комнате не нужно быть большой.
-
-Последние четыре дыхания. Кадр. Семя. Ночь. Оставь.
-
-Отпускание: ты не сделаешь из этого сериал. Одного кадра достаточно.`,
+Отпускание: ты не сделаешь из семени экзамен. Одного кадра достаточно. Комната остаётся. Ты остаёшься. Этих нескольких минут достаточно.`,
   ),
 }
-
-const MED_MINUTES: Record<string, number> = {
-  'first-settle': 5,
-  'first-breath': 6,
-  'first-ground': 7,
-  'room-door': 6,
-  'room-light': 7,
-  'room-hands': 5,
-  'shore-edge': 6,
-  'shore-stone': 7,
-  'shore-seed': 5,
-}
-
-const RETURNS: Record<LocaleId, string[]> = {
-  tr: [
-    'Alış. Hava burunda veya göğüste. Değiştirme.',
-    'Veriş. Omuzlar bu verişte bir şey kanıtlamak zorunda değil.',
-    'Çene. Avuç. Taban. Birine dön. Orada kal.',
-    'Zihin listeye giderse bu bir hata değil. Bir verişe dön.',
-    'Yer tutuyor. Sen yeri tutmak zorunda değilsin.',
-    'Alın duruyor. Kaşlar gerilmek zorunda değil.',
-    'İçinden, yavaş: buradayım. Kanıt arama.',
-    'İki taban. Topuk. Kemer. Parmak. Sadece basınç.',
-    'Karın nefesle hareket edebilir. Zorlama.',
-    'Oda aynı oda. Pencere aynı pencere. Sen odadasın.',
-    'Bir alış. Bir bekleme. Bir veriş. Boşluk varsa boşluk.',
-    'Parmaklar. Avuç içi. Isı veya serinlik. İsim yeter.',
-    'Sayma. Skor yok. Sadece izle, bitene kadar.',
-    'Boyun. Omuz. Göğüs. Ağırlık aşağıda durabilir.',
-    'Sesler varsa sesler. Onları kapatmak zorunda değilsin.',
-    'Sonra yine nefes. Alış. Veriş. Yer.',
-  ],
-  en: [
-    'In. Air at the nose or the chest. Do not change it.',
-    'Out. The shoulders do not have to prove anything on this exhale.',
-    'Jaw. Palm. Sole. Return to one. Stay there.',
-    'If the mind goes to a list, that is not a mistake. Return to one exhale.',
-    'The ground holds you. You do not have to hold the ground.',
-    'The forehead stays. The brows do not have to tighten.',
-    'Inside, slowly: I am here. Do not look for proof.',
-    'Two soles. Heel. Arch. Toes. Only pressure.',
-    'The belly may move with the breath. No force.',
-    'The room stays the room. The window stays the window. You are in the room.',
-    'One in-breath. A pause. One out-breath. If there is a gap, there is a gap.',
-    'Fingers. Palm. Heat or cool. A name is enough.',
-    'Do not count. No score. Only watch until it finishes.',
-    'Neck. Shoulder. Chest. Weight can rest low.',
-    'If there are sounds, there are sounds. You do not have to shut them out.',
-    'Then the breath again. In. Out. Ground.',
-  ],
-  es: [
-    'Entra. Aire en la nariz o el pecho. No lo cambies.',
-    'Sale. Los hombros no tienen que demostrar nada en esta exhalación.',
-    'Mandíbula. Palma. Planta. Vuelve a una. Quédate ahí.',
-    'Si la mente se va a una lista, no es un error. Vuelve a una exhalación.',
-    'El suelo te sostiene. Tú no tienes que sostener el suelo.',
-    'La frente está. Las cejas no tienen que tensarse.',
-    'Por dentro, despacio: estoy aquí. No busques una prueba.',
-    'Dos plantas. Talón. Arco. Dedos. Solo presión.',
-    'El vientre puede moverse con el aliento. Sin fuerza.',
-    'La habitación sigue. La ventana sigue. Tú estás en la habitación.',
-    'Una entrada. Una pausa. Una salida. Si hay un hueco, hay un hueco.',
-    'Dedos. Palma. Calor o fresco. Un nombre basta.',
-    'No cuentes. Sin marcador. Solo mira hasta que termine.',
-    'Cuello. Hombro. Pecho. El peso puede quedar abajo.',
-    'Si hay sonidos, hay sonidos. No tienes que apagarlos.',
-    'Luego otra vez el aliento. Entra. Sale. Suelo.',
-  ],
-  it: [
-    'Entra. Aria al naso o al petto. Non cambiarla.',
-    'Esce. Le spalle non devono dimostrare niente in questa espirazione.',
-    'Mascella. Palmo. Pianta. Torna a una. Resta lì.',
-    'Se la mente va a una lista, non è un errore. Torna a un’espirazione.',
-    'La terra ti tiene. Tu non devi tenere la terra.',
-    'La fronte resta. Le sopracciglia non devono stringersi.',
-    'Dentro, piano: sono qui. Non cercare una prova.',
-    'Due piante. Tallone. Arco. Dita. Solo pressione.',
-    'La pancia può muoversi con il respiro. Senza forza.',
-    'La stanza resta. La finestra resta. Tu sei nella stanza.',
-    'Un ingresso. Una pausa. Un’uscita. Se c’è uno spazio, c’è uno spazio.',
-    'Dita. Palmo. Caldo o fresco. Un nome basta.',
-    'Non contare. Niente punteggio. Guarda soltanto finché finisce.',
-    'Collo. Spalla. Petto. Il peso può stare in basso.',
-    'Se ci sono suoni, ci sono suoni. Non devi spegnerli.',
-    'Poi di nuovo il respiro. Entra. Esce. Terra.',
-  ],
-  az: [
-    'Alış. Hava burunda və ya sinədə. Dəyişdirmə.',
-    'Veriş. Çiyinlər bu verişdə bir şey sübut etmək məcburiyyətində deyil.',
-    'Çənə. Ovuc. Ayaq altı. Birinə qayıt. Orada qal.',
-    'Ağıl siyahıya getsə bu səhv deyil. Bir verişə qayıt.',
-    'Yer səni tutur. Sən yeri tutmaq məcburiyyətində deyilsən.',
-    'Alın durur. Qaşlar gərilmək məcburiyyətində deyil.',
-    'İçindən, yavaş: buradayam. Sübut axtarma.',
-    'İki ayaq altı. Daban. Tağ. Barmaq. Yalnız təzyiq.',
-    'Qarın nəfəslə hərəkət edə bilər. Məcbur etmə.',
-    'Otaq eyni otaqdır. Pəncərə eyni pəncərədir. Sən otaqdasan.',
-    'Bir alış. Bir gözləmə. Bir veriş. Boşluq varsa boşluq.',
-    'Barmaqlar. Ovuc içi. İstilik və ya sərinlik. Ad bəsdir.',
-    'Sayma. Xal yoxdur. Yalnız izlə, bitənə qədər.',
-    'Boyun. Çiyin. Sinə. Ağırlıq aşağıda dura bilər.',
-    'Səslər varsa səslər. Onları bağlamaq məcburiyyətində deyilsən.',
-    'Sonra yenə nəfəs. Alış. Veriş. Yer.',
-  ],
-  ru: [
-    'Вдох. Воздух в носу или в груди. Не меняй его.',
-    'Выдох. Плечам не нужно ничего доказывать на этом выдохе.',
-    'Челюсть. Ладонь. Стопа. Вернись к одному. Останься там.',
-    'Если ум уходит к списку — это не ошибка. Вернись к одному выдоху.',
-    'Земля держит тебя. Тебе не нужно держать землю.',
-    'Лоб остаётся. Бровям не нужно напрягаться.',
-    'Внутри, тихо: я здесь. Не ищи доказательства.',
-    'Две стопы. Пятка. Свод. Пальцы. Только давление.',
-    'Живот может двигаться с дыханием. Без силы.',
-    'Комната остаётся комнатой. Окно остаётся окном. Ты в комнате.',
-    'Один вдох. Пауза. Один выдох. Если есть промежуток — есть промежуток.',
-    'Пальцы. Ладонь. Тепло или прохлада. Имени достаточно.',
-    'Не считай. Без очков. Только смотри, пока не закончится.',
-    'Шея. Плечо. Грудь. Вес может оставаться внизу.',
-    'Если есть звуки — есть звуки. Тебе не нужно их выключать.',
-    'Потом снова дыхание. Вдох. Выдох. Земля.',
-  ],
-}
-
-function estimateSec(text: string) {
-  const words = text.trim().split(/\s+/).filter(Boolean).length
-  return (words / 96) * 60
-}
-
-function padScript(id: string, locale: LocaleId, text: string) {
-  const minutes = MED_MINUTES[id] ?? 5
-  const target = minutes * 60 * 0.98
-  if (estimateSec(text) >= target) return text
-  const lines = RETURNS[locale]
-  const extra: string[] = []
-  let i = 0
-  while (estimateSec(`${text}\n\n${extra.join('\n\n')}`) < target) {
-    extra.push(lines[i % lines.length]!)
-    i += 1
-    if (i > 220) break
-  }
-  const parts = text.split(/\n\n/)
-  const tail = parts.slice(-3)
-  const head = parts.slice(0, -3)
-  const mid = Math.max(1, Math.ceil(head.length / 2))
-  const a = extra.slice(0, Math.ceil(extra.length / 2))
-  const b = extra.slice(Math.ceil(extra.length / 2))
-  return [...head.slice(0, mid), ...a, ...head.slice(mid), ...b, ...tail].join('\n\n')
-}
-
-export const MED_SCRIPTS: Record<string, Record<LocaleId, string>> = Object.fromEntries(
-  Object.entries(RAW_SCRIPTS).map(([id, rec]) => [
-    id,
-    {
-      tr: padScript(id, 'tr', rec.tr),
-      en: padScript(id, 'en', rec.en),
-      es: padScript(id, 'es', rec.es),
-      it: padScript(id, 'it', rec.it),
-      az: padScript(id, 'az', rec.az),
-      ru: padScript(id, 'ru', rec.ru),
-    },
-  ]),
-)
 
 export function medBody(id: string) {
   return MED_SCRIPTS[id]?.tr ?? ''

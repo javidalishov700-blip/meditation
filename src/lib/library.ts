@@ -456,7 +456,7 @@ export const meditations: MedPath[] = [
       {
         id: 'first-settle',
         title: 'Yerleş',
-        minutes: 5,
+        minutes: 8,
         bed: 'forest',
         body: medBody('first-settle'),
       },
