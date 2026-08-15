@@ -150,7 +150,8 @@ const SILENCE =
   'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
 
 function armInline(node: HTMLAudioElement) {
-  node.playsInline = true
+  const media = node as HTMLAudioElement & { playsInline?: boolean }
+  media.playsInline = true
   node.setAttribute('playsinline', 'true')
   node.setAttribute('webkit-playsinline', 'true')
   node.controls = false
@@ -458,7 +459,7 @@ async function playUrl(url: string, gen: number, offsetSec = 0) {
   }
   await waitWhilePaused()
   if (cancelled || gen !== speakGen) return
-  node.playsInline = true
+  ;(node as HTMLAudioElement & { playsInline?: boolean }).playsInline = true
   await node.play()
   setFlags({ loading: false, speaking: true, paused: false })
   await new Promise<void>((resolve, reject) => {
