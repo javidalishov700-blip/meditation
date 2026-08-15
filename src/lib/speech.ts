@@ -1,6 +1,6 @@
 import { audio } from './audio'
 import { readJson, writeJson } from './storage'
-import { voiceRoots } from './voice-host'
+import { remoteVoiceRoot, voiceRoots } from './voice-host'
 import { VOICE_SAMPLE } from './voice-lines'
 
 export type ReadMode = 'natural' | 'slow' | 'calm'
@@ -308,10 +308,21 @@ function decodeBuffer(ctx: AudioContext, data: ArrayBuffer) {
   })
 }
 
+function isRemoteVoiceUrl(url: string) {
+  const remote = remoteVoiceRoot()
+  return Boolean(remote && url.startsWith(remote))
+}
+
+function canHitNetwork(url: string) {
+  if (typeof navigator === 'undefined' || navigator.onLine !== false) return true
+  return !isRemoteVoiceUrl(url)
+}
+
 async function decodeUrl(url: string, ctx: AudioContext) {
   const hit = bufCache.get(url)
   if (hit) return hit
   const tryOnce = async (reload: boolean) => {
+    if (reload && !canHitNetwork(url)) return null
     const res = reload
       ? await fetch(url, { cache: 'reload', mode: 'cors', credentials: 'omit' }).catch(() => null)
       : await fetchRes(url)
@@ -399,36 +410,117 @@ function playSlice(ctx: AudioContext, buffer: AudioBuffer, offset: number, gen: 
   })
 }
 
+async function readManifestRes(res: Response | null) {
+  if (!res || !res.ok) return null
+  const type = res.headers.get('content-type') || ''
+  if (looksLikeHtml(type)) return null
+  try {
+    return (await res.json()) as VoiceManifest
+  } catch {
+    return null
+  }
+}
+
+async function fetchManifestJson(root: string) {
+  const cache = await cacheStore()
+  const urls = [`${root}manifest.json?v=4`, `${root}manifest.json`]
+  if (canHitNetwork(urls[0]!)) {
+    for (const url of urls) {
+      try {
+        const res = await fetch(url, { cache: 'no-store', mode: 'cors', credentials: 'omit' })
+        if (!res.ok) continue
+        const stored = res.clone()
+        const j = await readManifestRes(res)
+        if (!j) continue
+        if (cache) {
+          try {
+            await cache.put(url, stored.clone())
+            await cache.put(urls[1]!, stored)
+          } catch {
+            /* quota */
+          }
+        }
+        return j
+      } catch {
+        /* offline or blocked */
+      }
+    }
+  }
+  if (cache) {
+    for (const url of urls) {
+      try {
+        const hit = await cache.match(url)
+        const j = await readManifestRes(hit ?? null)
+        if (j) return j
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { mode: 'cors', credentials: 'omit' })
+      const j = await readManifestRes(res)
+      if (j) return j
+    } catch {
+      /* ignore */
+    }
+  }
+  return null
+}
+
+function mergeClips(merged: Record<string, string[]>, root: string, j: VoiceManifest) {
+  for (const [key, raw] of Object.entries(j.clips || {})) {
+    if (merged[key]?.length) continue
+    const parts = raw
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((rel) => `${root}${clipRel(rel)}`)
+    if (parts.length) merged[key] = parts
+  }
+}
+
 async function loadManifest() {
   if (!manifestWait) {
     manifestWait = (async () => {
       const merged: Record<string, string[]> = {}
       for (const root of voiceRoots()) {
-        try {
-          const url = `${root}manifest.json?v=4`
-          const res = await fetch(url, { cache: 'no-store', mode: 'cors', credentials: 'omit' })
-          if (!res.ok) continue
-          const type = res.headers.get('content-type') || ''
-          if (looksLikeHtml(type)) continue
-          const j = (await res.json()) as VoiceManifest
-          for (const [key, raw] of Object.entries(j.clips || {})) {
-            if (merged[key]?.length) continue
-            const parts = raw
-              .split(',')
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .map((rel) => `${root}${clipRel(rel)}`)
-            if (parts.length) merged[key] = parts
-          }
-        } catch {
-          /* try next root */
-        }
+        const j = await fetchManifestJson(root)
+        if (j) mergeClips(merged, root, j)
       }
       manifestMap = merged
       return merged
     })()
   }
   return manifestWait
+}
+
+function clipPriority(key: string) {
+  if (key.includes(':ui:') || key.includes(':sos:')) return 0
+  if (key.includes(':sample')) return 1
+  if (key.includes(':med:first-')) return 2
+  if (key.includes(':med:')) return 3
+  return 9
+}
+
+async function prefetchOfflineVoice(prefix: string) {
+  const lang = prefix === 'it' ? 'en' : prefix
+  const clips = await loadManifest()
+  const urls = Object.entries(clips)
+    .filter(([key]) => key.startsWith(`${lang}:`) && clipPriority(key) < 9)
+    .sort((a, b) => clipPriority(a[0]) - clipPriority(b[0]))
+    .flatMap(([, parts]) => parts)
+  const seen = new Set<string>()
+  for (const url of urls) {
+    if (seen.has(url)) continue
+    seen.add(url)
+    try {
+      await fetchRes(url)
+    } catch {
+      /* keep going */
+    }
+  }
 }
 
 async function bakedUrls(prefix: string, clipId?: string) {
@@ -833,8 +925,7 @@ export function sampleLine(bcp47: string) {
   return VOICE_SAMPLE[langPrefix(bcp47)] || VOICE_SAMPLE.en!
 }
 
-export function warmVoices(): Promise<void> {
-  void loadManifest()
+export function warmVoices(lang?: string): Promise<void> {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     try {
       window.speechSynthesis.getVoices()
@@ -842,6 +933,15 @@ export function warmVoices(): Promise<void> {
     } catch {
       /* ignore */
     }
+  }
+  const prefix = langPrefix(resolveLang(lang))
+  const run = () => {
+    void prefetchOfflineVoice(prefix)
+  }
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(run, { timeout: 2500 })
+  } else {
+    window.setTimeout(run, 400)
   }
   return Promise.resolve()
 }

@@ -12,7 +12,13 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'],
+        includeAssets: [
+          'favicon.svg',
+          'apple-touch-icon.png',
+          'icon-192.png',
+          'icon-512.png',
+          'voice/manifest.json',
+        ],
         manifest: {
           name: 'Steady',
           short_name: 'Steady',
@@ -48,7 +54,7 @@ export default defineConfig(({ mode }) => {
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,svg,ico,webmanifest}'],
-          globIgnores: ['**/voice/**', '**/covers/**'],
+          globIgnores: ['**/voice/clips/**', '**/covers/**'],
           navigateFallbackDenylist: [/^\/voice\//, /\.mp3$/i],
           runtimeCaching: [
             {

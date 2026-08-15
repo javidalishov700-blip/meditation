@@ -69,7 +69,6 @@ function Boot() {
 
 export default function App() {
   useEffect(() => {
-    warmVoices()
     try {
       if (localStorage.getItem('steady.dim') === '1') document.documentElement.classList.add('dim')
     } catch {
@@ -79,6 +78,7 @@ export default function App() {
   }, [])
   return (
     <I18nProvider>
+      <VoiceWarm />
       <EntitlementProvider>
         <BrowserRouter>
           <Boot />
@@ -86,4 +86,12 @@ export default function App() {
       </EntitlementProvider>
     </I18nProvider>
   )
+}
+
+function VoiceWarm() {
+  const { meta } = useI18n()
+  useEffect(() => {
+    warmVoices(meta.bcp47)
+  }, [meta.bcp47])
+  return null
 }
