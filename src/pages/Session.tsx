@@ -17,7 +17,8 @@ import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import type { BreathPattern, LibraryItem, ProgramDay, SessionKind } from '../lib/types'
-import { Card, GhostButton, Kicker, LegalNote, PrimaryButton } from '../components/ui'
+import { Card, FoldList, LegalNote, PrimaryButton } from '../components/ui'
+import { useWakeLock } from '../lib/wake'
 
 function isKind(s: string | undefined): s is SessionKind {
   return (
@@ -58,6 +59,7 @@ function ToneSession({ id }: { id: string }) {
   const [on, setOn] = useState(false)
   const [left, setLeft] = useState(() => Math.max(0, Math.ceil(trialCap - usedRef.current)))
   const [expired, setExpired] = useState(() => !pro && trialCap > 0 && usedRef.current >= trialCap)
+  useWakeLock(on)
 
   useEffect(() => () => audio.stop(0.4), [])
 
@@ -89,51 +91,48 @@ function ToneSession({ id }: { id: string }) {
   if (!tone) return <Navigate to="/sounds" replace />
 
   return (
-    <div className="pb-8">
+    <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
       <Link to="/sounds" className="text-sm text-mute">
-        {t('cat_tones')}
+        {t('back')}
       </Link>
-      <Kicker>{tone.hz} Hz</Kicker>
-      <h1 className="mt-2 font-display text-3xl">{tone.title}</h1>
-      <p className="mt-2 text-sm text-mute">{t('no_file')}</p>
-      {expired ? (
-        <Card className="mt-8">
-          <p className="font-display text-2xl">{t('trial_done')}</p>
-          <p className="mt-2 text-sm text-mute">{t('trial_done_sub')}</p>
-          <Link to="/paywall" className="mt-4 inline-block text-sm text-rose-200">
-            {t('me_vitrine')}
-          </Link>
-        </Card>
-      ) : (
-        <div className="relative mt-8 overflow-hidden rounded-[2rem] border border-white/10 py-10 text-center">
-          <div className="scene-tone pointer-events-none absolute inset-0" />
-          <button
-            type="button"
-            onClick={async () => {
-              if (on) {
-                audio.stop()
-                setOn(false)
-                return
-              }
-              await audio.playTone(tone.hz, tone.title)
-              setOn(true)
-            }}
-            className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-700 font-display text-xl shadow-[0_0_60px_rgba(192,132,252,0.4)]"
-          >
-            {on ? t('stop') : t('play')}
-          </button>
-          {!pro && tone.trialSeconds ? (
-            <p className="relative mt-4 text-sm text-mute">
-              {t('remaining')}: {t('sec_n', { n: left })}
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <h1 className="font-display text-4xl">{tone.title}</h1>
+        {expired ? (
+          <Card className="mt-10 text-start">
+            <p className="font-display text-2xl">{t('trial_done')}</p>
+            <p className="mt-2 text-sm text-mute">{t('trial_done_sub')}</p>
+            <Link to="/paywall" className="mt-4 inline-block text-sm text-rose-200">
+              {t('me_vitrine')}
+            </Link>
+          </Card>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={async () => {
+                if (on) {
+                  audio.stop()
+                  setOn(false)
+                  return
+                }
+                await audio.playTone(tone.hz, tone.title)
+                setOn(true)
+              }}
+              className="halo-wrap mt-12 h-44 w-44"
+            >
+              <span className="halo halo-a" />
+              <span className="halo halo-b" />
+              <span className="relative z-10 flex h-36 w-36 items-center justify-center rounded-full bg-gradient-to-br from-violet-300/80 to-fuchsia-900 font-display text-xl shadow-[0_0_40px_rgba(167,139,250,0.2)]">
+                {on ? t('stop') : t('play')}
+              </span>
+            </button>
+            <p className="mt-8 text-sm text-mute">
+              {!pro && tone.trialSeconds ? `${t('remaining')}: ${t('sec_n', { n: left })}` : on ? t('playing') : t('ready')}
             </p>
-          ) : (
-            <p className="relative mt-4 text-sm text-mute">{on ? t('playing') : t('ready')}</p>
-          )}
-        </div>
-      )}
-      <div className="mt-10">
-        <LegalNote compact />
+          </>
+        )}
       </div>
+      <LegalNote compact />
     </div>
   )
 }
@@ -144,54 +143,59 @@ function NatureSession({ id }: { id: string }) {
   const [minutes, setMinutes] = useState<(typeof TIMER_MINUTES)[number]>(30)
   const [on, setOn] = useState(false)
   const [done, setDone] = useState(false)
+  useWakeLock(on)
 
   useEffect(() => () => audio.stop(0.5), [])
   if (!scene) return <Navigate to="/sleep" replace />
 
   return (
-    <div className="pb-8">
+    <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
       <Link to="/sleep" className="text-sm text-mute">
-        {t('nav_sleep')}
+        {t('back')}
       </Link>
-      <Kicker>{t('nature_k')}</Kicker>
-      <h1 className="mt-2 font-display text-3xl">{scene.title}</h1>
-      <p className="mt-2 text-sm text-mute">{scene.subtitle}. {t('no_file')}</p>
-      <div className="mt-6 flex flex-wrap gap-2">
-        {TIMER_MINUTES.map((m) => (
-          <button
-            key={m}
-            type="button"
-            onClick={() => setMinutes(m)}
-            className={`rounded-full px-4 py-2 text-sm ${
-              minutes === m ? 'bg-rose-400/30 text-cream' : 'border border-white/10 text-mute'
-            }`}
-          >
-            {t('min_n', { n: m })}
-          </button>
-        ))}
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <h1 className="font-display text-4xl">{scene.title}</h1>
+        <p className="mt-3 text-sm text-mute">{scene.subtitle}</p>
+        <button
+          type="button"
+          className="halo-wrap mt-12 h-44 w-44"
+          onClick={async () => {
+            if (on) {
+              audio.stop()
+              setOn(false)
+              return
+            }
+            setDone(false)
+            await audio.playNature(scene.id)
+            audio.setTimer(minutes, () => {
+              setOn(false)
+              setDone(true)
+            })
+            setOn(true)
+          }}
+        >
+          <span className="halo halo-a" />
+          <span className="halo halo-b" />
+          <span className="relative z-10 flex h-36 w-36 items-center justify-center rounded-full bg-gradient-to-br from-indigo-200/80 to-violet-950 font-display text-lg">
+            {on ? t('stop') : t('play')}
+          </span>
+        </button>
+        <div className="mt-10 flex gap-2">
+          {TIMER_MINUTES.map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMinutes(m)}
+              className={`rounded-full px-3 py-1.5 text-xs ${
+                minutes === m ? 'bg-white/10 text-cream' : 'text-mute'
+              }`}
+            >
+              {t('min_n', { n: m })}
+            </button>
+          ))}
+        </div>
+        {done ? <p className="mt-6 text-sm text-mute">{t('timer_done')}</p> : null}
       </div>
-      {done ? (
-        <p className="mt-8 text-sm text-mute">{t('timer_done')}</p>
-      ) : null}
-      <PrimaryButton
-        className="mt-8"
-        onClick={async () => {
-          if (on) {
-            audio.stop()
-            setOn(false)
-            return
-          }
-          setDone(false)
-          await audio.playNature(scene.id)
-          audio.setTimer(minutes, () => {
-            setOn(false)
-            setDone(true)
-          })
-          setOn(true)
-        }}
-      >
-        {on ? t('stop') : t('start_min', { n: minutes })}
-      </PrimaryButton>
     </div>
   )
 }
@@ -202,6 +206,7 @@ function BreathSession({ id }: { id: string }) {
   const [phase, setPhase] = useState(t('ready'))
   const [on, setOn] = useState(false)
   const running = useRef(false)
+  useWakeLock(on)
 
   useEffect(() => () => { running.current = false; stopSpeak() }, [])
   if (!b) return <Navigate to="/practice" replace />
@@ -251,22 +256,24 @@ function BreathSession({ id }: { id: string }) {
   const scale = phase === t('sos_in') ? 1.1 : phase === t('sos_out') ? 0.88 : 1
 
   return (
-    <div className="pb-8">
+    <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
       <Link to="/practice" className="text-sm text-mute">
-        {t('nav_more')}
+        {t('back')}
       </Link>
-      <Kicker>{t('breath_k')}</Kicker>
-      <h1 className="mt-2 font-display text-3xl">{b.label}</h1>
-      <p className="mt-2 text-sm text-mute">{b.subtitle}</p>
-      <div className="mt-10 flex flex-col items-center">
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <h1 className="font-display text-3xl">{b.label}</h1>
         <div
-          className="flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-300 to-violet-800 font-display text-xl transition-transform duration-1000"
-          style={{ transform: `scale(${scale})` }}
+          className="halo-wrap mt-12 h-52 w-52"
+          style={{ transform: `scale(${scale})`, transition: 'transform 1s ease' }}
         >
-          {phase}
+          <span className="halo halo-a" />
+          <span className="halo halo-b" />
+          <div className="relative z-10 flex h-44 w-44 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/85 to-violet-950 font-display text-2xl">
+            {phase}
+          </div>
         </div>
         <PrimaryButton
-          className="mt-8 max-w-xs"
+          className="mt-12 max-w-xs"
           onClick={() => {
             if (on) {
               running.current = false
@@ -288,14 +295,12 @@ function BreathSession({ id }: { id: string }) {
 }
 
 function ProgramSession({ id, day }: { id: string; day: number }) {
-  const { t } = useI18n()
   const d = programDay(id, day)
   if (!d) return <Navigate to="/treat" replace />
-  return <ScriptView kicker={`${t('program')} · ${t('day_n', { n: day })}`} item={d} />
+  return <ScriptView item={d} />
 }
 
 function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
-  const { t } = useI18n()
   const item: LibraryItem | undefined = useMemo(() => {
     if (kind === 'story') return storyById(id)
     if (kind === 'writing') return writingById(id)
@@ -306,22 +311,12 @@ function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
     return undefined
   }, [kind, id])
   if (!item) return <Navigate to="/" replace />
-  const kickers: Record<string, string> = {
-    story: t('cat_stories'),
-    writing: t('cat_write'),
-    meditation: t('cat_meditate'),
-    sleeplab: t('lab_k'),
-    clarity: t('home_clarity'),
-    extra: t('nav_more'),
-  }
-  return <ScriptView kicker={kickers[kind] ?? ''} item={item} />
+  return <ScriptView item={item} />
 }
 
 function ScriptView({
-  kicker,
   item,
 }: {
-  kicker: string
   item: LibraryItem | ProgramDay
 }) {
   const { t, meta } = useI18n()
@@ -340,11 +335,17 @@ function ScriptView({
   const nightSeed = 'nightSeed' in item ? item.nightSeed : undefined
   const summary = 'summary' in item ? item.summary : 'subtitle' in item ? item.subtitle : ''
 
-  const script = [body, sentence && `Cümle: ${sentence}`, scene && `Sahne: ${scene}`, release, gratitude, nightSeed && `Gece tohumu: ${nightSeed}`]
-    .filter(Boolean)
-    .join('\n\n')
+  const extras = [
+    scene ? { id: 'scene', label: t('scene'), text: scene } : null,
+    release ? { id: 'release', label: t('release'), text: release } : null,
+    gratitude ? { id: 'gratitude', label: t('gratitude'), text: gratitude } : null,
+    nightSeed ? { id: 'seed', label: t('night_seed'), text: nightSeed } : null,
+  ].filter((x): x is { id: string; label: string; text: string } => Boolean(x))
+
+  const script = [body, sentence, ...extras.map((x) => x.text)].filter(Boolean).join('\n\n')
 
   useEffect(() => () => stopSpeak(), [])
+  useWakeLock(speaking)
 
   return (
     <div className="pb-8">
@@ -358,53 +359,51 @@ function ScriptView({
       >
         {t('back')}
       </button>
-      <Kicker>{kicker}</Kicker>
-      <h1 className="mt-2 font-display text-3xl leading-tight">{title}</h1>
-      {summary ? <p className="mt-2 text-sm text-mute">{summary}</p> : null}
+      <h1 className="mt-6 font-display text-3xl leading-tight">{title}</h1>
+      {summary ? <p className="mt-3 text-sm leading-7 text-mute">{summary}</p> : null}
 
-      {'blocks' in item
-        ? item.blocks.map((b) => (
-            <Card key={b.title} className="mt-4">
-              <p className="text-[11px] uppercase tracking-wider text-rose-200">{b.kicker}</p>
-              <p className="mt-1 font-display text-xl">{b.title}</p>
-              <p className="mt-2 text-sm leading-6 text-cream/85">{b.body}</p>
-            </Card>
-          ))
-        : (
-            <p className="mt-6 whitespace-pre-wrap text-sm leading-7 text-cream/85">{body}</p>
-          )}
+      {'blocks' in item ? (
+        <div className="mt-8">
+          <FoldList
+            items={item.blocks.map((b, i) => ({ ...b, id: `${i}` }))}
+            preview={1}
+            getKey={(b) => b.id}
+            className="space-y-3"
+            render={(b) => (
+              <Card>
+                <p className="font-display text-xl">{b.title}</p>
+                <p className="mt-2 text-sm leading-7 text-cream/85">{b.body}</p>
+              </Card>
+            )}
+          />
+        </div>
+      ) : (
+        <p className="mt-8 whitespace-pre-wrap text-[15px] leading-8 text-cream/88">{body}</p>
+      )}
 
       {sentence ? (
-        <Card className="mt-6 border-rose-300/25">
-          <Kicker>{t('sentence')}</Kicker>
-          <p className="mt-2 font-display text-2xl leading-snug">{sentence}</p>
+        <Card className="mt-8">
+          <p className="font-display text-2xl italic leading-snug">{sentence}</p>
         </Card>
       ) : null}
-      {scene ? (
-        <Card className="mt-3">
-          <Kicker>{t('scene')}</Kicker>
-          <p className="mt-2 text-sm leading-6">{scene}</p>
-        </Card>
-      ) : null}
-      {release ? (
-        <p className="mt-4 text-sm text-mute">
-          {t('release')}: {release}
-        </p>
-      ) : null}
-      {gratitude ? (
-        <p className="mt-2 text-sm text-mute">
-          {t('gratitude')}: {gratitude}
-        </p>
-      ) : null}
-      {nightSeed ? (
-        <Card className="mt-4">
-          <Kicker>{t('night_seed')}</Kicker>
-          <p className="mt-2 font-display text-xl">{nightSeed}</p>
-        </Card>
+
+      {extras.length ? (
+        <div className="mt-6">
+          <FoldList
+            items={extras}
+            preview={0}
+            getKey={(x) => x.id}
+            render={(x) => (
+              <p className="text-sm leading-7 text-mute">
+                {x.label}. {x.text}
+              </p>
+            )}
+          />
+        </div>
       ) : null}
 
       <PrimaryButton
-        className="mt-8"
+        className="mt-10"
         onClick={() => {
           if (speaking) {
             stopSpeak()
@@ -417,16 +416,7 @@ function ScriptView({
       >
         {speaking ? t('speak_stop') : t('speak')}
       </PrimaryButton>
-      <GhostButton
-        className="mt-3 w-full"
-        onClick={() => {
-          stopSpeak()
-          setSpeaking(false)
-        }}
-      >
-        {t('leave')}
-      </GhostButton>
-      <div className="mt-8">
+      <div className="mt-12">
         <LegalNote compact />
       </div>
     </div>

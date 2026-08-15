@@ -14,7 +14,7 @@ export default defineConfig({
         name: 'Steady',
         short_name: 'Steady',
         description:
-          'Panik atak, anksiyete, derealizasyon ve depersonalizasyon için sakinleşme araçları. Tıbbi tedavi değildir.',
+          'Sakinleşme araçları. Tıbbi tedavi değildir. Krizde yerel acil hat.',
         theme_color: '#120814',
         background_color: '#120814',
         display: 'standalone',

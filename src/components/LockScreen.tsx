@@ -68,10 +68,9 @@ export function LockScreen() {
   const [err, setErr] = useState(false)
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-ink px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(3rem+env(safe-area-inset-top))]">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-ink/95 px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(3rem+env(safe-area-inset-top))]">
       <div className="text-center">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-rose-300/80">{t('sos_lock_title')}</p>
-        <p className="mt-3 font-display text-3xl">{t('sos_four')}</p>
+        <p className="font-display text-3xl">{t('sos_lock_title')}</p>
       </div>
       <PinPad
         hint={err ? t('me_pin_fail') : t('me_pin')}
@@ -90,7 +89,7 @@ export function LockScreen() {
           {t('sos_open_lock')}
         </PrimaryButton>
         <p className="text-center text-[11px] text-mute">
-          {t('crisis')}: {meta.emergency}. {t('home_sos_sub')}
+          {t('crisis')}: {meta.emergency}
         </p>
       </div>
     </div>

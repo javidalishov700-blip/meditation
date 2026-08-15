@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Ambient } from './components/Ambient'
 import { Layout } from './components/Layout'
 import { LockScreen } from './components/LockScreen'
 import { EntitlementProvider } from './lib/entitlement-store'
@@ -60,14 +61,15 @@ export default function App() {
   }, [])
   return (
     <I18nProvider>
-    <EntitlementProvider>
-      <LockProvider>
-        <BrowserRouter>
-          <div className="grain" />
-          <Gate />
-        </BrowserRouter>
-      </LockProvider>
-    </EntitlementProvider>
+      <EntitlementProvider>
+        <LockProvider>
+          <BrowserRouter>
+            <Ambient />
+            <div className="grain" />
+            <Gate />
+          </BrowserRouter>
+        </LockProvider>
+      </EntitlementProvider>
     </I18nProvider>
   )
 }

@@ -31,11 +31,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+html {
+  background: var(--color-ink);
+  overscroll-behavior: none;
+}
+
 #root {
-  background:
-    radial-gradient(820px 460px at 50% -12%, rgba(167, 139, 250, 0.07), transparent 62%),
-    radial-gradient(620px 400px at 88% 92%, rgba(190, 24, 93, 0.035), transparent 58%),
-    var(--color-ink);
+  isolation: isolate;
+  background: var(--color-ink);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .font-display {
@@ -88,6 +96,147 @@ body {
 
 .orb-pulse {
   animation: pulse-orb 6.4s ease-in-out infinite;
+}
+
+.page-enter {
+  animation: page-enter 0.55s ease both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  will-change: transform;
+}
+
+.aurora-1 {
+  width: 28rem;
+  height: 28rem;
+  left: -6rem;
+  top: -8rem;
+  background: rgba(167, 139, 250, 0.22);
+  animation: aurora-drift 26s ease-in-out infinite;
+}
+
+.aurora-2 {
+  width: 24rem;
+  height: 24rem;
+  right: -8rem;
+  bottom: 10%;
+  background: rgba(190, 24, 93, 0.12);
+  animation: aurora-drift 32s ease-in-out infinite reverse;
+}
+
+.aurora-3 {
+  width: 18rem;
+  height: 18rem;
+  left: 30%;
+  bottom: -6rem;
+  background: rgba(99, 102, 241, 0.1);
+  animation: aurora-drift 38s ease-in-out infinite;
+}
+
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.12);
+  }
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 18%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 28% 42%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1.4px 1.4px at 48% 12%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 72% 28%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.2px 1.2px at 88% 16%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 64% 58%, rgba(255, 255, 255, 0.28), transparent),
+    radial-gradient(1.3px 1.3px at 18% 72%, rgba(255, 255, 255, 0.32), transparent),
+    radial-gradient(1px 1px at 92% 68%, rgba(255, 255, 255, 0.25), transparent);
+  animation: twinkle 9s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.halo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.halo {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid rgba(251, 207, 232, 0.16);
+  animation: halo-breathe 8.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.halo-a {
+  inset: -18%;
+}
+
+.halo-b {
+  inset: -36%;
+  animation-delay: -4.2s;
+  opacity: 0.55;
+}
+
+@keyframes halo-breathe {
+  0%,
+  100% {
+    transform: scale(0.96);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-pulse,
+  .page-enter,
+  .aurora-blob,
+  .stars,
+  .halo,
+  .breathe-orb {
+    animation: none !important;
+  }
 }
 
 .scene-night {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { audio } from '../lib/audio'
 import { formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
@@ -7,7 +7,8 @@ import { addPassed } from '../lib/passed'
 import { pick } from '../lib/phrases'
 import { sosSentences, tapSentences } from '../lib/sosPhrases'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
-import { CrisisLink, GhostButton, Kicker, PrimaryButton } from '../components/ui'
+import { CrisisLink, GhostButton, PrimaryButton } from '../components/ui'
+import { useWakeLock } from '../lib/wake'
 
 type Phase = 'idle' | 'inhale' | 'hold' | 'exhale' | 'phrase' | 'tap' | 'done'
 
@@ -24,6 +25,7 @@ export function Sos() {
   const running = useRef(false)
   const cycle = useRef(0)
   const lang = meta.bcp47
+  useWakeLock(phase !== 'idle' && phase !== 'done')
 
   useEffect(() => {
     return () => {
@@ -146,7 +148,7 @@ export function Sos() {
 
   if (phase === 'idle') {
     return (
-      <div className="flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
+      <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
         <div className="flex items-center justify-between">
           <button type="button" className="text-sm text-mute" onClick={() => navigate(-1)}>
             {t('back')}
@@ -159,9 +161,13 @@ export function Sos() {
           <button
             type="button"
             onClick={() => void start()}
-            className="orb-pulse mt-12 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 via-fuchsia-700/70 to-violet-950 shadow-[0_0_48px_rgba(244,114,182,0.22)]"
+            className="halo-wrap mt-14 h-48 w-48"
           >
-            <span className="font-display text-4xl">SOS</span>
+            <span className="halo halo-a" />
+            <span className="halo halo-b" />
+            <span className="orb-pulse relative z-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 via-fuchsia-800/60 to-violet-950 shadow-[0_0_40px_rgba(244,114,182,0.18)]">
+              <span className="font-display text-4xl">SOS</span>
+            </span>
           </button>
         </div>
         <p className="text-center text-[11px] text-mute">
@@ -173,12 +179,11 @@ export function Sos() {
 
   if (phase === 'tap') {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center">
-        <Kicker>{t('sos_passed')}</Kicker>
-        <p className="mt-2 text-sm text-mute">{formatDuration(seconds, locale)}</p>
-        <h1 className="mt-6 font-display text-3xl leading-tight">{sentence}</h1>
-        <p className="mt-3 text-sm text-mute">
-          {t('sos_tap')} {taps}/10
+      <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 text-center">
+        <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
+        <h1 className="mt-8 font-display text-3xl leading-tight">{sentence}</h1>
+        <p className="mt-4 text-sm text-mute">
+          {taps}/10
         </p>
         <button
           type="button"
@@ -193,24 +198,17 @@ export function Sos() {
 
   if (phase === 'done') {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center px-6 text-center">
-        <Kicker>
-          {t('release')} · {t('gratitude')}
-        </Kicker>
-        <h1 className="mt-4 font-display text-3xl">{t('sos_done')}</h1>
-        <p className="mt-3 max-w-sm text-sm text-mute">{t('me_history_locked')}</p>
-        <div className="mt-8 w-full max-w-xs space-y-3">
+      <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 text-center">
+        <h1 className="font-display text-3xl">{t('sos_done')}</h1>
+        <div className="mt-10 w-full max-w-xs">
           <PrimaryButton onClick={() => navigate('/')}>{t('sos_back')}</PrimaryButton>
-          <Link to="/me" className="block text-sm text-rose-200">
-            {t('me_history')}
-          </Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
+    <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
       <div className="flex items-center justify-between">
         <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
         <CrisisLink />
