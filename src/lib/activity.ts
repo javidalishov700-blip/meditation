@@ -123,14 +123,22 @@ export function activityStats(now = Date.now()): ActivityStats {
 }
 
 export function weekdayLetters(locale: LocaleId): string[] {
-  const bcp = localeMeta(locale).bcp47
-  const fmt = new Intl.DateTimeFormat(bcp, { weekday: 'narrow' })
-  return Array.from({ length: 7 }, (_, i) => fmt.format(new Date(Date.UTC(2026, 7, 3 + i))))
+  try {
+    const bcp = localeMeta(locale).bcp47
+    const fmt = new Intl.DateTimeFormat(bcp, { weekday: 'narrow' })
+    return Array.from({ length: 7 }, (_, i) => fmt.format(new Date(Date.UTC(2026, 7, 3 + i))))
+  } catch {
+    return ['P', 'S', 'Ç', 'P', 'C', 'C', 'P']
+  }
 }
 
 export function monthTitle(year: number, month: number, locale: LocaleId): string {
-  const bcp = localeMeta(locale).bcp47
-  return new Intl.DateTimeFormat(bcp, { month: 'long', year: 'numeric' }).format(new Date(year, month, 1))
+  try {
+    const bcp = localeMeta(locale).bcp47
+    return new Intl.DateTimeFormat(bcp, { month: 'long', year: 'numeric' }).format(new Date(year, month, 1))
+  } catch {
+    return `${year}-${month + 1}`
+  }
 }
 
 export function formatLongDate(now: Date, locale: LocaleId): string {
