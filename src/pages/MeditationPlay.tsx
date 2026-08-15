@@ -7,7 +7,7 @@ import { useI18n } from '../lib/i18n'
 import { markSession } from '../lib/activity'
 import { completedSteps, markMedStep, pathPercent, stepUnlocked } from '../lib/med-progress'
 import { MED_ALIAS, meditationById, pathMinutes } from '../lib/library'
-import { primeAudio, seekSpeakTo, speak, speechSnap, stopSpeak, togglePause, writeVoiceVolume } from '../lib/speech'
+import { primeAudio, seekSpeakTo, speak, speechClipId, speechSnap, stopSpeak, togglePause, writeVoiceVolume } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
 import { PrimaryButton } from '../components/ui'
@@ -36,6 +36,7 @@ const MED_BEDS = [
 ] as const
 
 const SKIP = 15
+let medEpoch = 0
 
 function readBed(fallback: string) {
   const v = readJson<string | null>('med.bed', null)
@@ -53,13 +54,22 @@ export function MeditationSession({ id }: { id: string }) {
 }
 
 function MeditationBody({ path: raw }: { path: MedPath }) {
-  const { t, locale } = useI18n()
+  const { t, locale, meta } = useI18n()
   const path = locMedPath(raw, locale)
   const [params, setParams] = useSearchParams()
   const stepId = params.get('step')
   const step = path.steps.find((s) => s.id === stepId) ?? null
   const done = completedSteps(path.id)
   const pct = pathPercent(path)
+
+  function closeStep() {
+    medEpoch += 1
+    stopSpeak()
+    audio.stop(0.4)
+    const next = new URLSearchParams(params)
+    next.delete('step')
+    setParams(next, { replace: true })
+  }
 
   if (step) {
     const idx = path.steps.findIndex((s) => s.id === step.id)
@@ -72,10 +82,7 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
         path={path}
         step={step}
         index={idx}
-        onExit={() => {
-          params.delete('step')
-          setParams(params, { replace: true })
-        }}
+        onExit={closeStep}
         onNext={(nextId) => setParams({ step: nextId })}
       />
     )
@@ -103,7 +110,20 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                 disabled={!open}
                 onClick={() => {
                   if (!open) return
-                  void primeAudio()
+                  const clipId = `med:${s.id}`
+                  const fillMs = s.minutes * 60 * 1000
+                  const bedId = readBed(s.bed)
+                  void (async () => {
+                    await primeAudio()
+                    await audio.playNature(bedId)
+                    audio.hushForVoice()
+                  })()
+                  speak(s.body, {
+                    lang: meta.bcp47,
+                    mode: 'calm',
+                    fillMs,
+                    clipId,
+                  })
                   setParams({ step: s.id })
                 }}
                 className={`flex w-full items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-4 text-start ${
@@ -145,12 +165,13 @@ function MeditationPlayer({
 }) {
   const { t, meta, locale } = useI18n()
   const snap = useSpeech()
-  const total = step.minutes * 60
+  const total = Math.max(0, (step.minutes || 0) * 60)
   const [elapsed, setElapsed] = useState(0)
   const [ended, setEnded] = useState(false)
   const [bed, setBed] = useState(() => readBed(step.bed))
   const [bedVol, setBedVol] = useState(() => audio.getBedLevel())
   const [bedsOpen, setBedsOpen] = useState(false)
+  const [exitArmed, setExitArmed] = useState(false)
   const elapsedRef = useRef(0)
   const stampRef = useRef(Date.now())
   const pausedRef = useRef(false)
@@ -158,6 +179,11 @@ function MeditationPlayer({
   const done = useRef(false)
 
   useWakeLock(true)
+
+  useEffect(() => {
+    const tmr = window.setTimeout(() => setExitArmed(true), 500)
+    return () => window.clearTimeout(tmr)
+  }, [step.id])
 
   useEffect(() => {
     pausedRef.current = snap.paused
@@ -171,16 +197,23 @@ function MeditationPlayer({
     pausedRef.current = false
     markSession('meditation', path.id)
     const fillMs = total * 1000
-    void (async () => {
-      await audio.playNature(bed)
-      audio.hushForVoice()
-    })()
-    speak(step.body, {
-      lang: meta.bcp47,
-      mode: 'calm',
-      fillMs,
-      clipId: `med:${step.id}`,
-    })
+    const clipId = `med:${step.id}`
+    const epoch = ++medEpoch
+    const live = speechSnap()
+    const keep =
+      speechClipId() === clipId && (live.speaking || live.loading || live.paused)
+    if (!keep) {
+      void (async () => {
+        await audio.playNature(bed)
+        audio.hushForVoice()
+      })()
+      speak(step.body, {
+        lang: meta.bcp47,
+        mode: 'calm',
+        fillMs,
+        clipId,
+      })
+    }
     const tick = window.setInterval(() => {
       pausedRef.current = speechSnap().paused
       if (!pausedRef.current && !dragRef.current) {
@@ -190,14 +223,17 @@ function MeditationPlayer({
       } else {
         stampRef.current = Date.now()
       }
-      const s = Math.min(total, Math.max(0, elapsedRef.current))
+      const s = Math.min(total || 0, Math.max(0, elapsedRef.current))
       setElapsed(s)
-      if (s >= total && !done.current) finish()
+      if (total > 0 && s >= total && !done.current) finish()
     }, 200)
     return () => {
       window.clearInterval(tick)
-      stopSpeak()
-      audio.stop(0.4)
+      window.setTimeout(() => {
+        if (medEpoch !== epoch) return
+        stopSpeak()
+        audio.stop(0.4)
+      }, 80)
     }
   }, [path.id, step.id, step.body, total, meta.bcp47])
 
@@ -229,7 +265,7 @@ function MeditationPlayer({
     elapsedRef.current = next
     stampRef.current = Date.now()
     setElapsed(next)
-    if (next >= total) {
+    if (total > 0 && next >= total) {
       finish()
       return
     }
@@ -279,7 +315,10 @@ function MeditationPlayer({
       <button
         type="button"
         className="absolute left-4 z-20 rounded-full bg-white/15 px-3.5 py-1.5 text-sm text-white"
-        style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
+        style={{
+          top: 'max(1rem, env(safe-area-inset-top))',
+          pointerEvents: exitArmed ? 'auto' : 'none',
+        }}
         onClick={onExit}
       >
         {t('back')}
@@ -307,6 +346,15 @@ function MeditationPlayer({
         ) : null}
       </button>
 
+      {err ? (
+        <p
+          className="absolute inset-x-8 z-20 text-center text-sm leading-6 text-rose-100/90"
+          style={{ top: '58%' }}
+        >
+          {err}
+        </p>
+      ) : null}
+
       <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#0b0612] via-[#0b0612]/85 to-transparent px-5 pb-[max(1.1rem,env(safe-area-inset-bottom))] pt-16">
         <div className="mx-auto max-w-lg">
           <div className="flex items-end justify-between text-sm tabular-nums text-white/70">
@@ -316,7 +364,7 @@ function MeditationPlayer({
           <input
             type="range"
             min={0}
-            max={total}
+            max={Math.max(1, total)}
             step={1}
             value={Math.round(elapsed)}
             aria-label={t('med_tap')}
@@ -424,7 +472,6 @@ function MeditationPlayer({
               className="steady-range flex-1"
             />
           </label>
-          {err ? <p className="mt-2 text-xs leading-5 text-rose-200/80">{err}</p> : null}
           <p className="mt-2 text-center text-[11px] text-white/30">{t('med_pct', { n: pct })}</p>
         </div>
       </div>

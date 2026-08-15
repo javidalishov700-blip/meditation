@@ -145,29 +145,53 @@ function setFlags(partial: { speaking?: boolean; loading?: boolean; paused?: boo
   emit()
 }
 
+/** Tiny looping silence. Must not `ended` or WebViews flash a black fullscreen player. */
+const SILENCE =
+  'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
+
+function armInline(node: HTMLAudioElement) {
+  node.playsInline = true
+  node.setAttribute('playsinline', 'true')
+  node.setAttribute('webkit-playsinline', 'true')
+  node.controls = false
+  node.preload = 'auto'
+  try {
+    node.disableRemotePlayback = true
+  } catch {
+    /* older webkit */
+  }
+  node.setAttribute('controlslist', 'nofullscreen nodownload noremoteplayback')
+  node.setAttribute('aria-hidden', 'true')
+  node.classList.add('steady-voice')
+  if (!node.isConnected) document.body.appendChild(node)
+}
+
 function player() {
   if (!el) {
     el = new Audio()
     el.preload = 'auto'
     el.volume = readVoiceVolume()
   }
+  armInline(el)
   return el
 }
 
 export async function primeAudio() {
+  const ctxWait = audio.ensure().catch(() => undefined)
   const node = player()
-  const prev = node.src
+  const keep = node.src && !node.src.startsWith('data:') ? node.src : ''
   try {
-    node.src =
-      'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
+    node.loop = true
     node.muted = true
-    await node.play()
+    if (!keep) node.src = SILENCE
+    await Promise.all([ctxWait, node.play().catch(() => undefined)])
+    node.pause()
   } catch {
     /* autoplay lock */
   }
-  node.pause()
   node.muted = false
-  if (prev) node.src = prev
+  node.loop = false
+  if (keep && node.src !== keep) node.src = keep
 }
 
 function langPrefix(bcp47: string) {
@@ -237,15 +261,35 @@ async function cacheStore() {
   }
 }
 
+function looksLikeHtml(type: string) {
+  const t = type.toLowerCase()
+  return t.includes('text/html') || t.includes('application/xhtml')
+}
+
+function looksLikeAudio(type: string) {
+  const t = type.toLowerCase()
+  if (!t) return true
+  if (looksLikeHtml(t) || t.includes('javascript') || t.includes('json') || t.startsWith('text/')) return false
+  return t.includes('audio') || t.includes('mpeg') || t.includes('mp3') || t.includes('octet')
+}
+
 async function fetchRes(url: string) {
   const cache = await cacheStore()
   if (cache) {
     const hit = await cache.match(url)
-    if (hit) return hit
+    if (hit) {
+      if (!looksLikeHtml(hit.headers.get('content-type') || '')) return hit
+      try {
+        await cache.delete(url)
+      } catch {
+        /* ignore */
+      }
+    }
   }
   try {
     const res = await fetch(url, { mode: 'cors', credentials: 'omit' })
     if (!res.ok) return null
+    if (looksLikeHtml(res.headers.get('content-type') || '')) return null
     if (cache) {
       try {
         await cache.put(url, res.clone())
@@ -266,6 +310,7 @@ async function audioObjectUrl(url: string) {
   if (!res) return null
   const blob = await res.blob()
   if (!blob.size) return null
+  if (!looksLikeAudio(blob.type || res.headers.get('content-type') || '')) return null
   const obj = URL.createObjectURL(blob)
   cache.set(url, obj)
   return obj
@@ -307,21 +352,21 @@ async function bakedUrls(prefix: string, clipId?: string) {
 }
 
 function mediaDuration(url: string) {
+  const node = player()
   return new Promise<number>((resolve) => {
-    const a = new Audio()
-    a.preload = 'metadata'
     const timer = window.setTimeout(() => finish(0), 8000)
     function finish(ms: number) {
       window.clearTimeout(timer)
-      a.onloadedmetadata = null
-      a.onerror = null
-      a.removeAttribute('src')
-      a.load()
+      node.removeEventListener('loadedmetadata', ok)
+      node.removeEventListener('error', bad)
       resolve(ms)
     }
-    a.onloadedmetadata = () => finish(Math.max(0, (a.duration || 0) * 1000))
-    a.onerror = () => finish(0)
-    a.src = url
+    const ok = () => finish(Math.max(0, (node.duration || 0) * 1000))
+    const bad = () => finish(0)
+    node.addEventListener('loadedmetadata', ok)
+    node.addEventListener('error', bad)
+    node.src = url
+    node.load()
   })
 }
 
@@ -413,6 +458,7 @@ async function playUrl(url: string, gen: number, offsetSec = 0) {
   }
   await waitWhilePaused()
   if (cancelled || gen !== speakGen) return
+  node.playsInline = true
   await node.play()
   setFlags({ loading: false, speaking: true, paused: false })
   await new Promise<void>((resolve, reject) => {
@@ -452,9 +498,13 @@ export function stopSpeak() {
   stopClock()
   const node = el
   if (node) {
-    node.pause()
-    node.removeAttribute('src')
-    node.load()
+    try {
+      node.pause()
+      node.loop = false
+      node.removeAttribute('src')
+    } catch {
+      /* ignore */
+    }
   }
   setFlags({ speaking: false, loading: false, paused: false })
 }
@@ -494,6 +544,10 @@ export function seekSpeakTo(ms: number) {
 
 export function seekSpeakBy(deltaMs: number) {
   seekSpeakTo(liveElapsed() + deltaMs)
+}
+
+export function speechClipId() {
+  return lastJob?.opts.clipId ?? null
 }
 
 export function speak(text: string, opts: SpeakOpts = {}) {

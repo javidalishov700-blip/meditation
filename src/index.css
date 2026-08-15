@@ -762,6 +762,17 @@ html.light a.bg-\[\#7B61FF\] {
   color: #fff1f5;
 }
 
+audio.steady-voice {
+  position: fixed;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  left: 0;
+  bottom: 0;
+  visibility: hidden;
+}
+
 .calm-field {
   position: absolute;
   inset: 0;
