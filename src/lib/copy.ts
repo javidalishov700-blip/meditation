@@ -303,11 +303,11 @@ med(
   L('Bedenim katman katman iniyor.', 'My body drops layer by layer.', 'Mi cuerpo baja capa a capa.', 'Mon corps descend couche par couche.', 'Mein Körper sinkt Schicht um Schicht.', 'Il corpo scende strato dopo strato.'),
   L(
     'Otur veya yat. Alın, kaş, kapak, yanak, çene, dil, boğaz, omuz, kol, avuç, göğüs, karın, bel, kalça, uyluk, diz, baldır, taban. Her bölgede bir nefes. “Rahatla” emri yok. Sadece ad ve bırakış.',
-    'Sit or lie. Brow, lid, cheek, jaw, tongue, throat, shoulder, arm, palm, chest, belly, hip, thigh, knee, calf, sole. One breath each. No “relax” command. Name and release.',
-    'Siéntate o acuéstate. Frente, párpado, mejilla, mandíbula, lengua, garganta, hombro, brazo, palma, pecho, vientre, cadera, muslo, rodilla, pantorrilla, planta. Un aliento cada uno. Sin orden de “relájate”. Nombre y suelta.',
-    'Assieds-toi ou allonge-toi. Front, paupière, joue, mâchoire, langue, gorge, épaule, bras, paume, poitrine, ventre, hanche, cuisse, genou, mollet, plante. Un souffle chacun. Pas d’ordre « détends-toi ». Nom et lâcher.',
-    'Sitz oder lieg. Stirn, Lid, Wange, Kiefer, Zunge, Kehle, Schulter, Arm, Handfläche, Brust, Bauch, Hüfte, Oberschenkel, Knie, Wade, Sohle. Ein Atem je. Kein „entspann dich“. Name und Loslassen.',
-    'Siediti o sdraiati. Fronte, palpebra, guancia, mascella, lingua, gola, spalla, braccio, palmo, petto, ventre, anca, coscia, ginocchio, polpaccio, pianta. Un respiro ciascuno. Niente «rilassati». Nome e rilascio.',
+    'This is not a treatment. Sit or lie down. Notice the forehead. The eyelids may be heavy. Stay for three breaths. Soften the jaw. Shoulders can drop a millimetre. Palms rest. The chest moves on its own. The belly is allowed to be soft. Soles on the ground. Stay for three breaths. No command to relax. Name a place in the body and let it be. The sentence is: my body drops layer by layer.',
+    'Esto no es un tratamiento. Siéntate o acuéstate. Frente, párpados, mandíbula, hombros, palmas, pecho, vientre, plantas. Quédate tres respiraciones. Sin orden de relajarte. Nombra y suelta.',
+    'Ce n’est pas un traitement. Assieds-toi ou allonge-toi. Front, paupières, mâchoire, épaules, paumes, poitrine, ventre, plantes. Reste trois souffles. Pas d’ordre de te détendre. Nomme et lâche.',
+    'Das ist keine Behandlung. Sitz oder lieg. Stirn, Lider, Kiefer, Schultern, Handflächen, Brust, Bauch, Sohlen. Bleib drei Atemzüge. Kein Befehl zum Entspannen. Nenne und lass los.',
+    'Non è una cura. Siediti o sdraiati. Fronte, palpebre, mascella, spalle, palmi, petto, ventre, piante. Resta tre respiri. Niente ordine di rilassarti. Nomina e lascia.',
   ),
 )
 
@@ -318,11 +318,11 @@ med(
   L('Bildiğim odadayım, kapı yerinde.', 'I am in a room I know; the door is in place.', 'Estoy en una habitación que conozco; la puerta está.', 'Je suis dans une pièce que je connais ; la porte est là.', 'Ich bin in einem Raum, den ich kenne; die Tür ist da.', 'Sono in una stanza che conosco; la porta c’è.'),
   L(
     'Gerçek bir oda. Kapı, pencere, yer, koku, ses. Üç nesne yeter. Bırakış: odayı dekore etme. Şükran: bu kapı.',
-    'A real room. Door, window, floor, smell, sound. Three objects are enough. Release: do not redecorate. Thanks: this door.',
-    'Una habitación real. Puerta, ventana, suelo, olor, sonido. Tres objetos bastan. Suelta: no redecorar. Gracia: esta puerta.',
-    'Une pièce réelle. Porte, fenêtre, sol, odeur, son. Trois objets suffisent. Lâche : ne redécore pas. Merci : cette porte.',
-    'Ein echter Raum. Tür, Fenster, Boden, Geruch, Klang. Drei Dinge reichen. Loslassen: nicht umdekorieren. Dank: diese Tür.',
-    'Una stanza vera. Porta, finestra, pavimento, odore, suono. Tre oggetti bastano. Rilascia: non arredare di nuovo. Grazie: questa porta.',
+    'This is not a treatment. Choose a room you know. See the door. See the window. Name the floor. Stay for three breaths. Three objects are enough. You will not redecorate. Thanks for this door.',
+    'Esto no es un tratamiento. Una habitación que conoces. Puerta, ventana, suelo. Quédate tres respiraciones. Tres objetos bastan. No redecorar.',
+    'Ce n’est pas un traitement. Une pièce que tu connais. Porte, fenêtre, sol. Reste trois souffles. Trois objets suffisent. Ne redécore pas.',
+    'Das ist keine Behandlung. Ein Raum, den du kennst. Tür, Fenster, Boden. Bleib drei Atemzüge. Drei Dinge reichen. Nicht umdekorieren.',
+    'Non è una cura. Una stanza che conosci. Porta, finestra, pavimento. Resta tre respiri. Tre oggetti bastano. Non arredare di nuovo.',
   ),
 )
 
@@ -333,11 +333,11 @@ med(
   L('Kıyıdayım, dalga bana ait değil.', 'I am on the shore; the wave is not mine.', 'Estoy en la orilla; la ola no es mía.', 'Je suis sur le rivage ; la vague n’est pas à moi.', 'Ich bin am Ufer; die Welle gehört mir nicht.', 'Sono sulla riva; l’onda non è mia.'),
   L(
     'İskele veya taş. Dalga gelir, iskele kalır. Sen iskelesin. Veriş uzun olabilir. Zorlama. Tohum: ıslak tahta, çekilmiş su. Bırak.',
-    'A pier or a stone. The wave comes; the pier stays. You are the pier. The exhale may be long. No force. Seed: wet wood, drawn water. Release.',
-    'Un muelle o una piedra. La ola llega; el muelle queda. Eres el muelle. La exhalación puede ser larga. Sin fuerza. Semilla: madera mojada, agua retirada. Suelta.',
-    'Un ponton ou une pierre. La vague vient ; le ponton reste. Tu es le ponton. L’expiration peut être longue. Sans forcer. Graine : bois mouillé, eau retirée. Lâche.',
-    'Steg oder Stein. Die Welle kommt; der Steg bleibt. Du bist der Steg. Der Ausatem darf lang sein. Kein Zwang. Samen: nasses Holz, zurückgezogenes Wasser. Loslassen.',
-    'Un molo o una pietra. L’onda arriva; il molo resta. Sei il molo. L’espirazione può essere lunga. Senza forza. Seme: legno bagnato, acqua ritirata. Rilascia.',
+    'This is not a treatment. A pier or a stone. The wave comes. The pier stays. You are the pier. Stay for three breaths. The exhale may be long. No force. Seed: wet wood, drawn water.',
+    'Esto no es un tratamiento. Un muelle o una piedra. La ola llega; el muelle queda. Eres el muelle. Quédate tres respiraciones. Sin fuerza.',
+    'Ce n’est pas un traitement. Un ponton ou une pierre. La vague vient ; le ponton reste. Tu es le ponton. Reste trois souffles. Sans forcer.',
+    'Das ist keine Behandlung. Steg oder Stein. Die Welle kommt; der Steg bleibt. Du bist der Steg. Bleib drei Atemzüge. Kein Zwang.',
+    'Non è una cura. Un molo o una pietra. L’onda arriva; il molo resta. Sei il molo. Resta tre respiri. Senza forza.',
   ),
 )
 
@@ -374,7 +374,7 @@ med(
 med(
   'seed-only',
   L('Yalnız tohum', 'Seed only', 'Solo semilla', 'Graine seule', 'Nur Samen', 'Solo seme'),
-  L('Beş dakika, tek kare', 'Five minutes, one frame', 'Cinco minutos, un fotograma', 'Cinq minutes, un cadre', 'Fünf Minuten, ein Bild', 'Cinque minuti, un fotogramma'),
+  L('Tek kare, film yok', 'One frame, no film', 'Un fotograma, sin película', 'Un cadre, pas de film', 'Ein Bild, kein Film', 'Un fotogramma, niente film'),
   L('Tohumu geceye bırakıyorum.', 'I leave the seed to the night.', 'Dejo la semilla a la noche.', 'Je laisse la graine à la nuit.', 'Ich lasse den Samen der Nacht.', 'Lascio il seme alla notte.'),
   L(
     'Çene, omuz, karın. Bir cümle. Tek sahne: kapalı bahçe, ılık taş, kandil. Tekrar etme. Bırak. Uyu.',
@@ -829,7 +829,7 @@ export function locLibrary(item: LibraryItem, locale: LocaleId): LibraryItem {
     ...item,
     title: pickPack(p.title, locale, item.title),
     subtitle: pickPack(p.subtitle, locale, item.subtitle),
-    body: pickPack(p.body, locale, item.body),
+    body: locale === 'tr' ? item.body : pickPack(p.body, locale, item.body),
     sentence: item.sentence != null ? pickPack(p.sentence, locale, item.sentence) : item.sentence,
     nightSeed: item.nightSeed != null ? pickPack(p.nightSeed, locale, item.nightSeed) : item.nightSeed,
   }

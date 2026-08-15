@@ -452,95 +452,119 @@ export const meditations: LibraryItem[] = [
     subtitle: 'Tepeden tabana, zorlamadan',
     minutes: 12,
     sentence: 'Bedenim katman katman iniyor.',
-    body: `Otur veya yat. Gözler kapalı veya loş.
+    body: `Bu bir tedavi değildir. Sadece bir bırakış. Otur veya yat. Nasıl duruyorsan öyle kal. Gözlerin kapalı olabilir. Loş da olabilir. Doğru bir pozisyon yok.
 
-Alın. Kaş. Göz kapakları. Yanak. Çene. Dil. Boğaz. Omuzlar. Üst kollar. Dirsekler. Avuçlar. Göğüs. Kaburga. Karın. Bel. Kalçalar. Uyluk. Diz. Baldır. Ayak bileği. Taban.
+Ayakların yerdeyse yerde kalsın. Yatıyorsan yorganın ağırlığını fark et. Düzeltenecek bir şey yok. Oda aynı oda. Sen buradasın.
 
-Her bölgede bir nefes. Düzeltme yok. “Rahatla” emri yok. Sadece ad ve bırakış.
+Şimdi alnını fark et. Alın geniş. Duruyor. Kaşların gerilmek zorunda değil. Göz kapakları ağır olabilir. İzin ver. Kirpikler değiyorsa değsin. Burada üç nefes.
 
-Cümle: bedenim katman katman iniyor. Sahne: aynı oda, daha ağır yorgan. Şükran: bu taban için. Bırak.`,
+Yanaklar duruyor. Çene yumuşak olabilir. Azı dişlerin birbirine değmek zorunda değil. Dil alt damağa yaslanabilir. Boğaz açık. Yutkunursan yutkun. Yasak yok. Kulaklar da duruyor. Boyun, omurganın üstünde. Zorlama. Burada iki nefes.
+
+Omuzlara gel. Omuzlar kulaklara yakınsa milim uzaklaşabilir. Emir değil. Sadece fark. Üst kollar ağır. Dirsekler duruyor. Avuçlar açık veya kapalı, fark etmez. Isı varsa ısı. Serinlik varsa serinlik. Parmaklar bükük kalabilir. Düzeltme. Burada üç nefes.
+
+Göğüs. Kaburga nefesle hafifçe açılır, kapanır. Sen yönetmiyorsun. Nefes kendi işini bilir. Karın yumuşak olabilir. Bel yere veya sandalyeye bırakılabilir. Kalçalar ağır. Bu ağırlık bir hata değil. Burada üç nefes.
+
+Uyluklar. Dizler duruyor. Baldırlar. Ayak bilekleri. Tabanlar. Tabanlar yerdeyse yer seni tutuyor. Topuk, kemer, parmak. Sayı yok. Sadece basınç. Burada üç nefes.
+
+Zihin bir listeye dönerse sorun değil. Listeyi bitirmek zorunda değilsin. Bir bölgeye dön. Adını içinden söyle. Bırak. “Rahatla” emri yok. Sadece ad ve bırakış. Düşünce gelirse düşünce de bir dalga. Kenarda kal.
+
+Bir kez daha, yavaş: alın. Çene. Omuz. Avuç. Karın. Taban. Her birinde bir nefes. Acele yok.
+
+Cümle bu: bedenim katman katman iniyor. Sahne: aynı oda, biraz daha ağır bir yorgan. Şükran: bu taban için. Sonra bırak. Uyku gelirse gelsin. Gelmezse de bu bırakış yeter. Burada üç nefes.`,
   },
   {
     id: 'known-room',
     title: 'Bilinen oda',
     subtitle: 'İcat yok, hafıza var',
-    minutes: 10,
+    minutes: 12,
     sentence: 'Bildiğim odadayım, kapı yerinde.',
-    body: `Gerçek bir oda seç. İdeal bahçe değil.
+    body: `Bu bir tedavi değildir. İdeal bir bahçe icat etme. Bildiğin bir oda seç. Gerçek bir oda. Kapısı olan, penceresi olan, senin durduğun bir yer.
 
-Kapı. Pencere. Yerin cinsi. Bir koku. Bir ses. Sen neredesin: sandalye mı, yatak mı.
+Kapıyı içinden gör. Dört kenar. Kol veya kulp. Açık mı, kapalı mı, söylemen yeter. Pencere. Işık nereden geliyor. Perde ağır mı, tül mü, yok mu. Yerin cinsi: tahta, halı, fayans, yatak. Bir koku varsa koku. Yoksa koku uydurma. Bir ses varsa ses. Yoksa sessizlik de duruyor. Burada üç nefes.
 
-Zihin süslerse sadeleştir. Üç nesne yeter.
+Sen neredesin. Sandalye mı. Yatak mı. Yer mi. Sırtın neye yaslanıyor. Yastık varsa yastık. Zihin odayı süslerse sadeleştir. Üç nesne yeter. Birini adı ile söyle. İkincisini. Üçüncüsünü. Başka ekleme. Burada iki nefes.
 
-Bırakış: odayı yeniden dekore etmeyeceksin. Şükran: bu kapı için.`,
+Kapı yerinde. Pencere yerinde. Sen de yerindesin. Odayı yeniden dekore etmeyeceksin. Bu bir tasarım değil. Bir hatırlama. Sis gelirse kenara dön. Kapının dikdörtgeni yeter.
+
+Cümle: bildiğim odadayım, kapı yerinde. Şükran: bu kapı için. Bırakış: odayı düzeltmeyeceksin. Burada üç nefes. Sonra bırak.`,
   },
   {
     id: 'shore-sit',
     title: 'Kıyıda oturuş',
     subtitle: 'Dalga metaforu, deniz zorunlu değil',
-    minutes: 11,
+    minutes: 12,
     sentence: 'Kıyıdayım, dalga bana ait değil.',
-    body: `İskele veya taş kenar. Su varsa su, yoksa sadece ritmik bir ses.
+    body: `Bu bir tedavi değildir. Bir kenar. İskele olabilir, taş olabilir. Su varsa su. Yoksa yalnızca ritmik bir ses yeter. Denizi görmek zorunda değilsin.
 
-Dalga gelir, iskele kalır. Sen iskelesin. Islanmak zorunda değilsin.
+Oturuyorsun. Sırt dik olmak zorunda değil. Ayaklar duruyor. Dalga gelir. İskele kalır. Sen iskelesin. Islanmak zorunda değilsin. Dalga senin düşüncen olabilir. Gelir, çekilir. Sen kenarda kalırsın. Burada üç nefes.
 
-Nefes verişi dalganın çekilişi gibi uzun tutabilirsin. Zorlama.
+Nefes verişi dalganın çekilişi gibi uzun olabilir. Zorlama. Hava bitmesin diye yarışma. Alış doğal, veriş biraz daha uzun. Bir nefes.
 
-Gece tohumu: ıslak tahta, çekilmiş su. Şükran: bu kenar için.`,
+Zihin denize hikâye eklerse kenara dön. Islak tahta. Çekilmiş su. Soğuk hava varsa soğuk. Yoksa yok. Cümle: kıyıdayım, dalga bana ait değil.
+
+Gece tohumu: ıslak tahta, çekilmiş su. Şükran: bu kenar için. Bırakış: dalgayı yönetmeyeceksin. Burada üç nefes. Sonra bırak.`,
   },
   {
     id: 'hands-pulse',
     title: 'El ve nabız',
-    subtitle: 'DP yatağı, ayna yok',
-    minutes: 8,
+    subtitle: 'Temas, ayna yok',
+    minutes: 10,
     sentence: 'Nabzım içeride, ellerim bende.',
-    body: `İki el, bir bilek. Nabız bulunursa sayma; sadece varlığını fark et. Bulunmazsa elin ısısı yeter.
+    body: `Bu bir tedavi değildir. Ayna yok bu sahnede. İki el. Birini diğer bileğe koyabilirsin. Nabız bulunursa sayma. Sadece varlığını fark et. Bulunmazsa elin ısısı yeter. Isı da bir kanıt değil. Sadece ısı. Burada üç nefes.
 
-Adını fısılda. Tarihi fısılda.
+Avuç içleri birbirine bakabilir. Ayır. Birleştir. Ağırlık küçük. Eller senin. Adını fısılda. Tarihi fısılda. Yüksek ses gerekmez.
 
-Bırakış: nabzı kanıt yapmayacaksın.`,
+Zihin “gerçek miyim” diye sorarsa soruyu cevaplama. Ellere dön. Nabza dönme zorunluluğu yok. Isı yeter. Cümle: nabzım içeride, ellerim bende.
+
+Bırakış: nabzı kanıt yapmayacaksın. Şükran: bu iki el. Burada iki nefes. Sonra bırak.`,
   },
   {
     id: 'window-light',
     title: 'Pencere ışığı',
-    subtitle: 'DR yatağı, yön sayımı',
-    minutes: 8,
+    subtitle: 'Yön, kenar, sis yorumu yok',
+    minutes: 10,
     sentence: 'Işık bir yerden geliyor.',
-    body: `Gözler yumuşak. Işığın yönü. Gölgenin yönü. Perde ağır mı, tül mü.
+    body: `Bu bir tedavi değildir. Gözler yumuşak. Odadaki ışığın yönünü söyle. Soldan mı. Sağdan mı. Tavandan mı. Pencereden mi. Gölge nereye düşüyor. Perde ağır mı, tül mü, yok mu. Burada üç nefes.
 
-Kenar çiz. Sis yorumunu not etme.
+Bir kenar çiz. Kapı dikdörtgeni. Pencere çerçevesi. Raf. Sis yorumunu not etme. “Her şey gerçek değil” cümlesini büyütme. Işık bir yerden geliyor. Bu yeter.
 
-Şükran: bu yön için. Bırakış: görüntüyü netleştirmeyeceksin.`,
+Cümle: ışık bir yerden geliyor. Şükran: bu yön için. Bırakış: görüntüyü netleştirmeyeceksin. Netleşmezse de ışık duruyor. Burada iki nefes. Sonra bırak.`,
   },
   {
     id: 'seed-only',
     title: 'Yalnız tohum',
-    subtitle: 'Beş dakika, tek kare',
-    minutes: 5,
+    subtitle: 'Tek kare, film yok',
+    minutes: 8,
     nightSeed: 'Kapalı bahçe, ılık taş, kandil.',
     sentence: 'Tohumu geceye bırakıyorum.',
-    body: `Rahat beden: çene, omuz, karın. Bir cümle. Tek sahne: kapalı bahçe, ılık taş, kandil. Tekrar etme, süsleme. Bırak. Şükran fısıltısı. Uyu.`,
+    body: `Bu bir tedavi değildir. Çene yumuşak. Omuzlar iniyor. Karın nefesle hareket edebilir. Bir cümle yeter. Tek sahne: kapalı bir bahçe, ılık bir taş, küçük bir kandil. Film çekme. Tekrar etme. Süsleme. Burada üç nefes.
+
+Kartpostal duruyor. Zihin epik isterse kartpostala dön. Şükran fısıltısı. Cümle: tohumu geceye bırakıyorum. Uyku bir görev değil. Gelirse gelsin. Burada iki nefes. Sonra bırak.`,
   },
   {
     id: 'warm-stone',
     title: 'Avuçta taş',
     subtitle: 'Ağırlık, ısı, kenar',
-    minutes: 8,
+    minutes: 10,
     sentence: 'Taş avucumda, ben buradayım.',
-    body: `Bir taş, bir anahtar, bir kupa. Avuç. Ağırlık. Kenar. Isı veya serinlik. Adını söyleme, nesneyi söyle.
+    body: `Bu bir tedavi değildir. Bir taş, bir anahtar, bir kupa. Avuçta duran bir şey. Ağırlığını fark et. Kenarını fark et. Isı veya serinlik. Adını hikâye etme. Nesneyi söyle. Burada üç nefes.
 
-Gözler yumuşak. Zihin hikâye uydurursa nesneye dön. Bırakış: taşı kanıt yapma. Şükran: bu ağırlık.`,
+Gözler yumuşak. Zihin hikâye uydurursa nesneye dön. Ağırlık. Kenar. Avuç. Cümle: taş avucumda, ben buradayım.
+
+Bırakış: taşı kanıt yapma. Şükran: bu ağırlık. Burada iki nefes. Sonra bırak.`,
   },
   {
     id: 'feet-press',
     title: 'Taban basışı',
     subtitle: 'İki ayak, yer, sayı yok',
-    minutes: 7,
+    minutes: 10,
     free: true,
     sentence: 'Tabanlarım yerde, yer beni tutuyor.',
-    body: `Ayakta veya sandalyede. İki tabanı yere bas. Topuk, kemer, parmak. Sayı yok. “Daha sert” yok. Sadece basınç.
+    body: `Bu bir tedavi değildir. Ayakta veya sandalyede. İki tabanı yere bas. Topuk. Kemer. Parmak uçları. Sayı yok. “Daha sert” yok. Sadece basınç. Yer seni tutuyor. Burada üç nefes.
 
-On nefes. Her verişte milim daha fazla ağırlık. Bırakış: yarışı kazanma. Şükran: bu yer.`,
+On nefes boyunca her verişte milim daha fazla ağırlık bırakabilirsin. Yarış yok. Kazanılacak bir taban yok. Cümle: tabanlarım yerde, yer beni tutuyor.
+
+Bırakış: yarışı kazanma. Şükran: bu yer. Burada iki nefes. Sonra bırak.`,
   },
 ]
 

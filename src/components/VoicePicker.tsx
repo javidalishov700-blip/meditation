@@ -48,8 +48,9 @@ export function VoicePicker() {
       <p className="text-xs text-mute">{t('voice_pace')}</p>
       <p className="mt-2 text-sm leading-6 text-white/55">{t('voice_pace_hint')}</p>
       <div className="mt-4 flex flex-wrap gap-2">
-        {(['natural', 'slow'] as const).map((id) => {
+        {(['natural', 'calm', 'slow'] as const).map((id) => {
           const on = pace === id
+          const label = id === 'natural' ? t('voice_natural') : id === 'calm' ? t('voice_calm') : t('voice_slow')
           return (
             <button
               key={id}
@@ -61,7 +62,7 @@ export function VoicePicker() {
                   : 'bg-white/[0.05] text-cream/85'
               }`}
             >
-              {id === 'natural' ? t('voice_natural') : t('voice_slow')}
+              {label}
             </button>
           )
         })}

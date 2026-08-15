@@ -437,7 +437,11 @@ function ScriptView({
           }
           setSpeaking(true)
           markSession(kind || 'session', sid)
-          speak(script, { onend: () => setSpeaking(false), lang: meta.bcp47 })
+          speak(script, {
+            onend: () => setSpeaking(false),
+            lang: meta.bcp47,
+            mode: kind === 'meditation' || kind === 'sleeplab' ? 'calm' : undefined,
+          })
         }}
       >
         {speaking ? t('speak_stop') : t('speak')}

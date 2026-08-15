@@ -9,7 +9,7 @@ let speakingFlag = false
 let keepAliveTimer: number | null = null
 const speakListeners = new Set<() => void>()
 
-export type ReadMode = 'natural' | 'slow'
+export type ReadMode = 'natural' | 'slow' | 'calm'
 
 type SpeakOpts = {
   rate?: number
@@ -40,7 +40,9 @@ export function writeVoiceUri(bcp47: string, uri: string | null) {
 }
 
 export function readReadMode(): ReadMode {
-  return readJson<string>('readMode', 'natural') === 'slow' ? 'slow' : 'natural'
+  const v = readJson<string>('readMode', 'natural')
+  if (v === 'slow' || v === 'calm') return v
+  return 'natural'
 }
 
 export function writeReadMode(mode: ReadMode) {
@@ -117,8 +119,10 @@ function pickVoice(bcp47: string): SpeechSynthesisVoice | null {
 }
 
 function humanize(text: string, prefix: string, mode: ReadMode): string {
-  let out = text.replace(/\s+/g, ' ')
+  let out = text.replace(/\r\n/g, '\n')
   if (mode === 'natural') {
+    out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
+  } else if (mode === 'calm') {
     out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
   } else {
     out = out.replace(/[·•]/g, ',').replace(/\s*[—–]\s*/g, ', ')
@@ -127,7 +131,7 @@ function humanize(text: string, prefix: string, mode: ReadMode): string {
     .replace(/(\d)-(\d)-(\d)/g, '$1, $2, $3')
     .replace(/Hz/gi, 'hertz')
     .replace(/['’]/g, ' ')
-    .replace(/\s{2,}/g, ' ')
+    .replace(/[ \t]{2,}/g, ' ')
     .trim()
   if (prefix === 'tr') out = out.replace(/(\d+)\s*dk\b/gi, '$1 dakika')
   else out = out.replace(/(\d+)\s*dk\b/gi, '$1 min').replace(/(\d+)\s*min\b/gi, '$1 minutes')
@@ -156,31 +160,48 @@ function splitLong(text: string, max: number): string[] {
   return chunks
 }
 
+function breathHold(sentence: string): number {
+  if (/üç nefes|three breaths|tres respir|trois souff|drei atem|tre respir/i.test(sentence)) return 16000
+  if (/iki nefes|two breaths|dos respir|deux souff|zwei atem|due respir/i.test(sentence)) return 11000
+  if (/bir nefes|one breath|un aliento|un souffle|ein atemzug|un respiro/i.test(sentence)) return 6000
+  return 0
+}
+
 function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
   const clean = humanize(text, prefix, mode)
   if (!clean) return []
-  const max = mode === 'slow' ? 108 : 220
-  const sentences = clean.split(/(?<=[.!?…])\s+/).filter(Boolean)
+  const max = mode === 'slow' ? 108 : mode === 'calm' ? 280 : 220
+  const blocks = clean.split(/\n{2,}/).map((b) => b.replace(/\n/g, ' ').trim()).filter(Boolean)
   const out: Phrase[] = []
-  for (const sentence of sentences) {
-    const endPause = mode === 'slow' ? (/[.!?…]$/.test(sentence) ? 540 : 320) : /[.!?…]$/.test(sentence) ? 260 : 140
-    const midPause = mode === 'slow' ? 170 : 80
-    if (mode === 'slow' && sentence.length > 110 && /,\s/.test(sentence)) {
-      const parts = sentence.split(/,\s+/)
-      parts.forEach((raw, i) => {
-        const piece = raw.trim()
-        if (!piece) return
-        const last = i === parts.length - 1
-        splitLong(last ? piece : `${piece},`, max).forEach((bit, j, arr) => {
-          const tail = last && j === arr.length - 1
-          out.push({ text: bit, pause: tail ? endPause : 200 })
+  for (const block of blocks) {
+    const sentences = block.split(/(?<=[.!?…])\s+/).filter(Boolean)
+    const paraPause = mode === 'calm' ? 3200 : mode === 'slow' ? 540 : 260
+    for (let s = 0; s < sentences.length; s++) {
+      const sentence = sentences[s]!
+      const last = s === sentences.length - 1
+      const hold = mode === 'calm' ? breathHold(sentence) : 0
+      const endPause = hold || (last ? paraPause : mode === 'calm' ? 1100 : mode === 'slow' ? 320 : 140)
+      if (mode === 'slow' && sentence.length > 110 && /,\s/.test(sentence)) {
+        const parts = sentence.split(/,\s+/)
+        parts.forEach((raw, i) => {
+          const piece = raw.trim()
+          if (!piece) return
+          const tail = i === parts.length - 1
+          splitLong(tail ? piece : `${piece},`, max).forEach((bit, j, arr) => {
+            const end = tail && j === arr.length - 1
+            out.push({ text: bit, pause: end ? endPause : 200 })
+          })
+        })
+        continue
+      }
+      splitLong(sentence, max).forEach((bit, i, arr) => {
+        const end = i === arr.length - 1
+        out.push({
+          text: bit,
+          pause: end ? endPause : mode === 'calm' ? 120 : mode === 'slow' ? 170 : 80,
         })
       })
-      continue
     }
-    splitLong(sentence, max).forEach((bit, i, arr) => {
-      out.push({ text: bit, pause: i === arr.length - 1 ? endPause : midPause })
-    })
   }
   return out
 }
@@ -213,6 +234,9 @@ function utter(text: string, bcp: string, opts: { rate: number; pitch: number })
 
 function startKeepAlive() {
   stopKeepAlive()
+  const ua = navigator.userAgent
+  const ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  if (ios) return
   keepAliveTimer = window.setInterval(() => {
     const synth = window.speechSynthesis
     if (!synth?.speaking) return
@@ -255,8 +279,8 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     opts.onend?.()
     return
   }
-  const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : 1)
-  const basePitch = opts.pitch ?? 1
+  const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : mode === 'calm' ? 0.93 : 1)
+  const basePitch = opts.pitch ?? (mode === 'calm' ? 0.97 : 1)
   let i = 0
   audio.hushForVoice()
   refreshVoices()
@@ -279,13 +303,18 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     }
     const part = parts[i]!
     i += 1
+    if (!part.text) {
+      void wait(part.pause).then(next)
+      return
+    }
+    const live = mode === 'slow'
     const u = utter(part.text, bcp, {
-      rate: mode === 'slow' ? jitter(baseRate, 0.012) : baseRate,
-      pitch: mode === 'slow' ? jitter(basePitch, 0.012) : basePitch,
+      rate: live ? jitter(baseRate, 0.012) : baseRate,
+      pitch: live ? jitter(basePitch, 0.012) : basePitch,
     })
     u.onend = () => {
       if (cancelled || gen !== speakGen) return
-      const gap = mode === 'slow' ? part.pause + Math.floor(Math.random() * 60) : part.pause
+      const gap = live ? part.pause + Math.floor(Math.random() * 60) : part.pause
       void wait(gap).then(next)
     }
     u.onerror = () => {
@@ -311,12 +340,12 @@ export function speakCue(text: string, lang?: string) {
 }
 
 export const VOICE_SAMPLE: Record<string, string> = {
-  tr: 'Şimdi normal bir hızda konuşuyorum. Nefes al, omuzların insin. Yanında duran biri gibi, cümleyi bölmeden.',
-  en: 'I am speaking at a normal pace now. Breathe in, let the shoulders drop. Like someone in the room, without chopping the sentence.',
-  es: 'Ahora hablo a un ritmo normal. Inhala, deja caer los hombros. Como alguien en la habitación, sin cortar la frase.',
-  fr: 'Je parle maintenant à un rythme normal. Inspire, laisse descendre les épaules. Comme quelqu un dans la pièce, sans couper la phrase.',
-  de: 'Ich spreche jetzt in normalem Tempo. Atme ein, lass die Schultern sinken. Wie jemand im Raum, ohne den Satz zu zerteilen.',
-  it: 'Parlo ora a un ritmo normale. Inspira, lascia scendere le spalle. Come qualcuno nella stanza, senza spezzare la frase.',
+  tr: 'Şimdi yanındayım. Cümleyi bölmeden konuşuyorum. Nefes al. Omuzların insin. Burada üç nefes.',
+  en: 'I am here with you. I speak without chopping the sentence. Breathe in. Let the shoulders drop. Stay for three breaths.',
+  es: 'Estoy aquí. Hablo sin cortar la frase. Inhala. Deja caer los hombros. Quédate tres respiraciones.',
+  fr: 'Je suis là. Je parle sans couper la phrase. Inspire. Laisse descendre les épaules. Reste trois souffles.',
+  de: 'Ich bin hier. Ich spreche, ohne den Satz zu zerteilen. Atme ein. Lass die Schultern sinken. Bleib drei Atemzüge.',
+  it: 'Sono qui. Parlo senza spezzare la frase. Inspira. Lascia scendere le spalle. Resta tre respiri.',
 }
 
 export function sampleLine(bcp47: string) {
