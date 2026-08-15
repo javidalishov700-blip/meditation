@@ -207,7 +207,14 @@ function BreathSession({ id }: { id: string }) {
   const running = useRef(false)
   useWakeLock(on)
 
-  useEffect(() => () => { running.current = false; stopSpeak() }, [])
+  useEffect(
+    () => () => {
+      running.current = false
+      stopSpeak()
+      audio.stop(0.4)
+    },
+    [],
+  )
   if (!b) return <Navigate to="/practice" replace />
 
   function wait(ms: number) {
@@ -277,12 +284,14 @@ function BreathSession({ id }: { id: string }) {
             if (on) {
               running.current = false
               stopSpeak()
+              audio.stop(0.4)
               setOn(false)
               setPhase(t('stop'))
               return
             }
             running.current = true
             setOn(true)
+            void audio.playPad()
             void loop(b)
           }}
         >
@@ -343,7 +352,13 @@ function ScriptView({
 
   const script = [body, sentence, ...extras.map((x) => x.text)].filter(Boolean).join('\n\n')
 
-  useEffect(() => () => stopSpeak(), [])
+  useEffect(() => {
+    void audio.playPad()
+    return () => {
+      stopSpeak()
+      audio.stop(0.5)
+    }
+  }, [])
   useWakeLock(speaking)
 
   return (
@@ -409,6 +424,7 @@ function ScriptView({
             setSpeaking(false)
             return
           }
+          if (!audio.playing) void audio.playPad()
           setSpeaking(true)
           speak(script, { onend: () => setSpeaking(false), lang: meta.bcp47 })
         }}

@@ -4,12 +4,21 @@ import { Card, GhostButton, LegalNote, ProChip } from '../components/ui'
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatClock, formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
+import { resetOnboard } from '../lib/onboard'
 import { readPassed } from '../lib/passed'
 
 export function Me() {
   const { t, locale } = useI18n()
-  const { pro, lockDemo } = useEntitlement()
+  const { pro, demo, trial, trialEndsAt, lockDemo } = useEntitlement()
   const history = readPassed()
+  const ms = trialEndsAt - Date.now()
+  const tier = demo
+    ? t('me_pro')
+    : trial && ms > 0
+      ? ms < 86_400_000
+        ? t('me_trial_today')
+        : t('me_trial', { n: Math.ceil(ms / 86_400_000) })
+      : t('me_free')
 
   return (
     <div className="pb-8">
@@ -22,8 +31,8 @@ export function Me() {
 
       <Card className="mt-4">
         <p className="text-xs text-mute">{t('me_tier')}</p>
-        <p className="mt-1 font-display text-2xl">{pro ? t('me_pro') : t('me_free')}</p>
-        {pro ? (
+        <p className="mt-1 font-display text-2xl">{tier}</p>
+        {demo || trial ? (
           <GhostButton className="mt-4" onClick={lockDemo}>
             {t('me_demo_off')}
           </GhostButton>
@@ -57,6 +66,10 @@ export function Me() {
           </ul>
         )}
       </Card>
+
+      <GhostButton className="mt-6" onClick={() => resetOnboard()}>
+        {t('me_ob_replay')}
+      </GhostButton>
 
       <div className="mt-10">
         <LegalNote />

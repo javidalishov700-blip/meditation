@@ -1,12 +1,24 @@
 import { Link } from 'react-router-dom'
 import { Card, Kicker } from '../components/ui'
+import { useEntitlement } from '../lib/entitlement-store'
 import { greeting } from '../lib/format'
 import { useI18n } from '../lib/i18n'
+import { readOnboard, suggestedPath } from '../lib/onboard'
 import { todaysQuote } from '../lib/quotes'
 
 export function Home() {
   const { t, locale } = useI18n()
+  const { trial, trialEndsAt } = useEntitlement()
   const quote = todaysQuote()
+  const path = suggestedPath(readOnboard())
+  const ms = trialEndsAt - Date.now()
+  const trialLine =
+    trial && ms > 0
+      ? ms < 86_400_000
+        ? t('me_trial_today')
+        : t('me_trial', { n: Math.ceil(ms / 86_400_000) })
+      : null
+
   return (
     <div className="flex min-h-[calc(100dvh-7rem)] flex-col pb-4">
       <header className="pt-8">
@@ -14,9 +26,10 @@ export function Home() {
         <p className="mt-10 text-sm text-mute">{greeting(undefined, locale)}</p>
         <h1 className="mt-3 font-display text-[2.5rem] leading-[1.08] tracking-tight">{t('home_headline')}</h1>
         <p className="mt-5 max-w-[14rem] text-sm leading-7 text-mute">{t('home_calm')}</p>
+        {trialLine ? <p className="mt-3 text-xs text-rose-200/60">{trialLine}</p> : null}
       </header>
 
-      <div className="flex flex-1 items-center justify-center py-10">
+      <div className="flex flex-1 items-center justify-center py-8">
         <Link to="/sos" className="halo-wrap h-40 w-40">
           <span className="halo halo-a" />
           <span className="halo halo-b" />
@@ -25,6 +38,13 @@ export function Home() {
           </span>
         </Link>
       </div>
+
+      <Link to={path.to} className="mb-3 block">
+        <Card>
+          <p className="font-display text-xl">{t(path.title)}</p>
+          <p className="mt-2 text-sm leading-6 text-mute">{t(path.sub)}</p>
+        </Card>
+      </Link>
 
       <Link to="/quotes" className="block">
         <Card>

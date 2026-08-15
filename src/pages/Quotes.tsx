@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, FoldList, GhostButton, PrimaryButton, ProChip } from '../components/ui'
+import { audio } from '../lib/audio'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
 import { quotes, type Quote } from '../lib/quotes'
@@ -60,13 +61,19 @@ export function Quotes() {
           <p className="mt-10 font-display text-3xl leading-snug">{open.text[locale]}</p>
           <p className="mt-6 text-sm text-mute">{open.author}</p>
           <div className="mt-auto space-y-3">
-            <PrimaryButton onClick={() => speak(open.text[locale], { lang: meta.bcp47 })}>
+            <PrimaryButton
+              onClick={() => {
+                if (!audio.playing) void audio.playPad()
+                speak(open.text[locale], { lang: meta.bcp47 })
+              }}
+            >
               {t('quotes_listen')}
             </PrimaryButton>
             <GhostButton
               className="w-full"
               onClick={() => {
                 stopSpeak()
+                audio.stop(0.4)
                 setOpen(null)
               }}
             >

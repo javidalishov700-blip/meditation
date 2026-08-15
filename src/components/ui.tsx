@@ -118,6 +118,40 @@ export function PrimaryButton({
   )
 }
 
+export function Switch({
+  on,
+  onChange,
+  label,
+  hint,
+}: {
+  on: boolean
+  onChange: (value: boolean) => void
+  label: string
+  hint?: string
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onClick={() => onChange(!on)}
+      className="flex w-full items-center gap-3 rounded-3xl border border-white/[0.07] bg-white/[0.03] px-4 py-4 text-left"
+    >
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm text-cream">{label}</span>
+        {hint ? <span className="mt-1 block text-xs leading-5 text-mute">{hint}</span> : null}
+      </span>
+      <span className={`relative h-7 w-12 shrink-0 rounded-full ${on ? 'bg-fuchsia-400' : 'bg-white/15'}`}>
+        <span
+          className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
+            on ? 'translate-x-[22px]' : 'translate-x-0.5'
+          }`}
+        />
+      </span>
+    </button>
+  )
+}
+
 export function GhostButton({
   children,
   onClick,

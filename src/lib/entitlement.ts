@@ -2,6 +2,7 @@ import { breaths, extras, meditations, sleepLab, stories, writings } from './lib
 import { quotes } from './quotes'
 import { programs } from './content'
 import { TONES } from './audio'
+import { isTrialActive } from './onboard'
 import { readJson, writeJson } from './storage'
 import type { PlanId, SessionKind } from './types'
 
@@ -37,8 +38,12 @@ export const PLANS: {
   },
 ]
 
-export function isPro(): boolean {
+export function isDemoPro(): boolean {
   return readJson('pro', false)
+}
+
+export function isPro(): boolean {
+  return isDemoPro() || isTrialActive()
 }
 
 export function setPro(value: boolean) {

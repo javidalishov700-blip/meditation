@@ -1,0 +1,116 @@
+import type { StringKey } from './strings'
+import { readJson, writeJson } from './storage'
+
+export const TRIAL_MS = 3 * 24 * 60 * 60 * 1000
+
+export type BringId = 'wave' | 'worry' | 'sleep' | 'world' | 'self'
+export type NeedId = 'stop' | 'sleep' | 'sentence' | 'breath'
+export type FreqId = 'rarely' | 'sometimes' | 'often' | 'always'
+
+export type OnboardAnswers = {
+  bring?: BringId
+  need?: NeedId
+  often?: FreqId
+  sleepHard?: FreqId
+  remindQuote: boolean
+  remindSleep: boolean
+  remindTrial: boolean
+}
+
+const EMPTY: OnboardAnswers = {
+  remindQuote: false,
+  remindSleep: false,
+  remindTrial: true,
+}
+
+const listeners = new Set<() => void>()
+
+export function subscribeOnboard(fn: () => void) {
+  listeners.add(fn)
+  return () => {
+    listeners.delete(fn)
+  }
+}
+
+function emit() {
+  listeners.forEach((fn) => fn())
+}
+
+export function isOnboarded(): boolean {
+  return readJson('onboarded', false)
+}
+
+export function readOnboard(): OnboardAnswers {
+  return { ...EMPTY, ...readJson<Partial<OnboardAnswers>>('onboard', {}) }
+}
+
+export function completeOnboard(answers: OnboardAnswers) {
+  writeJson('onboard', answers)
+  writeJson('onboarded', true)
+  emit()
+}
+
+export function resetOnboard() {
+  writeJson('onboarded', false)
+  emit()
+}
+
+export function trialUntil(): number {
+  return readJson('trialUntil', 0)
+}
+
+export function isTrialActive(): boolean {
+  return trialUntil() > Date.now()
+}
+
+export function trialUsed(): boolean {
+  return trialUntil() !== 0
+}
+
+export function startTrial() {
+  if (trialUsed()) return
+  writeJson('trialUntil', Date.now() + TRIAL_MS)
+}
+
+export function clearTrial() {
+  writeJson('trialUntil', 0)
+}
+
+export type SuggestedPath = {
+  to: string
+  title: StringKey
+  sub: StringKey
+}
+
+export function suggestedPath(a: OnboardAnswers): SuggestedPath {
+  if (a.need === 'stop' || a.bring === 'wave') {
+    return { to: '/sos', title: 'ob_path_sos', sub: 'ob_path_sos_s' }
+  }
+  if (a.need === 'sleep' || a.bring === 'sleep' || a.sleepHard === 'always' || a.sleepHard === 'often') {
+    return { to: '/sleep', title: 'ob_path_sleep', sub: 'ob_path_sleep_s' }
+  }
+  if (a.need === 'sentence') {
+    return { to: '/quotes', title: 'ob_path_quote', sub: 'ob_path_quote_s' }
+  }
+  if (a.need === 'breath') {
+    return { to: '/session/breath/wave', title: 'ob_path_breath', sub: 'ob_path_breath_s' }
+  }
+  if (a.bring === 'worry') {
+    return { to: '/treat/anxiety', title: 'ob_path_worry', sub: 'ob_path_worry_s' }
+  }
+  if (a.bring === 'world') {
+    return { to: '/treat/derealization', title: 'ob_path_world', sub: 'ob_path_world_s' }
+  }
+  if (a.bring === 'self') {
+    return { to: '/treat/depersonalization', title: 'ob_path_self', sub: 'ob_path_self_s' }
+  }
+  return { to: '/discover', title: 'ob_path_disc', sub: 'ob_path_disc_s' }
+}
+
+export async function requestNotify(): Promise<boolean> {
+  if (typeof Notification === 'undefined') return false
+  if (Notification.permission === 'granted') return true
+  if (Notification.permission === 'denied') return false
+  const res = await Notification.requestPermission()
+  return res === 'granted'
+}
