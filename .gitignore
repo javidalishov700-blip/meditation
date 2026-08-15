@@ -24,13 +24,10 @@ dev-dist
 *.sln
 *.sw?
 
-# Env
+# Env — never commit API keys
 .env
 .env.*
 !.env.example
-
-# Baked TTS audio (regenerate with npm run bake-voice)
-public/voice/clips/*.mp3
 
 # Native shells are generated on Codemagic (Windows has no Xcode)
 /ios
