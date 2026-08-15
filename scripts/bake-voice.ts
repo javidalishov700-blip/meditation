@@ -61,25 +61,30 @@ function chunks(text: string) {
 }
 
 async function tts(apiKey: string, text: string) {
-  const res = await fetch('https://api.openai.com/v1/audio/speech', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'tts-1',
-      voice: VOICE,
-      speed: SPEED,
-      input: text,
-      response_format: 'mp3',
-    }),
-  })
-  if (!res.ok) {
+  let last = 'openai failed'
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const res = await fetch('https://api.openai.com/v1/audio/speech', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'tts-1',
+        voice: VOICE,
+        speed: SPEED,
+        input: text,
+        response_format: 'mp3',
+      }),
+    })
+    if (res.ok) return Buffer.from(await res.arrayBuffer())
     const detail = await res.text()
-    throw new Error(`openai ${res.status}: ${detail.slice(0, 240)}`)
+    last = `openai ${res.status}: ${detail.slice(0, 180)}`
+    const quota = /insufficient_quota|credit_balance_exhausted|no credits/i.test(detail)
+    if (quota || (res.status !== 429 && res.status < 500)) throw new Error(last)
+    await new Promise((r) => setTimeout(r, 1500 * 2 ** attempt))
   }
-  return Buffer.from(await res.arrayBuffer())
+  throw new Error(last)
 }
 
 type Manifest = {
@@ -124,9 +129,13 @@ async function main() {
       const buf = await tts(apiKey, parts[i]!)
       writeFileSync(dest, buf)
       made += 1
-      await new Promise((r) => setTimeout(r, 120))
+      await new Promise((r) => setTimeout(r, 80))
     }
     manifest.clips[key] = files.join(',')
+    if (made > 0 && made % 15 === 0) {
+      manifest.updated = new Date().toISOString()
+      writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+    }
   }
   manifest.voice = VOICE
   manifest.speed = SPEED
