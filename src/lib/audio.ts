@@ -123,6 +123,55 @@ export const NATURE_SCENES: NatureScene[] = [
     names: R('Gece piyanosu|Night piano|Piano nocturno|Piano de nuit|Nachtklavier|Pianoforte notturno'),
     blurbs: R('Seyrek nota, pad|Sparse notes, pad|Notas escasas, fondo|Notes rares, nappe|Spärliche Töne, Pad|Note rade, pad'),
   },
+  {
+    id: 'drone',
+    title: 'Sıcak drone',
+    subtitle: 'Alçak beşli, yavaş salınım',
+    names: R('Sıcak drone|Warm drone|Drone cálido|Drone chaud|Warmer Drohn|Drone caldo'),
+    blurbs: R('Alçak beşli, yavaş salınım|Low fifth, slow sway|Quinta baja, vaivén lento|Quinte grave, lente oscillation|Tiefe Quinte, langsames Schwanken|Quinta bassa, oscillazione lenta'),
+  },
+  {
+    id: 'ohm',
+    title: 'Om yatağı',
+    subtitle: 'Tek ünlü, hafif detune',
+    names: R('Om yatağı|Om bed|Cama de om|Lit d’om|Om-Bett|Letto di om'),
+    blurbs: R('Tek ünlü, hafif detune|One vowel, slight detune|Una vocal, desafinación leve|Une voyelle, léger désaccord|Ein Vokal, leichte Verstimmung|Una vocale, lieve stonatura'),
+  },
+  {
+    id: 'chime',
+    title: 'Rüzgâr çanı',
+    subtitle: 'Seyrek metal, uzun sönüş',
+    names: R('Rüzgâr çanı|Wind chime|Campanilla de viento|Carillon|Windspiel|Campanelle a vento'),
+    blurbs: R('Seyrek metal, uzun sönüş|Sparse metal, long fade|Metal escaso, fade largo|Métal rare, long fade|Spärliches Metall, langes Ausklingen|Metallo rado, fade lungo'),
+  },
+  {
+    id: 'crystal',
+    title: 'Kristal',
+    subtitle: 'İnce katman, yavaş vuruş',
+    names: R('Kristal|Crystal|Cristal|Cristal|Kristall|Cristallo'),
+    blurbs: R('İnce katman, yavaş vuruş|Thin layer, slow beat|Capa fina, pulso lento|Couche fine, battement lent|Dünne Schicht, langsamer Schlag|Strato sottile, battito lento'),
+  },
+  {
+    id: 'gong',
+    title: 'Gong',
+    subtitle: 'Derin vuruş, uzun oda',
+    names: R('Gong|Gong|Gong|Gong|Gong|Gong'),
+    blurbs: R('Derin vuruş, uzun oda|Deep strike, long room|Golpe hondo, sala larga|Frappe grave, pièce longue|Tiefer Schlag, langer Raum|Colpo profondo, stanza lunga'),
+  },
+  {
+    id: 'swell',
+    title: 'Nefes yatağı',
+    subtitle: 'Al-ver gibi şişer, iner',
+    names: R('Nefes yatağı|Breath bed|Cama de aliento|Lit de souffle|Atem-Bett|Letto di respiro'),
+    blurbs: R('Al-ver gibi şişer, iner|Swells like in and out|Crece como inhalar y soltar|Gonfle comme inspirer et expirer|Schwillt wie ein und aus|Si gonfia come dentro e fuori'),
+  },
+  {
+    id: 'harp',
+    title: 'Seyrek arp',
+    subtitle: 'Beş nota, geniş boşluk',
+    names: R('Seyrek arp|Sparse harp|Arpa escasa|Harpe rare|Spärliche Harfe|Arpa rada'),
+    blurbs: R('Beş nota, geniş boşluk|Five notes, wide space|Cinco notas, espacio amplio|Cinq notes, large espace|Fünf Töne, weiter Raum|Cinque note, spazio ampio'),
+  },
 ]
 
 export function sceneName(id: string, locale: LocaleId): string {
@@ -605,6 +654,13 @@ export class AudioEngine {
     else if (id === 'fan') this.fan(ctx)
     else if (id === 'waves') this.waves(ctx)
     else if (id === 'piano') this.piano(ctx)
+    else if (id === 'drone') this.drone(ctx)
+    else if (id === 'ohm') this.ohm(ctx)
+    else if (id === 'chime') this.chime(ctx)
+    else if (id === 'crystal') this.crystal(ctx)
+    else if (id === 'gong') this.gong(ctx)
+    else if (id === 'swell') this.swell(ctx)
+    else if (id === 'harp') this.harp(ctx)
     else this.night(ctx)
   }
 
@@ -1106,6 +1162,229 @@ export class AudioEngine {
     }
     play()
     const id = window.setInterval(play, 3200)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private drone(ctx: AudioContext) {
+    this.warmPad(ctx, [65.41, 98, 130.81, 196], 0.055)
+    const brown = loopNoise(ctx, 'brown', 7, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 120
+    const g = ctx.createGain()
+    g.gain.value = 0.07
+    brown.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.45)
+    brown.start()
+    this.lfo(ctx, g.gain, 0.04, 0.02, 0.07)
+    this.track(() => {
+      try {
+        brown.stop()
+        brown.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private ohm(ctx: AudioContext) {
+    this.warmPad(ctx, [136.1, 272.2, 204.15], 0.05)
+    for (const [f, detune] of [
+      [136.1, -6],
+      [136.1, 7],
+      [272.2, 4],
+    ] as const) {
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      o.detune.value = detune
+      const g = ctx.createGain()
+      g.gain.value = 0.045
+      o.connect(g)
+      this.out(g, 0.7, 0.85)
+      o.start()
+      this.track(() => {
+        try {
+          o.stop()
+          o.disconnect()
+          g.disconnect()
+        } catch {
+          /* already stopped */
+        }
+      })
+    }
+    const src = loopNoise(ctx, 'pink', 5, 2)
+    const bp = ctx.createBiquadFilter()
+    bp.type = 'bandpass'
+    bp.frequency.value = 520
+    bp.Q.value = 2.4
+    const g = ctx.createGain()
+    g.gain.value = 0.035
+    src.connect(bp)
+    bp.connect(g)
+    this.out(g, 0.8, 0.6)
+    src.start()
+    this.lfo(ctx, bp.frequency, 0.07, 40, 520)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        bp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private chime(ctx: AudioContext) {
+    this.warmPad(ctx, [196, 247], 0.018)
+    const notes = [1047, 1175, 1319, 1568, 1760, 2093]
+    const ring = () => {
+      if (!this.playing || !this.ctx) return
+      const f = notes[Math.floor(Math.random() * notes.length)]!
+      const now = ctx.currentTime
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.045, now + 0.02)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 4.8)
+      o.connect(g)
+      this.out(g, 0.45, 0.95)
+      o.start(now)
+      o.stop(now + 5)
+    }
+    ring()
+    const id = window.setInterval(ring, 2800)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private crystal(ctx: AudioContext) {
+    this.warmPad(ctx, [264, 396], 0.03)
+    for (const [f, cents] of [
+      [528, -3],
+      [528, 5],
+      [792, 2],
+      [1056, -4],
+    ] as const) {
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      o.detune.value = cents
+      const g = ctx.createGain()
+      g.gain.value = 0.028
+      o.connect(g)
+      this.out(g, 0.55, 0.9)
+      o.start()
+      this.lfo(ctx, g.gain, 0.03, 0.01, 0.028)
+      this.track(() => {
+        try {
+          o.stop()
+          o.disconnect()
+          g.disconnect()
+        } catch {
+          /* already stopped */
+        }
+      })
+    }
+  }
+
+  private gong(ctx: AudioContext) {
+    const brown = loopNoise(ctx, 'brown', 6, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 90
+    const bed = ctx.createGain()
+    bed.gain.value = 0.06
+    brown.connect(lp)
+    lp.connect(bed)
+    this.out(bed, 1, 0.4)
+    brown.start()
+    this.track(() => {
+      try {
+        brown.stop()
+        brown.disconnect()
+        lp.disconnect()
+        bed.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+    const strike = () => {
+      if (!this.playing || !this.ctx) return
+      const now = ctx.currentTime
+      for (const f of [55, 82.4, 110, 164.8]) {
+        const o = ctx.createOscillator()
+        o.type = 'sine'
+        o.frequency.value = f
+        const g = ctx.createGain()
+        g.gain.setValueAtTime(0.0001, now)
+        g.gain.linearRampToValueAtTime(0.09, now + 0.04)
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 8.2)
+        o.connect(g)
+        this.out(g, 0.85, 0.7)
+        o.start(now)
+        o.stop(now + 8.5)
+      }
+    }
+    strike()
+    const id = window.setInterval(strike, 12000)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private swell(ctx: AudioContext) {
+    this.warmPad(ctx, [110, 164.81, 220, 329.63], 0.06)
+    const src = loopNoise(ctx, 'pink', 6, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 240
+    const g = ctx.createGain()
+    g.gain.value = 0.08
+    src.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.5)
+    src.start()
+    this.lfo(ctx, g.gain, 0.085, 0.05, 0.08)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private harp(ctx: AudioContext) {
+    this.warmPad(ctx, [130.81, 196, 261.63], 0.028)
+    const notes = [261.63, 293.66, 329.63, 392, 440, 392, 329.63]
+    let i = 0
+    const play = () => {
+      if (!this.playing || !this.ctx) return
+      const f = notes[i % notes.length]!
+      i += 1
+      const now = ctx.currentTime
+      const o = ctx.createOscillator()
+      o.type = 'triangle'
+      o.frequency.value = f
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.04, now + 0.06)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 3.4)
+      o.connect(g)
+      this.out(g, 0.5, 0.92)
+      o.start(now)
+      o.stop(now + 3.6)
+    }
+    play()
+    const id = window.setInterval(play, 2400)
     this.track(() => window.clearInterval(id))
   }
 }

@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { CoverCard, ChipRow, Rail } from '../components/CoverCard'
+import { useState, type ReactNode } from 'react'
+import { CoverCard, ChipRow } from '../components/CoverCard'
 import { CircleIconBtn, SearchSheet } from '../components/Sheets'
-import { groupItems, hrefFor, itemTitle, ITEMS } from '../lib/catalog'
-import { canAccess } from '../lib/entitlement'
+import { SOUND_TAB_IDS, hrefFor, itemTitle, itemsById } from '../lib/catalog'
 import { useI18n } from '../lib/i18n'
+import type { StringKey } from '../lib/strings'
 
-const FRESH_IDS = [
-  'nat-storm',
-  'nat-river',
-  'nat-birds',
-  'nat-cafe',
-  'nat-snow',
-  'nat-bowl',
-  'nat-fan',
-  'nat-waves',
-  'nat-piano',
-  'nat-forest',
-  'nat-fire',
+type SoundTab = keyof typeof SOUND_TAB_IDS
+
+const TABS: { id: SoundTab; label: StringKey; icon: ReactNode }[] = [
+  {
+    id: 'natural',
+    label: 'tab_natural',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="M12 20V10" />
+        <path d="M12 14c-4-1-6-4-7-8 5 0 8 2 9 5" />
+        <path d="M12 13c4-1 6-4 7-8-5 0-8 2-9 5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'meditation',
+    label: 'tab_meditation',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+      </svg>
+    ),
+  },
+  {
+    id: 'tones',
+    label: 'tab_tones',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="M3 14c3-8 7-8 9-8s6 0 9 8" />
+      </svg>
+    ),
+  },
+  {
+    id: 'indoor',
+    label: 'tab_indoor',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="M4 11 12 4l8 7v9H4Z" />
+      </svg>
+    ),
+  },
 ]
 
 export function Sounds() {
   const { t, locale } = useI18n()
   const [search, setSearch] = useState(false)
-  const [chip, setChip] = useState('sounds')
-  const sounds = groupItems('sounds')
-  const music = groupItems('music')
-  const fresh = FRESH_IDS.map((id) => ITEMS.find((i) => i.id === id)).filter((i): i is (typeof ITEMS)[number] => Boolean(i))
-  const rainOpen = canAccess('nature', 'rain')
-  const timerTo = canAccess('tone', '174') ? '/session/tone/174' : '/paywall'
-  const row = chip === 'music' ? music : chip === 'trend' ? fresh : sounds
+  const [tab, setTab] = useState<SoundTab>('natural')
+  const row = itemsById([...SOUND_TAB_IDS[tab]])
 
   return (
     <div className="pb-8">
@@ -46,63 +70,13 @@ export function Sounds() {
       </header>
 
       <ChipRow
-        active={chip}
-        onPick={setChip}
-        items={[
-          {
-            id: 'sounds',
-            label: t('all_sounds'),
-            icon: (
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M6 12v3M10 8v11M14 5v14M18 9v8" />
-              </svg>
-            ),
-          },
-          {
-            id: 'music',
-            label: t('all_music'),
-            icon: (
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M9 18V6l10-2v12" />
-                <circle cx="7" cy="18" r="2.4" />
-                <circle cx="17" cy="16" r="2.4" />
-              </svg>
-            ),
-          },
-          {
-            id: 'trend',
-            label: t('trending'),
-            icon: (
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M12 4.5 13.4 9h4.8l-3.9 2.8 1.5 4.7L12 13.8 8.2 16.5l1.5-4.7L5.8 9h4.8L12 4.5Z" />
-              </svg>
-            ),
-          },
-        ]}
+        active={tab}
+        onPick={(id) => setTab(id as SoundTab)}
+        items={TABS.map((c) => ({ id: c.id, label: t(c.label), icon: c.icon }))}
       />
 
-      <Rail title={chip === 'music' ? t('all_music') : chip === 'trend' ? t('new_sounds') : t('all_sounds')}>
-        {chip === 'sounds' ? (
-          <Link
-            to={timerTo}
-            className="relative h-[15.6rem] w-[10.6rem] shrink-0 overflow-hidden rounded-[1.45rem] bg-[#0b1b33]"
-          >
-            <div className="timer-ring absolute left-1/2 top-[42%] h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-            <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[9px] font-semibold tracking-[0.1em] text-white/95 backdrop-blur-md">
-              {t('relaxing')}
-            </span>
-            <p className="absolute inset-x-3 bottom-3 text-[15px] font-semibold text-white">{t('timer')}</p>
-          </Link>
-        ) : null}
-        {chip === 'sounds' ? (
-          <CoverCard
-            to={rainOpen ? '/session/nature/storm' : '/paywall'}
-            cover="/covers/cover-clouds.png"
-            title={t('thunder_rain')}
-            badge="sound"
-            locked={!rainOpen}
-          />
-        ) : null}
+      <h2 className="mt-7 text-[1.35rem] font-semibold tracking-tight">{t(TABS.find((c) => c.id === tab)!.label)}</h2>
+      <div className="mt-4 grid grid-cols-2 gap-3">
         {row.map((item, i) => (
           <CoverCard
             key={item.id}
@@ -112,41 +86,11 @@ export function Sounds() {
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
-            kenDelay={i}
+            kenDelay={i * 0.4}
+            fill
           />
         ))}
-      </Rail>
-
-      <Rail title={t('new_sounds')} toAll="/sounds">
-        {fresh.map((item, i) => (
-          <CoverCard
-            key={`f-${item.id}`}
-            to={hrefFor(item)}
-            cover={item.cover}
-            title={itemTitle(item, locale)}
-            minutes={item.minutes}
-            badge={item.badge}
-            locked={hrefFor(item) === '/paywall'}
-            kenDelay={i * 0.8}
-            wide={i % 4 === 0}
-          />
-        ))}
-      </Rail>
-
-      <Rail title={t('all_music')} toAll="/sounds">
-        {music.map((item, i) => (
-          <CoverCard
-            key={item.id}
-            to={hrefFor(item)}
-            cover={item.cover}
-            title={itemTitle(item, locale)}
-            minutes={item.minutes}
-            badge={item.badge}
-            locked={hrefFor(item) === '/paywall'}
-            kenDelay={i * 1.3}
-          />
-        ))}
-      </Rail>
+      </div>
 
       <SearchSheet open={search} onClose={() => setSearch(false)} />
     </div>

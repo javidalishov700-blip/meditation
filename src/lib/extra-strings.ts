@@ -91,4 +91,8 @@ export const EXTRA = {
   more_objects: R('3 nesne|3 objects|3 objetos|3 objets|3 Dinge|3 oggetti'),
   more_room: R('Odadaki ses|Room sound|Sonido de la habitación|Son de la pièce|Raumklang|Suono della stanza'),
   more_colors: R('Üç renk|Three colors|Tres colores|Trois couleurs|Drei Farben|Tre colori'),
+  tab_natural: R('Doğa|Natural|Natural|Naturel|Natur|Natura'),
+  tab_meditation: R('Meditasyon|Meditation|Meditación|Méditation|Meditation|Meditazione'),
+  tab_tones: R('Tonlar|Tones|Tonos|Tones|Töne|Toni'),
+  tab_indoor: R('İç mekân|Indoor|Interior|Intérieur|Innen|Interno'),
 } as const

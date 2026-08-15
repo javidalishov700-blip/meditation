@@ -30,6 +30,7 @@ export function CoverCard({
   badge,
   locked,
   wide = false,
+  fill = false,
   kenDelay = 0,
 }: {
   to: string
@@ -39,6 +40,7 @@ export function CoverCard({
   badge?: BadgeKind
   locked?: boolean
   wide?: boolean
+  fill?: boolean
   kenDelay?: number
 }) {
   const { t } = useI18n()
@@ -54,8 +56,8 @@ export function CoverCard({
   return (
     <Link
       to={to}
-      className={`cover-card relative shrink-0 snap-start overflow-hidden rounded-[1.45rem] ${
-        wide ? 'h-[10.5rem] w-[16.5rem]' : 'h-[15.6rem] w-[10.6rem]'
+      className={`cover-card relative overflow-hidden rounded-[1.45rem] ${
+        fill ? 'h-[13.4rem] w-full' : wide ? 'h-[10.5rem] w-[16.5rem] shrink-0 snap-start' : 'h-[15.6rem] w-[10.6rem] shrink-0 snap-start'
       }`}
       onContextMenu={(e) => {
         e.preventDefault()

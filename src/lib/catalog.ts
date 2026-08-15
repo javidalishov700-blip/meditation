@@ -384,6 +384,76 @@ export const ITEMS: CatalogItem[] = [
     group: 'music',
   },
   {
+    id: 'nat-drone',
+    kind: 'nature',
+    to: '/session/nature/drone',
+    title: R('Sıcak drone|Warm drone|Drone cálido|Drone chaud|Warmer Drohn|Drone caldo'),
+    cover: `${C}/cover-nebula.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
+    id: 'nat-ohm',
+    kind: 'nature',
+    to: '/session/nature/ohm',
+    title: R('Om yatağı|Om bed|Cama de om|Lit d’om|Om-Bett|Letto di om'),
+    cover: `${C}/cover-moon.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
+    id: 'nat-chime',
+    kind: 'nature',
+    to: '/session/nature/chime',
+    title: R('Rüzgâr çanı|Wind chime|Campanilla de viento|Carillon|Windspiel|Campanelle a vento'),
+    cover: `${C}/cover-clouds.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
+    id: 'nat-crystal',
+    kind: 'nature',
+    to: '/session/nature/crystal',
+    title: R('Kristal|Crystal|Cristal|Cristal|Kristall|Cristallo'),
+    cover: `${C}/cover-palms.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
+    id: 'nat-gong',
+    kind: 'nature',
+    to: '/session/nature/gong',
+    title: R('Gong|Gong|Gong|Gong|Gong|Gong'),
+    cover: `${C}/cover-mountain.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
+    id: 'nat-swell',
+    kind: 'nature',
+    to: '/session/nature/swell',
+    title: R('Nefes yatağı|Breath bed|Cama de aliento|Lit de souffle|Atem-Bett|Letto di respiro'),
+    cover: `${C}/cover-lake.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
+    id: 'nat-harp',
+    kind: 'nature',
+    to: '/session/nature/harp',
+    title: R('Seyrek arp|Sparse harp|Arpa escasa|Harpe rare|Spärliche Harfe|Arpa rada'),
+    cover: `${C}/cover-forest.png`,
+    minutes: 30,
+    badge: 'music',
+    group: 'music',
+  },
+  {
     id: 'story-harbor',
     kind: 'story',
     to: '/session/story/harbor',
@@ -707,4 +777,11 @@ export function nowIds(mood: MoodId | null, hour: number): string[] {
   return ['story-lighthouse', 'breath-wave', 'med-body', 'extra-objects', 'story-harbor', 'write-colors', 'med-feet', 'nat-rain']
 }
 
-export const SOUND_RAIL_IDS = ['nat-rain', 'nat-ocean', 'nat-night', 'nat-piano', 'nat-forest', 'nat-fire', 'nat-bowl', 'nat-fan'] as const
+export const SOUND_RAIL_IDS = ['nat-rain', 'nat-drone', 'nat-bowl', 'nat-ocean', 'nat-swell', 'nat-forest', 'nat-ohm', 'nat-piano'] as const
+
+export const SOUND_TAB_IDS = {
+  natural: ['nat-rain', 'nat-ocean', 'nat-forest', 'nat-fire', 'nat-wind', 'nat-night', 'nat-storm', 'nat-river', 'nat-birds', 'nat-snow', 'nat-waves'],
+  meditation: ['nat-bowl', 'nat-drone', 'nat-ohm', 'nat-chime', 'nat-crystal', 'nat-gong', 'nat-swell', 'nat-harp'],
+  tones: ['tone-174', 'tone-396', 'tone-417', 'tone-528', 'tone-639', 'tone-741', 'tone-852'],
+  indoor: ['nat-cafe', 'nat-fan', 'nat-piano'],
+} as const

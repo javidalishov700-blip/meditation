@@ -146,11 +146,11 @@ function NatureSession({ id }: { id: string }) {
   useWakeLock(on)
 
   useEffect(() => () => audio.stop(0.5), [])
-  if (!scene) return <Navigate to="/sleep" replace />
+  if (!scene) return <Navigate to="/sounds" replace />
 
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
-      <Link to="/sleep" className="text-sm text-mute">
+      <Link to="/sounds" className="text-sm text-mute">
         {t('back')}
       </Link>
       <div className="flex flex-1 flex-col items-center justify-center text-center">
