@@ -57,6 +57,7 @@ function tabActive(path: string, tab: 'home' | 'discover' | 'sleep' | 'sounds' |
     path === '/discover' ||
     path.startsWith('/treat') ||
     path === '/practice' ||
+    path === '/breath' ||
     path === '/more' ||
     path === '/quotes' ||
     path.startsWith('/session/')

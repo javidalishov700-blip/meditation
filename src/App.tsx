@@ -11,10 +11,12 @@ import { isOnboarded, subscribeOnboard } from './lib/onboard'
 import { Discover } from './pages/Discover'
 import { More } from './pages/More'
 import { Quotes } from './pages/Quotes'
+import { tickTrialReminder } from './lib/remind'
 import { warmVoices } from './lib/speech'
 import { Home } from './pages/Home'
 import { Treat } from './pages/Treat'
 import { Sleep } from './pages/Sleep'
+import { Breath } from './pages/Breath'
 import { Practice } from './pages/Practice'
 import { Sos } from './pages/Sos'
 import { Sounds } from './pages/Sounds'
@@ -34,6 +36,7 @@ function RoutesTree() {
         <Route path="/treat/:door" element={<Treat />} />
         <Route path="/sleep" element={<Sleep />} />
         <Route path="/practice" element={<Practice />} />
+        <Route path="/breath" element={<Breath />} />
         <Route path="/more" element={<More />} />
         <Route path="/quotes" element={<Quotes />} />
         <Route path="/sounds" element={<Sounds />} />
@@ -94,9 +97,20 @@ export default function App() {
 }
 
 function VoiceWarm() {
-  const { meta } = useI18n()
+  const { t, meta } = useI18n()
   useEffect(() => {
     warmVoices(meta.bcp47)
   }, [meta.bcp47])
+  useEffect(() => {
+    const fire = () => {
+      void tickTrialReminder({ title: t('ob_rem_trial'), text: t('ob_tl3s') })
+    }
+    fire()
+    const onVis = () => {
+      if (document.visibilityState === 'visible') fire()
+    }
+    document.addEventListener('visibilitychange', onVis)
+    return () => document.removeEventListener('visibilitychange', onVis)
+  }, [t])
   return null
 }

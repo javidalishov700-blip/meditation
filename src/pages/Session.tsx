@@ -218,7 +218,7 @@ function BreathSession({ id }: { id: string }) {
     },
     [],
   )
-  if (!b) return <Navigate to="/practice" replace />
+  if (!b) return <Navigate to="/breath" replace />
 
   function wait(ms: number) {
     return new Promise<void>((resolve) => {
@@ -266,7 +266,7 @@ function BreathSession({ id }: { id: string }) {
 
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
-      <Link to="/practice" className="text-sm text-mute">
+      <Link to="/breath" className="text-sm text-mute">
         {t('back')}
       </Link>
       <div className="flex flex-1 flex-col items-center justify-center text-center">

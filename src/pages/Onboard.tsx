@@ -1,10 +1,12 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
+import { TrialTimeline } from '../components/TrialOffer'
 import { PrimaryButton, Switch } from '../components/ui'
 import { audio } from '../lib/audio'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
+import { writeRemindTrial } from '../lib/remind'
 import {
   completeOnboard,
   requestNotify,
@@ -175,6 +177,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
   function finish(withTrial: boolean) {
     if (withTrial) startTrial()
+    writeRemindTrial(answers.remindTrial)
     completeOnboard(answers)
     audio.stop(0.8)
     onDone()
@@ -488,17 +491,10 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
         {step === 'trial' ? (
           <Screen title={t('ob_trial')} sub={t('ob_trial_sub')}>
-            <ol className="mt-8 space-y-5">
-              <TimeRow done icon="✓" title={t('ob_tl1')} />
-              <TimeRow icon="○" title={t('ob_tl2')} sub={t('ob_tl2s')} />
-              <TimeRow icon="◌" title={t('ob_tl3')} sub={t('ob_tl3s')} />
-              <TimeRow icon="★" title={t('ob_tl4')} sub={t('ob_tl4s')} />
-            </ol>
             <div className="mt-8">
-              <Switch
-                on={answers.remindTrial}
-                label={t('ob_rem_trial')}
-                onChange={(v) => {
+              <TrialTimeline
+                remind={answers.remindTrial}
+                onRemind={(v) => {
                   setAnswers((a) => ({ ...a, remindTrial: v }))
                   if (v) void requestNotify()
                 }}
@@ -689,20 +685,3 @@ function Agree({
   )
 }
 
-function TimeRow({ icon, title, sub, done }: { icon: string; title: string; sub?: string; done?: boolean }) {
-  return (
-    <li className="flex gap-3">
-      <span
-        className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm ${
-          done ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/[0.05] text-[#C4B5FD]'
-        }`}
-      >
-        {icon}
-      </span>
-      <span>
-        <span className="block text-sm text-cream">{title}</span>
-        {sub ? <span className="mt-1 block text-xs leading-5 text-mute">{sub}</span> : null}
-      </span>
-    </li>
-  )
-}

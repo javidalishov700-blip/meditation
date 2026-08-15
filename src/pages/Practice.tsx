@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { breaths, meditations, pathMinutes, todaysClarity, writings } from '../lib/library'
-import { locBreath, locLibrary, locMedPath } from '../lib/copy'
+import { meditations, pathMinutes, todaysClarity, writings } from '../lib/library'
+import { locLibrary, locMedPath } from '../lib/copy'
 import { canAccess } from '../lib/entitlement'
 import { pathPercent } from '../lib/med-progress'
 import { Card, FoldList, Kicker, ProChip } from '../components/ui'
@@ -26,28 +26,12 @@ export function Practice() {
 
       <section className="mt-12">
         <Kicker>{t('cat_breath')}</Kicker>
-        <div className="mt-4">
-          <FoldList
-            items={breaths.map((b) => locBreath(b, locale))}
-            preview={1}
-            getKey={(b) => b.id}
-            render={(b) => {
-              const open = canAccess('breath', b.id)
-              return (
-                <Link
-                  to={open ? `/session/breath/${b.id}` : '/paywall'}
-                  className="flex items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-3"
-                >
-                  <div>
-                    <p className="font-medium">{b.label}</p>
-                    <p className="text-xs text-mute">{b.subtitle}</p>
-                  </div>
-                  {open ? <span className="text-xs text-mute">{t('min_n', { n: b.minutes })}</span> : <ProChip />}
-                </Link>
-              )
-            }}
-          />
-        </div>
+        <Link to="/breath" className="mt-4 block">
+          <Card>
+            <p className="font-display text-2xl">{t('breath_pick_title')}</p>
+            <p className="mt-2 text-sm text-mute">{t('breath_pick_sub')}</p>
+          </Card>
+        </Link>
       </section>
 
       <section className="mt-12">

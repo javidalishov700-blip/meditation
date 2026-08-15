@@ -186,7 +186,7 @@ export function Home() {
           }
         />
         <QuickTile
-          to="/session/breath/wave"
+          to="/breath"
           label={t('breathing')}
           icon={
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -234,7 +234,7 @@ export function Home() {
 
       <MoodHistory />
 
-      <Rail title={t('breath_rail')} toAll="/practice">
+      <Rail title={t('breath_rail')} toAll="/breath">
         {breaths.map((item, i) => (
           <CoverCard
             key={item.id}

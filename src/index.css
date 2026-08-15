@@ -317,6 +317,42 @@ html:lang(fa) {
   background: #fff;
 }
 
+.breath-hero {
+  position: relative;
+  width: 8.4rem;
+  height: 8.4rem;
+}
+
+.breath-orb {
+  position: absolute;
+  inset: 1.35rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 38% 32%, #f9a8d4 0%, #c084fc 42%, #6d28d9 78%, #2e1065 100%);
+  box-shadow: 0 0 36px rgba(123, 97, 255, 0.35);
+}
+
+.breath-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1.5px solid rgba(196, 181, 253, 0.28);
+  animation: breath-spin 18s linear infinite;
+}
+
+.breath-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(249, 168, 212, 0.22);
+}
+
+@keyframes breath-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .nav-glow {
   background: rgba(123, 97, 255, 0.32);
   box-shadow: 0 0 22px rgba(123, 97, 255, 0.38);

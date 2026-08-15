@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
 import { PinSettings } from '../components/PinLock'
 import { VoicePicker } from '../components/VoicePicker'
-import { Card, GhostButton, LegalNote } from '../components/ui'
+import { Card, GhostButton, LegalNote, Switch } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
 import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, monthTitle, weekdayLetters } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -13,6 +13,8 @@ import { resetOnboard } from '../lib/onboard'
 import { readPassed } from '../lib/passed'
 import { SKILLS, skillUnlocked } from '../lib/skills'
 import { supportId } from '../lib/pin'
+import { requestNotify } from '../lib/onboard'
+import { readRemindTrial, writeRemindTrial } from '../lib/remind'
 import { readTheme, writeTheme, type ThemeId } from '../lib/theme'
 
 export function Me() {
@@ -24,6 +26,7 @@ export function Me() {
   const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
   const [froze, setFroze] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [remindTrial, setRemindTrial] = useState(() => readRemindTrial())
   const helpId = supportId()
   const history = readPassed()
   const stats = activityStats()
@@ -205,6 +208,18 @@ export function Me() {
           <Card className="mt-3">
             <PinSettings />
           </Card>
+          <div className="mt-3">
+            <Switch
+              on={remindTrial}
+              label={t('ob_rem_trial')}
+              hint={t('ob_remind_sub')}
+              onChange={(v) => {
+                setRemindTrial(v)
+                writeRemindTrial(v)
+                if (v) void requestNotify()
+              }}
+            />
+          </div>
           <Card className="mt-3">
             <p className="text-xs text-white/40">{t('me_help')}</p>
             <p className="mt-2 text-sm leading-6 text-mute">{t('me_help_body')}</p>
