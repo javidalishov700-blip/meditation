@@ -1,22 +1,25 @@
 import { R, type LocaleId } from './locales'
+import { EXTRA } from './extra-strings'
+import { ONBOARD_I18N } from './onboard-i18n'
 
 export type StringKey = keyof typeof RAW
 
-const RAW = {
-  nav_home: R('Ana|Home|Ana|Главная|Inicio|Accueil|Start|Home|Início|الرئيسية|Home|Start|Головна|ホーム|خانه|首页'),
-  nav_discover: R('Keşfet|Discover|Kəşf et|Обзор|Descubrir|Découvrir|Entdecken|Scopri|Descobrir|اكتشف|Ontdek|Odkryj|Огляд|探す|کشف|发现'),
+const CORE = {
+  nav_home: R('Bugün|Today|Bu gün|Сегодня|Hoy|Aujourd’hui|Heute|Oggi|Hoje|اليوم|Vandaag|Dziś|Сьогодні|今日|امروز|今天'),
+  nav_discover: R('Keşfet|Explore|Kəşf et|Обзор|Explorar|Explorer|Entdecken|Esplora|Explorar|استكشف|Ontdek|Odkryj|Огляд|探す|کاوش|探索'),
   nav_sleep: R('Uyku|Sleep|Yuxu|Сон|Sueño|Sommeil|Schlaf|Sonno|Sono|نوم|Slaap|Sen|Сон|睡眠|خواب|睡眠'),
+  nav_sounds: R('Sesler|Sounds|Səslər|Звуки|Sonidos|Sons|Klänge|Suoni|Sons|أصوات|Geluiden|Dźwięki|Звуки|サウンド|صداها|声音'),
   nav_more: R('Daha|More|Daha|Ещё|Más|Plus|Mehr|Altro|Mais|المزيد|Meer|Więcej|Ще|もっと|بیشتر|更多'),
-  nav_me: R('Ben|Me|Mən|Я|Yo|Moi|Ich|Io|Eu|أنا|Ik|Ja|Я|自分|من|我'),
+  nav_me: R('Profil|Profile|Profil|Профиль|Perfil|Profil|Profil|Profilo|Perfil|حساب|Profiel|Profil|Профіль|プロフィール|نمایه|我的'),
 
   home_kicker: R('Steady · 16 dil|Steady · 16 languages|Steady · 16 dil|Steady · 16 языков|Steady · 16 idiomas|Steady · 16 langues|Steady · 16 Sprachen|Steady · 16 lingue|Steady · 16 idiomas|Steady · 16 لغة|Steady · 16 talen|Steady · 16 języków|Steady · 16 мов|Steady · 16言語|Steady · ۱۶ زبان|Steady · 16 种语言'),
-  home_headline: R('Buradasın.|You’re here.|Buradasan.'),
+  home_headline: R('Buradasın.|You’re here.|Buradasan.|Ты здесь.|Estás aquí.|Tu es là.|Du bist hier.|Sei qui.|Você está aqui.|أنت هنا.|Je bent hier.|Jesteś tutaj.|Ти тут.|ここにいる。|اینجایی.|你在这里。'),
   home_calm: R('Yavaş. Bugün bir şey yeter.|Slow. One thing is enough today.|Yavaş. Bu gün bir şey bəsdir.|Медленно. Сегодня хватит одного.|Despacio. Hoy basta una cosa.|Lentement. Une chose suffit aujourd’hui.|Langsam. Heute reicht eines.|Piano. Oggi basta una cosa.|Devagar. Hoje uma coisa chega.|على مهل. شيء واحد يكفي اليوم.|Traag. Vandaag is één ding genoeg.|Powoli. Dziś wystarczy jedno.|Повільно. Сьогодні досить одного.|ゆっくり。今日は一つで足りる。|آرام. امروز یک چیز بس است.|慢慢来。今天一件就够。'),
   disc_calm: R('Bugün yalnızca birini seç.|Choose only one, today.|Bu gün yalnız birini seç.|Сегодня выбери только одно.|Hoy elige solo uno.|Aujourd’hui, n’en choisis qu’un.|Heute nur eines wählen.|Oggi scegline solo uno.|Hoje escolhe só um.|اليوم اختر واحدًا فقط.|Kies er vandaag maar één.|Dziś wybierz tylko jedno.|Сьогодні обери лише одне.|今日は一つだけ選ぶ。|امروز فقط یکی را انتخاب کن.|今天只选一个。'),
   see_all: R('Tümünü göster|Show all|Hamısını göstər|Показать все|Ver todo|Tout voir|Alle zeigen|Mostra tutto|Ver tudo|عرض الكل|Alles tonen|Pokaż wszystko|Показати все|すべて見る|همه را ببین|显示全部'),
   see_less: R('Daha az|Show less|Daha az|Меньше|Ver menos|Voir moins|Weniger|Mostra meno|Ver menos|أقل|Minder|Mniej|Менше|少なく|کمتر|收起'),
-  home_sub: R('Panik tek kapı değil. Uyku, nefes, sözler ve hikâyeler burada.|Panic is only one door. Sleep, breath, lines and stories are here.|Panik tək qapı deyil. Yuxu, nəfəs, sözlər və hekayələr buradadır.'),
-  home_sos: R('Kriz anı|Crisis moment|Kriz anı'),
+  home_sub: R('Panik tek kapı değil. Uyku, nefes, sözler ve hikâyeler burada.|Panic is only one door. Sleep, breath, lines and stories are here.|Panik tək qapı deyil. Yuxu, nəfəs, sözlər və hekayələr buradadır.|Паника — не единственная дверь. Сон, дыхание, слова и истории здесь.|El pánico no es la única puerta. Sueño, respiración, palabras e historias.|La panique n’est pas la seule porte. Sommeil, souffle, mots et récits.|Panik ist nicht die einzige Tür. Schlaf, Atem, Worte und Geschichten.|Il panico non è l’unica porta. Sonno, respiro, parole e storie.|O pânico não é a única porta. Sono, respiração, palavras e histórias.|الهلع ليس الباب الوحيد. نوم وتنفس وكلمات وقصص.|Paniek is niet de enige deur. Slaap, adem, woorden en verhalen.|Panik to nie jedyne drzwi. Sen, oddech, słowa i historie.|Паніка — не єдині двері. Сон, подих, слова й історії.|パニックだけが扉ではない。睡眠、呼吸、言葉、物語.|پانیک تنها در نیست. خواب، نفس، واژه‌ها و داستان.|恐慌不是唯一的门。睡眠、呼吸、字句与故事。'),
+  home_sos: R('Kriz anı|Crisis moment|Kriz anı|Момент кризиса|Momento de crisis|Moment de crise|Krisenmoment|Momento di crisi|Momento de crise|لحظة الأزمة|Crisismoment|Moment kryzysu|Момент кризи|クライシス|لحظه بحران|危机时刻'),
   home_sos_sub: R('174 Hz · kahverengi gürültü · sesli nefes · kilitlenmez|174 Hz · brown noise · voiced breath · never locked|174 Hz · qəhvəyi küy · səsli nəfəs · kilidlənmir|174 Гц · коричневый шум · голос дыхания · не блокируется|174 Hz · ruido marrón · respiración hablada · nunca se bloquea|174 Hz · bruit brun · souffle parlé · jamais verrouillé|174 Hz · Braunrauschen · gesprochener Atem · nie gesperrt|174 Hz · rumore bruno · respiro parlato · mai bloccato|174 Hz · ruído marrom · respiração falada · nunca trava|174 هرتز · ضوضاء بنية · تنفس صوتي · لا يُقفل|174 Hz · bruine ruis · gesproken adem · nooit vergrendeld|174 Hz · szum brązowy · głos oddechu · nigdy nie zablokowany|174 Гц · коричневий шум · голосовий подих · не блокується|174Hz · ブラウンノイズ · 音声呼吸 · ロックされない|۱۷۴ هرتز · نویز قهوه‌ای · نفس گفتاری · قفل نمی‌شود|174 Hz · 棕噪声 · 语音呼吸 · 永不锁定'),
   home_now: R('Şimdi|Now|İndi|Сейчас|Ahora|Maintenant|Jetzt|Ora|Agora|الآن|Nu|Teraz|Зараз|いま|اکنون|此刻'),
   home_trial: R('Deneme|Trial|Sınaq|Проба|Prueba|Essai|Test|Prova|Teste|تجربة|Proef|Próba|Проба|体験|آزمایش|试用'),
@@ -24,11 +27,11 @@ const RAW = {
   home_free: R('ücretsiz|free|pulsuz|бесплатно|gratis|gratuit|kostenlos|gratis|grátis|مجاني|gratis|za darmo|безкоштовно|無料|رایگان|免费'),
   home_night: R('Gece|Night|Gecə|Ночь|Noche|Nuit|Nacht|Notte|Noite|ليل|Nacht|Noc|Ніч|夜|شب|夜'),
   home_story_free: R('Ücretsiz hikâye · sesli okuma|Free story · spoken aloud|Pulsuz hekayə · səsli oxu|Бесплатная история · вслух|Relato gratis · lectura en voz|Récit gratuit · lu à voix haute|Gratisgeschichte · vorgelesen|Racconto libero · letto ad alta voce|História grátis · leitura em voz|قصة مجانية · قراءة صوتية|Gratis verhaal · voorgelezen|Darmowa opowieść · czytana|Безкоштовна історія · вголос|無料の物語 · 読み上げ|داستان رایگان · خوانش صوتی|免费故事 · 朗读'),
-  home_quote: R('Günün cümlesi|Line of the day|Günün cümləsi'),
+  home_quote: R('Günün cümlesi|Line of the day|Günün cümləsi|Фраза дня|Frase del día|Phrase du jour|Satz des Tages|Frase del giorno|Frase do dia|جملة اليوم|Zin van de dag|Zdanie dnia|Фраза дня|今日の一文|جملهٔ امروز|今日一句'),
   home_lang: R('Dil|Language|Dil|Язык|Idioma|Langue|Sprache|Lingua|Idioma|اللغة|Taal|Język|Мова|言語|زبان|语言'),
 
   disc_title: R('Keşfet|Discover|Kəşf et|Обзор|Descubrir|Découvrir|Entdecken|Scopri|Descobrir|اكتشف|Ontdekken|Odkrywaj|Огляд|探す|کشف کن|发现'),
-  disc_sub: R('Çok yol yok. Seçilmiş içerikler. Teşhis yok.|Not a thousand paths. Chosen pieces. No diagnosis.|Çox yol yoxdur. Seçilmiş məzmun. Diaqnoz yoxdur.'),
+  disc_sub: R('Çok yol yok. Seçilmiş içerikler. Teşhis yok.|Not a thousand paths. Chosen pieces. No diagnosis.|Çox yol yoxdur. Seçilmiş məzmun. Diaqnoz yoxdur.|Не тысяча путей. Выбранное. Без диагноза.|No mil caminos. Piezas elegidas. Sin diagnóstico.|Pas mille chemins. Pièces choisies. Pas de diagnostic.|Keine tausend Wege. Ausgewählte Stücke. Keine Diagnose.|Non mille vie. Pezzi scelti. Nessuna diagnosi.|Não mil caminhos. Peças escolhidas. Sem diagnóstico.|ليست ألف طريق. قطع مختارة. بلا تشخيص.|Geen duizend paden. Gekozen stukken. Geen diagnose.|Nie tysiąc dróg. Wybrane rzeczy. Bez diagnozy.|Не тисяча шляхів. Обране. Без діагнозу.|千の道ではない。選ばれたもの。診断なし。|هزار راه نیست. گزیده. بدون تشخیص.|不是一千条路。精选内容。无诊断。'),
   cat_meditate: R('Meditasyonlar|Meditations|Meditasiyalar|Медитации|Meditaciones|Méditations|Meditationen|Meditazioni|Meditações|تأملات|Meditaties|Medytacje|Медитації|瞑想|مدیتیشن|冥想'),
   cat_stories: R('Uyku hikâyeleri|Sleep stories|Yuxu hekayələri|Истории для сна|Relatos de sueño|Récits du sommeil|Schlafgeschichten|Racconti del sonno|Histórias de sono|قصص النوم|Slaapverhalen|Opowieści senne|Історії сну|睡眠物語|داستان خواب|助眠故事'),
   cat_breath: R('Nefes|Breath|Nəfəs|Дыхание|Respiración|Souffle|Atem|Respiro|Respiração|تنفس|Adem|Oddech|Подих|呼吸|نفس|呼吸'),
@@ -42,7 +45,7 @@ const RAW = {
   cat_clarity: R('Günlük netlik|Daily clarity|Gündəlik aydınlıq|Ежедневная ясность|Claridad diaria|Clarté du jour|Tägliche Klarheit|Chiarezza quotidiana|Clareza diária|صفاء يومي|Dagelijkse helderheid|Codzienna jasność|Щоденна ясність|日々の明晰|شفافیت روزانه|每日清明'),
 
   quotes_title: R('Sözler|Lines|Sözlər|Слова|Palabras|Paroles|Worte|Parole|Palavras|كلمات|Woorden|Słowa|Слова|言葉|کلمه‌ها|字句'),
-  quotes_sub: R('Eski metinlerin kendi anlatımımız. Modern kitap kopyası yok.|Our own wording of old public lines. No modern book text.|Köhnə mətnləri öz sözümüzlə yazırıq. Müasir kitab yoxdur.'),
+  quotes_sub: R('Eski metinlerin kendi anlatımımız. Modern kitap kopyası yok.|Our own wording of old public lines. No modern book text.|Köhnə mətnləri öz sözümüzlə yazırıq. Müasir kitab yoxdur.|Старые строки своими словами. Без современных книг.|Textos antiguos con nuestras palabras. Sin libros modernos.|Anciennes lignes en nos mots. Pas de livre moderne.|Alte Zeilen in eigenen Worten. Keine modernen Bücher.|Righe antiche con parole nostre. Niente libri moderni.|Textos antigos nas nossas palavras. Sem livros modernos.|صياغتنا لنصوص قديمة. لا كتب حديثة.|Oude regels in eigen woorden. Geen moderne boeken.|Stare zdania własnymi słowami. Bez współczesnych książek.|Старі рядки своїми словами. Без сучасних книжок.|古い言葉を私たちの文で。現代の書籍なし。|متن‌های کهن با واژه‌های خودمان. بدون کتاب مدرن.|用我们自己的话写旧文。无现代书籍。'),
   quotes_pd: R('Kamu malı|Public domain|İctimai domen|Общественное достояние|Dominio público|Domaine public|Gemeinfrei|Pubblico dominio|Domínio público|ملك عام|Publiek domein|Domena publiczna|Суспільне надбання|パブリックドメイン|مالکیت عمومی|公有领域'),
   quotes_essence: R('Yaklaşım özü · alıntı değil|Approach essence · not a quotation|Yanaşma özü · sitat deyil|Суть подхода · не цитата|Esencia de enfoque · no es cita|Essence d’approche · pas une citation|Ansatzkern · kein Zitat|Essenza di approccio · non una citazione|Essência de abordagem · não é citação|جوهر منهج · ليست اقتباسًا|Aanpak-kern · geen citaat|Esencja podejścia · nie cytat|Суть підходу · не цитата|アプローチの核 · 引用ではない|جوهر رویکرد · نقل‌قول نیست|方法精要 · 非引文'),
   quotes_tap: R('Özü aç|Open the essence|Özü aç|Открыть суть|Abrir la esencia|Ouvrir l’essence|Kern öffnen|Apri l’essenza|Abrir a essência|افتح الجوهر|Kern openen|Otwórz esencję|Відкрити суть|核を開く|جوهر را باز کن|打开精句'),
@@ -50,7 +53,7 @@ const RAW = {
   quotes_close: R('Kapat|Close|Bağla|Закрыть|Cerrar|Fermer|Schließen|Chiudi|Fechar|إغلاق|Sluiten|Zamknij|Закрити|閉じる|بستن|关闭'),
 
   more_title: R('Daha fazla|More|Daha çox|Ещё|Más|Plus|Mehr|Altro|Mais|المزيد|Meer|Więcej|Ще|もっと|بیشتر|更多'),
-  more_sub: R('Küçük araçlar. Tedavi iddiası yok.|Small tools. No treatment claim.|Kiçik alətlər. Müalicə iddiası yoxdur.'),
+  more_sub: R('Küçük araçlar. Tedavi iddiası yok.|Small tools. No treatment claim.|Kiçik alətlər. Müalicə iddiası yoxdur.|Малые инструменты. Без претензии на лечение.|Herramientas pequeñas. Sin pretensión de tratamiento.|Petits outils. Sans prétention de soin.|Kleine Werkzeuge. Kein Behandlungsanspruch.|Piccoli strumenti. Nessuna pretesa di cura.|Pequenas ferramentas. Sem pretensão de tratamento.|أدوات صغيرة. بلا ادعاء علاج.|Kleine tools. Geen behandelclaim.|Małe narzędzia. Bez roszczenia leczenia.|Малі знаряддя. Без заяви про лікування.|小さな道具。治療の主張なし。|ابزارهای کوچک. بدون ادعای درمان.|小工具。无治疗宣称。'),
   more_ground: R('5-4-3-2-1 yer|5-4-3-2-1 ground|5-4-3-2-1 yer|5-4-3-2-1 земля|5-4-3-2-1 suelo|5-4-3-2-1 ancrage|5-4-3-2-1 Boden|5-4-3-2-1 terra|5-4-3-2-1 chão|5-4-3-2-1 أرض|5-4-3-2-1 grond|5-4-3-2-1 grunt|5-4-3-2-1 земля|5-4-3-2-1 接地|۵-۴-۳-۲-۱ زمین|5-4-3-2-1 落地'),
   more_gratitude: R('Üç küçük şükran|Three small thanks|Üç kiçik minnətdarlıq|Три малые благодарности|Tres gracias pequeñas|Trois petites grâces|Drei kleine Danke|Tre piccoli ringraziamenti|Três pequenos agradecimentos|ثلاث شكر صغيرة|Drie kleine dank|Trzy małe wdzięczności|Три малі подяки|小さな感謝が三つ|سه سپاس کوچک|三件小感恩'),
   more_bodyscan: R('Beden taraması|Body scan|Bədən tarama|Сканирование тела|Barrido corporal|Balayage du corps|Körperreise|Scansione del corpo|Varredura do corpo|مسح الجسد|Lichaamsscan|Skan ciała|Скан тіла|ボディスキャン|اسکن بدن|身体扫描'),
@@ -62,9 +65,10 @@ const RAW = {
   more_tension: R('Gerilim bırakışı|Tension drop|Gərginlik buraxılışı|Сброс напряжения|Soltar tensión|Lâcher la tension|Spannung abgeben|Rilasciare la tensione|Soltar tensão|إفلات التوتر|Spanning loslaten|Zrzut napięcia|Скид напруги|緊張を落とす|رها کردن تنش|放下紧绷'),
   more_morning: R('Sabah ışığı|Morning light|Səhər işığı|Утренний свет|Luz de mañana|Lumière du matin|Morgenlicht|Luce del mattino|Luz da manhã|ضوء الصباح|Ochtendlicht|Światło poranka|Ранкове світло|朝の光|نور صبح|晨光'),
 
-  me_title: R('Ayarlar|Settings|Ayarlar|Настройки|Ajustes|Réglages|Einstellungen|Impostazioni|Definições|إعدادات|Instellingen|Ustawienia|Налаштування|設定|تنظیمات|设置'),
-  me_sub: R('Dil bu telefonda kalır.|Language stays on this phone.|Dil bu telefonda qalır.'),
-  me_tier: R('Durum|Status|Vəziyyət'),
+  me_title: R('Profil|Profile|Profil|Профиль|Perfil|Profil|Profil|Profilo|Perfil|حساب|Profiel|Profil|Профіль|プロフィール|نمایه|我的'),
+  me_sub: R('Dil bu telefonda kalır.|Language stays on this phone.|Dil bu telefonda qalır.|Язык остаётся на этом телефоне.|El idioma queda en este teléfono.|La langue reste sur ce téléphone.|Die Sprache bleibt auf diesem Telefon.|La lingua resta su questo telefono.|O idioma fica neste telefone.|اللغة تبقى على هذا الهاتف.|De taal blijft op deze telefoon.|Język zostaje na tym telefonie.|Мова лишається на цьому телефоні.|言語はこの端末に残る。|زبان روی این گوشی می‌ماند.|语言留在本机。'),
+  me_tier: R('Durum|Status|Vəziyyət|Статус|Estado|Statut|Status|Stato|Estado|الحالة|Status|Status|Статус|状態|وضعیت|状态'),
+  me_settings: R('Ayarlar|Settings|Ayarlar|Настройки|Ajustes|Réglages|Einstellungen|Impostazioni|Definições|إعدادات|Instellingen|Ustawienia|Налаштування|設定|تنظیمات|设置'),
   me_pro: R('Pro (cihaz demosu)|Pro (device demo)|Pro (cihaz demosu)|Pro (демо устройства)|Pro (demo del dispositivo)|Pro (démo appareil)|Pro (Geräte-Demo)|Pro (demo dispositivo)|Pro (demo do aparelho)|برو (عرض الجهاز)|Pro (apparaatdemo)|Pro (demo urządzenia)|Pro (демо пристрою)|Pro（端末デモ）|پرو (دموی دستگاه)|Pro（设备演示）'),
   me_free: R('Ücretsiz|Free|Pulsuz|Бесплатно|Gratis|Gratuit|Kostenlos|Gratis|Grátis|مجاني|Gratis|Darmowy|Безкоштовно|無料|رایگان|免费'),
   me_pin: R('Dört haneli kilit|Four-digit lock|Dörd rəqəmli kilid|Четырёхзначный замок|Candado de cuatro dígitos|Verrou à quatre chiffres|Vierstellige Sperre|Blocco a quattro cifre|Bloqueio de quatro dígitos|قفل من أربع أرقام|Viercijferig slot|Zamek czterocyfrowy|Чотиризначний замок|4桁ロック|قفل چهاررقمی|四位锁'),
@@ -295,6 +299,8 @@ const RAW = {
   me_trial_today: R('Deneme · bugün biter|Trial · ends today|Sınaq · bu gün bitir'),
   me_ob_replay: R('Karşılama akışını yeniden göster|Show the welcome flow again|Qarşılama axınını yenidən göstər'),
 } as const
+
+const RAW = { ...CORE, ...EXTRA, ...ONBOARD_I18N } as const
 
 export function interpolate(template: string, vars: Record<string, string | number>): string {
   return template.replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? ''))

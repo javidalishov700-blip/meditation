@@ -15,8 +15,8 @@ export default defineConfig({
         short_name: 'Steady',
         description:
           'Sakinleşme araçları. Tıbbi tedavi değildir. Krizde yerel acil hat.',
-        theme_color: '#120814',
-        background_color: '#120814',
+        theme_color: '#000000',
+        background_color: '#000000',
         display: 'standalone',
         orientation: 'portrait',
         lang: 'tr',

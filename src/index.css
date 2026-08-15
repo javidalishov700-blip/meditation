@@ -1,11 +1,11 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
-  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #120814;
-  --color-ink-2: #1c0c22;
-  --color-ink-3: #2a1233;
+  --font-display: 'Outfit', 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans JP', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Outfit', 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans JP', 'Noto Sans SC', ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #000000;
+  --color-ink-2: #0a0a0a;
+  --color-ink-3: #141414;
   --color-plum: #4a1948;
   --color-rose: #f472b6;
   --color-rose-2: #fb7185;
@@ -63,8 +63,38 @@ a {
   padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
 }
 
+.safe-bottom-banner {
+  padding-bottom: calc(8.2rem + env(safe-area-inset-bottom));
+}
+
 .safe-top {
-  padding-top: calc(0.75rem + env(safe-area-inset-top));
+  padding-top: calc(2.15rem + env(safe-area-inset-top));
+}
+
+html:lang(ru),
+html:lang(uk) {
+  --font-display: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+html:lang(ar) {
+  --font-display: 'Noto Sans Arabic', 'Noto Sans', ui-sans-serif, sans-serif;
+  --font-sans: 'Noto Sans Arabic', 'Noto Sans', ui-sans-serif, sans-serif;
+}
+
+html:lang(ja) {
+  --font-display: 'Noto Sans JP', 'Noto Sans', ui-sans-serif, sans-serif;
+  --font-sans: 'Noto Sans JP', 'Noto Sans', ui-sans-serif, sans-serif;
+}
+
+html:lang(zh) {
+  --font-display: 'Noto Sans SC', 'Noto Sans', ui-sans-serif, sans-serif;
+  --font-sans: 'Noto Sans SC', 'Noto Sans', ui-sans-serif, sans-serif;
+}
+
+html:lang(fa) {
+  --font-display: 'Noto Sans Arabic', 'Noto Sans', ui-sans-serif, sans-serif;
+  --font-sans: 'Noto Sans Arabic', 'Noto Sans', ui-sans-serif, sans-serif;
 }
 
 @keyframes pulse-orb {
@@ -228,6 +258,76 @@ a {
   }
 }
 
+.hide-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.12) translate3d(-2.2%, -1.4%, 0);
+  }
+}
+
+.cover-ken {
+  animation: kenburns 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.cover-card {
+  transform: perspective(900px) rotateX(0deg);
+  transition: transform 0.35s ease;
+}
+
+.cover-card:active {
+  transform: perspective(900px) rotateY(-5deg) rotateX(3deg) scale(0.98);
+}
+
+.hero-seg {
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.hero-seg.on {
+  background: #fff;
+}
+
+.nav-glow {
+  background: rgba(123, 97, 255, 0.32);
+  box-shadow: 0 0 22px rgba(123, 97, 255, 0.38);
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translate3d(0, 16px, 0);
+    opacity: 0.4;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.sheet-up {
+  animation: sheet-up 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.timer-ring {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 38%, rgba(56, 189, 248, 0.15) 39%, rgba(37, 99, 235, 0.85) 62%, transparent 63%),
+    conic-gradient(from 200deg, #38bdf8, #1d4ed8, #082f49, #38bdf8);
+  box-shadow: 0 0 32px rgba(56, 189, 248, 0.28);
+  animation: pulse-orb 5.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .orb-pulse,
   .page-enter,
@@ -236,7 +336,10 @@ a {
   .halo,
   .breathe-orb,
   .ob-in,
-  .ob-in-back {
+  .ob-in-back,
+  .cover-ken,
+  .sheet-up,
+  .timer-ring {
     animation: none !important;
   }
 }
