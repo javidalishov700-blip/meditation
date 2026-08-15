@@ -84,6 +84,7 @@ export class AudioEngine {
   private master: GainNode | null = null
   private stops: StopHandle[] = []
   private timer: number | null = null
+  private epoch = 0
   playing = false
   label = ''
 
@@ -122,6 +123,7 @@ export class AudioEngine {
       window.clearTimeout(this.timer)
       this.timer = null
     }
+    const epoch = this.epoch
     this.fadeMaster(0, fade)
     const ctx = this.ctx
     const handles = [...this.stops]
@@ -130,10 +132,21 @@ export class AudioEngine {
     this.label = ''
     window.setTimeout(() => {
       handles.forEach((h) => h())
-      if (this.master && ctx) {
+      if (this.epoch === epoch && this.master && ctx) {
         this.master.gain.setValueAtTime(0.7, ctx.currentTime)
       }
     }, fade * 1000 + 40)
+  }
+
+  private beginPlay(label: string, targetGain: number, fadeIn: number) {
+    this.epoch += 1
+    this.playing = true
+    this.label = label
+    if (!this.ctx || !this.master) return
+    const now = this.ctx.currentTime
+    this.master.gain.cancelScheduledValues(now)
+    this.master.gain.setValueAtTime(0.0001, now)
+    this.fadeMaster(targetGain, fadeIn)
   }
 
   setTimer(minutes: number, onDone?: () => void) {
@@ -148,10 +161,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.05)
     await this.ensure()
-    this.playing = true
-    this.label = 'SOS yatağı'
-    this.master!.gain.setValueAtTime(0.0001, ctx.currentTime)
-    this.fadeMaster(0.72, 1.2)
+    this.beginPlay('SOS yatağı', 0.72, 1.2)
 
     const osc = ctx.createOscillator()
     osc.type = 'sine'
@@ -197,10 +207,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.playing = true
-    this.label = label
-    this.master!.gain.setValueAtTime(0.0001, ctx.currentTime)
-    this.fadeMaster(0.64, 1)
+    this.beginPlay(label, 0.64, 1)
 
     const osc = ctx.createOscillator()
     osc.type = 'sine'
@@ -246,11 +253,8 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.playing = true
     const scene = NATURE_SCENES.find((s) => s.id === id)
-    this.label = scene?.title ?? 'Doğa'
-    this.master!.gain.setValueAtTime(0.0001, ctx.currentTime)
-    this.fadeMaster(0.7, 1.4)
+    this.beginPlay(scene?.title ?? 'Doğa', 0.7, 1.4)
 
     if (id === 'rain') this.rain(ctx)
     else if (id === 'ocean') this.ocean(ctx)
