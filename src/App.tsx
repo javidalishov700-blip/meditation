@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Ambient } from './components/Ambient'
 import { Layout } from './components/Layout'
+import { needsIntro, Splash } from './components/Splash'
 import { CrisisChip } from './components/ui'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider, useI18n } from './lib/i18n'
@@ -53,6 +54,19 @@ function Gate() {
   return <RoutesTree key={locale} />
 }
 
+function Boot() {
+  const [intro, setIntro] = useState(() => needsIntro())
+  if (intro) return <Splash onDone={() => setIntro(false)} />
+  return (
+    <>
+      <Ambient />
+      <div className="grain" />
+      <CrisisChip />
+      <Gate />
+    </>
+  )
+}
+
 export default function App() {
   useEffect(() => {
     warmVoices()
@@ -67,10 +81,7 @@ export default function App() {
     <I18nProvider>
       <EntitlementProvider>
         <BrowserRouter>
-          <Ambient />
-          <div className="grain" />
-          <CrisisChip />
-          <Gate />
+          <Boot />
         </BrowserRouter>
       </EntitlementProvider>
     </I18nProvider>

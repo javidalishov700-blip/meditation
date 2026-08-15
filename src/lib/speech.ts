@@ -41,9 +41,9 @@ export function writeVoiceUri(bcp47: string, uri: string | null) {
 }
 
 export function readReadMode(): ReadMode {
-  const v = readJson<string>('readMode', 'natural')
-  if (v === 'slow' || v === 'calm') return v
-  return 'natural'
+  const v = readJson<string>('readMode', 'calm')
+  if (v === 'slow' || v === 'natural') return v
+  return 'calm'
 }
 
 export function writeReadMode(mode: ReadMode) {
@@ -73,12 +73,24 @@ function refreshVoices() {
 }
 
 function preferredNames(prefix: string): string[] {
-  if (prefix === 'tr') return ['yelda', 'filiz', 'emel', 'google türk', 'google türkçe']
-  if (prefix === 'es') return ['google español', 'mónica', 'monica', 'paulina', 'elvira', 'conchita']
-  if (prefix === 'fr') return ['google français', 'thomas', 'amélie', 'amelie', 'audrey', 'denise']
-  if (prefix === 'de') return ['google deutsch', 'anna', 'hedwig', 'katja', 'google german']
-  if (prefix === 'it') return ['google italiano', 'alice', 'elsa', 'bianca', 'carla']
-  return ['google uk english', 'google us english', 'samantha', 'karen', 'moira', 'aria', 'jenny', 'sonia', 'natural']
+  if (prefix === 'tr') return ['yelda', 'emel online', 'emel', 'filiz', 'google türkçe', 'google türk']
+  if (prefix === 'es') return ['paulina', 'mónica', 'monica', 'elvira', 'google español', 'conchita']
+  if (prefix === 'fr') return ['amélie', 'amelie', 'audrey', 'denise', 'google français', 'thomas']
+  if (prefix === 'de') return ['anna', 'helena', 'katja', 'google deutsch', 'hedwig']
+  if (prefix === 'it') return ['alice', 'elsa', 'bianca', 'google italiano', 'carla']
+  return [
+    'samantha',
+    'siri',
+    'karen',
+    'moira',
+    'tessa',
+    'serena',
+    'aria',
+    'jenny',
+    'sonia',
+    'google uk english',
+    'google us english',
+  ]
 }
 
 function scoreVoice(v: SpeechSynthesisVoice, bcp47: string): number {
@@ -90,12 +102,21 @@ function scoreVoice(v: SpeechSynthesisVoice, bcp47: string): number {
   if (lang === want) s += 18
   else if (lang.startsWith(prefix)) s += 12
   else return -1
-  if (/neural|natural|premium|enhanced|online|wavenet|studio|google|microsoft.*neural/.test(name)) s += 16
-  if (preferredNames(prefix).some((n) => name.includes(n))) s += 14
-  if (/samantha|karen|yelda|filiz|emel|aria|jenny|alice|anna|thomas/.test(name)) s += 6
-  if (v.localService && /samantha|karen|yelda|alice|anna|thomas|moira/.test(name)) s += 4
+  if (/siri/.test(name)) s += 26
+  if (/neural|premium|enhanced|wavenet|studio|online \(natural\)|\bnatural\b/.test(name)) s += 22
+  if (/google/.test(name) && !/compact/.test(name)) s += 16
+  if (/microsoft/.test(name) && /online|natural|neural/.test(name)) s += 18
+  if (preferredNames(prefix).some((n) => name.includes(n))) s += 16
+  if (/yelda|samantha|karen|moira|tessa|aria|jenny|alice|anna|amelie|amélie|paulina/.test(name)) s += 8
+  if (v.localService && /siri|yelda|samantha|karen|moira|tessa|alice|anna|amelie/.test(name)) s += 10
   if (v.default) s += 1
-  if (/compact|eloquence|novelty|whisper|espeak|robot|dummy|mute|zira|david desktop/.test(name)) s -= 22
+  if (
+    /compact|eloquence|novelty|whisper|espeak|robot|dummy|mute|zira|david desktop|fred|ralph|trinoids|zarvox|bells|boing|bubbles|cellos|bad news|good news|hysterical|organ|superstar/.test(
+      name,
+    )
+  ) {
+    s -= 30
+  }
   return s
 }
 
@@ -121,13 +142,12 @@ function pickVoice(bcp47: string): SpeechSynthesisVoice | null {
 
 function humanize(text: string, prefix: string, mode: ReadMode): string {
   let out = text.replace(/\r\n/g, '\n')
-  if (mode === 'natural') {
-    out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
-  } else if (mode === 'calm') {
-    out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
-  } else {
+  if (mode === 'slow') {
     out = out.replace(/[·•]/g, ',').replace(/\s*[—–]\s*/g, ', ')
+  } else {
+    out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
   }
+  if (mode === 'calm') out = out.replace(/!+/g, '.')
   out = out
     .replace(/(\d)-(\d)-(\d)/g, '$1, $2, $3')
     .replace(/Hz/gi, 'hertz')
@@ -147,13 +167,15 @@ function splitLong(text: string, max: number): string[] {
   let rest = text.trim()
   while (rest.length > max) {
     const window = rest.slice(0, max)
-    const punct = Math.max(
-      window.lastIndexOf(', '),
-      window.lastIndexOf('; '),
-      window.lastIndexOf(': '),
+    const stop = Math.max(
+      window.lastIndexOf('. '),
+      window.lastIndexOf('? '),
+      window.lastIndexOf('! '),
+      window.lastIndexOf('… '),
     )
+    const punct = Math.max(stop, window.lastIndexOf(', '), window.lastIndexOf('; '), window.lastIndexOf(': '))
     const space = window.lastIndexOf(' ')
-    const cut = punct >= max * 0.45 ? punct + 1 : space > 40 ? space : max
+    const cut = stop >= max * 0.35 ? stop + 1 : punct >= max * 0.45 ? punct + 1 : space > 40 ? space : max
     chunks.push(rest.slice(0, cut).trim())
     rest = rest.slice(cut).trim()
   }
@@ -168,21 +190,65 @@ function breathHold(sentence: string): number {
   return 0
 }
 
-function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
-  const clean = humanize(text, prefix, mode)
-  if (!clean) return []
-  const max = mode === 'slow' ? 108 : mode === 'calm' ? 280 : 220
-  const blocks = clean.split(/\n{2,}/).map((b) => b.replace(/\n/g, ' ').trim()).filter(Boolean)
+function sentencesOf(block: string): string[] {
+  return block.split(/(?<=[.!?…])\s+/).filter(Boolean)
+}
+
+function pushBits(out: Phrase[], text: string, max: number, pause: number, inner: number) {
+  splitLong(text, max).forEach((bit, i, arr) => {
+    out.push({ text: bit, pause: i === arr.length - 1 ? pause : inner })
+  })
+}
+
+function phrasesGrouped(clean: string, max: number, paraPause: number, joinPause: number): Phrase[] {
+  const blocks = clean
+    .split(/\n{2,}/)
+    .map((b) => b.replace(/\n/g, ' ').trim())
+    .filter(Boolean)
   const out: Phrase[] = []
   for (const block of blocks) {
-    const sentences = block.split(/(?<=[.!?…])\s+/).filter(Boolean)
-    const paraPause = mode === 'calm' ? 3200 : mode === 'slow' ? 540 : 260
+    const sentences = sentencesOf(block)
+    let buf = ''
+    const flush = (pause: number) => {
+      if (!buf) return
+      pushBits(out, buf, max, pause, 70)
+      buf = ''
+    }
     for (let s = 0; s < sentences.length; s++) {
       const sentence = sentences[s]!
       const last = s === sentences.length - 1
-      const hold = mode === 'calm' ? breathHold(sentence) : 0
-      const endPause = hold || (last ? paraPause : mode === 'calm' ? 1100 : mode === 'slow' ? 320 : 140)
-      if (mode === 'slow' && sentence.length > 110 && /,\s/.test(sentence)) {
+      const hold = breathHold(sentence)
+      const joined = buf ? `${buf} ${sentence}` : sentence
+      if (buf && joined.length > max) flush(joinPause)
+      buf = buf ? `${buf} ${sentence}` : sentence
+      if (hold) {
+        flush(hold)
+        continue
+      }
+      if (last) flush(paraPause)
+    }
+  }
+  return out
+}
+
+function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
+  const clean = humanize(text, prefix, mode)
+  if (!clean) return []
+  if (mode === 'calm') return phrasesGrouped(clean, 460, 2600, 220)
+  if (mode === 'natural') return phrasesGrouped(clean, 280, 280, 140)
+  const max = 108
+  const blocks = clean
+    .split(/\n{2,}/)
+    .map((b) => b.replace(/\n/g, ' ').trim())
+    .filter(Boolean)
+  const out: Phrase[] = []
+  for (const block of blocks) {
+    const sentences = sentencesOf(block)
+    for (let s = 0; s < sentences.length; s++) {
+      const sentence = sentences[s]!
+      const last = s === sentences.length - 1
+      const endPause = last ? 540 : 320
+      if (sentence.length > 110 && /,\s/.test(sentence)) {
         const parts = sentence.split(/,\s+/)
         parts.forEach((raw, i) => {
           const piece = raw.trim()
@@ -195,13 +261,7 @@ function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
         })
         continue
       }
-      splitLong(sentence, max).forEach((bit, i, arr) => {
-        const end = i === arr.length - 1
-        out.push({
-          text: bit,
-          pause: end ? endPause : mode === 'calm' ? 120 : mode === 'slow' ? 170 : 80,
-        })
-      })
+      pushBits(out, sentence, max, endPause, 170)
     }
   }
   return out
@@ -297,8 +357,8 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
     opts.onend?.()
     return
   }
-  const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : mode === 'calm' ? 0.93 : 1)
-  const basePitch = opts.pitch ?? (mode === 'calm' ? 0.97 : 1)
+  const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : mode === 'calm' ? 0.94 : 1)
+  const basePitch = opts.pitch ?? (mode === 'calm' ? 0.99 : 1)
   if (opts.fillMs) parts = stretchTo(parts, opts.fillMs, baseRate)
   const started = Date.now()
   let i = 0
@@ -365,12 +425,12 @@ export function speakCue(text: string, lang?: string) {
 }
 
 export const VOICE_SAMPLE: Record<string, string> = {
-  tr: 'Şimdi yanındayım. Cümleyi bölmeden konuşuyorum. Nefes al. Omuzların insin. Burada üç nefes.',
-  en: 'I am here with you. I speak without chopping the sentence. Breathe in. Let the shoulders drop. Stay for three breaths.',
-  es: 'Estoy aquí. Hablo sin cortar la frase. Inhala. Deja caer los hombros. Quédate tres respiraciones.',
-  fr: 'Je suis là. Je parle sans couper la phrase. Inspire. Laisse descendre les épaules. Reste trois souffles.',
-  de: 'Ich bin hier. Ich spreche, ohne den Satz zu zerteilen. Atme ein. Lass die Schultern sinken. Bleib drei Atemzüge.',
-  it: 'Sono qui. Parlo senza spezzare la frase. Inspira. Lascia scendere le spalle. Resta tre respiri.',
+  tr: 'Şimdi yanındayım. Cümleyi bölmeden, yavaş konuşuyorum. Omuzların insin. Nefes burada.',
+  en: 'I am here with you. I speak slowly, without chopping the line. Let the shoulders drop. The breath is here.',
+  es: 'Estoy aquí. Hablo despacio, sin cortar la frase. Deja caer los hombros. El aliento está aquí.',
+  fr: 'Je suis là. Je parle lentement, sans couper la phrase. Laisse descendre les épaules. Le souffle est là.',
+  de: 'Ich bin hier. Ich spreche langsam, ohne den Satz zu zerteilen. Lass die Schultern sinken. Der Atem ist hier.',
+  it: 'Sono qui. Parlo piano, senza spezzare la frase. Lascia scendere le spalle. Il respiro è qui.',
 }
 
 export function sampleLine(bcp47: string) {

@@ -57,9 +57,7 @@ export function Me() {
       </header>
 
       <div className="mt-6 flex items-center gap-3">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#2a1650] text-xl font-semibold">
-          S
-        </div>
+        <img src="/favicon.svg" alt="" className="h-16 w-16 rounded-[1.15rem]" />
         <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2.5 py-1 text-xs text-white/85">
           <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-[#C4B5FD]" fill="currentColor">
             <path d="M12 2.4 13.7 8h5.8l-4.7 3.4 1.8 5.6L12 13.8 7.4 17l1.8-5.6L4.5 8h5.8L12 2.4Z" />

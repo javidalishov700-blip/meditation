@@ -57,7 +57,7 @@ export const EXTRA = {
   for_you: R('Sana göre|For you|Para ti|Pour toi|Für dich|Per te'),
   now_playing: R('Çalıyor|Now playing|Reproduciendo|En lecture|Läuft|In riproduzione'),
   voice: R('Okuma sesi|Reading voice|Voz de lectura|Voix de lecture|Lesestimme|Voce di lettura'),
-  voice_hint: R('En doğal sesi seç. Cihazındaki sesler değişir. Chrome veya Safari genelde daha insansı.|Pick the most natural voice. Voices depend on this device. Chrome or Safari usually sound more human.|Elige la voz más natural. Las voces dependen de este dispositivo. Chrome o Safari suenan más humanas.|Choisis la voix la plus naturelle. Les voix dépendent de cet appareil. Chrome ou Safari sonnent plus humain.|Wähle die natürlichste Stimme. Stimmen hängen von diesem Gerät ab. Chrome oder Safari klingen menschlicher.|Scegli la voce più naturale. Le voci dipendono da questo dispositivo. Chrome o Safari suonano più umane.'),
+  voice_hint: R('Cihazındaki en doğal sesi seçiyoruz. Stüdyo kaydı değil — uzun cümle, yavaş tempo.|We pick the most natural voice on this device. Not a studio recording — long phrases, slow tempo.|Elegimos la voz más natural del dispositivo. No es un estudio: frases largas, tempo lento.|On choisit la voix la plus naturelle de l’appareil. Pas un studio : phrases longues, tempo lent.|Wir wählen die natürlichste Stimme auf dem Gerät. Keine Studioaufnahme — lange Sätze, langsames Tempo.|Scegliamo la voce più naturale del dispositivo. Non è uno studio: frasi lunghe, tempo lento.'),
   voice_try: R('Dene|Try|Probar|Essayer|Testen|Prova'),
   voice_none: R('Bu dil için ses yok. Chrome veya Safari dene.|No voice for this language. Try Chrome or Safari.|No hay voz para este idioma. Prueba Chrome o Safari.|Pas de voix pour cette langue. Essaie Chrome ou Safari.|Keine Stimme für diese Sprache. Chrome oder Safari versuchen.|Nessuna voce per questa lingua. Prova Chrome o Safari.'),
   voice_auto: R('Otomatik (en doğal)|Automatic (most natural)|Automático (más natural)|Automatique (le plus naturel)|Automatisch (am natürlichsten)|Automatico (più naturale)'),
@@ -65,7 +65,7 @@ export const EXTRA = {
   voice_natural: R('Normal|Normal|Normal|Normal|Normal|Normale'),
   voice_calm: R('Meditasyon|Meditation|Meditación|Méditation|Meditation|Meditazione'),
   voice_slow: R('Yavaş|Slow|Lento|Lent|Langsam|Lento'),
-  voice_pace_hint: R('Normal: günlük okuma. Meditasyon: uzun cümle, nefes boşluğu. Yavaş: eski kesik tempo.|Normal: everyday reading. Meditation: long phrases with breath space. Slow: the old chopped tempo.|Normal: lectura cotidiana. Meditación: frases largas y pausas. Lento: el tempo troceado.|Normal : lecture du quotidien. Méditation : phrases longues, silences. Lent : l’ancien tempo coupé.|Normal: Alltag. Meditation: lange Sätze, Atempausen. Langsam: das alte zerteilte Tempo.|Normale: lettura quotidiana. Meditazione: frasi lunghe e pause. Lento: il vecchio ritmo spezzato.'),
+  voice_pace_hint: R('Normal: günlük okuma. Meditasyon: paragraf gibi, nefes boşluğu. Yavaş: eski kesik tempo.|Normal: everyday reading. Meditation: paragraph-like, with breath space. Slow: the old chopped tempo.|Normal: lectura cotidiana. Meditación: como un párrafo, con pausas. Lento: el tempo troceado.|Normal : lecture du quotidien. Méditation : comme un paragraphe, avec silences. Lent : l’ancien tempo coupé.|Normal: Alltag. Meditation: wie ein Absatz, mit Atempausen. Langsam: das alte zerteilte Tempo.|Normale: lettura quotidiana. Meditazione: come un paragrafo, con pause. Lento: il vecchio ritmo spezzato.'),
   tonight_sub: R('Açık bırak, yavaş kalsın.|Leave it on, keep it slow.|Déjalo puesto, despacio.|Laisse tourner, tout doucement.|Lass es laufen, bleib langsam.|Lascialo acceso, piano.'),
   for_you_sub: R('Bu ruh hâline göre.|Matched to this mood.|Según este ánimo.|Selon cette humeur.|Passend zu dieser Stimmung.|In base a questo umore.'),
   new_sounds: R('Yeni sesler|New sounds|Sonidos nuevos|Nouveaux sons|Neue Klänge|Suoni nuovi'),
@@ -154,4 +154,5 @@ export const EXTRA = {
   med_locked: R('Önceki seansı bitir|Finish the previous session|Termina la sesión anterior|Termine la séance précédente|Vorherige Sitzung beenden|Termina la sessione precedente'),
   med_done: R('Tamamlandı|Done|Hecho|Terminé|Fertig|Fatto'),
   med_tap: R('Dokun: süre|Tap: time|Toca: tiempo|Toucher : temps|Tippen: Zeit|Tocca: tempo'),
+  splash_tag: R('Buradasın.|You’re here.|Estás aquí.|Tu es là.|Du bist hier.|Sei qui.'),
 } as const

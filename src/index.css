@@ -625,10 +625,111 @@ html.light a.bg-\[\#7B61FF\] {
   color: #fff !important;
 }
 
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  margin: 0;
+  width: 100%;
+  background: #000;
+  color: var(--color-cream);
+  cursor: default;
+}
+
+.splash-glow {
+  position: absolute;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.28) 0%, rgba(74, 4, 78, 0.12) 48%, transparent 70%);
+  filter: blur(8px);
+  animation: splash-glow 1.8s ease both;
+}
+
+.splash-mark {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1.5rem;
+  animation: splash-mark 1.05s ease both;
+}
+
+.splash-name {
+  position: relative;
+  margin-top: 1.35rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  animation: splash-name 1.05s 0.18s ease both;
+}
+
+.splash-tag {
+  position: relative;
+  margin-top: 0.7rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 241, 245, 0.48);
+  animation: splash-name 1.05s 0.38s ease both;
+}
+
+.splash-out {
+  animation: splash-leave 0.56s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes splash-glow {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splash-mark {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splash-name {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-leave {
+  to {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sit-fig,
   .face-breathe,
-  .live-ping {
+  .live-ping,
+  .splash-glow,
+  .splash-mark,
+  .splash-name,
+  .splash-tag {
     animation: none !important;
   }
 }

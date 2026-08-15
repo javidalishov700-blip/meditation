@@ -434,7 +434,7 @@ function ScriptView({
           speak(script, {
             onend: () => setSpeaking(false),
             lang: meta.bcp47,
-            mode: kind === 'meditation' || kind === 'sleeplab' ? 'calm' : undefined,
+            mode: kind === 'meditation' || kind === 'sleeplab' || kind === 'story' ? 'calm' : undefined,
           })
         }}
       >
