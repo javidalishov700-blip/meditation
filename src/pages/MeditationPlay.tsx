@@ -7,11 +7,12 @@ import { useI18n } from '../lib/i18n'
 import { markSession } from '../lib/activity'
 import { completedSteps, markMedStep, pathPercent, stepUnlocked } from '../lib/med-progress'
 import { MED_ALIAS, meditationById, pathMinutes } from '../lib/library'
-import { primeAudio, speak, stopSpeak } from '../lib/speech'
+import { primeAudio, seekSpeakTo, speak, speechSnap, stopSpeak, togglePause, writeVoiceVolume } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
 import { PrimaryButton } from '../components/ui'
-import { VoicePlayer } from '../components/VoicePlayer'
+import { CalmField } from '../components/CalmField'
+import { useSpeech } from '../components/VoicePlayer'
 import type { MedPath, MedStep } from '../lib/types'
 
 const MED_BEDS = [
@@ -32,6 +33,8 @@ const MED_BEDS = [
   'brown',
   'chime',
 ] as const
+
+const SKIP = 15
 
 function readBed(fallback: string) {
   const v = readJson<string | null>('med.bed', null)
@@ -140,44 +143,54 @@ function MeditationPlayer({
   onNext: (stepId: string) => void
 }) {
   const { t, meta, locale } = useI18n()
+  const snap = useSpeech()
   const total = step.minutes * 60
   const [elapsed, setElapsed] = useState(0)
-  const [chrome, setChrome] = useState(false)
   const [ended, setEnded] = useState(false)
-  const [hint, setHint] = useState(true)
   const [bed, setBed] = useState(() => readBed(step.bed))
   const [bedVol, setBedVol] = useState(() => audio.getBedLevel())
-  const started = useRef(0)
+  const [bedsOpen, setBedsOpen] = useState(false)
+  const elapsedRef = useRef(0)
+  const stampRef = useRef(Date.now())
+  const pausedRef = useRef(false)
+  const dragRef = useRef(false)
   const done = useRef(false)
 
   useWakeLock(true)
 
   useEffect(() => {
-    const hide = window.setTimeout(() => setHint(false), 4500)
-    return () => window.clearTimeout(hide)
-  }, [step.id])
+    pausedRef.current = snap.paused
+    stampRef.current = Date.now()
+  }, [snap.paused])
 
   useEffect(() => {
     done.current = false
-    started.current = Date.now()
+    elapsedRef.current = 0
+    stampRef.current = Date.now()
+    pausedRef.current = false
     markSession('meditation', path.id)
     const fillMs = total * 1000
-    void audio.playNature(bed)
+    void (async () => {
+      await audio.playNature(bed)
+      audio.hushForVoice()
+    })()
     speak(step.body, {
       lang: meta.bcp47,
       mode: 'calm',
       fillMs,
     })
     const tick = window.setInterval(() => {
-      const s = Math.min(total, Math.floor((Date.now() - started.current) / 1000))
-      setElapsed(s)
-      if (s >= total && !done.current) {
-        done.current = true
-        stopSpeak()
-        audio.stop(1.6)
-        markMedStep(path.id, step.id)
-        setEnded(true)
+      pausedRef.current = speechSnap().paused
+      if (!pausedRef.current && !dragRef.current) {
+        const now = Date.now()
+        elapsedRef.current += (now - stampRef.current) / 1000
+        stampRef.current = now
+      } else {
+        stampRef.current = Date.now()
       }
+      const s = Math.min(total, Math.max(0, elapsedRef.current))
+      setElapsed(s)
+      if (s >= total && !done.current) finish()
     }, 200)
     return () => {
       window.clearInterval(tick)
@@ -186,86 +199,194 @@ function MeditationPlayer({
     }
   }, [path.id, step.id, step.body, total, meta.bcp47])
 
-  const frac = elapsed / total
-  const pct = pathPercent(path, { stepId: step.id, frac })
+  function finish() {
+    if (done.current) return
+    done.current = true
+    stopSpeak()
+    audio.stop(1.6)
+    markMedStep(path.id, step.id)
+    setEnded(true)
+  }
+
+  function toggleOrResume() {
+    if (!snap.speaking && !snap.loading && !snap.paused) {
+      speak(step.body, {
+        lang: meta.bcp47,
+        mode: 'calm',
+        fillMs: total * 1000,
+        startMs: elapsedRef.current * 1000,
+      })
+      return
+    }
+    togglePause()
+  }
+
+  function applyTime(sec: number, voice = true) {
+    const next = Math.max(0, Math.min(total, sec))
+    elapsedRef.current = next
+    stampRef.current = Date.now()
+    setElapsed(next)
+    if (next >= total) {
+      finish()
+      return
+    }
+    if (voice) seekSpeakTo(next * 1000)
+  }
+
+  function skip(delta: number) {
+    applyTime(elapsedRef.current + delta)
+  }
 
   async function changeBed(id: string) {
     writeJson('med.bed', id)
     setBed(id)
     await audio.playNature(id)
-    audio.hushForVoice()
+    if (!snap.paused) audio.hushForVoice()
   }
+
+  const frac = total ? elapsed / total : 0
+  const pct = pathPercent(path, { stepId: step.id, frac })
+  const err = snap.error === 'missing_key' ? t('tts_missing') : snap.error ? t('tts_fail') : null
 
   if (ended) {
     const next = path.steps[index + 1]
     return (
-      <div className="flex min-h-[70dvh] flex-col items-center justify-center text-center">
-        <p className="font-display text-4xl text-white/80">{t('med_done')}</p>
-        <p className="mt-3 text-sm text-white/40">{t('med_pct', { n: pathPercent(path) })}</p>
-        {next ? (
-          <PrimaryButton className="mt-10 max-w-xs" onClick={() => onNext(next.id)}>
-            {next.title}
-          </PrimaryButton>
-        ) : null}
-        <button type="button" className="mt-4 text-sm text-mute" onClick={onExit}>
-          {t('back')}
-        </button>
+      <div className="fixed inset-0 z-40 keep-dark bg-black">
+        <CalmField paused progress={1} />
+        <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 text-center">
+          <p className="font-display text-4xl text-white/80">{t('med_done')}</p>
+          <p className="mt-3 text-sm text-white/40">{t('med_pct', { n: pathPercent(path) })}</p>
+          {next ? (
+            <PrimaryButton className="mt-10 max-w-xs" onClick={() => onNext(next.id)}>
+              {next.title}
+            </PrimaryButton>
+          ) : null}
+          <button type="button" className="mt-4 text-sm text-white/50" onClick={onExit}>
+            {t('back')}
+          </button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="fixed inset-0 z-40">
+    <div className="fixed inset-0 z-40 keep-dark bg-black">
+      <CalmField paused={snap.paused} progress={frac} />
+
       <button
         type="button"
-        className="absolute inset-x-0 top-0 cursor-default bg-transparent"
-        style={{ bottom: '13.5rem' }}
-        onClick={() => setChrome((v) => !v)}
-        aria-label={t('med_tap')}
+        className="absolute left-4 z-20 rounded-full bg-black/35 px-3 py-1.5 text-sm text-white/80"
+        style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
+        onClick={onExit}
       >
-        {chrome ? (
-          <div className="flex h-full flex-col items-center justify-center">
-            <p className="font-display text-6xl tabular-nums text-white" style={{ opacity: 0.2 }}>
-              {formatMmSs(elapsed)}
-            </p>
-            <p className="mt-6 text-sm tabular-nums text-white" style={{ opacity: 0.2 }}>
-              {t('med_pct', { n: pct })}
-            </p>
-            <button type="button" className="mt-16 text-sm text-white/25" onClick={onExit}>
-              {t('back')}
-            </button>
-          </div>
-        ) : hint ? (
-          <p className="absolute inset-x-0 top-[42%] text-center text-sm text-white" style={{ opacity: 0.2 }}>
-            {t('med_tap')}
-          </p>
+        {t('back')}
+      </button>
+
+      <button
+        type="button"
+        className="absolute left-1/2 z-20 flex h-44 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+        style={{ top: '42%' }}
+        onClick={() => toggleOrResume()}
+        aria-label={snap.paused ? t('play') : t('pause')}
+      >
+        {snap.loading ? (
+          <span className="h-9 w-9 animate-spin rounded-full border-2 border-white/25 border-t-white" />
+        ) : snap.paused ? (
+          <svg viewBox="0 0 24 24" className="h-14 w-14 text-white/90" fill="currentColor">
+            <path d="M8 5.5v13l11-6.5L8 5.5Z" />
+          </svg>
         ) : null}
       </button>
 
-      <div
-        className="absolute inset-x-0 bottom-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="absolute inset-x-0 bottom-0 z-20 px-5 pb-[max(1.1rem,env(safe-area-inset-bottom))] pt-2">
         <div className="mx-auto max-w-lg">
-          <p className="mb-2 text-[11px] uppercase tracking-[0.14em] text-white/40">{t('bed_pick')}</p>
-          <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
-            {MED_BEDS.map((id) => {
-              const on = bed === id
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => void changeBed(id)}
-                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${
-                    on ? 'bg-[#7B61FF] text-white' : 'bg-white/8 text-white/70'
-                  }`}
-                >
-                  {sceneName(id, locale)}
-                </button>
-              )
-            })}
+          <div className="flex items-end justify-between text-sm tabular-nums text-white/70">
+            <span>{formatMmSs(elapsed)}</span>
+            <span>{formatMmSs(total)}</span>
           </div>
-          <label className="mb-3 flex items-center gap-2 text-xs text-white/50">
+          <input
+            type="range"
+            min={0}
+            max={total}
+            step={1}
+            value={Math.round(elapsed)}
+            aria-label={t('med_tap')}
+            className="steady-range mt-2 w-full"
+            onPointerDown={() => {
+              dragRef.current = true
+            }}
+            onPointerUp={() => {
+              dragRef.current = false
+              applyTime(elapsedRef.current)
+            }}
+            onPointerCancel={() => {
+              dragRef.current = false
+              applyTime(elapsedRef.current)
+            }}
+            onChange={(e) => {
+              const n = Number(e.target.value)
+              elapsedRef.current = n
+              setElapsed(n)
+              if (!dragRef.current) applyTime(n)
+            }}
+          />
+
+          <div className="mt-4 flex items-center justify-center gap-8">
+            <button type="button" className="flex flex-col items-center text-white/80" onClick={() => skip(-SKIP)} aria-label={t('skip_back')}>
+              <SkipIcon dir="back" />
+              <span className="mt-1 text-[11px] tabular-nums">15</span>
+            </button>
+            <button
+              type="button"
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-[#7B61FF] text-white shadow-[0_0_28px_rgba(123,97,255,0.35)]"
+              onClick={() => toggleOrResume()}
+              aria-label={snap.paused ? t('play') : t('pause')}
+            >
+              {snap.loading ? (
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              ) : snap.paused ? (
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor">
+                  <path d="M8 5.5v13l11-6.5L8 5.5Z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor">
+                  <path d="M7 6h3.2v12H7V6Zm6.8 0H17v12h-3.2V6Z" />
+                </svg>
+              )}
+            </button>
+            <button type="button" className="flex flex-col items-center text-white/80" onClick={() => skip(SKIP)} aria-label={t('skip_fwd')}>
+              <SkipIcon dir="fwd" />
+              <span className="mt-1 text-[11px] tabular-nums">15</span>
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="mb-2 mt-4 text-[11px] uppercase tracking-[0.14em] text-white/40"
+            onClick={() => setBedsOpen((v) => !v)}
+          >
+            {t('bed_pick')}: {sceneName(bed, locale)}
+          </button>
+          {bedsOpen ? (
+            <div className="mb-3 flex gap-2 overflow-x-auto pb-1 hide-scroll">
+              {MED_BEDS.map((id) => {
+                const on = bed === id
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => void changeBed(id)}
+                    className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${
+                      on ? 'bg-[#7B61FF] text-white' : 'bg-white/8 text-white/70'
+                    }`}
+                  >
+                    {sceneName(id, locale)}
+                  </button>
+                )
+              })}
+            </div>
+          ) : null}
+          <label className="mb-2 flex items-center gap-2 text-xs text-white/50">
             <span className="w-14">{t('vol_bed')}</span>
             <input
               type="range"
@@ -277,14 +398,36 @@ function MeditationPlayer({
                 const n = Number(e.target.value)
                 setBedVol(n)
                 audio.setBedLevel(n)
-                audio.hushForVoice()
+                if (!snap.paused) audio.hushForVoice()
               }}
               className="steady-range flex-1"
             />
           </label>
-          <VoicePlayer compact />
+          <label className="flex items-center gap-2 text-xs text-white/50">
+            <span className="w-14">{t('vol_voice')}</span>
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={snap.volume}
+              onChange={(e) => writeVoiceVolume(Number(e.target.value))}
+              className="steady-range flex-1"
+            />
+          </label>
+          {err ? <p className="mt-2 text-xs leading-5 text-rose-200/80">{err}</p> : null}
+          <p className="mt-2 text-center text-[11px] text-white/30">{t('med_pct', { n: pct })}</p>
         </div>
       </div>
     </div>
+  )
+}
+
+function SkipIcon({ dir }: { dir: 'back' | 'fwd' }) {
+  const flip = dir === 'back' ? 'scale-x-[-1]' : ''
+  return (
+    <svg viewBox="0 0 24 24" className={`h-7 w-7 ${flip}`} fill="currentColor">
+      <path d="M5 6.5v11l8.5-5.5L5 6.5Zm8.2 0v11L21.7 12 13.2 6.5Z" />
+    </svg>
   )
 }

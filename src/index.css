@@ -744,6 +744,174 @@ html.light a.bg-\[\#7B61FF\] {
   }
 }
 
+.calm-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #050308;
+}
+
+.calm-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 50% at 50% 42%, rgba(123, 97, 255, 0.22), transparent 58%),
+    radial-gradient(50% 40% at 50% 78%, rgba(244, 114, 182, 0.1), transparent 62%),
+    linear-gradient(180deg, #0a0612 0%, #050308 55%, #020104 100%);
+}
+
+.calm-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  will-change: transform;
+}
+
+.calm-a {
+  width: 22rem;
+  height: 22rem;
+  left: 50%;
+  top: 18%;
+  margin-left: -11rem;
+  background: rgba(167, 139, 250, 0.32);
+  animation: calm-drift 18s ease-in-out infinite;
+}
+
+.calm-b {
+  width: 16rem;
+  height: 16rem;
+  left: 8%;
+  bottom: 22%;
+  background: rgba(244, 114, 182, 0.16);
+  animation: calm-drift 24s ease-in-out infinite reverse;
+}
+
+.calm-c {
+  width: 18rem;
+  height: 18rem;
+  right: 4%;
+  top: 28%;
+  background: rgba(56, 189, 248, 0.1);
+  animation: calm-drift 28s ease-in-out infinite;
+}
+
+.calm-motes {
+  position: absolute;
+  inset: -40% 0 0;
+  opacity: 0.45;
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 80%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 28% 64%, rgba(255, 255, 255, 0.28), transparent),
+    radial-gradient(1.4px 1.4px at 46% 88%, rgba(221, 214, 254, 0.4), transparent),
+    radial-gradient(1px 1px at 62% 70%, rgba(255, 255, 255, 0.22), transparent),
+    radial-gradient(1.2px 1.2px at 78% 92%, rgba(244, 114, 182, 0.35), transparent),
+    radial-gradient(1px 1px at 88% 58%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1.3px 1.3px at 18% 48%, rgba(196, 181, 253, 0.32), transparent);
+  animation: calm-rise 22s linear infinite;
+}
+
+.calm-core {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 11.5rem;
+  height: 11.5rem;
+  transform: translate(-50%, -50%);
+}
+
+.calm-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(221, 214, 254, 0.18);
+  animation: calm-breathe 8.4s ease-in-out infinite;
+}
+
+.calm-r1 {
+  inset: -12%;
+}
+
+.calm-r2 {
+  inset: -28%;
+  animation-delay: -2.8s;
+  opacity: 0.7;
+}
+
+.calm-r3 {
+  inset: -46%;
+  animation-delay: -5.2s;
+  opacity: 0.4;
+}
+
+.calm-orb {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(255, 241, 245, 0.55), transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(196, 181, 253, 0.95), rgba(76, 29, 149, 0.9) 62%, #1e1033);
+  box-shadow: 0 0 48px rgba(167, 139, 250, 0.35);
+  animation: calm-breathe 8.4s ease-in-out infinite;
+}
+
+.calm-arc {
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  opacity: 0.7;
+}
+
+.calm-horizon {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -18%;
+  height: 42%;
+  border-radius: 50%;
+  background: radial-gradient(50% 60% at 50% 0%, rgba(123, 97, 255, 0.16), transparent 70%);
+  filter: blur(8px);
+}
+
+@keyframes calm-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 8%, 0) scale(1.1);
+  }
+}
+
+@keyframes calm-breathe {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.82;
+  }
+  45% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes calm-rise {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-28%);
+  }
+}
+
+.calm-field.is-paused .calm-blob,
+.calm-field.is-paused .calm-motes,
+.calm-field.is-paused .calm-ring,
+.calm-field.is-paused .calm-orb {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sit-fig,
   .face-breathe,
@@ -751,7 +919,11 @@ html.light a.bg-\[\#7B61FF\] {
   .splash-glow,
   .splash-mark,
   .splash-name,
-  .splash-tag {
+  .splash-tag,
+  .calm-blob,
+  .calm-motes,
+  .calm-ring,
+  .calm-orb {
     animation: none !important;
   }
 }

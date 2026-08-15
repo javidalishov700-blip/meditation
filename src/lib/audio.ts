@@ -291,6 +291,7 @@ export class AudioEngine {
   now = { playing: false, label: '', route: '', id: '', kind: '' }
   private restGain = 0.32
   private bedLevel = 0.55
+  private held = false
   private listeners = new Set<() => void>()
 
   constructor() {
@@ -434,6 +435,7 @@ export class AudioEngine {
     this.route = ''
     this.id = ''
     this.kind = ''
+    this.held = false
     this.emit()
     window.setTimeout(() => {
       handles.forEach((h) => h())
@@ -460,13 +462,20 @@ export class AudioEngine {
     const now = this.ctx.currentTime
     this.master.gain.cancelScheduledValues(now)
     this.master.gain.setValueAtTime(0.0001, now)
-    this.fadeMaster(targetGain * this.bedLevel, fadeIn)
+    this.fadeMaster(this.held ? 0.0008 : targetGain * this.bedLevel, fadeIn)
     this.emit()
   }
 
   duck(on: boolean) {
-    if (!this.playing) return
+    if (!this.playing || this.held) return
     this.fadeMaster((on ? 0.07 : this.restGain) * this.bedLevel, 0.28)
+  }
+
+  hold(on: boolean) {
+    this.held = on
+    if (!this.playing) return
+    if (on) this.fadeMaster(0.0008, 0.2)
+    else this.fadeMaster(0.07 * this.bedLevel, 0.28)
   }
 
   getBedLevel() {
@@ -480,7 +489,7 @@ export class AudioEngine {
     } catch {
       /* ignore */
     }
-    if (!this.playing) return
+    if (!this.playing || this.held) return
     this.fadeMaster(this.restGain * this.bedLevel, 0.18)
   }
 

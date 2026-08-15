@@ -9,6 +9,7 @@ type SpeakOpts = {
   mode?: ReadMode
   rate?: number
   fillMs?: number
+  startMs?: number
   onend?: () => void
 }
 
@@ -19,7 +20,11 @@ export type SpeechSnap = {
   volume: number
   error: string | null
   voice: TtsVoice
+  elapsedMs: number
+  durationMs: number
 }
+
+type LastJob = { text: string; opts: SpeakOpts }
 
 let cancelled = false
 let speakGen = 0
@@ -29,8 +34,39 @@ let pausedFlag = false
 let errorFlag: string | null = null
 let pauseWait: (() => void) | null = null
 let el: HTMLAudioElement | null = null
+let lastJob: LastJob | null = null
+let clockOrigin = 0
+let clockPauseTotal = 0
+let clockPausedAt = 0
+let clockStartMs = 0
+let clockDuration = 0
+let clockTick: number | null = null
 const cache = new Map<string, string>()
 const listeners = new Set<() => void>()
+
+function liveElapsed() {
+  if (!speakingFlag && !loadingFlag) return 0
+  const now = pausedFlag ? clockPausedAt || Date.now() : Date.now()
+  return clockStartMs + Math.max(0, now - clockOrigin - clockPauseTotal)
+}
+
+function armClock() {
+  if (clockTick != null) return
+  clockTick = window.setInterval(() => {
+    if (!speakingFlag && !loadingFlag) {
+      window.clearInterval(clockTick!)
+      clockTick = null
+      return
+    }
+    emit()
+  }, 250)
+}
+
+function stopClock() {
+  if (clockTick == null) return
+  window.clearInterval(clockTick)
+  clockTick = null
+}
 
 export function readReadMode(): ReadMode {
   const v = readJson<string>('readMode', 'calm')
@@ -80,6 +116,8 @@ export function speechSnap(): SpeechSnap {
     volume: readVoiceVolume(),
     error: errorFlag,
     voice: readTtsVoice(),
+    elapsedMs: liveElapsed(),
+    durationMs: clockDuration,
   }
 }
 
@@ -232,10 +270,32 @@ function stretchTo(parts: Phrase[], targetMs: number, rate: number) {
   return parts.map((p, i) => (slots.some((s) => s.i === i) ? { ...p, pause: Math.round(p.pause + each) } : p))
 }
 
-function wait(ms: number) {
+function speakMsOf(p: Phrase, rate = 0.85) {
+  if (!p.text) return 0
+  const cps = Math.max(8, 14 * rate)
+  return (p.text.length / cps) * 1000
+}
+
+function durOf(p: Phrase, rate = 0.85) {
+  return speakMsOf(p, rate) + p.pause
+}
+
+function sleep(ms: number) {
   return new Promise<void>((resolve) => {
     window.setTimeout(resolve, ms)
   })
+}
+
+async function wait(ms: number, gen: number) {
+  let left = Math.max(0, ms)
+  while (left > 0) {
+    if (cancelled || gen !== speakGen) return
+    await waitWhilePaused()
+    if (cancelled || gen !== speakGen) return
+    const slice = Math.min(80, left)
+    await sleep(slice)
+    left -= slice
+  }
 }
 
 async function waitWhilePaused() {
@@ -243,6 +303,16 @@ async function waitWhilePaused() {
   await new Promise<void>((resolve) => {
     pauseWait = resolve
   })
+}
+
+function indexAt(parts: Phrase[], startMs: number, rate = 0.85) {
+  let acc = 0
+  for (let i = 0; i < parts.length; i++) {
+    const d = durOf(parts[i]!, rate)
+    if (acc + d > startMs) return { i, offset: startMs - acc }
+    acc += d
+  }
+  return { i: parts.length, offset: 0 }
 }
 
 async function fetchClip(text: string, voice: TtsVoice, gen: number) {
@@ -284,21 +354,50 @@ function ttsUrl() {
   return `${base}/api/tts`
 }
 
-async function playUrl(url: string, gen: number) {
+async function playUrl(url: string, gen: number, offsetSec = 0) {
   const node = player()
   node.volume = readVoiceVolume()
-  node.src = url
+  await new Promise<void>((resolve, reject) => {
+    const ok = () => {
+      node.removeEventListener('loadeddata', ok)
+      node.removeEventListener('error', bad)
+      resolve()
+    }
+    const bad = () => {
+      node.removeEventListener('loadeddata', ok)
+      node.removeEventListener('error', bad)
+      reject(new Error('play'))
+    }
+    node.addEventListener('loadeddata', ok)
+    node.addEventListener('error', bad)
+    node.src = url
+    node.load()
+  })
+  if (cancelled || gen !== speakGen) return
+  if (offsetSec > 0 && Number.isFinite(node.duration) && node.duration > 0.08) {
+    node.currentTime = Math.min(offsetSec, node.duration - 0.05)
+  }
   await waitWhilePaused()
   if (cancelled || gen !== speakGen) return
   await node.play()
   setFlags({ loading: false, speaking: true, paused: false })
   await new Promise<void>((resolve, reject) => {
+    const done = window.setInterval(() => {
+      if (cancelled || gen !== speakGen) {
+        window.clearInterval(done)
+        node.removeEventListener('ended', ok)
+        node.removeEventListener('error', bad)
+        resolve()
+      }
+    }, 80)
     const ok = () => {
+      window.clearInterval(done)
       node.removeEventListener('ended', ok)
       node.removeEventListener('error', bad)
       resolve()
     }
     const bad = () => {
+      window.clearInterval(done)
       node.removeEventListener('ended', ok)
       node.removeEventListener('error', bad)
       reject(new Error('play'))
@@ -314,7 +413,9 @@ export function stopSpeak() {
   pausedFlag = false
   pauseWait?.()
   pauseWait = null
+  audio.hold(false)
   audio.duck(false)
+  stopClock()
   const node = el
   if (node) {
     node.pause()
@@ -329,15 +430,36 @@ export function togglePause() {
   const node = player()
   if (pausedFlag) {
     pausedFlag = false
+    if (clockPausedAt) {
+      clockPauseTotal += Date.now() - clockPausedAt
+      clockPausedAt = 0
+    }
     pauseWait?.()
     pauseWait = null
-    void node.play()
+    audio.hold(false)
+    audio.hushForVoice()
+    void node.play().catch(() => {
+      /* no clip yet */
+    })
     setFlags({ paused: false })
     return
   }
   pausedFlag = true
+  clockPausedAt = Date.now()
   node.pause()
+  audio.hold(true)
   setFlags({ paused: true })
+}
+
+export function seekSpeakTo(ms: number) {
+  if (!lastJob) return
+  const cap = lastJob.opts.fillMs || clockDuration
+  const target = Math.max(0, cap ? Math.min(ms, cap) : ms)
+  void runSpeak(lastJob.text, { ...lastJob.opts, startMs: target })
+}
+
+export function seekSpeakBy(deltaMs: number) {
+  seekSpeakTo(liveElapsed() + deltaMs)
 }
 
 export function speak(text: string, opts: SpeakOpts = {}) {
@@ -345,6 +467,7 @@ export function speak(text: string, opts: SpeakOpts = {}) {
 }
 
 async function runSpeak(text: string, opts: SpeakOpts) {
+  lastJob = { text, opts }
   stopSpeak()
   cancelled = false
   const gen = speakGen
@@ -357,16 +480,26 @@ async function runSpeak(text: string, opts: SpeakOpts) {
   }
   if (opts.fillMs) parts = stretchTo(parts, opts.fillMs, 0.85)
   const voice = readTtsVoice()
-  const started = Date.now()
+  const startMs = Math.max(0, opts.startMs ?? 0)
+  clockStartMs = startMs
+  clockOrigin = Date.now()
+  clockPauseTotal = 0
+  clockPausedAt = 0
+  clockDuration = opts.fillMs ?? estimateMs(parts, 0.85)
+  const { i: from, offset } = indexAt(parts, startMs)
   setFlags({ speaking: true, loading: true, paused: false, error: null })
+  armClock()
   audio.hushForVoice()
 
   try {
-    for (let i = 0; i < parts.length; i++) {
+    for (let i = from; i < parts.length; i++) {
       if (cancelled || gen !== speakGen) return
       const part = parts[i]!
-      if (!part.text) {
-        await wait(part.pause)
+      const into = i === from ? offset : 0
+      const talk = speakMsOf(part)
+      if (into >= talk + part.pause) continue
+      if (!part.text || into >= talk) {
+        await wait(part.pause - Math.max(0, into - talk), gen)
         continue
       }
       setFlags({ loading: true })
@@ -375,26 +508,30 @@ async function runSpeak(text: string, opts: SpeakOpts) {
       const url = await fetchClip(part.text, voice, gen)
       if (!url || cancelled || gen !== speakGen) return
       setFlags({ loading: false, speaking: true })
-      await playUrl(url, gen)
+      await playUrl(url, gen, into / 1000)
       if (cancelled || gen !== speakGen) return
       await nextP
       await waitWhilePaused()
-      if (part.pause) await wait(part.pause)
+      if (part.pause) await wait(part.pause, gen)
     }
     if (opts.fillMs) {
-      const rest = Math.max(0, opts.fillMs - (Date.now() - started))
-      if (rest > 80) await wait(rest)
+      const rest = Math.max(0, opts.fillMs - liveElapsed())
+      if (rest > 80) await wait(rest, gen)
     }
   } catch (err) {
     if (cancelled || gen !== speakGen) return
     const code = err instanceof Error ? err.message : 'tts_fail'
     setFlags({ error: code === 'missing_key' ? 'missing_key' : 'tts_fail', loading: false, speaking: false })
+    audio.hold(false)
     audio.duck(false)
+    stopClock()
     opts.onend?.()
     return
   }
   if (gen !== speakGen) return
+  audio.hold(false)
   audio.duck(false)
+  stopClock()
   setFlags({ speaking: false, loading: false, paused: false })
   opts.onend?.()
 }

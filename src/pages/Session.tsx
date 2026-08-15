@@ -6,7 +6,8 @@ import { programDay } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { MED_ALIAS, breathById, clarityById, extraById, sleepLabById, storyById, writingById } from '../lib/library'
-import { VoicePlayer } from '../components/VoicePlayer'
+import { VoicePlayer, useSpeech } from '../components/VoicePlayer'
+import { CalmField } from '../components/CalmField'
 import { MeditationSession } from './MeditationPlay'
 import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
@@ -335,6 +336,7 @@ function ScriptView({
   sid?: string
 }) {
   const { t, meta } = useI18n()
+  const snap = useSpeech()
   const [speaking, setSpeaking] = useState(false)
   const title = 'title' in item ? item.title : ''
   const body =
@@ -365,7 +367,38 @@ function ScriptView({
       audio.stop(0.5)
     }
   }, [])
-  useWakeLock(speaking)
+  useWakeLock(speaking || snap.speaking)
+
+  useEffect(() => {
+    if (!snap.speaking && !snap.loading && !snap.paused) setSpeaking(false)
+  }, [snap.speaking, snap.loading, snap.paused])
+
+  const listening = speaking || snap.speaking || snap.loading || snap.paused
+
+  if (listening) {
+    const frac = snap.durationMs ? snap.elapsedMs / snap.durationMs : 0
+    return (
+      <div className="fixed inset-0 z-40 keep-dark bg-black">
+        <CalmField paused={snap.paused} progress={frac} />
+        <button
+          type="button"
+          className="absolute left-4 z-20 rounded-full bg-black/35 px-3 py-1.5 text-sm text-white/80"
+          style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
+          onClick={() => {
+            stopSpeak()
+            setSpeaking(false)
+            window.history.back()
+          }}
+        >
+          {t('back')}
+        </button>
+        <div className="relative z-10 flex min-h-dvh flex-col justify-end px-5 pb-[max(1.2rem,env(safe-area-inset-bottom))]">
+          <h1 className="mb-4 text-center font-display text-2xl text-white/85">{title}</h1>
+          <VoicePlayer />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="pb-8">

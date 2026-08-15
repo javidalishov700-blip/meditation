@@ -170,4 +170,7 @@ export const EXTRA = {
   bed_pick: R('Yatak sesi|Bed sound|Sonido de fondo|Son de fond|Bettklang|Suono di letto'),
   tts_missing: R('OpenAI anahtarı yok. Kökte .env dosyasına OPENAI_API_KEY yaz, sonra yeniden başlat.|No OpenAI key. Put OPENAI_API_KEY in a root .env file, then restart.|No hay clave OpenAI. Pon OPENAI_API_KEY en .env y reinicia.|Pas de clé OpenAI. Mets OPENAI_API_KEY dans .env, puis relance.|Kein OpenAI-Schlüssel. OPENAI_API_KEY in .env, dann neu starten.|Nessuna chiave OpenAI. Metti OPENAI_API_KEY in .env e riavvia.'),
   tts_fail: R('Ses şu an gelemedi. Biraz sonra dene.|The voice could not load. Try again in a moment.|La voz no pudo cargar. Prueba en un momento.|La voix n’a pas pu charger. Réessaie dans un instant.|Die Stimme konnte nicht laden. Gleich nochmal.|La voce non è caricata. Riprova tra poco.'),
+  skip_back: R('15 saniye geri|15 seconds back|15 segundos atrás|15 secondes en arrière|15 Sekunden zurück|15 secondi indietro'),
+  skip_fwd: R('15 saniye ileri|15 seconds forward|15 segundos adelante|15 secondes en avant|15 Sekunden vor|15 secondi avanti'),
+  pause: R('Duraklat|Pause|Pausa|Pause|Pause|Pausa'),
 } as const
