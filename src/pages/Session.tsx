@@ -6,6 +6,7 @@ import { programDay } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { MED_ALIAS, breathById, clarityById, extraById, sleepLabById, storyById, writingById } from '../lib/library'
+import { VoicePlayer } from '../components/VoicePlayer'
 import { MeditationSession } from './MeditationPlay'
 import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
@@ -440,6 +441,9 @@ function ScriptView({
       >
         {speaking ? t('speak_stop') : t('speak')}
       </PrimaryButton>
+      <div className="mt-3">
+        <VoicePlayer />
+      </div>
     </div>
   )
 }

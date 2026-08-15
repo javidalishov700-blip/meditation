@@ -289,8 +289,18 @@ export class AudioEngine {
   id = ''
   kind = ''
   now = { playing: false, label: '', route: '', id: '', kind: '' }
-  private restGain = 0.55
+  private restGain = 0.32
+  private bedLevel = 0.55
   private listeners = new Set<() => void>()
+
+  constructor() {
+    try {
+      const n = Number(localStorage.getItem('steady.bedLevel'))
+      if (Number.isFinite(n)) this.bedLevel = clamp(n, 0, 1)
+    } catch {
+      /* ignore */
+    }
+  }
 
   subscribe(fn: () => void) {
     this.listeners.add(fn)
@@ -313,7 +323,7 @@ export class AudioEngine {
       const Ctor = window.AudioContext || window.webkitAudioContext
       this.ctx = new Ctor()
       this.master = this.ctx.createGain()
-      this.master.gain.value = 0.7
+      this.master.gain.value = 0.32
       this.master.connect(this.ctx.destination)
     }
     if (this.ctx.state === 'suspended') await this.ctx.resume()
@@ -428,7 +438,7 @@ export class AudioEngine {
     window.setTimeout(() => {
       handles.forEach((h) => h())
       if (this.epoch === epoch && this.master && ctx) {
-        this.master.gain.setValueAtTime(this.restGain, ctx.currentTime)
+        this.master.gain.setValueAtTime(this.restGain * this.bedLevel, ctx.currentTime)
       }
     }, fade * 1000 + 40)
   }
@@ -450,13 +460,28 @@ export class AudioEngine {
     const now = this.ctx.currentTime
     this.master.gain.cancelScheduledValues(now)
     this.master.gain.setValueAtTime(0.0001, now)
-    this.fadeMaster(targetGain, fadeIn)
+    this.fadeMaster(targetGain * this.bedLevel, fadeIn)
     this.emit()
   }
 
   duck(on: boolean) {
     if (!this.playing) return
-    this.fadeMaster(on ? 0.14 : this.restGain, 0.2)
+    this.fadeMaster((on ? 0.07 : this.restGain) * this.bedLevel, 0.28)
+  }
+
+  getBedLevel() {
+    return this.bedLevel
+  }
+
+  setBedLevel(n: number) {
+    this.bedLevel = clamp(n, 0, 1)
+    try {
+      localStorage.setItem('steady.bedLevel', String(this.bedLevel))
+    } catch {
+      /* ignore */
+    }
+    if (!this.playing) return
+    this.fadeMaster(this.restGain * this.bedLevel, 0.18)
   }
 
   hushForVoice() {
@@ -479,7 +504,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.05)
     await this.ensure()
-    this.beginPlay('SOS', 0.5, 1.4, { route: '/sos', id: 'sos', kind: 'sos' })
+    this.beginPlay('SOS', 0.32, 1.4, { route: '/sos', id: 'sos', kind: 'sos' })
     this.startSpace(ctx, 0.22)
     this.warmPad(ctx, [87, 174], 0.03)
 
@@ -527,7 +552,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.beginPlay(label, 0.58, 1.8, { route: `/session/tone/${id}`, id, kind: 'tone' })
+    this.beginPlay(label, 0.34, 1.8, { route: `/session/tone/${id}`, id, kind: 'tone' })
     this.startSpace(ctx, 0.4)
     this.warmPad(ctx, [hz / 2, hz, hz * 1.5], 0.045)
 
@@ -630,7 +655,7 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
-    this.beginPlay('Yatak', 0.52, 2.6, { kind: 'pad' })
+    this.beginPlay('Yatak', 0.3, 2.6, { kind: 'pad' })
     this.startSpace(ctx, 0.48)
     this.warmPad(ctx, [110, 164.81, 220, 329.63], 0.05)
     const brown = loopNoise(ctx, 'brown', 6, 2)
@@ -661,7 +686,7 @@ export class AudioEngine {
     this.stop(0.08)
     await this.ensure()
     const scene = NATURE_SCENES.find((s) => s.id === id)
-    this.beginPlay(scene?.title ?? 'Doğa', 0.62, 2, {
+    this.beginPlay(scene?.title ?? 'Doğa', 0.32, 2, {
       route: `/session/nature/${id}`,
       id,
       kind: 'nature',

@@ -1,16 +1,42 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
-import { audio } from '../lib/audio'
+import { audio, sceneName } from '../lib/audio'
 import { locMedPath } from '../lib/copy'
 import { formatMmSs } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { markSession } from '../lib/activity'
 import { completedSteps, markMedStep, pathPercent, stepUnlocked } from '../lib/med-progress'
 import { MED_ALIAS, meditationById, pathMinutes } from '../lib/library'
-import { speak, stopSpeak } from '../lib/speech'
+import { primeAudio, speak, stopSpeak } from '../lib/speech'
+import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
 import { PrimaryButton } from '../components/ui'
+import { VoicePlayer } from '../components/VoicePlayer'
 import type { MedPath, MedStep } from '../lib/types'
+
+const MED_BEDS = [
+  'rain',
+  'ocean',
+  'forest',
+  'night',
+  'fire',
+  'river',
+  'bowl',
+  'drone',
+  'ohm',
+  'waves',
+  'piano',
+  'harp',
+  'swell',
+  'crystal',
+  'brown',
+  'chime',
+] as const
+
+function readBed(fallback: string) {
+  const v = readJson<string | null>('med.bed', null)
+  return v && MED_BEDS.includes(v as (typeof MED_BEDS)[number]) ? v : fallback
+}
 
 export function MeditationSession({ id }: { id: string }) {
   const alias = MED_ALIAS[id]
@@ -73,6 +99,7 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                 disabled={!open}
                 onClick={() => {
                   if (!open) return
+                  void primeAudio()
                   setParams({ step: s.id })
                 }}
                 className={`flex w-full items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-4 text-start ${
@@ -112,12 +139,14 @@ function MeditationPlayer({
   onExit: () => void
   onNext: (stepId: string) => void
 }) {
-  const { t, meta } = useI18n()
+  const { t, meta, locale } = useI18n()
   const total = step.minutes * 60
   const [elapsed, setElapsed] = useState(0)
   const [chrome, setChrome] = useState(false)
   const [ended, setEnded] = useState(false)
   const [hint, setHint] = useState(true)
+  const [bed, setBed] = useState(() => readBed(step.bed))
+  const [bedVol, setBedVol] = useState(() => audio.getBedLevel())
   const started = useRef(0)
   const done = useRef(false)
 
@@ -133,7 +162,7 @@ function MeditationPlayer({
     started.current = Date.now()
     markSession('meditation', path.id)
     const fillMs = total * 1000
-    void audio.playNature(step.bed)
+    void audio.playNature(bed)
     speak(step.body, {
       lang: meta.bcp47,
       mode: 'calm',
@@ -155,10 +184,17 @@ function MeditationPlayer({
       stopSpeak()
       audio.stop(0.4)
     }
-  }, [path.id, step.id, step.bed, step.body, total, meta.bcp47])
+  }, [path.id, step.id, step.body, total, meta.bcp47])
 
   const frac = elapsed / total
   const pct = pathPercent(path, { stepId: step.id, frac })
+
+  async function changeBed(id: string) {
+    writeJson('med.bed', id)
+    setBed(id)
+    await audio.playNature(id)
+    audio.hushForVoice()
+  }
 
   if (ended) {
     const next = path.steps[index + 1]
@@ -179,40 +215,76 @@ function MeditationPlayer({
   }
 
   return (
-    <button
-      type="button"
-      className="fixed inset-0 z-40 cursor-default bg-transparent"
-      onClick={() => setChrome((v) => !v)}
-      aria-label={t('med_tap')}
-    >
-      {chrome ? (
-        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <p className="font-display text-6xl tabular-nums text-white" style={{ opacity: 0.2 }}>
-            {formatMmSs(elapsed)}
-          </p>
-          <p className="mt-6 text-sm tabular-nums text-white" style={{ opacity: 0.2 }}>
-            {t('med_pct', { n: pct })}
-          </p>
-          <div className="pointer-events-auto mt-16">
-            <button
-              type="button"
-              className="text-sm text-white/25"
-              onClick={(e) => {
-                e.stopPropagation()
-                stopSpeak()
-                audio.stop(0.4)
-                onExit()
-              }}
-            >
+    <div className="fixed inset-0 z-40">
+      <button
+        type="button"
+        className="absolute inset-x-0 top-0 cursor-default bg-transparent"
+        style={{ bottom: '13.5rem' }}
+        onClick={() => setChrome((v) => !v)}
+        aria-label={t('med_tap')}
+      >
+        {chrome ? (
+          <div className="flex h-full flex-col items-center justify-center">
+            <p className="font-display text-6xl tabular-nums text-white" style={{ opacity: 0.2 }}>
+              {formatMmSs(elapsed)}
+            </p>
+            <p className="mt-6 text-sm tabular-nums text-white" style={{ opacity: 0.2 }}>
+              {t('med_pct', { n: pct })}
+            </p>
+            <button type="button" className="mt-16 text-sm text-white/25" onClick={onExit}>
               {t('back')}
             </button>
           </div>
+        ) : hint ? (
+          <p className="absolute inset-x-0 top-[42%] text-center text-sm text-white" style={{ opacity: 0.2 }}>
+            {t('med_tap')}
+          </p>
+        ) : null}
+      </button>
+
+      <div
+        className="absolute inset-x-0 bottom-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mx-auto max-w-lg">
+          <p className="mb-2 text-[11px] uppercase tracking-[0.14em] text-white/40">{t('bed_pick')}</p>
+          <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
+            {MED_BEDS.map((id) => {
+              const on = bed === id
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => void changeBed(id)}
+                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${
+                    on ? 'bg-[#7B61FF] text-white' : 'bg-white/8 text-white/70'
+                  }`}
+                >
+                  {sceneName(id, locale)}
+                </button>
+              )
+            })}
+          </div>
+          <label className="mb-3 flex items-center gap-2 text-xs text-white/50">
+            <span className="w-14">{t('vol_bed')}</span>
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={bedVol}
+              onChange={(e) => {
+                const n = Number(e.target.value)
+                setBedVol(n)
+                audio.setBedLevel(n)
+                audio.hushForVoice()
+              }}
+              className="steady-range flex-1"
+            />
+          </label>
+          <VoicePlayer compact />
         </div>
-      ) : hint ? (
-        <p className="absolute inset-x-0 top-[42%] text-center text-sm text-white" style={{ opacity: 0.2 }}>
-          {t('med_tap')}
-        </p>
-      ) : null}
-    </button>
+      </div>
+    </div>
   )
 }

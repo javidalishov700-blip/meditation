@@ -1,45 +1,36 @@
-import { Capacitor } from '@capacitor/core'
 import { audio } from './audio'
 import { readJson, writeJson } from './storage'
 
-let cancelled = false
-let speakGen = 0
-let held: SpeechSynthesisUtterance | null = null
-let voicesCache: SpeechSynthesisVoice[] = []
-let speakingFlag = false
-let keepAliveTimer: number | null = null
-const speakListeners = new Set<() => void>()
-
 export type ReadMode = 'natural' | 'slow' | 'calm'
+export type TtsVoice = 'nova' | 'shimmer'
 
 type SpeakOpts = {
-  rate?: number
-  pitch?: number
   lang?: string
   mode?: ReadMode
+  rate?: number
   fillMs?: number
   onend?: () => void
 }
 
-function resolveLang(lang?: string): string {
-  return lang || document.documentElement.lang || 'tr-TR'
+export type SpeechSnap = {
+  speaking: boolean
+  loading: boolean
+  paused: boolean
+  volume: number
+  error: string | null
+  voice: TtsVoice
 }
 
-function langPrefix(bcp47: string): string {
-  return bcp47.slice(0, 2).toLowerCase()
-}
-
-function voiceKey(bcp47: string) {
-  return `voice.${langPrefix(bcp47)}`
-}
-
-export function readVoiceUri(bcp47: string): string | null {
-  return readJson<string | null>(voiceKey(bcp47), null)
-}
-
-export function writeVoiceUri(bcp47: string, uri: string | null) {
-  writeJson(voiceKey(bcp47), uri)
-}
+let cancelled = false
+let speakGen = 0
+let speakingFlag = false
+let loadingFlag = false
+let pausedFlag = false
+let errorFlag: string | null = null
+let pauseWait: (() => void) | null = null
+let el: HTMLAudioElement | null = null
+const cache = new Map<string, string>()
+const listeners = new Set<() => void>()
 
 export function readReadMode(): ReadMode {
   const v = readJson<string>('readMode', 'calm')
@@ -51,104 +42,103 @@ export function writeReadMode(mode: ReadMode) {
   writeJson('readMode', mode)
 }
 
+export function readTtsVoice(): TtsVoice {
+  return readJson<string>('tts.voice', 'nova') === 'shimmer' ? 'shimmer' : 'nova'
+}
+
+export function writeTtsVoice(voice: TtsVoice) {
+  writeJson('tts.voice', voice)
+  emit()
+}
+
+export function readVoiceVolume() {
+  const n = readJson<number>('tts.volume', 1)
+  return Math.max(0, Math.min(1, n))
+}
+
+export function writeVoiceVolume(n: number) {
+  const v = Math.max(0, Math.min(1, n))
+  writeJson('tts.volume', v)
+  const node = el
+  if (node) node.volume = v
+  emit()
+}
+
 export function isSpeaking() {
   return speakingFlag
 }
 
+export function isLoading() {
+  return loadingFlag
+}
+
+export function speechSnap(): SpeechSnap {
+  return {
+    speaking: speakingFlag,
+    loading: loadingFlag,
+    paused: pausedFlag,
+    volume: readVoiceVolume(),
+    error: errorFlag,
+    voice: readTtsVoice(),
+  }
+}
+
 export function subscribeSpeak(fn: () => void) {
-  speakListeners.add(fn)
+  listeners.add(fn)
   return () => {
-    speakListeners.delete(fn)
+    listeners.delete(fn)
   }
 }
 
-function setSpeaking(on: boolean) {
-  speakingFlag = on
-  speakListeners.forEach((fn) => fn())
+function emit() {
+  listeners.forEach((fn) => fn())
 }
 
-function refreshVoices() {
-  if (Capacitor.isNativePlatform()) return voicesCache
-  const list = window.speechSynthesis?.getVoices?.() ?? []
-  if (list.length) voicesCache = list
-  return voicesCache
+function setFlags(partial: { speaking?: boolean; loading?: boolean; paused?: boolean; error?: string | null }) {
+  if (partial.speaking != null) speakingFlag = partial.speaking
+  if (partial.loading != null) loadingFlag = partial.loading
+  if (partial.paused != null) pausedFlag = partial.paused
+  if (partial.error !== undefined) errorFlag = partial.error
+  emit()
 }
 
-function preferredNames(prefix: string): string[] {
-  if (prefix === 'tr') return ['yelda', 'emel online', 'emel', 'filiz', 'google türkçe', 'google türk']
-  if (prefix === 'es') return ['paulina', 'mónica', 'monica', 'elvira', 'google español', 'conchita']
-  if (prefix === 'fr') return ['amélie', 'amelie', 'audrey', 'denise', 'google français', 'thomas']
-  if (prefix === 'de') return ['anna', 'helena', 'katja', 'google deutsch', 'hedwig']
-  if (prefix === 'it') return ['alice', 'elsa', 'bianca', 'google italiano', 'carla']
-  return [
-    'samantha',
-    'siri',
-    'karen',
-    'moira',
-    'tessa',
-    'serena',
-    'aria',
-    'jenny',
-    'sonia',
-    'google uk english',
-    'google us english',
-  ]
-}
-
-function scoreVoice(v: SpeechSynthesisVoice, bcp47: string): number {
-  const lang = v.lang.replace('_', '-').toLowerCase()
-  const name = v.name.toLowerCase()
-  const want = bcp47.replace('_', '-').toLowerCase()
-  const prefix = langPrefix(bcp47)
-  let s = 0
-  if (lang === want) s += 18
-  else if (lang.startsWith(prefix)) s += 12
-  else return -1
-  if (/siri/.test(name)) s += 26
-  if (/neural|premium|enhanced|wavenet|studio|online \(natural\)|\bnatural\b/.test(name)) s += 22
-  if (/google/.test(name) && !/compact/.test(name)) s += 16
-  if (/microsoft/.test(name) && /online|natural|neural/.test(name)) s += 18
-  if (preferredNames(prefix).some((n) => name.includes(n))) s += 16
-  if (/yelda|samantha|karen|moira|tessa|aria|jenny|alice|anna|amelie|amélie|paulina/.test(name)) s += 8
-  if (v.localService && /siri|yelda|samantha|karen|moira|tessa|alice|anna|amelie/.test(name)) s += 10
-  if (v.default) s += 1
-  if (
-    /compact|eloquence|novelty|whisper|espeak|robot|dummy|mute|zira|david desktop|fred|ralph|trinoids|zarvox|bells|boing|bubbles|cellos|bad news|good news|hysterical|organ|superstar/.test(
-      name,
-    )
-  ) {
-    s -= 30
+function player() {
+  if (!el) {
+    el = new Audio()
+    el.preload = 'auto'
+    el.volume = readVoiceVolume()
   }
-  return s
+  return el
 }
 
-export function listVoices(bcp47: string): SpeechSynthesisVoice[] {
-  const voices = refreshVoices()
-  return voices
-    .map((v) => ({ v, s: scoreVoice(v, bcp47) }))
-    .filter((x) => x.s >= 0)
-    .sort((a, b) => b.s - a.s)
-    .map((x) => x.v)
-}
-
-function pickVoice(bcp47: string): SpeechSynthesisVoice | null {
-  const voices = listVoices(bcp47)
-  if (!voices.length) return null
-  const saved = readVoiceUri(bcp47)
-  if (saved) {
-    const hit = voices.find((v) => v.voiceURI === saved) || voicesCache.find((v) => v.voiceURI === saved)
-    if (hit) return hit
+export async function primeAudio() {
+  const node = player()
+  const prev = node.src
+  try {
+    node.src =
+      'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
+    node.muted = true
+    await node.play()
+  } catch {
+    /* autoplay lock */
   }
-  return voices[0] ?? null
+  node.pause()
+  node.muted = false
+  if (prev) node.src = prev
 }
 
-function humanize(text: string, prefix: string, mode: ReadMode): string {
+function langPrefix(bcp47: string) {
+  return bcp47.slice(0, 2).toLowerCase()
+}
+
+function resolveLang(lang?: string) {
+  return lang || document.documentElement.lang || 'tr-TR'
+}
+
+function humanize(text: string, prefix: string, mode: ReadMode) {
   let out = text.replace(/\r\n/g, '\n')
-  if (mode === 'slow') {
-    out = out.replace(/[·•]/g, ',').replace(/\s*[—–]\s*/g, ', ')
-  } else {
-    out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
-  }
+  if (mode === 'slow') out = out.replace(/[·•]/g, ',').replace(/\s*[—–]\s*/g, ', ')
+  else out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
   if (mode === 'calm') out = out.replace(/!+/g, '.')
   out = out
     .replace(/(\d)-(\d)-(\d)/g, '$1, $2, $3')
@@ -163,19 +153,14 @@ function humanize(text: string, prefix: string, mode: ReadMode): string {
 
 type Phrase = { text: string; pause: number }
 
-function splitLong(text: string, max: number): string[] {
+function splitLong(text: string, max: number) {
   if (text.length <= max) return [text]
   const chunks: string[] = []
   let rest = text.trim()
   while (rest.length > max) {
     const window = rest.slice(0, max)
-    const stop = Math.max(
-      window.lastIndexOf('. '),
-      window.lastIndexOf('? '),
-      window.lastIndexOf('! '),
-      window.lastIndexOf('… '),
-    )
-    const punct = Math.max(stop, window.lastIndexOf(', '), window.lastIndexOf('; '), window.lastIndexOf(': '))
+    const stop = Math.max(window.lastIndexOf('. '), window.lastIndexOf('? '), window.lastIndexOf('! '), window.lastIndexOf('… '))
+    const punct = Math.max(stop, window.lastIndexOf(', '), window.lastIndexOf('; '))
     const space = window.lastIndexOf(' ')
     const cut = stop >= max * 0.35 ? stop + 1 : punct >= max * 0.45 ? punct + 1 : space > 40 ? space : max
     chunks.push(rest.slice(0, cut).trim())
@@ -185,24 +170,22 @@ function splitLong(text: string, max: number): string[] {
   return chunks
 }
 
-function breathHold(sentence: string): number {
+function breathHold(sentence: string) {
   if (/üç nefes|three breaths|tres respir|trois souff|drei atem|tre respir/i.test(sentence)) return 16000
   if (/iki nefes|two breaths|dos respir|deux souff|zwei atem|due respir/i.test(sentence)) return 11000
   if (/bir nefes|one breath|un aliento|un souffle|ein atemzug|un respiro/i.test(sentence)) return 6000
   return 0
 }
 
-function sentencesOf(block: string): string[] {
+function sentencesOf(block: string) {
   return block.split(/(?<=[.!?…])\s+/).filter(Boolean)
 }
 
-function pushBits(out: Phrase[], text: string, max: number, pause: number, inner: number) {
-  splitLong(text, max).forEach((bit, i, arr) => {
-    out.push({ text: bit, pause: i === arr.length - 1 ? pause : inner })
-  })
-}
-
-function phrasesGrouped(clean: string, max: number, paraPause: number, joinPause: number): Phrase[] {
+function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
+  const clean = humanize(text, prefix, mode)
+  if (!clean) return []
+  const max = 1800
+  const paraPause = mode === 'calm' ? 2400 : mode === 'slow' ? 540 : 280
   const blocks = clean
     .split(/\n{2,}/)
     .map((b) => b.replace(/\n/g, ' ').trim())
@@ -213,15 +196,17 @@ function phrasesGrouped(clean: string, max: number, paraPause: number, joinPause
     let buf = ''
     const flush = (pause: number) => {
       if (!buf) return
-      pushBits(out, buf, max, pause, 70)
+      splitLong(buf, max).forEach((bit, i, arr) => {
+        out.push({ text: bit, pause: i === arr.length - 1 ? pause : 80 })
+      })
       buf = ''
     }
     for (let s = 0; s < sentences.length; s++) {
       const sentence = sentences[s]!
       const last = s === sentences.length - 1
-      const hold = breathHold(sentence)
+      const hold = mode === 'calm' ? breathHold(sentence) : 0
       const joined = buf ? `${buf} ${sentence}` : sentence
-      if (buf && joined.length > max) flush(joinPause)
+      if (buf && joined.length > max) flush(420)
       buf = buf ? `${buf} ${sentence}` : sentence
       if (hold) {
         flush(hold)
@@ -233,57 +218,18 @@ function phrasesGrouped(clean: string, max: number, paraPause: number, joinPause
   return out
 }
 
-function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
-  const clean = humanize(text, prefix, mode)
-  if (!clean) return []
-  if (mode === 'calm') return phrasesGrouped(clean, 460, 2600, 220)
-  if (mode === 'natural') return phrasesGrouped(clean, 280, 280, 140)
-  const max = 108
-  const blocks = clean
-    .split(/\n{2,}/)
-    .map((b) => b.replace(/\n/g, ' ').trim())
-    .filter(Boolean)
-  const out: Phrase[] = []
-  for (const block of blocks) {
-    const sentences = sentencesOf(block)
-    for (let s = 0; s < sentences.length; s++) {
-      const sentence = sentences[s]!
-      const last = s === sentences.length - 1
-      const endPause = last ? 540 : 320
-      if (sentence.length > 110 && /,\s/.test(sentence)) {
-        const parts = sentence.split(/,\s+/)
-        parts.forEach((raw, i) => {
-          const piece = raw.trim()
-          if (!piece) return
-          const tail = i === parts.length - 1
-          splitLong(tail ? piece : `${piece},`, max).forEach((bit, j, arr) => {
-            const end = tail && j === arr.length - 1
-            out.push({ text: bit, pause: end ? endPause : 200 })
-          })
-        })
-        continue
-      }
-      pushBits(out, sentence, max, endPause, 170)
-    }
-  }
-  return out
-}
-
-function estimateMs(parts: Phrase[], rate: number): number {
+function estimateMs(parts: Phrase[], rate: number) {
   const cps = Math.max(8, 14 * rate)
   return parts.reduce((n, p) => n + (p.text.length / cps) * 1000 + p.pause, 0)
 }
 
-function stretchTo(parts: Phrase[], targetMs: number, rate: number): Phrase[] {
-  const est = estimateMs(parts, rate)
-  const extra = targetMs - est - 5000
+function stretchTo(parts: Phrase[], targetMs: number, rate: number) {
+  const extra = targetMs - estimateMs(parts, rate) - 5000
   if (extra <= 0 || !parts.length) return parts
   const heavy = parts.map((p, i) => ({ i, p })).filter((x) => x.p.pause >= 800)
   const slots = heavy.length ? heavy : parts.map((p, i) => ({ i, p }))
   const each = extra / slots.length
-  return parts.map((p, i) =>
-    slots.some((s) => s.i === i) ? { ...p, pause: Math.round(p.pause + each) } : p,
-  )
+  return parts.map((p, i) => (slots.some((s) => s.i === i) ? { ...p, pause: Math.round(p.pause + each) } : p))
 }
 
 function wait(ms: number) {
@@ -292,182 +238,165 @@ function wait(ms: number) {
   })
 }
 
-function jitter(base: number, spread: number) {
-  return Math.max(0.72, Math.min(1.08, base + (Math.random() * 2 - 1) * spread))
-}
-
-function nativeVoiceIndex(bcp: string): number | undefined {
-  const voice = pickVoice(bcp)
-  if (!voice || !voicesCache.length) return undefined
-  const i = voicesCache.findIndex((v) => v.voiceURI === voice.voiceURI)
-  return i >= 0 ? i : undefined
-}
-
-async function speakNative(text: string, bcp: string, opts: { rate: number; pitch: number }) {
-  const { TextToSpeech } = await import('@capacitor-community/text-to-speech')
-  await TextToSpeech.speak({
-    text,
-    lang: bcp,
-    rate: opts.rate,
-    pitch: opts.pitch,
-    volume: 1,
-    category: 'playback',
-    queueStrategy: 0,
-    voice: nativeVoiceIndex(bcp),
+async function waitWhilePaused() {
+  if (!pausedFlag) return
+  await new Promise<void>((resolve) => {
+    pauseWait = resolve
   })
 }
 
-async function stopNative() {
-  if (!Capacitor.isNativePlatform()) return
-  try {
-    const { TextToSpeech } = await import('@capacitor-community/text-to-speech')
-    await TextToSpeech.stop()
-  } catch {
-    /* ignore */
+async function fetchClip(text: string, voice: TtsVoice, gen: number) {
+  const key = `${voice}:${text}`
+  const hit = cache.get(key)
+  if (hit) return hit
+  const res = await fetch(ttsUrl(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, voice }),
+  })
+  if (gen !== speakGen) return null
+  if (!res.ok) {
+    let code = 'tts_fail'
+    try {
+      const j = (await res.json()) as { error?: string }
+      if (j.error === 'missing_key') code = 'missing_key'
+    } catch {
+      /* ignore */
+    }
+    throw new Error(code)
   }
+  const blob = await res.blob()
+  const url = URL.createObjectURL(blob)
+  if (cache.size > 48) {
+    const first = cache.keys().next().value
+    if (first) {
+      const old = cache.get(first)
+      if (old) URL.revokeObjectURL(old)
+      cache.delete(first)
+    }
+  }
+  cache.set(key, url)
+  return url
 }
 
-function utter(text: string, bcp: string, opts: { rate: number; pitch: number }) {
-  const u = new SpeechSynthesisUtterance(text)
-  const voice = pickVoice(bcp)
-  if (voice) {
-    u.voice = voice
-    u.lang = voice.lang
-  } else {
-    u.lang = bcp
-  }
-  u.rate = opts.rate
-  u.pitch = opts.pitch
-  u.volume = 1
-  held = u
-  return u
+function ttsUrl() {
+  const base = (import.meta.env.VITE_TTS_URL as string | undefined) || ''
+  return `${base}/api/tts`
 }
 
-function startKeepAlive() {
-  stopKeepAlive()
-  const ua = navigator.userAgent
-  const ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-  if (ios) return
-  keepAliveTimer = window.setInterval(() => {
-    const synth = window.speechSynthesis
-    if (!synth?.speaking) return
-    synth.pause()
-    synth.resume()
-  }, 9000)
-}
-
-function stopKeepAlive() {
-  if (keepAliveTimer != null) {
-    window.clearInterval(keepAliveTimer)
-    keepAliveTimer = null
-  }
+async function playUrl(url: string, gen: number) {
+  const node = player()
+  node.volume = readVoiceVolume()
+  node.src = url
+  await waitWhilePaused()
+  if (cancelled || gen !== speakGen) return
+  await node.play()
+  setFlags({ loading: false, speaking: true, paused: false })
+  await new Promise<void>((resolve, reject) => {
+    const ok = () => {
+      node.removeEventListener('ended', ok)
+      node.removeEventListener('error', bad)
+      resolve()
+    }
+    const bad = () => {
+      node.removeEventListener('ended', ok)
+      node.removeEventListener('error', bad)
+      reject(new Error('play'))
+    }
+    node.addEventListener('ended', ok)
+    node.addEventListener('error', bad)
+  })
 }
 
 export function stopSpeak() {
   cancelled = true
   speakGen += 1
+  pausedFlag = false
+  pauseWait?.()
+  pauseWait = null
   audio.duck(false)
-  const keep = held
-  held = null
-  stopKeepAlive()
-  setSpeaking(false)
-  void stopNative()
-  if (keep || window.speechSynthesis) window.speechSynthesis.cancel()
+  const node = el
+  if (node) {
+    node.pause()
+    node.removeAttribute('src')
+    node.load()
+  }
+  setFlags({ speaking: false, loading: false, paused: false })
 }
 
-export function speak(text: string, opts: SpeakOpts = {}): void {
-  const native = Capacitor.isNativePlatform()
-  if (!native && !window.speechSynthesis) {
-    opts.onend?.()
+export function togglePause() {
+  if (!speakingFlag && !loadingFlag) return
+  const node = player()
+  if (pausedFlag) {
+    pausedFlag = false
+    pauseWait?.()
+    pauseWait = null
+    void node.play()
+    setFlags({ paused: false })
     return
   }
-  cancelled = true
-  speakGen += 1
-  const gen = speakGen
-  cancelled = false
-  held = null
-  stopKeepAlive()
-  if (window.speechSynthesis) window.speechSynthesis.cancel()
+  pausedFlag = true
+  node.pause()
+  setFlags({ paused: true })
+}
 
-  const bcp = resolveLang(opts.lang)
-  const prefix = langPrefix(bcp)
+export function speak(text: string, opts: SpeakOpts = {}) {
+  void runSpeak(text, opts)
+}
+
+async function runSpeak(text: string, opts: SpeakOpts) {
+  stopSpeak()
+  cancelled = false
+  const gen = speakGen
+  const prefix = langPrefix(resolveLang(opts.lang))
   const mode = opts.mode ?? readReadMode()
   let parts = phrases(text, prefix, mode)
   if (!parts.length) {
     opts.onend?.()
     return
   }
-  const baseRate = opts.rate ?? (mode === 'slow' ? 0.88 : mode === 'calm' ? 0.94 : 1)
-  const basePitch = opts.pitch ?? (mode === 'calm' ? 0.99 : 1)
-  if (opts.fillMs) parts = stretchTo(parts, opts.fillMs, baseRate)
+  if (opts.fillMs) parts = stretchTo(parts, opts.fillMs, 0.85)
+  const voice = readTtsVoice()
   const started = Date.now()
-  let i = 0
+  setFlags({ speaking: true, loading: true, paused: false, error: null })
   audio.hushForVoice()
-  setSpeaking(true)
-  if (!native) startKeepAlive()
 
-  const finish = () => {
-    if (gen !== speakGen) return
-    stopKeepAlive()
-    audio.duck(false)
-    setSpeaking(false)
-    opts.onend?.()
-  }
-
-  const next = () => {
-    if (cancelled || gen !== speakGen) return
-    if (i >= parts.length) {
-      const rest = opts.fillMs ? Math.max(0, opts.fillMs - (Date.now() - started)) : 0
-      if (rest > 80) {
-        void wait(rest).then(finish)
-        return
+  try {
+    for (let i = 0; i < parts.length; i++) {
+      if (cancelled || gen !== speakGen) return
+      const part = parts[i]!
+      if (!part.text) {
+        await wait(part.pause)
+        continue
       }
-      finish()
-      return
-    }
-    const part = parts[i]!
-    i += 1
-    if (!part.text) {
-      void wait(part.pause).then(next)
-      return
-    }
-    const live = mode === 'slow'
-    const rate = live ? jitter(baseRate, 0.012) : baseRate
-    const pitch = live ? jitter(basePitch, 0.012) : basePitch
-    const gap = () => (live ? part.pause + Math.floor(Math.random() * 60) : part.pause)
-
-    if (native) {
-      void speakNative(part.text, bcp, { rate, pitch })
-        .then(() => {
-          if (cancelled || gen !== speakGen) return
-          void wait(gap()).then(next)
-        })
-        .catch(() => {
-          if (cancelled || gen !== speakGen) return
-          next()
-        })
-      return
-    }
-
-    refreshVoices()
-    const u = utter(part.text, bcp, { rate, pitch })
-    u.onend = () => {
+      setFlags({ loading: true })
+      const nextText = parts[i + 1]?.text
+      const nextP = nextText ? fetchClip(nextText, voice, gen) : null
+      const url = await fetchClip(part.text, voice, gen)
+      if (!url || cancelled || gen !== speakGen) return
+      setFlags({ loading: false, speaking: true })
+      await playUrl(url, gen)
       if (cancelled || gen !== speakGen) return
-      void wait(gap()).then(next)
+      await nextP
+      await waitWhilePaused()
+      if (part.pause) await wait(part.pause)
     }
-    u.onerror = () => {
-      if (cancelled || gen !== speakGen) return
-      next()
+    if (opts.fillMs) {
+      const rest = Math.max(0, opts.fillMs - (Date.now() - started))
+      if (rest > 80) await wait(rest)
     }
-    window.speechSynthesis.speak(u)
-  }
-
-  void (async () => {
-    await stopNative()
+  } catch (err) {
     if (cancelled || gen !== speakGen) return
-    refreshVoices()
-    next()
-  })()
+    const code = err instanceof Error ? err.message : 'tts_fail'
+    setFlags({ error: code === 'missing_key' ? 'missing_key' : 'tts_fail', loading: false, speaking: false })
+    audio.duck(false)
+    opts.onend?.()
+    return
+  }
+  if (gen !== speakGen) return
+  audio.duck(false)
+  setFlags({ speaking: false, loading: false, paused: false })
+  opts.onend?.()
 }
 
 export function speakCue(text: string, lang?: string) {
@@ -475,16 +404,16 @@ export function speakCue(text: string, lang?: string) {
   const prefix = langPrefix(resolveLang(lang))
   const line = humanize(text, prefix, mode)
   if (!line) return
-  speak(line, { lang, pitch: 1, mode })
+  speak(line, { lang, mode })
 }
 
 export const VOICE_SAMPLE: Record<string, string> = {
-  tr: 'Şimdi yanındayım. Cümleyi bölmeden, yavaş konuşuyorum. Omuzların insin. Nefes burada.',
-  en: 'I am here with you. I speak slowly, without chopping the line. Let the shoulders drop. The breath is here.',
-  es: 'Estoy aquí. Hablo despacio, sin cortar la frase. Deja caer los hombros. El aliento está aquí.',
-  fr: 'Je suis là. Je parle lentement, sans couper la phrase. Laisse descendre les épaules. Le souffle est là.',
-  de: 'Ich bin hier. Ich spreche langsam, ohne den Satz zu zerteilen. Lass die Schultern sinken. Der Atem ist hier.',
-  it: 'Sono qui. Parlo piano, senza spezzare la frase. Lascia scendere le spalle. Il respiro è qui.',
+  tr: 'Şimdi yanındayım. Yavaş konuşuyorum. Omuzların insin. Nefes burada.',
+  en: 'I am here with you. I speak slowly. Let the shoulders drop. The breath is here.',
+  es: 'Estoy aquí. Hablo despacio. Deja caer los hombros. El aliento está aquí.',
+  fr: 'Je suis là. Je parle lentement. Laisse descendre les épaules. Le souffle est là.',
+  de: 'Ich bin hier. Ich spreche langsam. Lass die Schultern sinken. Der Atem ist hier.',
+  it: 'Sono qui. Parlo piano. Lascia scendere le spalle. Il respiro è qui.',
 }
 
 export function sampleLine(bcp47: string) {
@@ -492,19 +421,5 @@ export function sampleLine(bcp47: string) {
 }
 
 export function warmVoices(): Promise<void> {
-  if (Capacitor.isNativePlatform()) {
-    return import('@capacitor-community/text-to-speech')
-      .then(({ TextToSpeech }) => TextToSpeech.getSupportedVoices())
-      .then(({ voices }) => {
-        if (voices?.length) voicesCache = voices
-      })
-      .catch(() => undefined)
-  }
-  const synth = window.speechSynthesis
-  if (!synth) return Promise.resolve()
-  refreshVoices()
-  synth.addEventListener?.('voiceschanged', () => {
-    refreshVoices()
-  })
   return Promise.resolve()
 }

@@ -625,6 +625,28 @@ html.light a.bg-\[\#7B61FF\] {
   color: #fff !important;
 }
 
+.steady-range {
+  appearance: none;
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255, 241, 245, 0.18);
+}
+.steady-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f472b6;
+  border: 0;
+}
+.steady-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f472b6;
+  border: 0;
+}
+
 .splash {
   position: fixed;
   inset: 0;

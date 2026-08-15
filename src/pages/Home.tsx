@@ -10,7 +10,7 @@ import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 import { MOOD_KEYS, readMood, type MoodId } from '../lib/mood'
 import { quotes } from '../lib/quotes'
-import { isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
+import { isLoading, isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
 
 function readDim() {
   try {
@@ -39,7 +39,7 @@ export function Home() {
   const [favOpen, setFavOpen] = useState(false)
   const [mood, setMood] = useState<MoodId | null>(() => readMood())
   const [dim, setDim] = useState(() => readDim())
-  const [reading, setReading] = useState(() => isSpeaking())
+  const [reading, setReading] = useState(() => isSpeaking() || isLoading())
   const stats = activityStats()
 
   const start = Math.floor(Date.now() / 86_400_000) % quotes.length
@@ -50,7 +50,7 @@ export function Home() {
     return () => window.clearInterval(id)
   }, [slides.length])
 
-  useEffect(() => subscribeSpeak(() => setReading(isSpeaking())), [])
+  useEffect(() => subscribeSpeak(() => setReading(isSpeaking() || isLoading())), [])
 
   const ms = trialEndsAt - Date.now()
   const trialLine =
@@ -149,7 +149,7 @@ export function Home() {
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
                     <path d="M4 9v6h4l5 4V5L8 9H4Zm13.5 3a5.5 5.5 0 0 0-3-4.9v9.8a5.5 5.5 0 0 0 3-4.9Z" />
                   </svg>
-                  {reading ? t('speak_stop') : t('listen')}
+                  {reading ? (isLoading() ? t('voice_loading') : t('speak_stop')) : t('listen')}
                 </button>
                 <Link
                   to="/quotes"

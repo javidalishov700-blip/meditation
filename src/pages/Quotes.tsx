@@ -5,15 +5,15 @@ import { audio } from '../lib/audio'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
 import { quotes, type Quote } from '../lib/quotes'
-import { isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
+import { isLoading, isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
 
 export function Quotes() {
   const { t, locale, meta } = useI18n()
   const navigate = useNavigate()
   const [open, setOpen] = useState<Quote | null>(null)
-  const [reading, setReading] = useState(() => isSpeaking())
+  const [reading, setReading] = useState(() => isSpeaking() || isLoading())
   const pro = isPro()
-  useEffect(() => subscribeSpeak(() => setReading(isSpeaking())), [])
+  useEffect(() => subscribeSpeak(() => setReading(isSpeaking() || isLoading())), [])
 
   return (
     <div className="pb-8">
@@ -72,7 +72,7 @@ export function Quotes() {
                 speak(open.text[locale], { lang: meta.bcp47 })
               }}
             >
-              {reading ? t('speak_stop') : t('quotes_listen')}
+              {reading ? (isLoading() ? t('voice_loading') : t('speak_stop')) : t('quotes_listen')}
             </PrimaryButton>
             <GhostButton
               className="w-full"
