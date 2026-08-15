@@ -1,6 +1,6 @@
 import { localeMeta, type LocaleId } from './locales'
 import { readPassed } from './passed'
-import { readJson, writeJson } from './storage'
+import { readJson, readStringList, writeJson } from './storage'
 
 export type ActivityStats = {
   totalMinutes: number
@@ -29,15 +29,15 @@ export function weekKey(now = Date.now()): string {
 }
 
 export function readSessionDays(): string[] {
-  return readJson<string[]>('sessionDays', [])
+  return readStringList('sessionDays')
 }
 
 export function readSessionKinds(): string[] {
-  return readJson<string[]>('sessionKinds', [])
+  return readStringList('sessionKinds')
 }
 
 export function readSessionIds(): string[] {
-  return readJson<string[]>('sessionIds', [])
+  return readStringList('sessionIds')
 }
 
 export function markSession(kind: string, id?: string, now = Date.now()) {
@@ -55,7 +55,14 @@ export function markSession(kind: string, id?: string, now = Date.now()) {
 type FreezeState = { week: string; used: number; days: string[] }
 
 function readFreeze(): FreezeState {
-  return readJson<FreezeState>('freeze', { week: '', used: 0, days: [] })
+  const v = readJson<unknown>('freeze', null)
+  if (!v || typeof v !== 'object') return { week: '', used: 0, days: [] }
+  const o = v as Record<string, unknown>
+  return {
+    week: typeof o.week === 'string' ? o.week : '',
+    used: typeof o.used === 'number' ? o.used : 0,
+    days: Array.isArray(o.days) ? o.days.filter((x): x is string => typeof x === 'string') : [],
+  }
 }
 
 export function freezeDays(now = Date.now()): string[] {
@@ -114,9 +121,13 @@ export function activityStats(now = Date.now()): ActivityStats {
   let current = 0
   let cursor = dayKey(now)
   if (!days.has(cursor)) cursor = addDays(cursor, -1)
-  while (days.has(cursor)) {
+  let guard = 0
+  while (days.has(cursor) && guard < 400) {
     current += 1
-    cursor = addDays(cursor, -1)
+    guard += 1
+    const next = addDays(cursor, -1)
+    if (next === cursor) break
+    cursor = next
   }
 
   return { totalMinutes, activeDays: days.size, currentStreak: current, longestStreak: longest, days }

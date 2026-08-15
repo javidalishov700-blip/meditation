@@ -307,8 +307,8 @@ export function interpolate(template: string, vars: Record<string, string | numb
 }
 
 export function translate(key: StringKey, locale: LocaleId, vars?: Record<string, string | number>): string {
-  const table = RAW[key]
-  const text = table[locale] || table.en || table.tr
+  const table = RAW[key] as Record<string, string> | undefined
+  const text = table?.[locale] || table?.en || table?.tr || ''
   return vars ? interpolate(text, vars) : text
 }
 

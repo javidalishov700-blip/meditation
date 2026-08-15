@@ -1,10 +1,10 @@
-import { readJson, writeJson } from './storage'
+import { readRecordList, writeJson } from './storage'
 import type { PassedRecord } from './types'
 
 const KEY = 'passed'
 
 export function readPassed(): PassedRecord[] {
-  return readJson<PassedRecord[]>(KEY, [])
+  return readRecordList<PassedRecord>(KEY)
 }
 
 export function addPassed(record: PassedRecord) {

@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import { BottomNav } from './BottomNav'
-import { ErrorBoundary } from './ErrorBoundary'
 import { NowPlayingBar, useNowPlaying } from './NowPlaying'
 import { PremiumBanner } from './Sheets'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -24,9 +23,7 @@ export function Layout() {
   return (
     <>
       <div className={`relative safe-top mx-auto min-h-dvh max-w-lg px-5 ${pad} ${room ? 'z-[120]' : 'z-10'}`}>
-        <ErrorBoundary>
-          <Outlet />
-        </ErrorBoundary>
+        <Outlet />
       </div>
       {room ? null : (
         <>

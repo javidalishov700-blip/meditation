@@ -39,23 +39,27 @@ export const SKILLS: Skill[] = [
 ]
 
 export function skillUnlocked(id: SkillId): boolean {
-  const stats = activityStats()
-  const kinds = new Set(readSessionKinds())
-  const ids = new Set(readSessionIds())
-  const moods = readMoodHistory()
-  const sos = readPassed().length
+  try {
+    const stats = activityStats()
+    const kinds = new Set(readSessionKinds())
+    const ids = new Set(readSessionIds())
+    const moods = readMoodHistory()
+    const sos = readPassed().length
 
-  if (id === 'wellbeing') return stats.activeDays >= 1 || moods.length >= 1
-  if (id === 'performance') return stats.activeDays >= 3
-  if (id === 'focus') return kinds.has('nature') || kinds.has('tone')
-  if (id === 'sleep') return kinds.has('story') || kinds.has('sleeplab') || ids.has('night')
-  if (id === 'breath') return kinds.has('breath')
-  if (id === 'ground') return kinds.has('extra') || sos >= 1 || ids.has('three-objects')
-  if (id === 'kindness') return ids.has('kind-friend')
-  if (id === 'patience') return stats.currentStreak >= 3 || stats.longestStreak >= 3
-  if (id === 'presence') return new Set(moods.map((m) => m.day)).size >= 3
-  if (id === 'body') return kinds.has('meditation')
-  if (id === 'night') return kinds.has('story') || kinds.has('sleeplab') || ids.has('night') || ids.has('seed-only')
-  if (id === 'courage') return sos >= 1
-  return false
+    if (id === 'wellbeing') return stats.activeDays >= 1 || moods.length >= 1
+    if (id === 'performance') return stats.activeDays >= 3
+    if (id === 'focus') return kinds.has('nature') || kinds.has('tone')
+    if (id === 'sleep') return kinds.has('story') || kinds.has('sleeplab') || ids.has('night')
+    if (id === 'breath') return kinds.has('breath')
+    if (id === 'ground') return kinds.has('extra') || sos >= 1 || ids.has('three-objects')
+    if (id === 'kindness') return ids.has('kind-friend')
+    if (id === 'patience') return stats.currentStreak >= 3 || stats.longestStreak >= 3
+    if (id === 'presence') return new Set(moods.map((m) => m.day).filter(Boolean)).size >= 3
+    if (id === 'body') return kinds.has('meditation')
+    if (id === 'night') return kinds.has('story') || kinds.has('sleeplab') || ids.has('night') || ids.has('seed-only')
+    if (id === 'courage') return sos >= 1
+    return false
+  } catch {
+    return false
+  }
 }

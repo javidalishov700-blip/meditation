@@ -1,4 +1,4 @@
-import { readJson, writeJson } from './storage'
+import { readJson, readRecordList, writeJson } from './storage'
 import type { StringKey } from './strings'
 
 export const MOODS = ['calm', 'tense', 'sleepless', 'wave', 'distant'] as const
@@ -25,7 +25,7 @@ export function readMood(): MoodId | null {
 }
 
 export function readMoodHistory(): MoodEntry[] {
-  return readJson<MoodEntry[]>('moodHistory', [])
+  return readRecordList<MoodEntry>('moodHistory')
 }
 
 export function writeMood(id: MoodId | null) {
