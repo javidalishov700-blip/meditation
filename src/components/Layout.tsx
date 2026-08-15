@@ -23,7 +23,7 @@ export function Layout() {
   return (
     <>
       <div className={`relative z-10 safe-top mx-auto min-h-dvh max-w-lg px-5 ${pad}`}>
-        <div key={pathname} className="page-enter">
+        <div key={pathname} className={room ? undefined : 'page-enter'}>
           <Outlet />
         </div>
       </div>

@@ -612,9 +612,18 @@ html.light .cover-card .text-white\/80,
 html.light .cover-card .text-white\/95,
 html.light .keep-dark,
 html.light .keep-dark .text-white,
+html.light .keep-dark .text-white\/30,
+html.light .keep-dark .text-white\/40,
+html.light .keep-dark .text-white\/45,
+html.light .keep-dark .text-white\/50,
 html.light .keep-dark .text-white\/60,
+html.light .keep-dark .text-white\/70,
 html.light .keep-dark .text-white\/80,
-html.light .keep-dark .text-white\/95 {
+html.light .keep-dark .text-white\/85,
+html.light .keep-dark .text-white\/90,
+html.light .keep-dark .text-white\/95,
+html.light .session-stage,
+html.light .session-stage [class*='text-white'] {
   color: #fff !important;
 }
 
@@ -744,79 +753,76 @@ html.light a.bg-\[\#7B61FF\] {
   }
 }
 
+.session-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow: hidden;
+  background: #12081c;
+  color: #fff1f5;
+}
+
 .calm-field {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  background: #050308;
+  background: #160a24;
 }
 
 .calm-wash {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(70% 50% at 50% 42%, rgba(123, 97, 255, 0.22), transparent 58%),
-    radial-gradient(50% 40% at 50% 78%, rgba(244, 114, 182, 0.1), transparent 62%),
-    linear-gradient(180deg, #0a0612 0%, #050308 55%, #020104 100%);
+    radial-gradient(90% 70% at 50% 38%, rgba(167, 139, 250, 0.55), transparent 58%),
+    radial-gradient(70% 50% at 18% 78%, rgba(244, 114, 182, 0.28), transparent 55%),
+    radial-gradient(60% 45% at 88% 22%, rgba(125, 211, 252, 0.18), transparent 50%),
+    linear-gradient(180deg, #2a1450 0%, #160a24 48%, #0b0612 100%);
 }
 
-.calm-blob {
+.calm-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(64px);
-  will-change: transform;
-}
-
-.calm-a {
-  width: 22rem;
-  height: 22rem;
-  left: 50%;
-  top: 18%;
-  margin-left: -11rem;
-  background: rgba(167, 139, 250, 0.32);
   animation: calm-drift 18s ease-in-out infinite;
 }
 
+.calm-a {
+  width: 14rem;
+  height: 14rem;
+  left: 50%;
+  top: 22%;
+  margin-left: -7rem;
+  background: rgba(196, 181, 253, 0.55);
+  box-shadow: 0 0 90px 50px rgba(167, 139, 250, 0.45);
+}
+
 .calm-b {
-  width: 16rem;
-  height: 16rem;
-  left: 8%;
-  bottom: 22%;
-  background: rgba(244, 114, 182, 0.16);
-  animation: calm-drift 24s ease-in-out infinite reverse;
+  width: 10rem;
+  height: 10rem;
+  left: 6%;
+  bottom: 18%;
+  background: rgba(244, 114, 182, 0.4);
+  box-shadow: 0 0 70px 36px rgba(244, 114, 182, 0.28);
+  animation-duration: 24s;
+  animation-direction: reverse;
 }
 
 .calm-c {
-  width: 18rem;
-  height: 18rem;
-  right: 4%;
-  top: 28%;
-  background: rgba(56, 189, 248, 0.1);
-  animation: calm-drift 28s ease-in-out infinite;
-}
-
-.calm-motes {
-  position: absolute;
-  inset: -40% 0 0;
-  opacity: 0.45;
-  background-image:
-    radial-gradient(1.2px 1.2px at 12% 80%, rgba(255, 255, 255, 0.45), transparent),
-    radial-gradient(1px 1px at 28% 64%, rgba(255, 255, 255, 0.28), transparent),
-    radial-gradient(1.4px 1.4px at 46% 88%, rgba(221, 214, 254, 0.4), transparent),
-    radial-gradient(1px 1px at 62% 70%, rgba(255, 255, 255, 0.22), transparent),
-    radial-gradient(1.2px 1.2px at 78% 92%, rgba(244, 114, 182, 0.35), transparent),
-    radial-gradient(1px 1px at 88% 58%, rgba(255, 255, 255, 0.2), transparent),
-    radial-gradient(1.3px 1.3px at 18% 48%, rgba(196, 181, 253, 0.32), transparent);
-  animation: calm-rise 22s linear infinite;
+  width: 9rem;
+  height: 9rem;
+  right: 8%;
+  top: 18%;
+  background: rgba(125, 211, 252, 0.28);
+  box-shadow: 0 0 64px 32px rgba(56, 189, 248, 0.2);
+  animation-duration: 28s;
 }
 
 .calm-core {
   position: absolute;
   left: 50%;
-  top: 42%;
-  width: 11.5rem;
-  height: 11.5rem;
+  top: 38%;
+  width: 12rem;
+  height: 12rem;
   transform: translate(-50%, -50%);
 }
 
@@ -824,34 +830,33 @@ html.light a.bg-\[\#7B61FF\] {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(221, 214, 254, 0.18);
+  border: 1.5px solid rgba(233, 213, 255, 0.35);
   animation: calm-breathe 8.4s ease-in-out infinite;
 }
 
 .calm-r1 {
-  inset: -12%;
+  inset: -10%;
 }
 
 .calm-r2 {
-  inset: -28%;
+  inset: -26%;
   animation-delay: -2.8s;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 .calm-r3 {
-  inset: -46%;
+  inset: -42%;
   animation-delay: -5.2s;
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 .calm-orb {
   position: absolute;
-  inset: 18%;
+  inset: 16%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 38% 32%, rgba(255, 241, 245, 0.55), transparent 42%),
-    radial-gradient(circle at 50% 50%, rgba(196, 181, 253, 0.95), rgba(76, 29, 149, 0.9) 62%, #1e1033);
-  box-shadow: 0 0 48px rgba(167, 139, 250, 0.35);
+    radial-gradient(circle at 36% 30%, #fff 0%, rgba(233, 213, 255, 0.9) 22%, #c4b5fd 48%, #6d28d9 78%, #2e1065 100%);
+  box-shadow: 0 0 56px 12px rgba(196, 181, 253, 0.55);
   animation: calm-breathe 8.4s ease-in-out infinite;
 }
 
@@ -859,19 +864,8 @@ html.light a.bg-\[\#7B61FF\] {
   position: absolute;
   inset: -8%;
   border-radius: 50%;
-  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-  opacity: 0.7;
-}
-
-.calm-horizon {
-  position: absolute;
-  left: -10%;
-  right: -10%;
-  bottom: -18%;
-  height: 42%;
-  border-radius: 50%;
-  background: radial-gradient(50% 60% at 50% 0%, rgba(123, 97, 255, 0.16), transparent 70%);
-  filter: blur(8px);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  opacity: 0.9;
 }
 
 @keyframes calm-drift {
@@ -880,33 +874,21 @@ html.light a.bg-\[\#7B61FF\] {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(6%, 8%, 0) scale(1.1);
+    transform: translate3d(5%, 7%, 0) scale(1.08);
   }
 }
 
 @keyframes calm-breathe {
   0%,
   100% {
-    transform: scale(0.92);
-    opacity: 0.82;
+    transform: scale(0.94);
   }
   45% {
-    transform: scale(1.06);
-    opacity: 1;
+    transform: scale(1.05);
   }
 }
 
-@keyframes calm-rise {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-28%);
-  }
-}
-
-.calm-field.is-paused .calm-blob,
-.calm-field.is-paused .calm-motes,
+.calm-field.is-paused .calm-glow,
 .calm-field.is-paused .calm-ring,
 .calm-field.is-paused .calm-orb {
   animation-play-state: paused;
@@ -920,8 +902,7 @@ html.light a.bg-\[\#7B61FF\] {
   .splash-mark,
   .splash-name,
   .splash-tag,
-  .calm-blob,
-  .calm-motes,
+  .calm-glow,
   .calm-ring,
   .calm-orb {
     animation: none !important;

@@ -8,6 +8,7 @@ import { useEntitlement } from '../lib/entitlement-store'
 import { MED_ALIAS, breathById, clarityById, extraById, sleepLabById, storyById, writingById } from '../lib/library'
 import { VoicePlayer, useSpeech } from '../components/VoicePlayer'
 import { CalmField } from '../components/CalmField'
+import { SessionStage } from '../components/SessionStage'
 import { MeditationSession } from './MeditationPlay'
 import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
@@ -378,11 +379,11 @@ function ScriptView({
   if (listening) {
     const frac = snap.durationMs ? snap.elapsedMs / snap.durationMs : 0
     return (
-      <div className="fixed inset-0 z-40 keep-dark bg-black">
+      <SessionStage>
         <CalmField paused={snap.paused} progress={frac} />
         <button
           type="button"
-          className="absolute left-4 z-20 rounded-full bg-black/35 px-3 py-1.5 text-sm text-white/80"
+          className="absolute left-4 z-20 rounded-full bg-white/15 px-3.5 py-1.5 text-sm text-white"
           style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
           onClick={() => {
             stopSpeak()
@@ -392,11 +393,11 @@ function ScriptView({
         >
           {t('back')}
         </button>
-        <div className="relative z-10 flex min-h-dvh flex-col justify-end px-5 pb-[max(1.2rem,env(safe-area-inset-bottom))]">
-          <h1 className="mb-4 text-center font-display text-2xl text-white/85">{title}</h1>
+        <div className="relative z-10 flex min-h-dvh flex-col justify-end bg-gradient-to-t from-[#0b0612] via-[#0b0612]/70 to-transparent px-5 pb-[max(1.2rem,env(safe-area-inset-bottom))] pt-24">
+          <h1 className="mb-4 text-center font-display text-2xl text-white">{title}</h1>
           <VoicePlayer />
         </div>
-      </div>
+      </SessionStage>
     )
   }
 

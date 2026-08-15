@@ -12,6 +12,7 @@ import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
 import { PrimaryButton } from '../components/ui'
 import { CalmField } from '../components/CalmField'
+import { SessionStage } from '../components/SessionStage'
 import { useSpeech } from '../components/VoicePlayer'
 import type { MedPath, MedStep } from '../lib/types'
 
@@ -251,7 +252,7 @@ function MeditationPlayer({
   if (ended) {
     const next = path.steps[index + 1]
     return (
-      <div className="fixed inset-0 z-40 keep-dark bg-black">
+      <SessionStage>
         <CalmField paused progress={1} />
         <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 text-center">
           <p className="font-display text-4xl text-white/80">{t('med_done')}</p>
@@ -265,27 +266,33 @@ function MeditationPlayer({
             {t('back')}
           </button>
         </div>
-      </div>
+      </SessionStage>
     )
   }
 
   return (
-    <div className="fixed inset-0 z-40 keep-dark bg-black">
+    <SessionStage>
       <CalmField paused={snap.paused} progress={frac} />
 
       <button
         type="button"
-        className="absolute left-4 z-20 rounded-full bg-black/35 px-3 py-1.5 text-sm text-white/80"
+        className="absolute left-4 z-20 rounded-full bg-white/15 px-3.5 py-1.5 text-sm text-white"
         style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
         onClick={onExit}
       >
         {t('back')}
       </button>
+      <p
+        className="pointer-events-none absolute inset-x-16 z-20 truncate text-center text-sm text-white/80"
+        style={{ top: 'max(1.15rem, calc(env(safe-area-inset-top) + 0.35rem))' }}
+      >
+        {step.title}
+      </p>
 
       <button
         type="button"
         className="absolute left-1/2 z-20 flex h-44 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
-        style={{ top: '42%' }}
+        style={{ top: '38%' }}
         onClick={() => toggleOrResume()}
         aria-label={snap.paused ? t('play') : t('pause')}
       >
@@ -298,7 +305,7 @@ function MeditationPlayer({
         ) : null}
       </button>
 
-      <div className="absolute inset-x-0 bottom-0 z-20 px-5 pb-[max(1.1rem,env(safe-area-inset-bottom))] pt-2">
+      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#0b0612] via-[#0b0612]/85 to-transparent px-5 pb-[max(1.1rem,env(safe-area-inset-bottom))] pt-16">
         <div className="mx-auto max-w-lg">
           <div className="flex items-end justify-between text-sm tabular-nums text-white/70">
             <span>{formatMmSs(elapsed)}</span>
@@ -419,7 +426,7 @@ function MeditationPlayer({
           <p className="mt-2 text-center text-[11px] text-white/30">{t('med_pct', { n: pct })}</p>
         </div>
       </div>
-    </div>
+    </SessionStage>
   )
 }
 
