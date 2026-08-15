@@ -20,6 +20,7 @@ import { Paywall } from './pages/Paywall'
 import { Me } from './pages/Me'
 import { Session } from './pages/Session'
 import { Onboard } from './pages/Onboard'
+import { applyTheme, readTheme } from './lib/theme'
 
 function RoutesTree() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
     } catch {
       /* ignore */
     }
+    applyTheme(readTheme())
   }, [])
   return (
     <I18nProvider>

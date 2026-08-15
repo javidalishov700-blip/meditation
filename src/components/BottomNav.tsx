@@ -74,7 +74,7 @@ export function BottomNav() {
     { to: '/me', tab: 'me' as const, label: t('nav_me'), icon: MeIcon },
   ]
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.05] bg-black/82 pb-[env(safe-area-inset-bottom)] backdrop-blur-2xl">
+    <nav className="bottom-nav fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.05] bg-black/82 pb-[env(safe-area-inset-bottom)] backdrop-blur-2xl">
       <div className="mx-auto grid max-w-lg grid-cols-5 px-2 pt-1.5">
         {items.map((item) => {
           const active = tabActive(pathname, item.tab)

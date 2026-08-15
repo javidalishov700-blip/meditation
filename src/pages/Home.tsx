@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CoverCard, Rail } from '../components/CoverCard'
 import { CircleIconBtn, FavSheet, LangSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
-import { HERO_COVERS, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
+import { MoodHistory } from '../components/MoodHistory'
+import { Presence } from '../components/Presence'
+import { BREATH_RAIL_IDS, HERO_COVERS, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
 import { activityStats } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
@@ -60,6 +62,7 @@ export function Home() {
 
   const now = itemsById(nowIds(mood, new Date().getHours()))
   const sounds = itemsById([...SOUND_RAIL_IDS])
+  const breaths = itemsById([...BREATH_RAIL_IDS])
 
   return (
     <div className="pb-6">
@@ -115,7 +118,7 @@ export function Home() {
         </div>
       </header>
 
-      <section className="relative mt-5 overflow-hidden rounded-[1.6rem]">
+      <section className="relative mt-5 overflow-hidden rounded-[1.6rem] keep-dark">
         {slides.map((line, i) => (
           <div
             key={line.id}
@@ -229,6 +232,23 @@ export function Home() {
         ))}
       </Rail>
 
+      <MoodHistory />
+
+      <Rail title={t('breath_rail')} toAll="/practice">
+        {breaths.map((item, i) => (
+          <CoverCard
+            key={item.id}
+            to={hrefFor(item)}
+            cover={item.cover}
+            title={itemTitle(item, locale)}
+            minutes={item.minutes}
+            badge={item.badge}
+            locked={hrefFor(item) === '/paywall'}
+            kenDelay={i * 0.8}
+          />
+        ))}
+      </Rail>
+
       <Rail title={t('nav_sounds')} toAll="/sounds">
         {sounds.map((item, i) => (
           <CoverCard
@@ -243,6 +263,8 @@ export function Home() {
           />
         ))}
       </Rail>
+
+      <Presence />
 
       <SearchSheet open={search} onClose={() => setSearch(false)} />
       <MoodSheet open={moodOpen} onClose={() => setMoodOpen(false)} onPick={setMood} />

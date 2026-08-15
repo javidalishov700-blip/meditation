@@ -16,6 +16,7 @@ import {
 } from '../lib/library'
 import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
+import { markSession } from '../lib/activity'
 import { readJson, writeJson } from '../lib/storage'
 import type { BreathPattern, LibraryItem, ProgramDay, SessionKind } from '../lib/types'
 import { Card, FoldList, PrimaryButton } from '../components/ui'
@@ -117,6 +118,7 @@ function ToneSession({ id }: { id: string }) {
                   return
                 }
                 await audio.playTone(tone.hz, tone.title, tone.id)
+                markSession('tone', tone.id)
                 setOn(true)
               }}
               className="halo-wrap mt-12 h-44 w-44"
@@ -167,6 +169,7 @@ function NatureSession({ id }: { id: string }) {
             }
             setDone(false)
             await audio.playNature(scene.id)
+            markSession('nature', scene.id)
             audio.setTimer(minutes, () => {
               setOn(false)
               setDone(true)
@@ -293,6 +296,7 @@ function BreathSession({ id }: { id: string }) {
             }
             running.current = true
             setOn(true)
+            markSession('breath', id)
             void loop(b)
           }}
         >
@@ -307,7 +311,7 @@ function ProgramSession({ id, day }: { id: string; day: number }) {
   const { locale } = useI18n()
   const raw = programDay(id, day)
   if (!raw) return <Navigate to="/treat" replace />
-  return <ScriptView item={locDay(id, raw, locale)} />
+  return <ScriptView item={locDay(id, raw, locale)} kind="program" sid={id} />
 }
 
 function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
@@ -323,13 +327,17 @@ function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
     return raw ? locLibrary(raw, locale) : undefined
   }, [kind, id, locale])
   if (!item) return <Navigate to="/" replace />
-  return <ScriptView item={item} />
+  return <ScriptView item={item} kind={kind} sid={id} />
 }
 
 function ScriptView({
   item,
+  kind,
+  sid,
 }: {
   item: LibraryItem | ProgramDay
+  kind?: string
+  sid?: string
 }) {
   const { t, meta } = useI18n()
   const [speaking, setSpeaking] = useState(false)
@@ -428,6 +436,7 @@ function ScriptView({
             return
           }
           setSpeaking(true)
+          markSession(kind || 'session', sid)
           speak(script, { onend: () => setSpeaking(false), lang: meta.bcp47 })
         }}
       >

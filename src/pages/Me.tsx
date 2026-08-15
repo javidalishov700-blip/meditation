@@ -3,17 +3,24 @@ import { Link } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
 import { VoicePicker } from '../components/VoicePicker'
 import { Card, GhostButton, LegalNote } from '../components/ui'
-import { activityStats, monthTitle, weekdayLetters } from '../lib/activity'
+import { MoodHistory } from '../components/MoodHistory'
+import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, monthTitle, weekdayLetters } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatClock, formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { resetOnboard } from '../lib/onboard'
 import { readPassed } from '../lib/passed'
+import { SKILLS, skillUnlocked } from '../lib/skills'
+import { readTheme, writeTheme, type ThemeId } from '../lib/theme'
 
 export function Me() {
   const { t, locale } = useI18n()
   const { pro, demo, trial, trialEndsAt, lockDemo } = useEntitlement()
   const [settings, setSettings] = useState(false)
+  const [theme, setTheme] = useState<ThemeId>(() => readTheme())
+  const [left, setLeft] = useState(() => freezeLeft())
+  const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
+  const [froze, setFroze] = useState(false)
   const history = readPassed()
   const stats = activityStats()
   const now = new Date()
@@ -61,6 +68,36 @@ export function Me() {
         </span>
       </div>
 
+      <Card className="mt-6 overflow-hidden !p-0">
+        <img src="/covers/cover-freeze.png" alt="" className="h-36 w-full object-cover keep-dark" />
+        <div className="p-5">
+          <p className="text-xs uppercase tracking-[0.12em] text-mute">{t('freeze_title')}</p>
+          <p className="mt-1 text-lg font-semibold">{t('freeze_left', { n: left })}</p>
+          {froze ? <p className="mt-2 text-sm text-mute">{t('freeze_ok')}</p> : null}
+          {canFreeze ? (
+            <GhostButton
+              className="mt-4"
+              onClick={() => {
+                if (!applyFreeze()) return
+                setLeft(freezeLeft())
+                setCanFreeze(canApplyFreeze())
+                setFroze(true)
+              }}
+            >
+              {t('freeze_use')}
+            </GhostButton>
+          ) : left <= 0 ? (
+            <p className="mt-2 text-sm text-mute">{t('freeze_used')}</p>
+          ) : null}
+        </div>
+      </Card>
+
+      {!pro ? (
+        <Link to="/paywall" className="mt-3 block overflow-hidden rounded-[1.35rem] surface">
+          <p className="px-5 py-4 text-sm font-medium leading-6">{t('premium_banner')}</p>
+        </Link>
+      ) : null}
+
       <Card className="mt-6">
         <div className="flex items-start justify-between">
           <div>
@@ -105,7 +142,25 @@ export function Me() {
         </div>
       </Card>
 
-      <Card className="mt-3">
+      <MoodHistory />
+
+      <section className="mt-8">
+        <h2 className="text-[1.35rem] font-semibold tracking-tight">{t('skills_title')}</h2>
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          {SKILLS.map((s) => {
+            const on = skillUnlocked(s.id)
+            return (
+              <div key={s.id} className={`surface overflow-hidden rounded-[1.2rem] p-2 text-center ${on ? '' : 'opacity-55'}`}>
+                <img src={s.image} alt="" className={`mx-auto h-16 w-16 rounded-full object-cover ${on ? '' : 'grayscale'}`} />
+                <p className="mt-2 text-[11px] font-medium leading-tight">{t(s.key)}</p>
+                {on ? null : <p className="mt-1 text-[9px] leading-4 text-mute">{t('skill_locked')}</p>}
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      <Card className="mt-6">
         <p className="font-medium capitalize">{monthTitle(year, month, locale)}</p>
         <div className="mt-3 grid grid-cols-7 gap-1 text-center text-[11px] text-white/35">
           {letters.map((d, i) => (
@@ -145,6 +200,24 @@ export function Me() {
 
       {settings ? (
         <>
+          <Card className="mt-3">
+            <p className="text-xs text-white/40">{t('theme')}</p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {(['dark', 'light'] as const).map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => {
+                    writeTheme(id)
+                    setTheme(id)
+                  }}
+                  className={`rounded-2xl px-3 py-3 text-sm ${theme === id ? 'bg-[#7B61FF] text-white' : 'bg-white/8'}`}
+                >
+                  {id === 'dark' ? t('theme_dark') : t('theme_light')}
+                </button>
+              ))}
+            </div>
+          </Card>
           <Card className="mt-3">
             <p className="text-xs text-white/40">{t('me_tier')}</p>
             <p className="mt-1 text-xl font-semibold">{tier}</p>

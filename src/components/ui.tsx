@@ -53,7 +53,7 @@ export function Card({
   className?: string
 }) {
   return (
-    <div className={`rounded-[1.35rem] bg-[#1C1C1E] p-5 ${className}`}>{children}</div>
+    <div className={`surface rounded-[1.35rem] p-5 ${className}`}>{children}</div>
   )
 }
 
@@ -111,7 +111,7 @@ export function PrimaryButton({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`w-full rounded-full bg-[#7B61FF] px-5 py-[1.05rem] text-sm font-semibold tracking-[0.06em] text-white shadow-[0_0_22px_rgba(123,97,255,0.28)] disabled:bg-[#2C2C2E] disabled:text-white/40 disabled:shadow-none ${className}`}
+      className={`w-full rounded-full bg-[#7B61FF] px-5 py-[1.05rem] text-sm font-semibold tracking-[0.06em] text-white keep-dark shadow-[0_0_22px_rgba(123,97,255,0.28)] disabled:bg-[#2C2C2E] disabled:text-white/40 disabled:shadow-none ${className}`}
     >
       {children}
     </button>
@@ -135,7 +135,7 @@ export function Switch({
       role="switch"
       aria-checked={on}
       onClick={() => onChange(!on)}
-      className="flex w-full items-center gap-3 rounded-[1.35rem] bg-[#1C1C1E] px-4 py-4 text-left"
+      className="flex w-full items-center gap-3 rounded-[1.35rem] surface px-4 py-4 text-left"
     >
       <span className="min-w-0 flex-1">
         <span className="block text-sm text-cream">{label}</span>

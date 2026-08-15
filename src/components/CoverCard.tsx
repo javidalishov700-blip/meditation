@@ -1,8 +1,8 @@
 import { useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { hrefFor, itemTitle, itemsById, type BadgeKind } from '../lib/catalog'
 import { isFavorite, toggleFavorite } from '../lib/favorites'
 import { useI18n } from '../lib/i18n'
-import type { BadgeKind } from '../lib/catalog'
 import type { StringKey } from '../lib/strings'
 
 const BADGE_KEY: Record<BadgeKind, StringKey> = {
@@ -45,6 +45,7 @@ export function CoverCard({
 }) {
   const { t } = useI18n()
   const [flash, setFlash] = useState(false)
+  const [broken, setBroken] = useState(false)
   const hold = useRef<number | null>(null)
 
   function save() {
@@ -56,7 +57,7 @@ export function CoverCard({
   return (
     <Link
       to={to}
-      className={`cover-card relative overflow-hidden rounded-[1.45rem] ${
+      className={`cover-card keep-dark relative overflow-hidden rounded-[1.45rem] ${
         fill ? 'h-[13.4rem] w-full' : wide ? 'h-[10.5rem] w-[16.5rem] shrink-0 snap-start' : 'h-[15.6rem] w-[10.6rem] shrink-0 snap-start'
       }`}
       onContextMenu={(e) => {
@@ -76,12 +77,17 @@ export function CoverCard({
         if (hold.current) window.clearTimeout(hold.current)
       }}
     >
-      <img
-        src={cover}
-        alt=""
-        className="cover-ken absolute inset-0 h-full w-full object-cover"
-        style={{ animationDelay: `${kenDelay}s` }}
-      />
+      {broken ? (
+        <div className="absolute inset-0 bg-gradient-to-br from-[#4c3a78] via-[#2a1650] to-[#120c1c]" />
+      ) : (
+        <img
+          src={cover}
+          alt=""
+          className="cover-ken absolute inset-0 h-full w-full object-cover"
+          style={{ animationDelay: `${kenDelay}s` }}
+          onError={() => setBroken(true)}
+        />
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/10" />
       {badge ? (
         <span className="absolute left-2.5 top-2.5 inline-flex items-center rounded-full bg-black/35 px-2 py-0.5 text-[9px] font-semibold tracking-[0.12em] text-white/95 backdrop-blur-md">
@@ -141,6 +147,28 @@ export function Rail({
   )
 }
 
+export function CatalogGrid({ ids }: { ids: readonly string[] | string[] }) {
+  const { locale } = useI18n()
+  const row = itemsById([...ids])
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-3">
+      {row.map((item, i) => (
+        <CoverCard
+          key={item.id}
+          to={hrefFor(item)}
+          cover={item.cover}
+          title={itemTitle(item, locale)}
+          minutes={item.minutes}
+          badge={item.badge}
+          locked={hrefFor(item) === '/paywall'}
+          kenDelay={i * 0.4}
+          fill
+        />
+      ))}
+    </div>
+  )
+}
+
 export function ChipRow({
   items,
   active,
@@ -157,10 +185,8 @@ export function ChipRow({
           key={c.id}
           type="button"
           onClick={() => onPick(c.id)}
-          className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 text-sm ${
-            active === c.id
-              ? 'border-white/20 bg-white/12 text-white'
-              : 'border-white/10 bg-[#1C1C1E] text-white/70'
+          className={`chip inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 text-sm ${
+            active === c.id ? 'chip-on' : 'chip-off'
           }`}
         >
           {c.icon}

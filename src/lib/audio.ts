@@ -172,6 +172,34 @@ export const NATURE_SCENES: NatureScene[] = [
     names: R('Seyrek arp|Sparse harp|Arpa escasa|Harpe rare|Spärliche Harfe|Arpa rada'),
     blurbs: R('Beş nota, geniş boşluk|Five notes, wide space|Cinco notas, espacio amplio|Cinq notes, large espace|Fünf Töne, weiter Raum|Cinque note, spazio ampio'),
   },
+  {
+    id: 'white',
+    title: 'Beyaz gürültü',
+    subtitle: 'Düz, açık, örtü',
+    names: R('Beyaz gürültü|White noise|Ruido blanco|Bruit blanc|Weißes Rauschen|Rumore bianco'),
+    blurbs: R('Düz, açık, örtü|Flat, open, a cover|Plano, abierto, una cubierta|Plat, ouvert, une couverture|Flach, offen, eine Decke|Piatto, aperto, una coperta'),
+  },
+  {
+    id: 'pink',
+    title: 'Pembe gürültü',
+    subtitle: 'Yumuşak, orta, oda',
+    names: R('Pembe gürültü|Pink noise|Ruido rosa|Bruit rose|Rosa Rauschen|Rumore rosa'),
+    blurbs: R('Yumuşak, orta, oda|Soft, mid, a room|Suave, medio, una habitación|Doux, médium, une pièce|Weich, mittel, ein Raum|Morbido, medio, una stanza'),
+  },
+  {
+    id: 'brown',
+    title: 'Kahverengi gürültü',
+    subtitle: 'Alçak, kalın, zemin',
+    names: R('Kahverengi gürültü|Brown noise|Ruido marrón|Bruit brun|Braunes Rauschen|Rumore bruno'),
+    blurbs: R('Alçak, kalın, zemin|Low, thick, ground|Bajo, espeso, suelo|Grave, épais, sol|Tief, dick, Boden|Basso, spesso, terra'),
+  },
+  {
+    id: 'radio',
+    title: 'Gece radyosu',
+    subtitle: 'Yavaş nota, ılık pad',
+    names: R('Gece radyosu|Night radio|Radio nocturna|Radio de nuit|Nachtradio|Radio notturna'),
+    blurbs: R('Yavaş nota, ılık pad|Slow notes, warm pad|Notas lentas, fondo cálido|Notes lentes, nappe chaude|Langsame Töne, warmes Pad|Note lente, pad caldo'),
+  },
 ]
 
 export function sceneName(id: string, locale: LocaleId): string {
@@ -661,6 +689,10 @@ export class AudioEngine {
     else if (id === 'gong') this.gong(ctx)
     else if (id === 'swell') this.swell(ctx)
     else if (id === 'harp') this.harp(ctx)
+    else if (id === 'white') this.noiseBed(ctx, 'white', 0.16)
+    else if (id === 'pink') this.noiseBed(ctx, 'pink', 0.2)
+    else if (id === 'brown') this.noiseBed(ctx, 'brown', 0.26)
+    else if (id === 'radio') this.radio(ctx)
     else this.night(ctx)
   }
 
@@ -1386,6 +1418,77 @@ export class AudioEngine {
     play()
     const id = window.setInterval(play, 2400)
     this.track(() => window.clearInterval(id))
+  }
+
+  private noiseBed(ctx: AudioContext, kind: 'white' | 'pink' | 'brown', gain: number) {
+    this.warmPad(ctx, kind === 'white' ? [196, 247] : [82.4, 110], kind === 'brown' ? 0.04 : 0.02)
+    const src = loopNoise(ctx, kind, kind === 'brown' ? 6 : 3, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = kind === 'white' ? 'highpass' : 'lowpass'
+    lp.frequency.value = kind === 'white' ? 400 : kind === 'pink' ? 1800 : 420
+    const g = ctx.createGain()
+    g.gain.value = gain
+    src.connect(lp)
+    lp.connect(g)
+    this.out(g, 0.95, 0.45)
+    src.start()
+    this.lfo(ctx, g.gain, 0.05, gain * 0.12, gain)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  private radio(ctx: AudioContext) {
+    this.warmPad(ctx, [110, 164.81, 220, 329.63], 0.038)
+    const notes = [220, 246.94, 277.18, 329.63, 369.99, 329.63, 277.18]
+    let i = 0
+    const play = () => {
+      if (!this.playing || !this.ctx) return
+      const f = notes[i % notes.length]!
+      i += 1
+      const now = ctx.currentTime
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.035, now + 0.08)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 2.8)
+      o.connect(g)
+      this.out(g, 0.55, 0.88)
+      o.start(now)
+      o.stop(now + 3)
+    }
+    play()
+    const id = window.setInterval(play, 3200)
+    this.track(() => window.clearInterval(id))
+    const brown = loopNoise(ctx, 'brown', 6, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 280
+    const ng = ctx.createGain()
+    ng.gain.value = 0.06
+    brown.connect(lp)
+    lp.connect(ng)
+    this.out(ng, 1, 0.4)
+    brown.start()
+    this.track(() => {
+      try {
+        brown.stop()
+        brown.disconnect()
+        lp.disconnect()
+        ng.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
   }
 }
 

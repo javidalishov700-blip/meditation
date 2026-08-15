@@ -77,7 +77,7 @@ export function LangSheet({ open, onClose }: { open: boolean; onClose: () => voi
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
       <div
-        className="sheet-up w-full max-w-lg rounded-t-[1.6rem] bg-[#1C1C1E] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        className="sheet-up surface w-full max-w-lg rounded-t-[1.6rem] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
@@ -105,7 +105,7 @@ export function MoodSheet({
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
       <div
-        className="sheet-up w-full max-w-lg rounded-t-[1.6rem] bg-[#1C1C1E] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        className="sheet-up surface w-full max-w-lg rounded-t-[1.6rem] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
@@ -143,7 +143,7 @@ export function FavSheet({ open, onClose }: { open: boolean; onClose: () => void
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
       <div
-        className="sheet-up max-h-[78dvh] w-full max-w-lg overflow-y-auto rounded-t-[1.6rem] bg-[#1C1C1E] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        className="sheet-up surface max-h-[78dvh] w-full max-w-lg overflow-y-auto rounded-t-[1.6rem] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />

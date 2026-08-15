@@ -1056,3 +1056,176 @@ fillDay('depersonalization-1', {
     ),
   },
 })
+
+short(
+  'paper-boat',
+  L('Kâğıt tekne', 'Paper boat', 'Barco de papel', 'Bateau de papier', 'Papierboot', 'Barchetta di carta'),
+  L('Sakin gölet, yavaş kıyı', 'Quiet pond, slow shore', 'Estanque quieto, orilla lenta', 'Étang calme, rive lente', 'Stiller Teich, langsames Ufer', 'Stagno quieto, riva lenta'),
+  L('Tekne yavaş, kıyı yerinde, ben duruyorum.', 'The boat is slow, the shore stays, and I stay.', 'El barco va despacio, la orilla sigue, y yo me quedo.', 'Le bateau est lent, la rive reste, et je reste.', 'Das Boot ist langsam, das Ufer bleibt, und ich bleibe.', 'La barca è lenta, la riva resta, e io resto.'),
+  L(
+    'Küçük gölet, kâğıt tekne, kıyı. Su durgun. Tekne yarışmıyor. Sen toprakta oturuyorsun. Tohum: kâğıt tekne, durgun su, ılık kıyı. Bırak. Tekneyi yönetme.',
+    'A small pond, a paper boat, a shore. Still water. The boat is not racing. You sit on the earth. Seed: paper boat, still water, warm shore. Release. Do not steer the boat.',
+    'Un estanque pequeño, un barco de papel, una orilla. Agua quieta. El barco no corre. Te sientas en la tierra. Semilla: barco de papel, agua quieta, orilla tibia. Suelta. No gobiernes el barco.',
+    'Un petit étang, un bateau de papier, une rive. Eau calme. Le bateau ne court pas. Tu es assis sur la terre. Graine : bateau de papier, eau calme, rive tiède. Lâche. Ne dirige pas le bateau.',
+    'Ein kleiner Teich, ein Papierboot, ein Ufer. Stilles Wasser. Das Boot rennt nicht. Du sitzt auf der Erde. Samen: Papierboot, stilles Wasser, warmes Ufer. Loslassen. Steuere das Boot nicht.',
+    'Un piccolo stagno, una barchetta di carta, una riva. Acqua ferma. La barca non corre. Siedi sulla terra. Seme: barchetta, acqua ferma, riva tiepida. Rilascia. Non guidare la barca.',
+  ),
+  L('Kâğıt tekne, durgun su, ılık kıyı.', 'Paper boat, still water, warm shore.', 'Barco de papel, agua quieta, orilla tibia.', 'Bateau de papier, eau calme, rive tiède.', 'Papierboot, stilles Wasser, warmes Ufer.', 'Barchetta, acqua ferma, riva tiepida.'),
+)
+short(
+  'lamp-cat',
+  L('Lamba ve kedi', 'Lamp and cat', 'Lámpara y gato', 'Lampe et chat', 'Lampe und Katze', 'Lampada e gatto'),
+  L('Ilık oda, yavaş nefes', 'Warm room, slow breath', 'Habitación tibia, aliento lento', 'Pièce tiède, souffle lent', 'Warmer Raum, langsamer Atem', 'Stanza tiepida, respiro lento'),
+  L('Lamba yanıyor, kedi uyuyor, oda duruyor.', 'The lamp is on, the cat sleeps, the room stays.', 'La lámpara está, el gato duerme, la habitación sigue.', 'La lampe est allumée, le chat dort, la pièce reste.', 'Die Lampe brennt, die Katze schläft, der Raum bleibt.', 'La lampada è accesa, il gatto dorme, la stanza resta.'),
+  L(
+    'Küçük oda, sarı lamba, halıda kıvrılmış kedi. Sen koltuktasın. Sayı yok. Tohum: sarı lamba, yün kedi, sessiz halı. Bırak.',
+    'Small room, yellow lamp, a cat curled on the rug. You are in the chair. No counting. Seed: yellow lamp, wool cat, quiet rug. Release.',
+    'Habitación pequeña, lámpara amarilla, gato en la alfombra. Estás en la silla. Sin contar. Semilla: lámpara, gato, alfombra quieta. Suelta.',
+    'Petite pièce, lampe jaune, chat sur le tapis. Tu es dans le fauteuil. Pas de compte. Graine : lampe, chat, tapis calme. Lâche.',
+    'Kleiner Raum, gelbe Lampe, Katze auf dem Teppich. Du sitzt. Nicht zählen. Samen: Lampe, Katze, stiller Teppich. Loslassen.',
+    'Stanza piccola, lampada gialla, gatto sul tappeto. Sei in poltrona. Niente conto. Seme: lampada, gatto, tappeto quieto. Rilascia.',
+  ),
+  L('Sarı lamba, yün kedi, sessiz halı.', 'Yellow lamp, wool cat, quiet rug.', 'Lámpara amarilla, gato de lana, alfombra quieta.', 'Lampe jaune, chat de laine, tapis calme.', 'Gelbe Lampe, Wollkatze, stiller Teppich.', 'Lampada gialla, gatto di lana, tappeto quieto.'),
+)
+short(
+  'olive-gate',
+  L('Zeytin kapısı', 'Olive gate', 'Puerta de olivo', 'Porte d’olivier', 'Oliventor', 'Porta d’olivo'),
+  L('Taş sütunlar, akşam ışığı', 'Stone columns, evening light', 'Columnas de piedra, luz de tarde', 'Colonnes de pierre, lumière du soir', 'Steinsäulen, Abendlicht', 'Colonne di pietra, luce serale'),
+  L('Kapı açık, zeytin duruyor, ben geçmiyorum aceleyle.', 'The gate is open, the olive stays, I do not rush through.', 'La puerta está abierta, el olivo sigue, no paso de prisa.', 'La porte est ouverte, l’olivier reste, je ne traverse pas en hâte.', 'Das Tor ist offen, der Ölbaum bleibt, ich gehe nicht eilig durch.', 'La porta è aperta, l’olivo resta, non passo in fretta.'),
+  L(
+    'Tepe, taş sütunlar, zeytin. Bir açıklık, kapı gibi. Tanrı adı yok. Otur, sırt taşta. Tohum: zeytin yaprağı, taş sütun, akşam tozu. Bırak.',
+    'A hill, stone columns, olives. An opening like a gate. No god’s name. Sit, back on stone. Seed: olive leaf, stone column, evening dust. Release.',
+    'Una colina, columnas, olivos. Un hueco como puerta. Sin nombre de dios. Siéntate, espalda en la piedra. Semilla: hoja, columna, polvo de tarde. Suelta.',
+    'Une colline, des colonnes, des oliviers. Une ouverture comme une porte. Pas de nom de dieu. Assieds-toi, dos à la pierre. Graine : feuille, colonne, poussière du soir. Lâche.',
+    'Ein Hügel, Säulen, Oliven. Eine Öffnung wie ein Tor. Kein Göttername. Sitz, Rücken am Stein. Samen: Olivenblatt, Säule, Abendstaub. Loslassen.',
+    'Una collina, colonne, ulivi. Un varco come una porta. Nessun nome di dio. Siedi, schiena sulla pietra. Seme: foglia, colonna, polvere serale. Rilascia.',
+  ),
+  L('Zeytin yaprağı, taş sütun, akşam tozu.', 'Olive leaf, stone column, evening dust.', 'Hoja de olivo, columna, polvo de tarde.', 'Feuille d’olivier, colonne, poussière du soir.', 'Olivenblatt, Steinsäule, Abendstaub.', 'Foglia d’olivo, colonna, polvere serale.'),
+)
+short(
+  'quiet-well',
+  L('Sessiz kuyu', 'Quiet well', 'Pozo quieto', 'Puits calme', 'Stiller Brunnen', 'Pozzo quieto'),
+  L('Taş yalak, ince su', 'Stone rim, thin water', 'Borde de piedra, agua fina', 'Rebord de pierre, eau mince', 'Steinrand, dünnes Wasser', 'Orlo di pietra, acqua sottile'),
+  L('Kuyu derin değil, su ince, ben kıyıda.', 'The well is not deep; the water is thin; I stay at the rim.', 'El pozo no es hondo; el agua es fina; me quedo al borde.', 'Le puits n’est pas profond ; l’eau est mince ; je reste au rebord.', 'Der Brunnen ist nicht tief; das Wasser dünn; ich bleibe am Rand.', 'Il pozzo non è fondo; l’acqua è sottile; resto all’orlo.'),
+  L(
+    'Avlu, taş kuyu, yakın su. Yüzünü arama. Kenara avuç koy. Tohum: taş kuyu, ince su, akşam gölgesi. Dibini yoklama.',
+    'A courtyard, a stone well, near water. Do not hunt your face. Palm on the rim. Seed: stone well, thin water, evening shade. Do not sound the bottom.',
+    'Un patio, un pozo de piedra, agua cerca. No busques tu cara. Palma en el borde. Semilla: pozo, agua fina, sombra. No sondes el fondo.',
+    'Une cour, un puits de pierre, l’eau proche. Ne cherche pas ton visage. Paume sur le rebord. Graine : puits, eau mince, ombre. Ne sonde pas le fond.',
+    'Ein Hof, ein Steinbrunnen, nahes Wasser. Suche nicht dein Gesicht. Handfläche am Rand. Samen: Brunnen, dünnes Wasser, Schatten. Lotet den Grund nicht.',
+    'Un cortile, un pozzo di pietra, acqua vicina. Non cercare il viso. Palmo sull’orlo. Seme: pozzo, acqua sottile, ombra. Non scandagliare il fondo.',
+  ),
+  L('Taş kuyu, ince su, akşam gölgesi.', 'Stone well, thin water, evening shade.', 'Pozo de piedra, agua fina, sombra de tarde.', 'Puits de pierre, eau mince, ombre du soir.', 'Steinbrunnen, dünnes Wasser, Abendschatten.', 'Pozzo di pietra, acqua sottile, ombra serale.'),
+)
+extraShort(
+  'slow-evening',
+  L('Akşam yavaş', 'Slow evening', 'Tarde lenta', 'Soir lent', 'Langsamer Abend', 'Sera lenta'),
+  L('Okunan bir parça, sohbet kaydı değil', 'A spoken piece, not a talk show', 'Un texto leído, no un programa', 'Un texte lu, pas une émission', 'Ein gelesener Text, keine Sendung', 'Un brano letto, non una trasmissione'),
+  L('Akşam yavaş, masa yerinde, ben oturuyorum.', 'Evening is slow, the table stays, I sit.', 'La tarde es lenta, la mesa sigue, me siento.', 'Le soir est lent, la table reste, je m’assieds.', 'Der Abend ist langsam, der Tisch bleibt, ich sitze.', 'La sera è lenta, il tavolo resta, mi siedo.'),
+  L(
+    'Podcast sunucusu yok. Masa, su, ekran kenarda. Omuz inebilir. Yavaş kal. Tohum: masa, su, sönük lamba.',
+    'No podcast host. A table, water, the screen aside. A shoulder may drop. Stay slow. Seed: table, water, dim lamp.',
+    'No hay presentador. Mesa, agua, pantalla a un lado. Un hombro puede bajar. Quédate lento. Semilla: mesa, agua, lámpara tenue.',
+    'Pas d’animateur. Table, eau, écran de côté. Une épaule peut descendre. Reste lent. Graine : table, eau, lampe basse.',
+    'Kein Moderator. Tisch, Wasser, Bildschirm beiseite. Eine Schulter darf sinken. Bleib langsam. Samen: Tisch, Wasser, dunkle Lampe.',
+    'Niente conduttore. Tavolo, acqua, schermo da parte. Una spalla può scendere. Resta lento. Seme: tavolo, acqua, lampada fioca.',
+  ),
+)
+extraShort(
+  'room-enough',
+  L('Oda yeter', 'The room is enough', 'La habitación basta', 'La pièce suffit', 'Der Raum reicht', 'La stanza basta'),
+  L('Kısa konuşma', 'A short talk', 'Una charla corta', 'Une courte parole', 'Ein kurzes Gespräch', 'Un breve discorso'),
+  L('Bu oda yeter, ben buradayım.', 'This room is enough, and I am here.', 'Esta habitación basta, y estoy aquí.', 'Cette pièce suffit, et je suis ici.', 'Dieser Raum reicht, und ich bin hier.', 'Questa stanza basta, e sono qui.'),
+  L(
+    'Dört kenar, zemin, tavan. Bir nesne, bir ses, adını söyle. Odayı mükemmel yapma.',
+    'Four edges, floor, ceiling. One object, one sound, name them. Do not perfect the room.',
+    'Cuatro bordes, suelo, techo. Un objeto, un sonido, nómbralos. No perfecciones la habitación.',
+    'Quatre bords, sol, plafond. Un objet, un son, nomme-les. Ne perfectionne pas la pièce.',
+    'Vier Kanten, Boden, Decke. Ein Ding, ein Klang, nenne sie. Mach den Raum nicht perfekt.',
+    'Quattro bordi, pavimento, soffitto. Un oggetto, un suono, nominali. Non perfezionare la stanza.',
+  ),
+)
+extraShort(
+  'desk-window',
+  L('Masa ve pencere', 'Desk and window', 'Mesa y ventana', 'Bureau et fenêtre', 'Schreibtisch und Fenster', 'Scrivania e finestra'),
+  L('İş arası, tek görev', 'A work pause, one task', 'Pausa de trabajo, una tarea', 'Pause de travail, une tâche', 'Arbeitspause, eine Aufgabe', 'Pausa di lavoro, un compito'),
+  L('Bir iş, bir pencere, omuzlar inik.', 'One task, one window, shoulders down.', 'Una tarea, una ventana, hombros bajos.', 'Une tâche, une fenêtre, épaules basses.', 'Eine Aufgabe, ein Fenster, Schultern unten.', 'Un compito, una finestra, spalle giù.'),
+  L(
+    'Tek bir iş adı. Omuz, taban, pencere kenarı. Beş nefes. Verimliliği kanıtlama.',
+    'One task name. Shoulders, soles, window edge. Five breaths. Do not prove productivity.',
+    'Un nombre de tarea. Hombros, plantas, borde de ventana. Cinco alientos. No pruebes productividad.',
+    'Un nom de tâche. Épaules, plantes, bord de fenêtre. Cinq souffles. Ne prouve pas la productivité.',
+    'Ein Aufgabenname. Schultern, Sohlen, Fensterkante. Fünf Atem. Beweise keine Produktivität.',
+    'Un nome di compito. Spalle, piante, bordo finestra. Cinque respiri. Non dimostrare produttività.',
+  ),
+)
+extraShort(
+  'one-task',
+  L('Tek iş', 'One task', 'Una tarea', 'Une tâche', 'Eine Aufgabe', 'Un compito'),
+  L('Listeyi daralt', 'Narrow the list', 'Estrecha la lista', 'Resserre la liste', 'Die Liste engen', 'Restringi la lista'),
+  L('Bugün bir iş yeter.', 'One task is enough today.', 'Hoy basta una tarea.', 'Une tâche suffit aujourd’hui.', 'Heute reicht eine Aufgabe.', 'Oggi basta un compito.'),
+  L(
+    'Üç şey varsa ikisini rafa yaz. Birini masada bırak. Listen kahramanlık değil.',
+    'If there are three, put two on a shelf. Leave one on the desk. The list is not a hero story.',
+    'Si hay tres, pon dos en un estante. Deja una en la mesa. La lista no es una hazaña.',
+    'S’il y en a trois, mets-en deux sur une étagère. Laisse-en une sur le bureau. La liste n’est pas un exploit.',
+    'Wenn drei da sind, zwei aufs Brett. Eine auf dem Tisch. Die Liste ist keine Heldentat.',
+    'Se sono tre, mettine due sullo scaffale. Lasciane uno sulla scrivania. La lista non è un’impresa.',
+  ),
+)
+extraShort(
+  'week-note',
+  L('Bu haftanın notu', 'This week’s note', 'La nota de esta semana', 'La note de cette semaine', 'Die Notiz dieser Woche', 'La nota di questa settimana'),
+  L('Uygulama içi bülten, e-posta yok', 'In-app note, no email', 'Nota en la app, sin correo', 'Note dans l’app, pas d’e-mail', 'Notiz in der App, keine E-Mail', 'Nota nell’app, nessuna e-mail'),
+  L('Bu hafta yavaş, bir milim yeter.', 'This week is slow; one millimeter is enough.', 'Esta semana es lenta; basta un milímetro.', 'Cette semaine est lente ; un millimètre suffit.', 'Diese Woche ist langsam; ein Millimeter reicht.', 'Questa settimana è lenta; basta un millimetro.'),
+  L(
+    'E-posta yok. Haftanın cümlesi: acele etme. SOS durur. Bir nefes yeter. Haftayı skor yapma.',
+    'No email. The week’s line: do not rush. SOS stays. One breath is enough. Do not make the week a scoreboard.',
+    'Sin correo. La frase de la semana: no corras. SOS sigue. Un aliento basta. No hagas de la semana un marcador.',
+    'Pas d’e-mail. La phrase de la semaine : ne te presse pas. SOS reste. Un souffle suffit. N’en fais pas un tableau de score.',
+    'Keine E-Mail. Satz der Woche: keine Eile. SOS bleibt. Ein Atem reicht. Mach keine Punktetafel daraus.',
+    'Niente e-mail. Frase della settimana: non affrettarti. SOS resta. Un respiro basta. Non farne un tabellone.',
+  ),
+)
+extraShort(
+  'first-hour',
+  L('İlk saat', 'First hour', 'La primera hora', 'La première heure', 'Die erste Stunde', 'La prima ora'),
+  L('Steady’ye yavaş giriş', 'A slow start with Steady', 'Un comienzo lento con Steady', 'Un début lent avec Steady', 'Ein langsamer Start mit Steady', 'Un inizio lento con Steady'),
+  L('Bir şey seçtim, gerisini bırakıyorum.', 'I chose one thing, and I leave the rest.', 'Elegí una cosa, y dejo el resto.', 'J’en ai choisi une, et je laisse le reste.', 'Ich wählte eines, und lasse den Rest.', 'Ne ho scelto una, e lascio il resto.'),
+  L(
+    'Teşhis yok. Bir kapı seç: SOS, nefes, hikâye veya üç nesne. Dil ve koyu/açık görünüm ayarlarda. Kartı uzun bas, favori olur. Donma hakkı haftada bir. Uygulamayı bitirme.',
+    'No diagnosis. Pick one door: SOS, breath, a story, or three objects. Language and dark/light live in settings. Long-press a card to save it. One freeze a week. Do not finish the app.',
+    'Sin diagnóstico. Elige una puerta: SOS, aliento, un relato o tres objetos. Idioma y claro/oscuro en ajustes. Mantén una tarjeta para guardarla. Un freeze por semana. No termines la app.',
+    'Pas de diagnostic. Choisis une porte : SOS, souffle, un récit ou trois objets. Langue et sombre/clair dans les réglages. Appui long pour enregistrer. Un gel par semaine. Ne termine pas l’app.',
+    'Keine Diagnose. Eine Tür: SOS, Atem, Geschichte oder drei Dinge. Sprache und Hell/Dunkel in den Einstellungen. Karte lange drücken zum Speichern. Ein Freeze pro Woche. Beende die App nicht.',
+    'Nessuna diagnosi. Scegli una porta: SOS, respiro, un racconto o tre oggetti. Lingua e chiaro/scuro nelle impostazioni. Tieni premuta una scheda per salvarla. Un blocco a settimana. Non finire l’app.',
+  ),
+)
+extraShort(
+  'about-sleep',
+  L('Uyku hakkında', 'More about sleep', 'Más sobre el sueño', 'Plus sur le sommeil', 'Mehr über Schlaf', 'Di più sul sonno'),
+  L('İskelet, kür değil', 'A frame, not a cure', 'Un armazón, no una cura', 'Un cadre, pas une cure', 'Ein Gerüst, keine Kur', 'Uno scheletro, non una cura'),
+  L('Yatak uykuya, gece bir tohum.', 'The bed is for sleep; the night gets one seed.', 'La cama es para dormir; la noche, una semilla.', 'Le lit est pour le sommeil ; la nuit, une graine.', 'Das Bett ist für Schlaf; die Nacht bekommt einen Samen.', 'Il letto è per il sonno; la notte, un seme.'),
+  L(
+    'Yatak iş yeri değil. Kalkış mümkünse sabit. Gece mahkeme yok. Işık düşer, tek tohum. Uyumazsan loş köşe, sonra dön. Bu geceyi performans yapma.',
+    'The bed is not a workplace. Wake time stays steady if it can. No night court. Light drops, one seed. If sleep misses you, a dim corner, then return. Do not make tonight a performance.',
+    'La cama no es un despacho. La hora de despertar, si puedes, fija. Sin tribunal nocturno. Baja la luz, una semilla. Si no llega el sueño, un rincón tenue, luego vuelve. No hagas de esta noche un rendimiento.',
+    'Le lit n’est pas un bureau. L’heure du lever, si possible, fixe. Pas de tribunal de nuit. La lumière baisse, une graine. Si le sommeil manque, un coin sombre, puis retour. N’en fais pas une performance.',
+    'Das Bett ist kein Arbeitsplatz. Aufstehzeit möglichst fest. Kein Nachtgericht. Licht runter, ein Samen. Kommt der Schlaf nicht, eine dunkle Ecke, dann zurück. Mach keine Vorstellung daraus.',
+    'Il letto non è un ufficio. L’ora del risveglio, se puoi, fissa. Niente tribunale notturno. Luce giù, un seme. Se il sonno manca, un angolo fioco, poi torna. Non farne una prova.',
+  ),
+)
+extraShort(
+  'night-table',
+  L('Gece masası', 'Night table', 'Mesa de noche', 'Table de nuit', 'Nachttisch', 'Tavolo di notte'),
+  L('Okunan parça, sunucu yok', 'A spoken piece, no host', 'Un texto leído, sin presentador', 'Un texte lu, sans animateur', 'Ein gelesener Text, kein Moderator', 'Un brano letto, niente conduttore'),
+  L('Masa loş, ben bırakıyorum.', 'The table is dim, and I let go.', 'La mesa está tenue, y suelto.', 'La table est sombre, et je lâche.', 'Der Tisch ist dunkel, und ich lasse los.', 'Il tavolo è fioco, e rilascio.'),
+  L(
+    'Yayın değil. Su, kapalı kitap, telefon ters, omuzlar. Gece işini bilir. Tohum: loş lamba, kapalı kitap, ağır örtü.',
+    'Not a broadcast. Water, a closed book, phone face down, shoulders. Night knows its work. Seed: dim lamp, closed book, heavy cover.',
+    'No es una emisión. Agua, libro cerrado, teléfono boca abajo, hombros. La noche sabe su trabajo. Semilla: lámpara tenue, libro cerrado, cubierta pesada.',
+    'Pas une émission. Eau, livre fermé, téléphone à l’envers, épaules. La nuit sait son travail. Graine : lampe basse, livre fermé, couverture lourde.',
+    'Keine Sendung. Wasser, geschlossenes Buch, Telefon umgedreht, Schultern. Die Nacht kennt ihre Arbeit. Samen: dunkle Lampe, geschlossenes Buch, schwere Decke.',
+    'Non è una trasmissione. Acqua, libro chiuso, telefono capovolto, spalle. La notte sa il suo lavoro. Seme: lampada fioca, libro chiuso, coperta pesante.',
+  ),
+)

@@ -448,9 +448,154 @@ html:lang(fa) {
     radial-gradient(circle at 50% 80%, rgba(76, 29, 149, 0.4), transparent 55%);
 }
 
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.chip-on {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.chip-off {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: #1c1c1e;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.surface {
+  background: #1c1c1e;
+}
+
+@keyframes sit-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.sit-fig {
+  animation: sit-breathe 5.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+html.light body,
+html.light #root {
+  background: #efe8dc;
+  color: #1a1612;
+}
+
+html.light .aurora {
+  opacity: 0.28;
+}
+
+html.light .stars {
+  opacity: 0.12;
+}
+
+html.light .surface {
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(40, 24, 16, 0.06);
+}
+
+html.light .chip-on {
+  border-color: #1a1612;
+  background: #1a1612;
+  color: #fff;
+}
+
+html.light .chip-off {
+  border-color: rgba(26, 22, 18, 0.12);
+  background: #fff;
+  color: rgba(26, 22, 18, 0.7);
+}
+
+html.light .bottom-nav {
+  background: rgba(255, 252, 247, 0.9);
+  border-color: rgba(26, 22, 18, 0.08);
+}
+
+html.light .bottom-nav .text-white {
+  color: #1a1612;
+}
+
+html.light .bottom-nav .text-white\/40 {
+  color: rgba(26, 22, 18, 0.4);
+}
+
+html.light .text-white\/35,
+html.light .text-white\/40,
+html.light .text-white\/45,
+html.light .text-white\/55,
+html.light .text-white\/60,
+html.light .text-white\/70,
+html.light .text-white\/80,
+html.light .text-white\/85,
+html.light .text-white\/90 {
+  color: rgba(26, 22, 18, 0.58);
+}
+
+html.light .text-white {
+  color: #1a1612;
+}
+
+html.light .text-cream,
+html.light .text-cream\/85,
+html.light .text-cream\/88,
+html.light .text-cream\/90 {
+  color: #1a1612;
+}
+
+html.light .border-white\/10,
+html.light .border-white\/12,
+html.light .border-white\/14,
+html.light .border-white\/15,
+html.light .border-white\/20,
+html.light .border-white\/\[0\.05\],
+html.light .border-white\/\[0\.06\] {
+  border-color: rgba(26, 22, 18, 0.12);
+}
+
+html.light .bg-white\/5,
+html.light .bg-white\/6,
+html.light .bg-white\/8,
+html.light .bg-white\/10,
+html.light .mood-empty {
+  background: rgba(26, 22, 18, 0.08);
+}
+
+html.light .bg-black\/30,
+html.light .bg-black\/55 {
+  background: rgba(26, 22, 18, 0.06);
+}
+
+html.light .cover-card .text-white,
+html.light .cover-card .text-white\/80,
+html.light .cover-card .text-white\/95,
+html.light .keep-dark,
+html.light .keep-dark .text-white,
+html.light .keep-dark .text-white\/60,
+html.light .keep-dark .text-white\/80,
+html.light .keep-dark .text-white\/95 {
+  color: #fff !important;
+}
+
+html.light .bg-\[\#7B61FF\],
+html.light .bg-\[\#7B61FF\] .text-white,
+html.light .bg-\[\#7B61FF\]\/80,
+html.light a.bg-\[\#7B61FF\] {
+  color: #fff !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sit-fig {
+    animation: none !important;
+  }
 }

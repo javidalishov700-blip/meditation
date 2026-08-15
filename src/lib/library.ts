@@ -258,6 +258,83 @@ Ayaklar yere, baş tavanın altında. Güvenli bir darlık. Kaçış yok, gerek 
 
 Gece tohumu: tahta koku, damla, dar cam. Şükran: bu damla. Bırakış: çatıyı tamir etmeyeceksin.`,
   },
+  {
+    id: 'paper-boat',
+    title: 'Kâğıt tekne',
+    subtitle: 'Sakin gölet, yavaş kıyı',
+    minutes: 8,
+    free: true,
+    sentence: 'Tekne yavaş, kıyı yerinde, ben duruyorum.',
+    nightSeed: 'Kâğıt tekne, durgun su, ılık kıyı.',
+    body: `Bu bir tedavi değildir. Küçük bir gölet, bir kâğıt tekne, bir kıyı.
+
+Su durgun. Rüzgâr yok. Tekne katlanmış kâğıttan, beyaz, hafif. Sen kıyıdasın. Ayakların toprakta. Ellerin dizlerinde.
+
+Tekne ileri gitmiyor, geri gitmiyor. Hafifçe duruyor. Sayı yok. Yarış yok. Kurbağa yok bu kartpostalda. Sadece su, kâğıt, kıyı.
+
+Bir yaprak suya düşerse düşsün. Tekneyi kurtarman gerekmez. Tekne ıslanır, yine de durur.
+
+Göğsün sakin. Omuzlar inik. Gölet küçük. Dünya büyük olmak zorunda değil bu dakikada.
+
+Gözlerin kapanabilir. Kıyı bilir. Su bilir. Sen bırakırsın.
+
+Tohum: kâğıt tekne, durgun su, ılık kıyı. Şükran: bu yavaşlık. Bırakış: tekneyi yönetmeyeceksin.`,
+  },
+  {
+    id: 'lamp-cat',
+    title: 'Lamba ve kedi',
+    subtitle: 'Ilık oda, yavaş nefes',
+    minutes: 7,
+    sentence: 'Lamba yanıyor, kedi uyuyor, oda duruyor.',
+    nightSeed: 'Sarı lamba, yün kedi, sessiz halı.',
+    body: `Küçük oda. Sarı bir lamba. Halıda bir kedi, kıvrılmış, gözleri kapalı. Sen koltuktasın. Acele yok.
+
+Kedinin yanı inip kalkıyor. Sen saymıyorsun. Sadece bakıyorsun. Lamba sabit. Perde kapalı. Dışarıda gece, içeride ısı.
+
+Elini kedinin yanına uzatabilirsin, uzatmak zorunda değilsin. Isı yeter.
+
+Bu sahne bir masal değil, bir oda. Sen bir bedensin. Koltuk seni taşıyor.
+
+Tohum: sarı lamba, yün kedi, sessiz halı. Bırak. Kediyi uyandırma, lambayı söndürme, odayı düzeltme.`,
+  },
+  {
+    id: 'olive-gate',
+    title: 'Zeytin kapısı',
+    subtitle: 'Taş sütunlar, akşam ışığı',
+    minutes: 12,
+    sentence: 'Kapı açık, zeytin duruyor, ben geçmiyorum aceleyle.',
+    nightSeed: 'Zeytin yaprağı, taş sütun, akşam tozu.',
+    body: `Bu bir destan kopyası değil. Bir tepe, taş sütunlar, zeytin ağaçları.
+
+Akşam. Rüzgâr yok. Sütunlar eski, isimsiz. Aralarında bir açıklık: kapı gibi, kapı değil. Işık yan yatmış.
+
+Yürüyorsun. Toprak tozlu, ılık. Zeytin yaprakları gümüş. Kimse yok. Tanrı adı yok bu sahnede. Sadece taş ve ağaç.
+
+Açıklığın önünde duruyorsun. Geçmek zorunda değilsin. Geçersen diğer tarafta yine zeytin var, yine taş.
+
+Oturuyorsun, bir sütunun dibinde. Sırt taşta. Serin. Ayaklar toprakta.
+
+Bu bir kehanet değil. Bir tepe. Sen duruyorsun.
+
+Tohum: zeytin yaprağı, taş sütun, akşam tozu. Şükran: bu açıklık. Bırakış: kapıdan bir anlam çıkarmayacaksın.`,
+  },
+  {
+    id: 'quiet-well',
+    title: 'Sessiz kuyu',
+    subtitle: 'Taş yalak, ince su',
+    minutes: 11,
+    sentence: 'Kuyu derin değil, su ince, ben kıyıda.',
+    nightSeed: 'Taş kuyu, ince su, akşam gölgesi.',
+    body: `Avlu. Ortada taş bir kuyu. Kova yok, zincir yok. Su görünüyor, yakın, durgun.
+
+Eğiliyorsun. Yüzünü aramıyorsun. Sadece suyun koyuluğu. Bir damla düşerse halka açılır, kapanır.
+
+Kuyunun kenarı serin. Avucunu koyuyorsun. Taş gerçek.
+
+Bu kuyu bir sınav değil. Su içmek zorunda değilsin. Bakmak yeter.
+
+Tohum: taş kuyu, ince su, akşam gölgesi. Bırak. Dibini yoklamayacaksın.`,
+  },
 ]
 
 export const writings: LibraryItem[] = [
@@ -664,6 +741,120 @@ export const extras: LibraryItem[] = [
     free: true,
     sentence: 'Bu ses odada, ben de odadayım.',
     body: 'Bir ses seç: buzdolabı, trafik, yağmur, kendi nefesin. Adını söyle. Yorum yok. On nefes boyunca sadece o ses. Bırakış: sesi kapatmaya çalışma.',
+  },
+  {
+    id: 'slow-evening',
+    title: 'Akşam yavaş',
+    subtitle: 'Okunan bir parça, sohbet kaydı değil',
+    minutes: 9,
+    sentence: 'Akşam yavaş, masa yerinde, ben oturuyorum.',
+    body: `Bu bir podcast sunucusu iddiası değil. Okunan bir parça.
+
+Akşam. Masa. Bir bardak su. Ekran kapalıysa iyi, açıksa bir kenara bırak.
+
+Bugün bitmedi belki. Bitirmek zorunda değilsin. Bir omuz inebilir. Bir çene yumuşayabilir.
+
+Konuşma şudur: yavaş kal. Kanıt yok. Tavsiye yok. Sadece bu oda, bu su, bu saat.
+
+Tohum: masa, su, sönük lamba. Bırakış: günü kapatma konuşması yapma.`,
+  },
+  {
+    id: 'room-enough',
+    title: 'Oda yeter',
+    subtitle: 'Kısa konuşma',
+    minutes: 7,
+    sentence: 'Bu oda yeter, ben buradayım.',
+    body: `Dışarıdaki gürültü büyük görünebilir. Bu parça onu küçültmez. Sadece odayı hatırlatır.
+
+Dört kenar. Bir zemin. Bir tavan. Sen ortadasın, merkez olmak zorunda değilsin.
+
+Bir nesne seç, adını söyle. Bir ses seç, adını söyle. Sonra bırak.
+
+Bırakış: odayı mükemmel yapma.`,
+  },
+  {
+    id: 'desk-window',
+    title: 'Masa ve pencere',
+    subtitle: 'İş arası, tek görev',
+    minutes: 6,
+    free: true,
+    sentence: 'Bir iş, bir pencere, omuzlar inik.',
+    body: `Masa. Pencere. Tek bir iş adı yaz: küçük, bitirilebilir. İkincisini yazma.
+
+Omuzları bırak. Ayaklar yerde. Pencereden bir kenar: çerçeve, ışık, gölge.
+
+Beş nefes. Sonra o tek işe dön, ya da dönme. İkisi de olur.
+
+Bırakış: verimliliği kanıtlama.`,
+  },
+  {
+    id: 'one-task',
+    title: 'Tek iş',
+    subtitle: 'Listeyi daralt',
+    minutes: 5,
+    sentence: 'Bugün bir iş yeter.',
+    body: `Üç şey aklındaysa ikisini rafa yaz. Birini bırak masada.
+
+Rafa yazılanlar yok olmadı. Sadece bu saatte yok.
+
+Omuz, çene, taban. Sonra tek işin ilk milimi. Bırakış: listeyi kahramanlık yapma.`,
+  },
+  {
+    id: 'week-note',
+    title: 'Bu haftanın notu',
+    subtitle: 'Uygulama içi bülten, e-posta yok',
+    minutes: 6,
+    free: true,
+    sentence: 'Bu hafta yavaş, bir milim yeter.',
+    body: `Bu bir e-posta listesi değil. Bu telefonda duran kısa bir not.
+
+Haftanın cümlesi: acele etme. Bir nefes, bir nesne, bir uyku tohumu yeter.
+
+Panik kapısı kilitlenmez. SOS durur. Gerisi seçilir, yığılmaz.
+
+Şükran: bu küçük iskelet. Bırakış: haftayı bir skor tahtası yapma.`,
+  },
+  {
+    id: 'first-hour',
+    title: 'İlk saat',
+    subtitle: 'Steady’ye yavaş giriş',
+    minutes: 8,
+    free: true,
+    sentence: 'Bir şey seçtim, gerisini bırakıyorum.',
+    body: `Teşhis yok. Tedavi iddiası yok. Bugün bir kapı seç: SOS, nefes, hikâye, ya da üç nesne.
+
+Ayarlarda dili ve koyu/açık görünümü seç. Sesli okuma cihazındaki sese bağlı.
+
+Favori için kartı uzun bas. Seri, gösterdiğin günlerden oluşur. Donma hakkı haftada bir.
+
+Bırakış: uygulamayı bitirme. Birini seç, kapat.`,
+  },
+  {
+    id: 'about-sleep',
+    title: 'Uyku hakkında',
+    subtitle: 'İskelet, kür değil',
+    minutes: 8,
+    free: true,
+    sentence: 'Yatak uykuya, gece bir tohum.',
+    body: `Bu bir uyku laboratuvarı vaadi değil. Kısa iskelet: yatak iş yeri değil. Kalkış saati mümkünse sabit. Gece mahkeme yok. Işık düşer, ekran kapanır, tek bir gece tohumu.
+
+Uyumazsan kalk, loş bir köşede sıkıcı bir şey, uykuluk gelince dön.
+
+Teşhis yok. İlaç yok. Bırakış: bu geceyi performans yapma. Şükran: yorgan.`,
+  },
+  {
+    id: 'night-table',
+    title: 'Gece masası',
+    subtitle: 'Okunan parça, sunucu yok',
+    minutes: 10,
+    sentence: 'Masa loş, ben bırakıyorum.',
+    body: `Bu bir yayın değil. Bir masa, bir lamba, okunan cümleler.
+
+Su. Kitap kapalı. Telefon ters. Omuzlar.
+
+Cümle: gece işini bilir. Sen nöbetçi değilsin.
+
+Tohum: loş lamba, kapalı kitap, ağır örtü. Bırak.`,
   },
 ]
 
