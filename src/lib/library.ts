@@ -264,7 +264,6 @@ Gece tohumu: tahta koku, damla, dar cam. Şükran: bu damla. Bırakış: çatıy
     title: 'Kâğıt tekne',
     subtitle: 'Sakin gölet, yavaş kıyı',
     minutes: 8,
-    free: true,
     sentence: 'Tekne yavaş, kıyı yerinde, ben duruyorum.',
     nightSeed: 'Kâğıt tekne, durgun su, ılık kıyı.',
     body: `Bu bir tedavi değildir. Küçük bir gölet, bir kâğıt tekne, bir kıyı.
@@ -428,7 +427,6 @@ Mektubu kapat. Sil veya çekmece. Bırakış: mahkeme yarın da kurulmayabilir.`
     title: 'Üç renk',
     subtitle: 'Odadan üç ad',
     minutes: 5,
-    free: true,
     sentence: 'Üç renk odada, ben de odadayım.',
     body: `Kalem. Üç satır. Her satır bir renk ve o rengin nesnesi. “Mavi — kupa.” Sıfat yok. Yorum yok. Sis yok.
 
@@ -714,7 +712,6 @@ export const extras: LibraryItem[] = [
     title: 'On adım',
     subtitle: 'Taban, yer, sayı',
     minutes: 5,
-    free: true,
     sentence: 'Adımlarımı içeriden atıyorum.',
     body: 'On adım. Her birinde topuk-parmak. “Bir, yer.” Koşu yok. İzleyici kamerasını kapat. Bırakış: adımı performans yapma.',
   },
@@ -739,7 +736,6 @@ export const extras: LibraryItem[] = [
     title: '3 nesne',
     subtitle: 'Bak, renk, dokun',
     minutes: 4,
-    free: true,
     sentence: 'Üç nesne odada, ben odadayım.',
     body: 'Üç nesne seç. Her biri için: bak, rengi söyle, dokun. Isı, ağırlık, pürüz. Yüksek sesle. Sis yorumu yok. Sonra iki tabanı yere bas. Bırakış: envanteri mahkeme yapma. Şükran: bu kenarlar.',
   },
@@ -748,7 +744,6 @@ export const extras: LibraryItem[] = [
     title: 'Odadaki ses',
     subtitle: 'Bir ses, adını söyle',
     minutes: 3,
-    free: true,
     sentence: 'Bu ses odada, ben de odadayım.',
     body: 'Bir ses seç: buzdolabı, trafik, yağmur, kendi nefesin. Adını söyle. Yorum yok. On nefes boyunca sadece o ses. Bırakış: sesi kapatmaya çalışma.',
   },
@@ -787,7 +782,6 @@ Bırakış: odayı mükemmel yapma.`,
     title: 'Masa ve pencere',
     subtitle: 'İş arası, tek görev',
     minutes: 6,
-    free: true,
     sentence: 'Bir iş, bir pencere, omuzlar inik.',
     body: `Masa. Pencere. Tek bir iş adı yaz: küçük, bitirilebilir. İkincisini yazma.
 
@@ -814,7 +808,6 @@ Omuz, çene, taban. Sonra tek işin ilk milimi. Bırakış: listeyi kahramanlık
     title: 'Bu haftanın notu',
     subtitle: 'Uygulama içi bülten, e-posta yok',
     minutes: 6,
-    free: true,
     sentence: 'Bu hafta yavaş, bir milim yeter.',
     body: `Bu bir e-posta listesi değil. Bu telefonda duran kısa bir not.
 
@@ -829,7 +822,6 @@ Panik kapısı kilitlenmez. SOS durur. Gerisi seçilir, yığılmaz.
     title: 'İlk saat',
     subtitle: 'Steady’ye yavaş giriş',
     minutes: 8,
-    free: true,
     sentence: 'Bir şey seçtim, gerisini bırakıyorum.',
     body: `Teşhis yok. Tedavi iddiası yok. Bugün bir kapı seç: SOS, nefes, hikâye, ya da üç nesne.
 
@@ -844,7 +836,6 @@ Bırakış: uygulamayı bitirme. Birini seç, kapat.`,
     title: 'Uyku hakkında',
     subtitle: 'İskelet, kür değil',
     minutes: 8,
-    free: true,
     sentence: 'Yatak uykuya, gece bir tohum.',
     body: `Bu bir uyku laboratuvarı vaadi değil. Kısa iskelet: yatak iş yeri değil. Kalkış saati mümkünse sabit. Gece mahkeme yok. Işık düşer, ekran kapanır, tek bir gece tohumu.
 

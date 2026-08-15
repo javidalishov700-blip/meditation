@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
+import { PinSettings } from '../components/PinLock'
 import { VoicePicker } from '../components/VoicePicker'
 import { Card, GhostButton, LegalNote } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
@@ -11,6 +12,7 @@ import { useI18n } from '../lib/i18n'
 import { resetOnboard } from '../lib/onboard'
 import { readPassed } from '../lib/passed'
 import { SKILLS, skillUnlocked } from '../lib/skills'
+import { supportId } from '../lib/pin'
 import { readTheme, writeTheme, type ThemeId } from '../lib/theme'
 
 export function Me() {
@@ -21,6 +23,8 @@ export function Me() {
   const [left, setLeft] = useState(() => freezeLeft())
   const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
   const [froze, setFroze] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const helpId = supportId()
   const history = readPassed()
   const stats = activityStats()
   const now = new Date()
@@ -198,6 +202,29 @@ export function Me() {
 
       {settings ? (
         <>
+          <Card className="mt-3">
+            <PinSettings />
+          </Card>
+          <Card className="mt-3">
+            <p className="text-xs text-white/40">{t('me_help')}</p>
+            <p className="mt-2 text-sm leading-6 text-mute">{t('me_help_body')}</p>
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(`#${helpId}`)
+                  setCopied(true)
+                  window.setTimeout(() => setCopied(false), 1400)
+                } catch {
+                  /* ignore */
+                }
+              }}
+              className="mt-3 inline-flex items-center rounded-full bg-white/8 px-3 py-1.5 text-sm text-white/85"
+            >
+              #{helpId}
+            </button>
+            {copied ? <p className="mt-2 text-xs text-mute">{t('me_copied')}</p> : null}
+          </Card>
           <Card className="mt-3">
             <p className="text-xs text-white/40">{t('theme')}</p>
             <div className="mt-3 grid grid-cols-2 gap-2">

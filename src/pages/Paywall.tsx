@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Card, GhostButton, LegalNote, PrimaryButton } from '../components/ui'
-import { PLANS } from '../lib/entitlement'
+import { FREE_KEYS, PLANS, PRO_KEYS } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 
@@ -38,6 +38,23 @@ export function Paywall() {
           </Card>
         ))}
       </div>
+
+      <Card className="mt-8">
+        <p className="text-xs uppercase tracking-[0.12em] text-mute">{t('pay_free_k')}</p>
+        <ul className="mt-3 space-y-2 text-sm leading-6 text-cream/90">
+          {FREE_KEYS.map((key) => (
+            <li key={key}>{t(key)}</li>
+          ))}
+        </ul>
+      </Card>
+      <Card className="mt-3">
+        <p className="text-xs uppercase tracking-[0.12em] text-mute">{t('pay_pro_k')}</p>
+        <ul className="mt-3 space-y-2 text-sm leading-6 text-cream/90">
+          {PRO_KEYS.map((key) => (
+            <li key={key}>{t(key)}</li>
+          ))}
+        </ul>
+      </Card>
 
       <PrimaryButton
         className="mt-8"

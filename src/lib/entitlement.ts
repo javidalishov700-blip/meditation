@@ -4,6 +4,7 @@ import { programs } from './content'
 import { TONES } from './audio'
 import { isTrialActive } from './onboard'
 import { readJson, writeJson } from './storage'
+import type { StringKey } from './strings'
 import type { PlanId, SessionKind } from './types'
 
 export const PLANS: {
@@ -78,18 +79,13 @@ export function canAccess(kind: SessionKind, id: string, extra?: { day?: number 
   return isItemFree(kind, id, extra)
 }
 
-export const FREE_LIST = [
-  'SOS — her zaman, kilit ve PIN üstünden de',
-  '174 Hz — 3 dakikalık deneme',
-  '1 hikâye, 1 yazı, 1 nefes',
-  'Panik programı 1. gün',
-  'Günün zihinsel netliği',
+export const FREE_KEYS: StringKey[] = [
+  'pay_free_sos',
+  'pay_free_174',
+  'pay_free_one',
+  'pay_free_first',
+  'pay_free_panic',
+  'pay_free_clarity',
 ]
 
-export const PRO_LIST = [
-  'Anksiyete, derealizasyon, depersonalizasyon programları',
-  'Panik gün 2–7',
-  'Uyku laboratuvarı ve doğa sahneleri',
-  'Diğer tonlar, meditasyonlar, yazılar, hikâyeler',
-  'Geçti geçmişi',
-]
+export const PRO_KEYS: StringKey[] = ['pay_pro_doors', 'pay_pro_panic', 'pay_pro_sleep', 'pay_pro_rest', 'pay_pro_history']

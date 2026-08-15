@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Ambient } from './components/Ambient'
 import { Layout } from './components/Layout'
+import { PinGate } from './components/PinLock'
 import { needsIntro, Splash } from './components/Splash'
 import { CrisisChip } from './components/ui'
 import { EntitlementProvider } from './lib/entitlement-store'
@@ -51,7 +52,11 @@ function Gate() {
   const [ready, setReady] = useState(() => isOnboarded())
   useEffect(() => subscribeOnboard(() => setReady(isOnboarded())), [])
   if (!ready) return <Onboard onDone={() => setReady(true)} />
-  return <RoutesTree key={locale} />
+  return (
+    <PinGate>
+      <RoutesTree key={locale} />
+    </PinGate>
+  )
 }
 
 function Boot() {
