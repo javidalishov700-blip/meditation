@@ -2,18 +2,17 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { ttsApiPlugin } from './server/vite-plugin-tts.ts'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  const voiceHost = (env.VITE_VOICE_URL || '').replace(/\/?$/, '')
   return {
     plugins: [
-      ttsApiPlugin(env.OPENAI_API_KEY || ''),
       react(),
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'],
+        includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'voice/manifest.json'],
         manifest: {
           name: 'Steady',
           short_name: 'Steady',
@@ -44,6 +43,25 @@ export default defineConfig(({ mode }) => {
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any maskable',
+            },
+          ],
+        },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,json}'],
+          globIgnores: ['**/voice/clips/*.mp3'],
+          runtimeCaching: [
+            {
+              urlPattern: ({ url }) =>
+                url.pathname.includes('/voice/') || Boolean(voiceHost && url.href.startsWith(voiceHost)),
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'steady-voice',
+                expiration: {
+                  maxEntries: 800,
+                  maxAgeSeconds: 60 * 60 * 24 * 400,
+                },
+                cacheableResponse: { statuses: [0, 200] },
+              },
             },
           ],
         },

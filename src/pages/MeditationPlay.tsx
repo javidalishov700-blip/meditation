@@ -249,7 +249,7 @@ function MeditationPlayer({
 
   const frac = total ? elapsed / total : 0
   const pct = pathPercent(path, { stepId: step.id, frac })
-  const err = snap.error === 'missing_key' ? t('tts_missing') : snap.error ? t('tts_fail') : null
+  const err = snap.error === 'voice_missing' ? t('tts_missing') : snap.error ? t('tts_fail') : null
 
   if (ended) {
     const next = path.steps[index + 1]

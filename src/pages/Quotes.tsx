@@ -69,7 +69,7 @@ export function Quotes() {
                   stopSpeak()
                   return
                 }
-                speak(open.text[locale], { lang: meta.bcp47 })
+                speak(open.text[locale], { lang: meta.bcp47, clipId: `quote:${open.id}` })
               }}
             >
               {reading ? (isLoading() ? t('voice_loading') : t('speak_stop')) : t('quotes_listen')}

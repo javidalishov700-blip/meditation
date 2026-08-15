@@ -21,7 +21,7 @@ export function VoicePlayer({ compact = false }: { compact?: boolean }) {
   const [drag, setDrag] = useState<number | null>(null)
   const active = snap.speaking || snap.loading || snap.paused
   const err =
-    snap.error === 'missing_key' ? t('tts_missing') : snap.error ? t('tts_fail') : null
+    snap.error === 'voice_missing' ? t('tts_missing') : snap.error ? t('tts_fail') : null
   const shownMs = drag ?? snap.elapsedMs
   const dur = Math.max(1, snap.durationMs)
 

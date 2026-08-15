@@ -1,6 +1,7 @@
 import { audio } from './audio'
 import { isVoiceLang } from './locales'
 import { readJson, writeJson } from './storage'
+import { voiceRoots } from './voice-host'
 import { VOICE_SAMPLE } from './voice-lines'
 
 export type ReadMode = 'natural' | 'slow' | 'calm'
@@ -193,100 +194,6 @@ function humanize(text: string, prefix: string, mode: ReadMode) {
   return out
 }
 
-type Phrase = { text: string; pause: number }
-
-function splitLong(text: string, max: number) {
-  if (text.length <= max) return [text]
-  const chunks: string[] = []
-  let rest = text.trim()
-  while (rest.length > max) {
-    const window = rest.slice(0, max)
-    const stop = Math.max(window.lastIndexOf('. '), window.lastIndexOf('? '), window.lastIndexOf('! '), window.lastIndexOf('… '))
-    const punct = Math.max(stop, window.lastIndexOf(', '), window.lastIndexOf('; '))
-    const space = window.lastIndexOf(' ')
-    const cut = stop >= max * 0.35 ? stop + 1 : punct >= max * 0.45 ? punct + 1 : space > 40 ? space : max
-    chunks.push(rest.slice(0, cut).trim())
-    rest = rest.slice(cut).trim()
-  }
-  if (rest) chunks.push(rest)
-  return chunks
-}
-
-function breathHold(sentence: string) {
-  if (/üç nefes|üç nəfəs|three breaths|tres respir|trois souff|drei atem|tre respir|три дыхания/i.test(sentence))
-    return 16000
-  if (/iki nefes|iki nəfəs|two breaths|dos respir|deux souff|zwei atem|due respir|два дыхания/i.test(sentence))
-    return 11000
-  if (/bir nefes|bir nəfəs|one breath|un aliento|un souffle|ein atemzug|un respiro|одно дыхание/i.test(sentence))
-    return 6000
-  return 0
-}
-
-function sentencesOf(block: string) {
-  return block.split(/(?<=[.!?…])\s+/).filter(Boolean)
-}
-
-function phrases(text: string, prefix: string, mode: ReadMode): Phrase[] {
-  const clean = humanize(text, prefix, mode)
-  if (!clean) return []
-  const max = 1800
-  const paraPause = mode === 'calm' ? 2400 : mode === 'slow' ? 540 : 280
-  const blocks = clean
-    .split(/\n{2,}/)
-    .map((b) => b.replace(/\n/g, ' ').trim())
-    .filter(Boolean)
-  const out: Phrase[] = []
-  for (const block of blocks) {
-    const sentences = sentencesOf(block)
-    let buf = ''
-    const flush = (pause: number) => {
-      if (!buf) return
-      splitLong(buf, max).forEach((bit, i, arr) => {
-        out.push({ text: bit, pause: i === arr.length - 1 ? pause : 80 })
-      })
-      buf = ''
-    }
-    for (let s = 0; s < sentences.length; s++) {
-      const sentence = sentences[s]!
-      const last = s === sentences.length - 1
-      const hold = mode === 'calm' ? breathHold(sentence) : 0
-      const joined = buf ? `${buf} ${sentence}` : sentence
-      if (buf && joined.length > max) flush(420)
-      buf = buf ? `${buf} ${sentence}` : sentence
-      if (hold) {
-        flush(hold)
-        continue
-      }
-      if (last) flush(paraPause)
-    }
-  }
-  return out
-}
-
-function estimateMs(parts: Phrase[], rate: number) {
-  const cps = Math.max(8, 14 * rate)
-  return parts.reduce((n, p) => n + (p.text.length / cps) * 1000 + p.pause, 0)
-}
-
-function stretchTo(parts: Phrase[], targetMs: number, rate: number) {
-  const extra = targetMs - estimateMs(parts, rate) - 5000
-  if (extra <= 0 || !parts.length) return parts
-  const heavy = parts.map((p, i) => ({ i, p })).filter((x) => x.p.pause >= 800)
-  const slots = heavy.length ? heavy : parts.map((p, i) => ({ i, p }))
-  const each = extra / slots.length
-  return parts.map((p, i) => (slots.some((s) => s.i === i) ? { ...p, pause: Math.round(p.pause + each) } : p))
-}
-
-function speakMsOf(p: Phrase, rate = 0.85) {
-  if (!p.text) return 0
-  const cps = Math.max(8, 14 * rate)
-  return (p.text.length / cps) * 1000
-}
-
-function durOf(p: Phrase, rate = 0.85) {
-  return speakMsOf(p, rate) + p.pause
-}
-
 function sleep(ms: number) {
   return new Promise<void>((resolve) => {
     window.setTimeout(resolve, ms)
@@ -312,92 +219,91 @@ async function waitWhilePaused() {
   })
 }
 
-function indexAt(parts: Phrase[], startMs: number, rate = 0.85) {
-  let acc = 0
-  for (let i = 0; i < parts.length; i++) {
-    const d = durOf(parts[i]!, rate)
-    if (acc + d > startMs) return { i, offset: startMs - acc }
-    acc += d
-  }
-  return { i: parts.length, offset: 0 }
-}
-
-async function fetchClip(text: string, voice: TtsVoice, gen: number) {
-  const key = `${voice}:${text}`
-  const hit = cache.get(key)
-  if (hit) return hit
-  const res = await fetch(ttsUrl(), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, voice }),
-  })
-  if (gen !== speakGen) return null
-  if (!res.ok) {
-    let code = 'tts_fail'
-    try {
-      const j = (await res.json()) as { error?: string }
-      if (j.error === 'missing_key') code = 'missing_key'
-    } catch {
-      /* ignore */
-    }
-    throw new Error(code)
-  }
-  const blob = await res.blob()
-  const url = URL.createObjectURL(blob)
-  if (cache.size > 48) {
-    const first = cache.keys().next().value
-    if (first) {
-      const old = cache.get(first)
-      if (old) URL.revokeObjectURL(old)
-      cache.delete(first)
-    }
-  }
-  cache.set(key, url)
-  return url
-}
-
-function ttsUrl() {
-  const base = (import.meta.env.VITE_TTS_URL as string | undefined) || ''
-  return `${base}/api/tts`
-}
-
-function voiceRoot() {
-  const base = (import.meta.env.BASE_URL as string | undefined) || '/'
-  const root = base.endsWith('/') ? base : `${base}/`
-  return `${root}voice/`
-}
-
+const VOICE_CACHE = 'steady-voice-v1'
 type VoiceManifest = { clips?: Record<string, string> }
 
-let manifestWait: Promise<Record<string, string>> | null = null
+let manifestWait: Promise<Record<string, string[]>> | null = null
 
-function loadManifest() {
-  if (!manifestWait) {
-    manifestWait = fetch(`${voiceRoot()}manifest.json`)
-      .then((r) => (r.ok ? (r.json() as Promise<VoiceManifest>) : { clips: {} }))
-      .then((j) => j.clips || {})
-      .catch(() => ({} as Record<string, string>))
-  }
-  return manifestWait
+function clipRel(rel: string) {
+  const clean = rel.replace(/^\/+/, '')
+  return clean.startsWith('clips/') ? clean : `clips/${clean}`
 }
 
-function bakedSrc(rel: string) {
-  const clean = rel.replace(/^\/+/, '')
-  const path = clean.startsWith('clips/') ? clean : `clips/${clean}`
-  return `${voiceRoot()}${path}`
+async function cacheStore() {
+  try {
+    return await caches.open(VOICE_CACHE)
+  } catch {
+    return null
+  }
+}
+
+async function fetchRes(url: string) {
+  const cache = await cacheStore()
+  if (cache) {
+    const hit = await cache.match(url)
+    if (hit) return hit
+  }
+  try {
+    const res = await fetch(url, { mode: 'cors', credentials: 'omit' })
+    if (!res.ok) return null
+    if (cache) {
+      try {
+        await cache.put(url, res.clone())
+      } catch {
+        /* quota */
+      }
+    }
+    return res
+  } catch {
+    return null
+  }
+}
+
+async function audioObjectUrl(url: string) {
+  const hit = cache.get(url)
+  if (hit) return hit
+  const res = await fetchRes(url)
+  if (!res) return null
+  const blob = await res.blob()
+  if (!blob.size) return null
+  const obj = URL.createObjectURL(blob)
+  cache.set(url, obj)
+  return obj
+}
+
+async function loadManifest() {
+  if (!manifestWait) {
+    manifestWait = (async () => {
+      const merged: Record<string, string[]> = {}
+      for (const root of voiceRoots()) {
+        try {
+          const res = await fetchRes(`${root}manifest.json`)
+          if (!res) continue
+          const j = (await res.json()) as VoiceManifest
+          for (const [key, raw] of Object.entries(j.clips || {})) {
+            if (merged[key]?.length) continue
+            const parts = raw
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .map((rel) => `${root}${clipRel(rel)}`)
+            if (parts.length) merged[key] = parts
+          }
+        } catch {
+          /* try next root */
+        }
+      }
+      return merged
+    })()
+  }
+  return manifestWait
 }
 
 async function bakedUrls(prefix: string, clipId?: string) {
   if (!clipId || !isVoiceLang(prefix)) return null
   const clips = await loadManifest()
-  const raw = clips[`${prefix}:${clipId}`]
-  if (!raw) return null
-  const parts = raw
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean)
-  if (!parts.length) return null
-  return parts.map(bakedSrc)
+  const urls = clips[`${prefix}:${clipId}`]
+  return urls?.length ? urls : null
 }
 
 function mediaDuration(url: string) {
@@ -432,9 +338,16 @@ async function finishSpeak(gen: number, opts: SpeakOpts, err?: string) {
   opts.onend?.()
 }
 
-/** Play store MP3s. Returns false if files are missing so live TTS can take over. */
+/** Play store MP3s. Returns false if files are missing. */
 async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
-  const durs = await Promise.all(urls.map(mediaDuration))
+  const blobs: string[] = []
+  for (const url of urls) {
+    if (cancelled || gen !== speakGen) return true
+    const obj = await audioObjectUrl(url)
+    if (!obj) return false
+    blobs.push(obj)
+  }
+  const durs = await Promise.all(blobs.map(mediaDuration))
   if (cancelled || gen !== speakGen) return true
   if (durs.some((d) => d < 80)) return false
   const total = durs.reduce((n, d) => n + d, 0)
@@ -449,7 +362,7 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   audio.hushForVoice()
   try {
     let skip = startMs
-    for (let i = 0; i < urls.length; i++) {
+    for (let i = 0; i < blobs.length; i++) {
       if (cancelled || gen !== speakGen) return true
       const durMs = durs[i]!
       if (skip >= durMs - 40) {
@@ -457,7 +370,7 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
         continue
       }
       setFlags({ loading: true })
-      await playUrl(urls[i]!, gen, skip / 1000)
+      await playUrl(blobs[i]!, gen, skip / 1000)
       skip = 0
       if (cancelled || gen !== speakGen) return true
     }
@@ -465,10 +378,9 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
       const rest = Math.max(0, opts.fillMs - liveElapsed())
       if (rest > 80) await wait(rest, gen)
     }
-  } catch (err) {
+  } catch {
     if (cancelled || gen !== speakGen) return true
-    const code = err instanceof Error ? err.message : 'tts_fail'
-    await finishSpeak(gen, opts, code === 'missing_key' ? 'missing_key' : 'tts_fail')
+    await finishSpeak(gen, opts, 'tts_fail')
     return true
   }
   if (cancelled || gen !== speakGen) return true
@@ -595,84 +507,24 @@ async function runSpeak(text: string, opts: SpeakOpts) {
   const gen = speakGen
   const prefix = langPrefix(resolveLang(opts.lang))
 
+  setFlags({ speaking: true, loading: true, paused: false, error: null })
   const urls = await bakedUrls(prefix, opts.clipId)
   if (cancelled || gen !== speakGen) return
-  if (urls) {
-    const used = await runBaked(urls, gen, opts)
-    if (used) return
-    if (cancelled || gen !== speakGen) return
-  }
-
-  const mode = opts.mode ?? readReadMode()
-  let parts = phrases(text, prefix, mode)
-  if (!parts.length) {
-    opts.onend?.()
+  if (!urls) {
+    await finishSpeak(gen, opts, 'voice_missing')
     return
   }
-  if (opts.fillMs) parts = stretchTo(parts, opts.fillMs, 0.85)
-  const voice = readTtsVoice()
-  const startMs = Math.max(0, opts.startMs ?? 0)
-  clockStartMs = startMs
-  clockOrigin = Date.now()
-  clockPauseTotal = 0
-  clockPausedAt = 0
-  clockDuration = opts.fillMs ?? estimateMs(parts, 0.85)
-  const { i: from, offset } = indexAt(parts, startMs)
-  setFlags({ speaking: true, loading: true, paused: false, error: null })
-  armClock()
-  audio.hushForVoice()
-
-  try {
-    for (let i = from; i < parts.length; i++) {
-      if (cancelled || gen !== speakGen) return
-      const part = parts[i]!
-      const into = i === from ? offset : 0
-      const talk = speakMsOf(part)
-      if (into >= talk + part.pause) continue
-      if (!part.text || into >= talk) {
-        await wait(part.pause - Math.max(0, into - talk), gen)
-        continue
-      }
-      setFlags({ loading: true })
-      const nextText = parts[i + 1]?.text
-      const nextP = nextText ? fetchClip(nextText, voice, gen) : null
-      const url = await fetchClip(part.text, voice, gen)
-      if (!url || cancelled || gen !== speakGen) return
-      setFlags({ loading: false, speaking: true })
-      await playUrl(url, gen, into / 1000)
-      if (cancelled || gen !== speakGen) return
-      await nextP
-      await waitWhilePaused()
-      if (part.pause) await wait(part.pause, gen)
-    }
-    if (opts.fillMs) {
-      const rest = Math.max(0, opts.fillMs - liveElapsed())
-      if (rest > 80) await wait(rest, gen)
-    }
-  } catch (err) {
-    if (cancelled || gen !== speakGen) return
-    const code = err instanceof Error ? err.message : 'tts_fail'
-    setFlags({ error: code === 'missing_key' ? 'missing_key' : 'tts_fail', loading: false, speaking: false })
-    audio.hold(false)
-    audio.duck(false)
-    stopClock()
-    opts.onend?.()
-    return
-  }
-  if (gen !== speakGen) return
-  audio.hold(false)
-  audio.duck(false)
-  stopClock()
-  setFlags({ speaking: false, loading: false, paused: false })
-  opts.onend?.()
+  const used = await runBaked(urls, gen, opts)
+  if (cancelled || gen !== speakGen) return
+  if (!used) await finishSpeak(gen, opts, 'voice_missing')
 }
 
-export function speakCue(text: string, lang?: string) {
+export function speakCue(text: string, lang?: string, clipId?: string) {
   const mode = readReadMode()
   const prefix = langPrefix(resolveLang(lang))
   const line = humanize(text, prefix, mode)
   if (!line) return
-  speak(line, { lang, mode })
+  speak(line, { lang, mode, clipId })
 }
 
 export { VOICE_SAMPLE }

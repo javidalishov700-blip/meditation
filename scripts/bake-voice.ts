@@ -133,6 +133,8 @@ async function main() {
   manifest.updated = new Date().toISOString()
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
   console.log(`done. new=${made} cached=${skipped} clips=${clips.length}`)
+  console.log('Upload public/voice/ to your host (manifest.json + clips/).')
+  console.log('Listening never calls OpenAI. Set VITE_VOICE_URL if files are not same-origin.')
 }
 
 main().catch((err) => {

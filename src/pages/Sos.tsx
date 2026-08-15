@@ -4,7 +4,6 @@ import { audio } from '../lib/audio'
 import { formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { addPassed } from '../lib/passed'
-import { pick } from '../lib/phrases'
 import { sosSentences, tapSentences } from '../lib/sosPhrases'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { GhostButton, PrimaryButton } from '../components/ui'
@@ -34,6 +33,10 @@ function buzz(ms = 28) {
   }
 }
 
+function randomIndex(n: number) {
+  return Math.max(0, Math.floor(Math.random() * Math.max(1, n)))
+}
+
 export function Sos() {
   const navigate = useNavigate()
   const { t, locale, meta } = useI18n()
@@ -41,7 +44,8 @@ export function Sos() {
   const [label, setLabel] = useState(t('sos_ready'))
   const [seconds, setSeconds] = useState(0)
   const [taps, setTaps] = useState(0)
-  const [sentence, setSentence] = useState(() => pick(tapSentences(locale)))
+  const [sentence, setSentence] = useState(() => tapSentences(locale)[0] || '')
+  const [tapIdx, setTapIdx] = useState(0)
   const [livePhrase, setLivePhrase] = useState('')
   const [obj, setObj] = useState(0)
   const [color, setColor] = useState<StringKey | null>(null)
@@ -91,26 +95,28 @@ export function Sos() {
     while (running.current) {
       setPhase('inhale')
       setLabel(inn)
-      speakCue(inn, lang)
+      speakCue(inn, lang, 'ui:sos_in')
       await wait(4000)
       if (!running.current) return
       setPhase('hold')
       setLabel(hold)
-      speakCue(hold, lang)
+      speakCue(hold, lang, 'ui:sos_hold')
       await wait(2000)
       if (!running.current) return
       setPhase('exhale')
       setLabel(out)
-      speakCue(out, lang)
+      speakCue(out, lang, 'ui:sos_out')
       await wait(6000)
       if (!running.current) return
       cycle.current += 1
       if (cycle.current % 3 === 0) {
-        const line = pick(sosSentences(locale))
+        const waves = sosSentences(locale)
+        const i = randomIndex(waves.length)
+        const line = waves[i] || ''
         setPhase('phrase')
         setLabel(lineK)
         setLivePhrase(line)
-        speak(line, { rate: 0.9, lang })
+        speak(line, { lang, clipId: `sos:wave:${i}` })
         await wait(4200)
         setLivePhrase('')
       }
@@ -127,11 +133,14 @@ export function Sos() {
     setColor(null)
     setLeft(false)
     setRight(false)
-    setSentence(pick(tapSentences(locale)))
+    const taps = tapSentences(locale)
+    const ti = randomIndex(taps.length)
+    setTapIdx(ti)
+    setSentence(taps[ti] || '')
     buzz(40)
     await audio.playSosBed()
     setPhase('ground')
-    speak(t('sos_ground_sub'), { rate: 0.92, lang })
+    speak(t('sos_ground_sub'), { lang, clipId: 'ui:sos_ground_sub' })
   }
 
   function beginBreath() {
@@ -148,7 +157,7 @@ export function Sos() {
     setSeconds(secs)
     setPhase('tap')
     setLabel(t('sos_passed'))
-    speak(sentence, { rate: 0.88, lang })
+    speak(sentence, { lang, clipId: `sos:tap:${tapIdx}` })
   }
 
   function tap() {
@@ -165,7 +174,7 @@ export function Sos() {
         sentence,
       })
       stopSpeak()
-      speak(t('sos_thanks'), { rate: 0.9, lang })
+      speak(t('sos_thanks'), { lang, clipId: 'ui:sos_thanks' })
       setPhase('done')
     }
   }
@@ -215,7 +224,7 @@ export function Sos() {
                   onClick={() => {
                     setColor(c.key)
                     buzz(18)
-                    speak(t(c.key), { rate: 0.95, lang })
+                    speak(t(c.key), { lang, clipId: `ui:${c.key}` })
                   }}
                   className={`flex h-14 w-14 flex-col items-center justify-center rounded-2xl border ${
                     on ? 'border-white scale-105' : 'border-white/15'
@@ -240,12 +249,12 @@ export function Sos() {
               setPhase('feet')
               setLeft(false)
               setRight(false)
-              speak(t('sos_feet'), { rate: 0.92, lang })
+              speak(t('sos_feet'), { lang, clipId: 'ui:sos_feet' })
               return
             }
             setObj((n) => n + 1)
             setColor(null)
-            speak(t(OBJ_KEYS[obj + 1]!), { rate: 0.92, lang })
+            speak(t(OBJ_KEYS[obj + 1]!), { lang, clipId: `ui:${OBJ_KEYS[obj + 1]!}` })
           }}
         >
           {t('sos_touched')}
@@ -302,7 +311,7 @@ export function Sos() {
           disabled={!left || !right}
           onClick={() => {
             buzz(40)
-            speak(t('sos_then_breath'), { rate: 0.92, lang })
+            speak(t('sos_then_breath'), { lang, clipId: 'ui:sos_then_breath' })
             beginBreath()
           }}
         >

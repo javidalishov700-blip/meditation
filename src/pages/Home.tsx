@@ -143,7 +143,7 @@ export function Home() {
                       stopSpeak()
                       return
                     }
-                    speak(line.text[locale], { lang: meta.bcp47 })
+                    speak(line.text[locale], { lang: meta.bcp47, clipId: `quote:${line.id}` })
                   }}
                 >
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">

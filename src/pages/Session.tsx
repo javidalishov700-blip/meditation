@@ -240,16 +240,16 @@ function BreathSession({ id }: { id: string }) {
     const out = t('sos_out')
     for (let i = 0; i < pat.cycles && running.current; i++) {
       setPhase(inn)
-      speakCue(inn, meta.bcp47)
+      speakCue(inn, meta.bcp47, 'ui:sos_in')
       await wait(pat.inhale * 1000)
       if (pat.hold1 && running.current) {
         setPhase(hold)
-        speakCue(hold, meta.bcp47)
+        speakCue(hold, meta.bcp47, 'ui:sos_hold')
         await wait(pat.hold1 * 1000)
       }
       if (!running.current) return
       setPhase(out)
-      speakCue(out, meta.bcp47)
+      speakCue(out, meta.bcp47, 'ui:sos_out')
       await wait(pat.exhale * 1000)
       if (pat.hold2 && running.current) {
         setPhase(hold)
@@ -259,7 +259,7 @@ function BreathSession({ id }: { id: string }) {
     running.current = false
     setOn(false)
     setPhase(t('leave'))
-    speak(t('sos_thanks'), { lang: meta.bcp47 })
+    speak(t('sos_thanks'), { lang: meta.bcp47, clipId: 'ui:sos_thanks' })
   }
 
   const scale = phase === t('sos_in') ? 1.1 : phase === t('sos_out') ? 0.88 : 1
@@ -309,7 +309,7 @@ function ProgramSession({ id, day }: { id: string; day: number }) {
   const { locale } = useI18n()
   const raw = programDay(id, day)
   if (!raw) return <Navigate to="/treat" replace />
-  return <ScriptView item={locDay(id, raw, locale)} kind="program" sid={id} />
+  return <ScriptView item={locDay(id, raw, locale)} kind="program" sid={`${id}-${day}`} />
 }
 
 function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
@@ -470,7 +470,12 @@ function ScriptView({
             onend: () => setSpeaking(false),
             lang: meta.bcp47,
             mode: kind === 'meditation' || kind === 'sleeplab' || kind === 'story' ? 'calm' : undefined,
-            clipId: sid && kind && ['story', 'writing', 'sleeplab', 'clarity', 'extra'].includes(kind) ? `lib:${sid}` : undefined,
+            clipId:
+              kind === 'program' && sid
+                ? `prog:${sid}`
+                : sid && kind && ['story', 'writing', 'sleeplab', 'clarity', 'extra'].includes(kind)
+                  ? `lib:${sid}`
+                  : undefined,
           })
         }}
       >
