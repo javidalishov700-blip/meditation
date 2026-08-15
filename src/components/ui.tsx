@@ -1,10 +1,47 @@
-import type { ReactNode } from 'react'
+import { Fragment, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../lib/i18n'
 
 export function Kicker({ children }: { children: ReactNode }) {
   return (
-    <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-rose-300/85">{children}</p>
+    <p className="text-[11px] font-medium tracking-[0.14em] text-rose-200/45">{children}</p>
+  )
+}
+
+export function FoldList<T>({
+  items,
+  preview = 1,
+  getKey,
+  render,
+  className = 'space-y-2',
+}: {
+  items: T[]
+  preview?: number
+  getKey: (item: T) => string
+  render: (item: T) => ReactNode
+  className?: string
+}) {
+  const [all, setAll] = useState(false)
+  const { t } = useI18n()
+  const shown = all ? items : items.slice(0, preview)
+  if (items.length === 0) return null
+  return (
+    <div>
+      <div className={className}>
+        {shown.map((item) => (
+          <Fragment key={getKey(item)}>{render(item)}</Fragment>
+        ))}
+      </div>
+      {items.length > preview ? (
+        <button
+          type="button"
+          className="mt-3 text-sm text-mute/80"
+          onClick={() => setAll((v) => !v)}
+        >
+          {all ? t('see_less') : t('see_all')}
+        </button>
+      ) : null}
+    </div>
   )
 }
 
@@ -16,7 +53,7 @@ export function Card({
   className?: string
 }) {
   return (
-    <div className={`rounded-3xl border border-white/10 bg-white/[0.045] p-5 ${className}`}>{children}</div>
+    <div className={`rounded-3xl border border-white/[0.07] bg-white/[0.03] p-5 ${className}`}>{children}</div>
   )
 }
 
@@ -69,7 +106,7 @@ export function PrimaryButton({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`w-full rounded-full bg-gradient-to-r from-rose-400 to-fuchsia-500 px-5 py-3.5 text-sm font-semibold text-ink shadow-[0_0_32px_rgba(244,114,182,0.35)] disabled:opacity-40 ${className}`}
+      className={`w-full rounded-full bg-gradient-to-r from-rose-300 to-fuchsia-400/90 px-5 py-3.5 text-sm font-semibold text-ink shadow-[0_0_20px_rgba(244,114,182,0.18)] disabled:opacity-40 ${className}`}
     >
       {children}
     </button>

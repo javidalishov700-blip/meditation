@@ -20,16 +20,15 @@ export function Me() {
 
   return (
     <div className="pb-8">
-      <Kicker>{t('nav_me')}</Kicker>
-      <h1 className="mt-2 font-display text-3xl">{t('me_title')}</h1>
-      <p className="mt-2 text-sm text-mute">{t('me_sub')}</p>
+      <h1 className="mt-6 font-display text-3xl">{t('me_title')}</h1>
+      <p className="mt-3 text-sm leading-7 text-mute">{t('me_sub')}</p>
 
       <Card className="mt-6">
         <LangPicker />
       </Card>
 
       <Card className="mt-4">
-        <p className="text-xs uppercase tracking-wider text-mute">{t('me_tier')}</p>
+        <p className="text-xs text-mute">{t('me_tier')}</p>
         <p className="mt-1 font-display text-2xl">{pro ? t('me_pro') : t('me_free')}</p>
         {pro ? (
           <GhostButton className="mt-4" onClick={lockDemo}>

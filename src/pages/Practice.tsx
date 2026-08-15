@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { breaths, meditations, todaysClarity, writings } from '../lib/library'
 import { canAccess } from '../lib/entitlement'
-import { Card, Kicker, LegalNote, ProChip } from '../components/ui'
+import { Card, FoldList, Kicker, LegalNote, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
 export function Practice() {
@@ -9,90 +9,98 @@ export function Practice() {
   const { t } = useI18n()
   return (
     <div className="pb-8">
-      <Kicker>Steady</Kicker>
-      <h1 className="mt-2 font-display text-3xl">{t('practice_title')}</h1>
-      <p className="mt-2 text-sm text-mute">{t('practice_sub')}</p>
+      <h1 className="mt-6 font-display text-3xl">{t('practice_title')}</h1>
+      <p className="mt-3 text-sm leading-7 text-mute">{t('disc_calm')}</p>
 
       <Link to={`/session/clarity/${today.id}`}>
-        <Card className="mt-8 border-rose-300/25">
+        <Card className="mt-10">
           <Kicker>{t('cat_clarity')}</Kicker>
           <p className="mt-2 font-display text-2xl">{today.title}</p>
-          <p className="mt-1 text-sm text-mute">{today.subtitle} · {today.minutes} dk · açık</p>
+          <p className="mt-1 text-sm text-mute">
+            {today.subtitle} · {t('min_n', { n: today.minutes })} · {t('home_free')}
+          </p>
         </Card>
       </Link>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <Kicker>{t('cat_breath')}</Kicker>
-        <div className="mt-3 space-y-2">
-          {breaths.map((b) => {
-            const open = canAccess('breath', b.id)
-            return (
-              <Link
-                key={b.id}
-                to={open ? `/session/breath/${b.id}` : '/paywall'}
-                className="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3"
-              >
-                <div>
-                  <p className="font-medium">{b.label}</p>
-                  <p className="text-xs text-mute">{b.subtitle}</p>
-                </div>
-                {open ? <span className="text-xs text-mute">{b.minutes} dk</span> : <ProChip />}
-              </Link>
-            )
-          })}
+        <div className="mt-4">
+          <FoldList
+            items={breaths}
+            preview={1}
+            getKey={(b) => b.id}
+            render={(b) => {
+              const open = canAccess('breath', b.id)
+              return (
+                <Link
+                  to={open ? `/session/breath/${b.id}` : '/paywall'}
+                  className="flex items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-3"
+                >
+                  <div>
+                    <p className="font-medium">{b.label}</p>
+                    <p className="text-xs text-mute">{b.subtitle}</p>
+                  </div>
+                  {open ? <span className="text-xs text-mute">{t('min_n', { n: b.minutes })}</span> : <ProChip />}
+                </Link>
+              )
+            }}
+          />
         </div>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <Kicker>{t('cat_meditate')}</Kicker>
-        <p className="mt-1 text-xs text-mute">Rahat beden, cümle, sahne, bırakış, şükran. Kitap alıntısı yok.</p>
-        <div className="mt-3 space-y-2">
-          {meditations.map((m) => {
-            const open = canAccess('meditation', m.id)
-            return (
-              <Link
-                key={m.id}
-                to={open ? `/session/meditation/${m.id}` : '/paywall'}
-                className="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3"
-              >
-                <div>
-                  <p className="font-medium">{m.title}</p>
-                  <p className="text-xs text-mute">{m.subtitle}</p>
-                </div>
-                {open ? <span className="text-xs text-mute">{m.minutes} dk</span> : <ProChip />}
-              </Link>
-            )
-          })}
+        <div className="mt-4">
+          <FoldList
+            items={meditations}
+            preview={1}
+            getKey={(m) => m.id}
+            render={(m) => {
+              const open = canAccess('meditation', m.id)
+              return (
+                <Link
+                  to={open ? `/session/meditation/${m.id}` : '/paywall'}
+                  className="flex items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-3"
+                >
+                  <div>
+                    <p className="font-medium">{m.title}</p>
+                    <p className="text-xs text-mute">{m.subtitle}</p>
+                  </div>
+                  {open ? <span className="text-xs text-mute">{t('min_n', { n: m.minutes })}</span> : <ProChip />}
+                </Link>
+              )
+            }}
+          />
         </div>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <Kicker>{t('cat_write')}</Kicker>
-        <div className="mt-3 space-y-2">
-          {writings.map((w) => {
-            const open = canAccess('writing', w.id)
-            return (
-              <Link
-                key={w.id}
-                to={open ? `/session/writing/${w.id}` : '/paywall'}
-                className="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3"
-              >
-                <div>
-                  <p className="font-medium">{w.title}</p>
-                  <p className="text-xs text-mute">{w.subtitle}</p>
-                </div>
-                {open ? <span className="text-xs text-mute">{w.minutes} dk</span> : <ProChip />}
-              </Link>
-            )
-          })}
+        <div className="mt-4">
+          <FoldList
+            items={writings}
+            preview={1}
+            getKey={(w) => w.id}
+            render={(w) => {
+              const open = canAccess('writing', w.id)
+              return (
+                <Link
+                  to={open ? `/session/writing/${w.id}` : '/paywall'}
+                  className="flex items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-3"
+                >
+                  <div>
+                    <p className="font-medium">{w.title}</p>
+                    <p className="text-xs text-mute">{w.subtitle}</p>
+                  </div>
+                  {open ? <span className="text-xs text-mute">{t('min_n', { n: w.minutes })}</span> : <ProChip />}
+                </Link>
+              )
+            }}
+          />
         </div>
       </section>
 
-      <Link to="/sounds" className="mt-8 block rounded-2xl border border-white/10 px-4 py-3 text-sm">
-        Tonlar ve 174 Hz denemesi →
-      </Link>
-
-      <div className="mt-8">
+      <div className="mt-16">
         <LegalNote compact />
       </div>
     </div>

@@ -154,13 +154,12 @@ export function Sos() {
           <CrisisLink />
         </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <Kicker>{t('home_sos_sub').split('·')[3]?.trim() || 'SOS'}</Kicker>
-          <h1 className="mt-3 font-display text-4xl">{t('sos_title')}</h1>
-          <p className="mt-3 max-w-xs text-sm text-mute">{t('sos_sub')}</p>
+          <h1 className="font-display text-4xl">{t('sos_title')}</h1>
+          <p className="mt-3 max-w-[14rem] text-sm leading-7 text-mute">{t('sos_sub')}</p>
           <button
             type="button"
             onClick={() => void start()}
-            className="orb-pulse mt-10 flex h-44 w-44 items-center justify-center rounded-full bg-gradient-to-br from-rose-300 via-fuchsia-500 to-violet-900 shadow-[0_0_90px_rgba(244,114,182,0.6)]"
+            className="orb-pulse mt-12 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 via-fuchsia-700/70 to-violet-950 shadow-[0_0_48px_rgba(244,114,182,0.22)]"
           >
             <span className="font-display text-4xl">SOS</span>
           </button>
@@ -184,7 +183,7 @@ export function Sos() {
         <button
           type="button"
           onClick={tap}
-          className="mt-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200 to-fuchsia-600 text-lg font-medium shadow-[0_0_70px_rgba(244,114,182,0.5)]"
+          className="mt-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 to-fuchsia-800/80 text-lg font-medium shadow-[0_0_40px_rgba(244,114,182,0.2)]"
         >
           {t('sos_tap_btn')}
         </button>
@@ -218,7 +217,7 @@ export function Sos() {
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
         <div
-          className="flex h-52 w-52 items-center justify-center rounded-full bg-gradient-to-br from-rose-300/90 via-fuchsia-600 to-violet-950 shadow-[0_0_80px_rgba(244,114,182,0.45)] transition-transform duration-[1100ms] ease-in-out"
+          className="flex h-52 w-52 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/85 via-fuchsia-800/70 to-violet-950 shadow-[0_0_40px_rgba(244,114,182,0.2)] transition-transform duration-[1100ms] ease-in-out"
           style={{ transform: `scale(${scale})` }}
         >
           <span className="font-display text-3xl">{label}</span>

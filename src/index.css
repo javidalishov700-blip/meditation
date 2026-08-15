@@ -33,9 +33,8 @@ body {
 
 #root {
   background:
-    radial-gradient(1200px 700px at 80% -10%, rgba(244, 114, 182, 0.18), transparent 55%),
-    radial-gradient(900px 600px at -10% 20%, rgba(168, 85, 247, 0.16), transparent 50%),
-    radial-gradient(800px 500px at 50% 120%, rgba(190, 24, 93, 0.12), transparent 50%),
+    radial-gradient(820px 460px at 50% -12%, rgba(167, 139, 250, 0.07), transparent 62%),
+    radial-gradient(620px 400px at 88% 92%, rgba(190, 24, 93, 0.035), transparent 58%),
     var(--color-ink);
 }
 
@@ -48,7 +47,7 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.07;
+  opacity: 0.022;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -64,10 +63,10 @@ body {
   0%,
   100% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: 0.9;
   }
   50% {
-    transform: scale(1.08);
+    transform: scale(1.03);
     opacity: 1;
   }
 }
@@ -88,7 +87,7 @@ body {
 }
 
 .orb-pulse {
-  animation: pulse-orb 3.6s ease-in-out infinite;
+  animation: pulse-orb 6.4s ease-in-out infinite;
 }
 
 .scene-night {

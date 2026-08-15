@@ -6,27 +6,24 @@ export function CategoryTile({
   to,
   title,
   hint,
-  glow,
   icon,
   locked,
 }: {
   to: string
   title: string
   hint?: string
-  glow: string
   icon: ReactNode
   locked?: boolean
 }) {
   return (
     <Link
       to={to}
-      className="relative flex min-h-[7.2rem] flex-col justify-between overflow-hidden rounded-[1.6rem] border border-white/10 p-4"
-      style={{ background: `linear-gradient(165deg, ${glow}55, rgba(18,8,20,0.65))` }}
+      className="relative flex min-h-[6.2rem] flex-col justify-between rounded-[1.5rem] border border-white/[0.06] bg-white/[0.025] p-4"
     >
-      <div className="text-cream/90">{icon}</div>
+      <div className="text-lilac/70">{icon}</div>
       <div>
-        <p className="font-display text-xl leading-tight">{title}</p>
-        {hint ? <p className="mt-1 text-[11px] text-cream/70">{hint}</p> : null}
+        <p className="font-display text-lg leading-tight text-cream/95">{title}</p>
+        {hint ? <p className="mt-1 text-[11px] text-mute">{hint}</p> : null}
       </div>
       {locked ? (
         <span className="absolute right-3 top-3">
@@ -39,7 +36,7 @@ export function CategoryTile({
 
 export function TileIcon({ d }: { d: string }) {
   return (
-    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.7">
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5">
       <path d={d} />
     </svg>
   )
