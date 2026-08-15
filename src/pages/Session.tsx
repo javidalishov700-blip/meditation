@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { audio, NATURE_SCENES, sceneBlurb, sceneName, TIMER_MINUTES, TONES } from '../lib/audio'
+import { locBreath, locDay, locLibrary } from '../lib/copy'
 import { programDay } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -200,8 +201,9 @@ function NatureSession({ id }: { id: string }) {
 }
 
 function BreathSession({ id }: { id: string }) {
-  const b = breathById(id)
-  const { t, meta } = useI18n()
+  const raw = breathById(id)
+  const { t, meta, locale } = useI18n()
+  const b = raw ? locBreath(raw, locale) : undefined
   const [phase, setPhase] = useState(t('ready'))
   const [on, setOn] = useState(false)
   const running = useRef(false)
@@ -291,7 +293,6 @@ function BreathSession({ id }: { id: string }) {
             }
             running.current = true
             setOn(true)
-            void audio.playPad()
             void loop(b)
           }}
         >
@@ -303,21 +304,24 @@ function BreathSession({ id }: { id: string }) {
 }
 
 function ProgramSession({ id, day }: { id: string; day: number }) {
-  const d = programDay(id, day)
-  if (!d) return <Navigate to="/treat" replace />
-  return <ScriptView item={d} />
+  const { locale } = useI18n()
+  const raw = programDay(id, day)
+  if (!raw) return <Navigate to="/treat" replace />
+  return <ScriptView item={locDay(id, raw, locale)} />
 }
 
 function TextSession({ kind, id }: { kind: SessionKind; id: string }) {
+  const { locale } = useI18n()
   const item: LibraryItem | undefined = useMemo(() => {
-    if (kind === 'story') return storyById(id)
-    if (kind === 'writing') return writingById(id)
-    if (kind === 'meditation') return meditationById(id)
-    if (kind === 'sleeplab') return sleepLabById(id)
-    if (kind === 'clarity') return clarityById(id)
-    if (kind === 'extra') return extraById(id)
-    return undefined
-  }, [kind, id])
+    let raw: LibraryItem | undefined
+    if (kind === 'story') raw = storyById(id)
+    else if (kind === 'writing') raw = writingById(id)
+    else if (kind === 'meditation') raw = meditationById(id)
+    else if (kind === 'sleeplab') raw = sleepLabById(id)
+    else if (kind === 'clarity') raw = clarityById(id)
+    else if (kind === 'extra') raw = extraById(id)
+    return raw ? locLibrary(raw, locale) : undefined
+  }, [kind, id, locale])
   if (!item) return <Navigate to="/" replace />
   return <ScriptView item={item} />
 }
@@ -353,7 +357,6 @@ function ScriptView({
   const script = [body, sentence, ...extras.map((x) => x.text)].filter(Boolean).join('\n\n')
 
   useEffect(() => {
-    void audio.playPad()
     return () => {
       stopSpeak()
       audio.stop(0.5)
@@ -424,7 +427,6 @@ function ScriptView({
             setSpeaking(false)
             return
           }
-          if (!audio.playing) void audio.playPad()
           setSpeaking(true)
           speak(script, { onend: () => setSpeaking(false), lang: meta.bcp47 })
         }}

@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { breaths, meditations, todaysClarity, writings } from '../lib/library'
+import { locBreath, locLibrary } from '../lib/copy'
 import { canAccess } from '../lib/entitlement'
 import { Card, FoldList, Kicker, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
 export function Practice() {
-  const today = todaysClarity()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  const today = locLibrary(todaysClarity(), locale)
   return (
     <div className="pb-8">
       <h1 className="mt-6 font-display text-3xl">{t('practice_title')}</h1>
@@ -26,7 +27,7 @@ export function Practice() {
         <Kicker>{t('cat_breath')}</Kicker>
         <div className="mt-4">
           <FoldList
-            items={breaths}
+            items={breaths.map((b) => locBreath(b, locale))}
             preview={1}
             getKey={(b) => b.id}
             render={(b) => {
@@ -52,7 +53,7 @@ export function Practice() {
         <Kicker>{t('cat_meditate')}</Kicker>
         <div className="mt-4">
           <FoldList
-            items={meditations}
+            items={meditations.map((m) => locLibrary(m, locale))}
             preview={1}
             getKey={(m) => m.id}
             render={(m) => {
@@ -78,7 +79,7 @@ export function Practice() {
         <Kicker>{t('cat_write')}</Kicker>
         <div className="mt-4">
           <FoldList
-            items={writings}
+            items={writings.map((w) => locLibrary(w, locale))}
             preview={1}
             getKey={(w) => w.id}
             render={(w) => {

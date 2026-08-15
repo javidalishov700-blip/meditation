@@ -39,6 +39,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const meta = localeMeta(locale)
     document.documentElement.lang = meta.bcp47
     document.documentElement.dir = meta.dir
+    document.documentElement.dataset.locale = locale
   }, [locale])
 
   const value = useMemo<I18nCtx>(() => {
@@ -49,6 +50,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       locales: LOCALES,
       setLocale: (id: LocaleId) => {
         writeJson('locale', id)
+        const next = localeMeta(id)
+        document.documentElement.lang = next.bcp47
+        document.documentElement.dir = next.dir
+        document.documentElement.dataset.locale = id
         setLocaleState(id)
       },
       t: (key, vars) => translate(key, locale, vars),

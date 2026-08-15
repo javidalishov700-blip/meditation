@@ -50,6 +50,30 @@ export const breaths: (BreathPattern & { subtitle: string; free?: boolean; minut
     minutes: 3,
     voice: { inhale: 'Al, bir daha al', hold: 'Tut', exhale: 'Uzun ver' },
   },
+  {
+    id: 'equal',
+    label: 'Eşit 5-5',
+    subtitle: 'Aynı uzunluk, sakin tempo.',
+    inhale: 5,
+    hold1: 0,
+    exhale: 5,
+    hold2: 0,
+    cycles: 8,
+    minutes: 4,
+    voice: { inhale: 'Nefes al', hold: 'Tut', exhale: 'Ver' },
+  },
+  {
+    id: 'count8',
+    label: 'Sekize ver',
+    subtitle: 'Al 4, ver 8. İniş.',
+    inhale: 4,
+    hold1: 0,
+    exhale: 8,
+    hold2: 0,
+    cycles: 6,
+    minutes: 5,
+    voice: { inhale: 'Al', hold: 'Tut', exhale: 'Sekize kadar ver' },
+  },
 ]
 
 export const stories: LibraryItem[] = [
@@ -181,6 +205,59 @@ Kemerden geri dönmene gerek yok. Burada kalabilirsin. Su seni çekmiyor. Oturak
 
 Gece tohumu: sığ su, mercan kemeri, yavaş gölge. Şükran: bu tuz için. Bırakış: derine inmeyeceksin. Sığ yeter.`,
   },
+  {
+    id: 'harbor',
+    title: 'Yağmur limanı',
+    subtitle: 'Kapalı güverte, damla, halat',
+    minutes: 14,
+    sentence: 'Bu güvertede duruyorum, yağmur dışarıda.',
+    nightSeed: 'Halat, damla, kapalı cam.',
+    body: `Limandasın. Gece. Yağmur var, fırtına yok. Güverte kapalı, cam buğu. Dışarıda bir halat direğe vuruyor, düzenli, yumuşak.
+
+Oturuyorsun. Ahşap ılık değil, ılık da değil — sadece var. Avuçlarını kenara koyuyorsun. Yağmur camı tarıyor. Bu bir alarm değil. Bir ritim.
+
+Uzaktaki bir lamba, sarı, sabit. Kayıklar bağlı. Kimse koşmuyor. Sen nöbetçi değilsin. Yolcusun, bekçi değilsin.
+
+Çay yok. Sadece damla ve halat. Nefesin buna uymasın diye uğraşma. Uyursa uyar.
+
+Gözlerin ağır. İzin ver. Liman kendi işini bilir. Sen omuzlarını bırakırsın.
+
+Gece tohumu: halat, damla, kapalı cam. Şükran: bu ritim. Bırakış: sabahı kurmayacaksın.`,
+  },
+  {
+    id: 'bath',
+    title: 'Hamam taşı',
+    subtitle: 'Ilık taş, buhar yok, sade ısı',
+    minutes: 12,
+    sentence: 'Taş ılık, ben duruyorum.',
+    nightSeed: 'Ilık taş, loş kurna, sessiz oda.',
+    body: `Küçük bir hamam odası. Buhar abartısız. Taş kurna, ılık. Oturuyorsun, sırt taşta. Isı omurgadan yayılır, zorlamaz.
+
+Su ince akar. Avucunu doldurmazsın. Sadece ses. Kurna dolu değil, yeterince var.
+
+Ayna yok bu sahnede. Yüzünü kontrol etmezsin. Isı yeter. Tabanlar taşta, serin kenar, ılık orta.
+
+Bir süre hiçbir şey olmaz. İyi. Olay yok.
+
+Gece tohumu: ılık taş, loş kurna, sessiz oda. Şükran: bu ısı. Bırakış: suyu yönetmeyeceksin.`,
+  },
+  {
+    id: 'attic',
+    title: 'Çatı katı yağmuru',
+    subtitle: 'Tahta, damla, dar pencere',
+    minutes: 13,
+    sentence: 'Çatıdaki yağmur düzenli, ben içerideyim.',
+    nightSeed: 'Tahta koku, damla, dar cam.',
+    body: `Çatı katındasın. Tavan alçak, tahta kokusu. Yağmur yukarıda. Damla düzenli. Pencere dar, buğu var.
+
+Bir sandık, bir battaniye, bir lamba. Lamba sarı ve düşük. Sandığı açmıyorsun. Battaniyeyi çekiyorsun.
+
+Yağmur bir hikâye anlatmıyor. Sadece düşüyor. Sen saymıyorsun.
+
+Ayaklar yere, baş tavanın altında. Güvenli bir darlık. Kaçış yok, gerek de yok.
+
+Gece tohumu: tahta koku, damla, dar cam. Şükran: bu damla. Bırakış: çatıyı tamir etmeyeceksin.`,
+  },
 ]
 
 export const writings: LibraryItem[] = [
@@ -268,6 +345,27 @@ Kağıdı katla, telefonu ters çevir. Gözler kapanırken sadece o kare. Şükr
 
 Mektubu kapat. Sil veya çekmece. Bırakış: mahkeme yarın da kurulmayabilir.`,
   },
+  {
+    id: 'three-colors',
+    title: 'Üç renk',
+    subtitle: 'Odadan üç ad',
+    minutes: 5,
+    free: true,
+    sentence: 'Üç renk odada, ben de odadayım.',
+    body: `Kalem. Üç satır. Her satır bir renk ve o rengin nesnesi. “Mavi — kupa.” Sıfat yok. Yorum yok. Sis yok.
+
+Yüksek sesle oku bir kez. Kapat. Bırakış: paleti tamamlamayacaksın.`,
+  },
+  {
+    id: 'safe-list',
+    title: 'Güvenli liste',
+    subtitle: 'Beş somut şey',
+    minutes: 6,
+    sentence: 'Liste duruyor, ben duruyorum.',
+    body: `Beş satır: yer, su, bir kişi veya bir kumaş, bir ses, bir ısı. Hepsi bugün erişilir olsun. Yarın değil.
+
+Kapat. Bırakış: listeyi dua etme.`,
+  },
 ]
 
 export const meditations: LibraryItem[] = [
@@ -345,6 +443,27 @@ Kenar çiz. Sis yorumunu not etme.
     nightSeed: 'Kapalı bahçe, ılık taş, kandil.',
     sentence: 'Tohumu geceye bırakıyorum.',
     body: `Rahat beden: çene, omuz, karın. Bir cümle. Tek sahne: kapalı bahçe, ılık taş, kandil. Tekrar etme, süsleme. Bırak. Şükran fısıltısı. Uyu.`,
+  },
+  {
+    id: 'warm-stone',
+    title: 'Avuçta taş',
+    subtitle: 'Ağırlık, ısı, kenar',
+    minutes: 8,
+    sentence: 'Taş avucumda, ben buradayım.',
+    body: `Bir taş, bir anahtar, bir kupa. Avuç. Ağırlık. Kenar. Isı veya serinlik. Adını söyleme, nesneyi söyle.
+
+Gözler yumuşak. Zihin hikâye uydurursa nesneye dön. Bırakış: taşı kanıt yapma. Şükran: bu ağırlık.`,
+  },
+  {
+    id: 'feet-press',
+    title: 'Taban basışı',
+    subtitle: 'İki ayak, yer, sayı yok',
+    minutes: 7,
+    free: true,
+    sentence: 'Tabanlarım yerde, yer beni tutuyor.',
+    body: `Ayakta veya sandalyede. İki tabanı yere bas. Topuk, kemer, parmak. Sayı yok. “Daha sert” yok. Sadece basınç.
+
+On nefes. Her verişte milim daha fazla ağırlık. Bırakış: yarışı kazanma. Şükran: bu yer.`,
   },
 ]
 
@@ -449,6 +568,8 @@ export const clarity: LibraryItem[] = [
   { id: 'c12', title: 'Üç şükran', subtitle: 'Küçük', minutes: 3, free: true, sentence: 'Üç küçük şey yeter.', body: 'Üç somut şey. Abartma. Kapat.' },
   { id: 'c13', title: 'Kaygı rafa', subtitle: 'Bir cümle', minutes: 3, free: true, sentence: 'Bunu bu saatte çözmüyorum.', body: 'Kaygıyı bir cümleye sıkıştır, rafa koy. Pencere değil, etiket.' },
   { id: 'c14', title: 'Yorgan', subtitle: 'Örtü', minutes: 3, free: true, sentence: 'Örtü beni tutuyor.', body: 'Bir kumaşın ağırlığı. DP günü için temas. Bırakış.' },
+  { id: 'c15', title: 'Üç renk', subtitle: 'Bak, ad', minutes: 3, free: true, sentence: 'Üç renk odada.', body: 'Üç nesne, üç renk. Yüksek sesle. Sis yok. Bırak.' },
+  { id: 'c16', title: 'Telefon ağırlığı', subtitle: 'İki el', minutes: 3, free: true, sentence: 'Bu ağırlık avucumda.', body: 'Telefonu iki elle tut. Ağırlığını fark et. On saniye. Bırakış.' },
 ]
 
 export function todaysClarity(): LibraryItem {
@@ -525,6 +646,24 @@ export const extras: LibraryItem[] = [
     minutes: 6,
     sentence: 'Işık bir yerden geliyor.',
     body: 'Pencereye bakmadan önce omuzları bırak. Sonra yönü söyle. Gölgeyi söyle. Ekran değil, gün ışığı tercihi. Bırakış: ışığı düzeltmeye çalışma.',
+  },
+  {
+    id: 'three-objects',
+    title: '3 nesne',
+    subtitle: 'Bak, renk, dokun',
+    minutes: 4,
+    free: true,
+    sentence: 'Üç nesne odada, ben odadayım.',
+    body: 'Üç nesne seç. Her biri için: bak, rengi söyle, dokun. Isı, ağırlık, pürüz. Yüksek sesle. Sis yorumu yok. Sonra iki tabanı yere bas. Bırakış: envanteri mahkeme yapma. Şükran: bu kenarlar.',
+  },
+  {
+    id: 'room-sound',
+    title: 'Odadaki ses',
+    subtitle: 'Bir ses, adını söyle',
+    minutes: 3,
+    free: true,
+    sentence: 'Bu ses odada, ben de odadayım.',
+    body: 'Bir ses seç: buzdolabı, trafik, yağmur, kendi nefesin. Adını söyle. Yorum yok. On nefes boyunca sadece o ses. Bırakış: sesi kapatmaya çalışma.',
   },
 ]
 

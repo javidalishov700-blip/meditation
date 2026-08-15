@@ -1,22 +1,31 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CoverCard, Rail } from '../components/CoverCard'
-import { CircleIconBtn, FavSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
-import {
-  FOR_YOU_IDS,
-  HERO_COVERS,
-  ITEMS,
-  TONIGHT_IDS,
-  groupItems,
-  hrefFor,
-  itemsById,
-} from '../lib/catalog'
-import { activityStats, formatLongDate } from '../lib/activity'
+import { CircleIconBtn, FavSheet, LangSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
+import { HERO_COVERS, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
+import { activityStats } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 import { MOOD_KEYS, readMood, type MoodId } from '../lib/mood'
 import { quotes } from '../lib/quotes'
 import { isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
+
+function readDim() {
+  try {
+    return localStorage.getItem('steady.dim') === '1'
+  } catch {
+    return false
+  }
+}
+
+function writeDim(on: boolean) {
+  try {
+    localStorage.setItem('steady.dim', on ? '1' : '0')
+  } catch {
+    /* ignore */
+  }
+  document.documentElement.classList.toggle('dim', on)
+}
 
 export function Home() {
   const { t, locale, meta } = useI18n()
@@ -24,8 +33,10 @@ export function Home() {
   const [slide, setSlide] = useState(0)
   const [search, setSearch] = useState(false)
   const [moodOpen, setMoodOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
   const [favOpen, setFavOpen] = useState(false)
   const [mood, setMood] = useState<MoodId | null>(() => readMood())
+  const [dim, setDim] = useState(() => readDim())
   const [reading, setReading] = useState(() => isSpeaking())
   const stats = activityStats()
 
@@ -47,14 +58,8 @@ export function Home() {
         : t('me_trial', { n: Math.ceil(ms / 86_400_000) })
       : null
 
-  const daily = ITEMS.filter((i) =>
-    ['story-lighthouse', 'breath-wave', 'med-body', 'write-wave', 'nat-rain', 'nat-piano'].includes(i.id),
-  )
-  const tonight = itemsById([...TONIGHT_IDS])
-  const forYou = itemsById(
-    mood ? FOR_YOU_IDS[mood] ?? FOR_YOU_IDS.calm! : ['nat-rain', 'story-lighthouse', 'breath-wave', 'nat-piano', 'med-body', 'nat-ocean'],
-  )
-  const programs = groupItems('programs')
+  const now = itemsById(nowIds(mood, new Date().getHours()))
+  const sounds = itemsById([...SOUND_RAIL_IDS])
 
   return (
     <div className="pb-6">
@@ -68,9 +73,29 @@ export function Home() {
               <path d="M7 10l5 5 5-5" />
             </svg>
           </button>
+          <button
+            type="button"
+            onClick={() => setLangOpen(true)}
+            className="mt-2 inline-flex items-center rounded-full border border-white/12 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/85"
+            aria-label={t('lang_now')}
+          >
+            {meta.native}
+          </button>
           {trialLine ? <p className="mt-1 text-[11px] text-[#C4B5FD]/80">{trialLine}</p> : null}
         </div>
         <div className="flex items-center gap-2 pt-1">
+          <CircleIconBtn
+            label={t('dim')}
+            onClick={() => {
+              const next = !dim
+              writeDim(next)
+              setDim(next)
+            }}
+          >
+            <svg viewBox="0 0 24 24" className={`h-4 w-4 ${dim ? 'text-[#C4B5FD]' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.7">
+              <path d="M18 13.5A7 7 0 1 1 10.5 6 5.5 5.5 0 0 0 18 13.5Z" />
+            </svg>
+          </CircleIconBtn>
           <div className="relative">
             <CircleIconBtn to="/me" label={t('current_streak')}>
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
@@ -148,21 +173,12 @@ export function Home() {
 
       <div className="-mx-5 mt-5 flex gap-2.5 overflow-x-auto px-5 hide-scroll">
         <QuickTile
-          label={t('favorites')}
-          onClick={() => setFavOpen(true)}
+          to="/sos"
+          label={t('sos_short')}
           icon={
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M12 19s-7-4.4-7-9.1A4 4 0 0 1 12 7a4 4 0 0 1 7 2.9C19 14.6 12 19 12 19Z" />
-            </svg>
-          }
-        />
-        <QuickTile
-          label={t('mood_check')}
-          onClick={() => setMoodOpen(true)}
-          icon={
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M5 6h10a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3V6Z" />
-              <path d="M9 11h.01M12 11h.01M15 11h.01" />
+              <circle cx="12" cy="12" r="8" />
+              <path d="M12 8v5M12 16h.01" />
             </svg>
           }
         />
@@ -176,61 +192,34 @@ export function Home() {
           }
         />
         <QuickTile
-          to="/sleep"
-          label={t('nav_sleep')}
+          to="/session/extra/three-objects"
+          label={t('more_objects')}
           icon={
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M18 13.5A7 7 0 1 1 10.5 6 5.5 5.5 0 0 0 18 13.5Z" />
+              <rect x="4" y="4" width="6" height="6" rx="1.2" />
+              <rect x="14" y="4" width="6" height="6" rx="1.2" />
+              <rect x="9" y="14" width="6" height="6" rx="1.2" />
             </svg>
           }
         />
         <QuickTile
-          to="/sounds"
-          label={t('nav_sounds')}
+          label={t('favorites')}
+          onClick={() => setFavOpen(true)}
           icon={
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M5 12v4M9 8v12M13 5v14M17 9v8" />
-            </svg>
-          }
-        />
-        <QuickTile
-          to="/sos"
-          label={t('sos_short')}
-          icon={
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <circle cx="12" cy="12" r="8" />
-              <path d="M12 8v5M12 16h.01" />
+              <path d="M12 19s-7-4.4-7-9.1A4 4 0 0 1 12 7a4 4 0 0 1 7 2.9C19 14.6 12 19 12 19Z" />
             </svg>
           }
         />
       </div>
 
-      <section className="mt-8">
-        <h2 className="text-[1.45rem] font-semibold tracking-tight">{t('daily_rec')}</h2>
-        <p className="mt-1 text-sm text-white/40">{formatLongDate(new Date(), locale)}</p>
-        <div className="-mx-5 mt-4 flex gap-3 overflow-x-auto px-5 hide-scroll snap-x snap-mandatory">
-          {daily.map((item, i) => (
-            <CoverCard
-              key={item.id}
-              to={hrefFor(item)}
-              cover={item.cover}
-              title={item.title[locale]}
-              minutes={item.minutes}
-              badge={item.badge}
-              locked={hrefFor(item) === '/paywall'}
-              kenDelay={i * 2}
-            />
-          ))}
-        </div>
-      </section>
-
-      <Rail title={t('for_you')}>
-        {forYou.map((item, i) => (
+      <Rail title={t('now_rail')}>
+        {now.map((item, i) => (
           <CoverCard
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
@@ -239,15 +228,14 @@ export function Home() {
           />
         ))}
       </Rail>
-      <p className="-mt-2 text-sm text-white/35">{t('for_you_sub')}</p>
 
-      <Rail title={t('tonight')} toAll="/sounds">
-        {tonight.map((item, i) => (
+      <Rail title={t('nav_sounds')} toAll="/sounds">
+        {sounds.map((item, i) => (
           <CoverCard
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
@@ -255,25 +243,10 @@ export function Home() {
           />
         ))}
       </Rail>
-      <p className="-mt-2 text-sm text-white/35">{t('tonight_sub')}</p>
-
-      <Rail title={t('programs')} toAll="/treat">
-        {programs.map((item, i) => (
-          <CoverCard
-            key={item.id}
-            to={hrefFor(item)}
-            cover={item.cover}
-            title={item.title[locale]}
-            minutes={item.minutes}
-            badge={item.badge}
-            locked={hrefFor(item) === '/paywall'}
-            kenDelay={i * 1.4}
-          />
-        ))}
-      </Rail>
 
       <SearchSheet open={search} onClose={() => setSearch(false)} />
       <MoodSheet open={moodOpen} onClose={() => setMoodOpen(false)} onPick={setMood} />
+      <LangSheet open={langOpen} onClose={() => setLangOpen(false)} />
       <FavSheet open={favOpen} onClose={() => setFavOpen(false)} />
     </div>
   )

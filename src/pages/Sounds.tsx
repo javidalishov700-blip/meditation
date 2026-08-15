@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CoverCard, ChipRow, Rail } from '../components/CoverCard'
 import { CircleIconBtn, SearchSheet } from '../components/Sheets'
-import { groupItems, hrefFor, ITEMS } from '../lib/catalog'
+import { groupItems, hrefFor, itemTitle, ITEMS } from '../lib/catalog'
 import { canAccess } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
 
@@ -108,7 +108,7 @@ export function Sounds() {
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
@@ -123,7 +123,7 @@ export function Sounds() {
             key={`f-${item.id}`}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
@@ -139,7 +139,7 @@ export function Sounds() {
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}

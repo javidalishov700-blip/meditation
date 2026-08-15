@@ -239,7 +239,7 @@ export function speak(text: string, opts: SpeakOpts = {}): void {
   const baseRate = opts.rate ?? 0.88
   const basePitch = opts.pitch ?? 1
   let i = 0
-  audio.duck(true)
+  audio.hushForVoice()
   refreshVoices()
   setSpeaking(true)
   startKeepAlive()

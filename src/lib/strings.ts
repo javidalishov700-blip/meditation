@@ -94,7 +94,7 @@ const CORE = {
 
   sos_ready: R('Hazır|Ready|Hazır|Готово|Listo|Prêt|Bereit|Pronto|Pronto|جاهز|Klaar|Gotowe|Готово|準備|آماده|就绪'),
   sos_title: R('Dur.|Pause.|Dayan.|Стоп.|Pausa.|Pause.|Halt.|Pausa.|Pausa.|قف.|Pauze.|Stop.|Стоп.|止まる。|بایست.|停。'),
-  sos_sub: R('Nefes. Ses. Sonra geçer.|Breath. Sound. Then it passes.|Nəfəs. Səs. Sonra keçər.|Дыхание. Звук. Потом проходит.|Respiración. Sonido. Luego pasa.|Souffle. Son. Puis ça passe.|Atem. Klang. Dann geht es vorbei.|Respiro. Suono. Poi passa.|Respiração. Som. Depois passa.|نفس. صوت. ثم يمر.|Adem. Geluid. Dan gaat het voorbij.|Oddech. Dźwięk. Potem mija.|Подих. Звук. Потім минає.|呼吸。音。それから過ぎる。|نفس. صدا. بعد می‌گذرد.|呼吸。声音。然后会过去。'),
+  sos_sub: R('Önce 3 nesne. Renk. Dokun. Sonra nefes.|First 3 objects. Color. Touch. Then breath.|Primero 3 objetos. Color. Tocar. Luego respirar.|D’abord 3 objets. Couleur. Toucher. Puis le souffle.|Zuerst 3 Dinge. Farbe. Berühren. Dann atmen.|Prima 3 oggetti. Colore. Toccare. Poi il respiro.'),
   sos_in: R('Nefes al|Breathe in|Nəfəs al|Вдох|Inhala|Inspire|Einatmen|Inspira|Inspira|شهيق|Inademen|Wdech|Вдих|吸う|دم بگیر|吸气'),
   sos_hold: R('Tut|Hold|Tut|Пауза|Sostén|Tiens|Halten|Tieni|Segura|احبس|Vasthouden|Trzymaj|Тримай|止める|نگه‌دار|停'),
   sos_out: R('Ver|Breathe out|Ver|Выдох|Suelta|Expire|Ausatmen|Espira|Solta|زفير|Uitademen|Wydech|Видих|吐く|بازدم|呼气'),

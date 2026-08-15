@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { hrefFor, searchCatalog, searchQuotes } from '../lib/catalog'
+import { hrefFor, itemTitle, searchCatalog, searchQuotes } from '../lib/catalog'
+import { LangPicker } from './LangPicker'
 import { readFavorites, type FavItem } from '../lib/favorites'
 import { useI18n } from '../lib/i18n'
 import { MOODS, MOOD_KEYS, readMood, writeMood, type MoodId } from '../lib/mood'
@@ -44,7 +45,7 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
                   className="flex items-center gap-3 rounded-2xl bg-[#1C1C1E] p-2"
                 >
                   <img src={item.cover} alt="" className="h-14 w-11 rounded-xl object-cover" />
-                  <span className="text-sm font-medium">{item.title[locale]}</span>
+                  <span className="text-sm font-medium">{itemTitle(item, locale)}</span>
                 </Link>
               </li>
             ))}
@@ -64,6 +65,25 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
               </ul>
             </div>
           ) : null}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function LangSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useI18n()
+  if (!open) return null
+  return (
+    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
+      <div
+        className="sheet-up w-full max-w-lg rounded-t-[1.6rem] bg-[#1C1C1E] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
+        <p className="text-lg font-semibold">{t('lang_now')}</p>
+        <div className="mt-4">
+          <LangPicker onPick={onClose} />
         </div>
       </div>
     </div>

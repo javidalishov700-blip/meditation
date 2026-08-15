@@ -69,7 +69,6 @@ export function Quotes() {
                   stopSpeak()
                   return
                 }
-                if (!audio.playing) void audio.playPad()
                 speak(open.text[locale], { lang: meta.bcp47 })
               }}
             >

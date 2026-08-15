@@ -1,9 +1,11 @@
 import { NATURE_SCENES, TONES } from './audio'
+import { packRecord, packTitle } from './copy'
 import { R, type LocaleId } from './locales'
-import { breaths, meditations, sleepLab, stories, writings } from './library'
+import { breaths, extras, meditations, sleepLab, stories, writings } from './library'
 import { quotes } from './quotes'
 import { canAccess } from './entitlement'
 import type { SessionKind } from './types'
+import type { MoodId } from './mood'
 
 export type BadgeKind = 'journey' | 'program' | 'sleep' | 'music' | 'sound'
 
@@ -381,6 +383,126 @@ export const ITEMS: CatalogItem[] = [
     badge: 'music',
     group: 'music',
   },
+  {
+    id: 'story-harbor',
+    kind: 'story',
+    to: '/session/story/harbor',
+    title: R('Yağmur limanı|Rain harbor|Puerto de lluvia|Port sous la pluie|Regen-Hafen|Porto sotto la pioggia'),
+    cover: `${C}/cover-lighthouse.png`,
+    minutes: 14,
+    badge: 'sleep',
+    group: 'sleep',
+  },
+  {
+    id: 'story-bath',
+    kind: 'story',
+    to: '/session/story/bath',
+    title: R('Hamam taşı|Bath stone|Piedra de baño|Pierre de bain|Badstein|Pietra del bagno'),
+    cover: `${C}/cover-palms.png`,
+    minutes: 12,
+    badge: 'sleep',
+    group: 'sleep',
+  },
+  {
+    id: 'story-attic',
+    kind: 'story',
+    to: '/session/story/attic',
+    title: R('Çatı katı yağmuru|Attic rain|Lluvia del desván|Pluie des combles|Dachkammerregen|Pioggia in soffitta'),
+    cover: `${C}/cover-clouds.png`,
+    minutes: 13,
+    badge: 'sleep',
+    group: 'sleep',
+  },
+  {
+    id: 'story-coral',
+    kind: 'story',
+    to: '/session/story/coral',
+    title: R('Mercan Kapısı|Coral gate|Puerta de coral|Porte de corail|Korallentor|Porta di corallo'),
+    cover: `${C}/cover-lake.png`,
+    minutes: 16,
+    badge: 'sleep',
+    group: 'sleep',
+  },
+  {
+    id: 'story-library',
+    kind: 'story',
+    to: '/session/story/library',
+    title: R('Cam Dağ Kütüphanesi|Glass mountain library|Biblioteca del monte de cristal|Bibliothèque de la montagne de verre|Glasberg-Bibliothek|Biblioteca della montagna di vetro'),
+    cover: `${C}/cover-forest.png`,
+    minutes: 16,
+    badge: 'sleep',
+    group: 'sleep',
+  },
+  {
+    id: 'med-stone',
+    kind: 'meditation',
+    to: '/session/meditation/warm-stone',
+    title: R('Avuçta taş|Stone in the palm|Piedra en la palma|Pierre dans la paume|Stein in der Handfläche|Pietra nel palmo'),
+    cover: `${C}/cover-mountain.png`,
+    minutes: 8,
+    badge: 'journey',
+    group: 'start',
+  },
+  {
+    id: 'med-feet',
+    kind: 'meditation',
+    to: '/session/meditation/feet-press',
+    title: R('Taban basışı|Feet press|Presión de plantas|Pression des plantes|Sohlendruck|Pressione delle piante'),
+    cover: `${C}/cover-forest.png`,
+    minutes: 7,
+    badge: 'journey',
+    group: 'start',
+  },
+  {
+    id: 'write-colors',
+    kind: 'writing',
+    to: '/session/writing/three-colors',
+    title: R('Üç renk|Three colors|Tres colores|Trois couleurs|Drei Farben|Tre colori'),
+    cover: `${C}/cover-palms.png`,
+    minutes: 5,
+    badge: 'program',
+    group: 'daily',
+  },
+  {
+    id: 'breath-equal',
+    kind: 'breath',
+    to: '/session/breath/equal',
+    title: R('Eşit 5-5|Even 5-5|Igual 5-5|Égal 5-5|Gleich 5-5|Uguale 5-5'),
+    cover: `${C}/cover-lake.png`,
+    minutes: 4,
+    badge: 'journey',
+    group: 'daily',
+  },
+  {
+    id: 'breath-count8',
+    kind: 'breath',
+    to: '/session/breath/count8',
+    title: R('Sekize ver|Out to eight|Hasta ocho|Jusqu’à huit|Bis acht|Fino a otto'),
+    cover: `${C}/cover-lake.png`,
+    minutes: 5,
+    badge: 'journey',
+    group: 'daily',
+  },
+  {
+    id: 'extra-objects',
+    kind: 'extra',
+    to: '/session/extra/three-objects',
+    title: R('3 nesne|3 objects|3 objetos|3 objets|3 Dinge|3 oggetti'),
+    cover: `${C}/cover-mountain.png`,
+    minutes: 4,
+    badge: 'journey',
+    group: 'start',
+  },
+  {
+    id: 'extra-sound',
+    kind: 'extra',
+    to: '/session/extra/room-sound',
+    title: R('Odadaki ses|Room sound|Sonido de la habitación|Son de la pièce|Raumklang|Suono della stanza'),
+    cover: `${C}/cover-nebula.png`,
+    minutes: 3,
+    badge: 'sound',
+    group: 'daily',
+  },
 ]
 
 export function groupItems(group: CatalogItem['group']): CatalogItem[] {
@@ -412,7 +534,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       id: `s-${s.id}`,
       kind: 'story' as const,
       to: `/session/story/${s.id}`,
-      title: R(`${s.title}|${s.title}|${s.title}`),
+      title: packRecord(s.id, s.title),
       cover: `${C}/cover-lighthouse.png`,
       minutes: s.minutes,
       badge: 'sleep' as const,
@@ -422,7 +544,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       id: `m-${s.id}`,
       kind: 'meditation' as const,
       to: `/session/meditation/${s.id}`,
-      title: R(`${s.title}|${s.title}|${s.title}`),
+      title: packRecord(s.id, s.title),
       cover: `${C}/cover-forest.png`,
       minutes: s.minutes,
       badge: 'journey' as const,
@@ -432,7 +554,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       id: `l-${s.id}`,
       kind: 'sleeplab' as const,
       to: `/session/sleeplab/${s.id}`,
-      title: R(`${s.title}|${s.title}|${s.title}`),
+      title: packRecord(s.id, s.title),
       cover: `${C}/cover-palms.png`,
       minutes: s.minutes,
       badge: 'sleep' as const,
@@ -442,7 +564,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       id: `b-${s.id}`,
       kind: 'breath' as const,
       to: `/session/breath/${s.id}`,
-      title: R(`${s.label}|${s.label}|${s.label}`),
+      title: packRecord(s.id, s.label),
       cover: `${C}/cover-lake.png`,
       minutes: s.minutes,
       badge: 'journey' as const,
@@ -452,11 +574,21 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       id: `w-${s.id}`,
       kind: 'writing' as const,
       to: `/session/writing/${s.id}`,
-      title: R(`${s.title}|${s.title}|${s.title}`),
+      title: packRecord(s.id, s.title),
       cover: `${C}/cover-forest.png`,
       minutes: s.minutes,
       badge: 'program' as const,
       group: 'daily' as const,
+    })),
+    ...extras.map((s) => ({
+      id: `x-${s.id}`,
+      kind: 'extra' as const,
+      to: `/session/extra/${s.id}`,
+      title: packRecord(s.id, s.title),
+      cover: `${C}/cover-mountain.png`,
+      minutes: s.minutes,
+      badge: 'journey' as const,
+      group: 'start' as const,
     })),
     ...NATURE_SCENES.map((s) => ({
       id: `n-${s.id}`,
@@ -484,7 +616,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
   return pool.filter((i) => {
     if (seen.has(i.to)) return false
     const hit =
-      i.title[locale].toLowerCase().includes(n) ||
+      itemTitle(i, locale).toLowerCase().includes(n) ||
       i.title.en.toLowerCase().includes(n) ||
       i.title.tr.toLowerCase().includes(n)
     if (!hit) return false
@@ -519,13 +651,60 @@ export const TONIGHT_IDS = [
 ] as const
 
 export const FOR_YOU_IDS: Record<string, string[]> = {
-  calm: ['nat-forest', 'nat-bowl', 'nat-piano', 'med-body'],
-  tense: ['breath-wave', 'nat-rain', 'nat-ocean', 'prog-panic'],
-  sleepless: ['story-lighthouse', 'nat-night', 'nat-snow', 'lab-1'],
-  wave: ['nat-waves', 'nat-ocean', 'write-wave', 'breath-wave'],
-  distant: ['med-room', 'nat-forest', 'nat-cafe', 'prog-dr'],
+  calm: ['nat-forest', 'nat-bowl', 'nat-piano', 'med-body', 'story-bath', 'extra-sound'],
+  tense: ['breath-wave', 'extra-objects', 'nat-rain', 'nat-ocean', 'med-feet', 'write-wave'],
+  sleepless: ['story-lighthouse', 'story-harbor', 'nat-night', 'nat-snow', 'lab-1', 'story-attic'],
+  wave: ['nat-waves', 'nat-ocean', 'write-wave', 'breath-wave', 'breath-count8', 'story-coral'],
+  distant: ['med-room', 'extra-objects', 'nat-forest', 'nat-cafe', 'med-feet', 'write-colors'],
 }
 
 export function itemsById(ids: string[]): CatalogItem[] {
   return ids.map((id) => ITEMS.find((i) => i.id === id)).filter((i): i is CatalogItem => Boolean(i))
 }
+
+const COPY_BY_CATALOG: Record<string, string> = {
+  'story-lighthouse': 'lighthouse',
+  'story-meadow': 'meadow',
+  'story-wagon': 'wagon',
+  'story-harbor': 'harbor',
+  'story-bath': 'bath',
+  'story-attic': 'attic',
+  'story-coral': 'coral',
+  'story-library': 'library',
+  'med-body': 'body-drop',
+  'med-room': 'known-room',
+  'med-shore': 'shore-sit',
+  'med-window': 'window-light',
+  'med-stone': 'warm-stone',
+  'med-feet': 'feet-press',
+  'lab-1': 'lab-1',
+  'breath-wave': 'wave',
+  'breath-equal': 'equal',
+  'breath-count8': 'count8',
+  'write-wave': 'after-wave',
+  'write-colors': 'three-colors',
+  'extra-objects': 'three-objects',
+  'extra-sound': 'room-sound',
+}
+
+export function itemTitle(item: CatalogItem, locale: LocaleId): string {
+  const copyId = COPY_BY_CATALOG[item.id]
+  if (copyId) return packTitle(copyId, locale, item.title[locale])
+  return item.title[locale]
+}
+
+export function nowIds(mood: MoodId | null, hour: number): string[] {
+  const night = hour >= 21 || hour < 6
+  if (mood === 'tense' || mood === 'wave') {
+    return ['extra-objects', 'breath-wave', 'med-feet', 'write-wave', 'nat-rain', 'story-lighthouse', 'write-colors', 'nat-ocean']
+  }
+  if (mood === 'sleepless' || night) {
+    return ['story-lighthouse', 'story-harbor', 'story-attic', 'nat-night', 'nat-rain', 'lab-1', 'nat-piano', 'med-stone']
+  }
+  if (mood === 'distant') {
+    return ['extra-objects', 'med-room', 'med-feet', 'nat-forest', 'story-bath', 'write-colors', 'nat-cafe', 'med-window']
+  }
+  return ['story-lighthouse', 'breath-wave', 'med-body', 'extra-objects', 'story-harbor', 'write-colors', 'med-feet', 'nat-rain']
+}
+
+export const SOUND_RAIL_IDS = ['nat-rain', 'nat-ocean', 'nat-night', 'nat-piano', 'nat-forest', 'nat-fire', 'nat-bowl', 'nat-fan'] as const

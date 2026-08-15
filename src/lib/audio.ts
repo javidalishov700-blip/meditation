@@ -382,6 +382,14 @@ export class AudioEngine {
     this.fadeMaster(on ? 0.14 : this.restGain, 0.2)
   }
 
+  hushForVoice() {
+    if (this.kind === 'pad' || this.kind === 'onboard' || !this.playing) {
+      if (this.playing) this.stop(0.22)
+      return
+    }
+    this.duck(true)
+  }
+
   setTimer(minutes: number, onDone?: () => void) {
     if (this.timer != null) window.clearTimeout(this.timer)
     this.timer = window.setTimeout(() => {

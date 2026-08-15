@@ -1,4 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { locDay, locDoor } from '../lib/copy'
 import { programs } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -18,8 +19,8 @@ export function Treat() {
   const { door } = useParams()
   const navigate = useNavigate()
   const { pro } = useEntitlement()
-  const { t } = useI18n()
-  const active = (treatments.find((d) => d.id === door) ?? treatments[0]) as Door
+  const { t, locale } = useI18n()
+  const active = locDoor((treatments.find((d) => d.id === door) ?? treatments[0]) as Door, locale)
   const program = programs.find((p) => p.id === active.id)!
 
   return (
@@ -61,6 +62,7 @@ export function Treat() {
             render={(d) => {
               const open = pro || canAccess('program', active.id, { day: d.day })
               const to = open ? `/session/program/${active.id}?day=${d.day}` : '/paywall'
+              const day = locDay(active.id, d, locale)
               return (
                 <Link
                   to={to}
@@ -68,7 +70,7 @@ export function Treat() {
                 >
                   <div>
                     <p className="text-xs text-mute">{t('day_n', { n: d.day })}</p>
-                    <p className="font-medium">{d.title}</p>
+                    <p className="font-medium">{day.title}</p>
                   </div>
                   {open ? <span className="text-mute">→</span> : <ProChip />}
                 </Link>

@@ -9,8 +9,30 @@ import { sosSentences, tapSentences } from '../lib/sosPhrases'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { GhostButton, PrimaryButton } from '../components/ui'
 import { useWakeLock } from '../lib/wake'
+import type { StringKey } from '../lib/strings'
 
-type Phase = 'idle' | 'inhale' | 'hold' | 'exhale' | 'phrase' | 'tap' | 'done'
+type Phase = 'idle' | 'ground' | 'feet' | 'inhale' | 'hold' | 'exhale' | 'phrase' | 'tap' | 'done'
+
+const OBJ_KEYS = ['sos_obj_1', 'sos_obj_2', 'sos_obj_3'] as const satisfies readonly StringKey[]
+
+const COLORS: { key: StringKey; hex: string }[] = [
+  { key: 'sos_c_red', hex: '#e11d48' },
+  { key: 'sos_c_blue', hex: '#3b82f6' },
+  { key: 'sos_c_green', hex: '#22c55e' },
+  { key: 'sos_c_yellow', hex: '#eab308' },
+  { key: 'sos_c_white', hex: '#f8fafc' },
+  { key: 'sos_c_black', hex: '#171717' },
+  { key: 'sos_c_wood', hex: '#b45309' },
+  { key: 'sos_c_gray', hex: '#6b7280' },
+]
+
+function buzz(ms = 28) {
+  try {
+    navigator.vibrate?.(ms)
+  } catch {
+    /* ignore */
+  }
+}
 
 export function Sos() {
   const navigate = useNavigate()
@@ -21,6 +43,10 @@ export function Sos() {
   const [taps, setTaps] = useState(0)
   const [sentence, setSentence] = useState(() => pick(tapSentences(locale)))
   const [livePhrase, setLivePhrase] = useState('')
+  const [obj, setObj] = useState(0)
+  const [color, setColor] = useState<StringKey | null>(null)
+  const [left, setLeft] = useState(false)
+  const [right, setRight] = useState(false)
   const started = useRef(0)
   const running = useRef(false)
   const cycle = useRef(0)
@@ -97,13 +123,19 @@ export function Sos() {
     cycle.current = 0
     setSeconds(0)
     setTaps(0)
+    setObj(0)
+    setColor(null)
+    setLeft(false)
+    setRight(false)
     setSentence(pick(tapSentences(locale)))
-    try {
-      navigator.vibrate?.(40)
-    } catch {
-      /* ignore */
-    }
+    buzz(40)
     await audio.playSosBed()
+    setPhase('ground')
+    speak(t('sos_ground_sub'), { rate: 0.92, lang })
+  }
+
+  function beginBreath() {
+    running.current = true
     void loop()
   }
 
@@ -122,11 +154,7 @@ export function Sos() {
   function tap() {
     const n = taps + 1
     setTaps(n)
-    try {
-      navigator.vibrate?.(12)
-    } catch {
-      /* ignore */
-    }
+    buzz(12)
     if (n >= 10) {
       addPassed({
         id: `${started.current}`,
@@ -153,12 +181,8 @@ export function Sos() {
         </button>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <h1 className="font-display text-4xl">{t('sos_title')}</h1>
-          <p className="mt-3 max-w-[14rem] text-sm leading-7 text-mute">{t('sos_sub')}</p>
-          <button
-            type="button"
-            onClick={() => void start()}
-            className="halo-wrap mt-14 h-48 w-48"
-          >
+          <p className="mt-3 max-w-[16rem] text-sm leading-7 text-mute">{t('sos_sub')}</p>
+          <button type="button" onClick={() => void start()} className="halo-wrap mt-14 h-48 w-48">
             <span className="halo halo-a" />
             <span className="halo halo-b" />
             <span className="orb-pulse relative z-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 via-fuchsia-800/60 to-violet-950 shadow-[0_0_40px_rgba(244,114,182,0.18)]">
@@ -170,14 +194,141 @@ export function Sos() {
     )
   }
 
+  if (phase === 'ground') {
+    const prompt = t(OBJ_KEYS[obj]!)
+    return (
+      <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
+        <p className="text-sm text-mute">
+          {formatDuration(seconds, locale)} · {obj + 1}/3
+        </p>
+        <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <p className="text-[11px] uppercase tracking-[0.16em] text-rose-200/70">{t('sos_ground')}</p>
+          <h1 className="mt-3 max-w-xs font-display text-3xl leading-tight">{prompt}</h1>
+          <p className="mt-3 max-w-xs text-sm leading-6 text-mute">{t('sos_ground_sub')}</p>
+          <div className="mt-8 grid grid-cols-4 gap-2">
+            {COLORS.map((c) => {
+              const on = color === c.key
+              return (
+                <button
+                  key={c.key}
+                  type="button"
+                  onClick={() => {
+                    setColor(c.key)
+                    buzz(18)
+                    speak(t(c.key), { rate: 0.95, lang })
+                  }}
+                  className={`flex h-14 w-14 flex-col items-center justify-center rounded-2xl border ${
+                    on ? 'border-white scale-105' : 'border-white/15'
+                  }`}
+                  style={{ background: c.hex }}
+                  aria-label={t(c.key)}
+                >
+                  <span className={`text-[9px] font-medium ${c.key === 'sos_c_white' || c.key === 'sos_c_yellow' ? 'text-black/80' : 'text-white/90'}`}>
+                    {t(c.key)}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+        <PrimaryButton
+          disabled={!color}
+          onClick={() => {
+            if (!color) return
+            buzz(32)
+            if (obj >= 2) {
+              setPhase('feet')
+              setLeft(false)
+              setRight(false)
+              speak(t('sos_feet'), { rate: 0.92, lang })
+              return
+            }
+            setObj((n) => n + 1)
+            setColor(null)
+            speak(t(OBJ_KEYS[obj + 1]!), { rate: 0.92, lang })
+          }}
+        >
+          {t('sos_touched')}
+        </PrimaryButton>
+        <GhostButton
+          className="mt-3 w-full"
+          onClick={() => {
+            running.current = false
+            audio.stop()
+            stopSpeak()
+            navigate('/')
+          }}
+        >
+          {t('sos_stop')}
+        </GhostButton>
+      </div>
+    )
+  }
+
+  if (phase === 'feet') {
+    return (
+      <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
+        <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
+        <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <h1 className="max-w-xs font-display text-3xl leading-tight">{t('sos_feet')}</h1>
+          <div className="mt-10 flex gap-4">
+            <button
+              type="button"
+              onClick={() => {
+                setLeft(true)
+                buzz(24)
+              }}
+              className={`flex h-36 w-28 flex-col items-center justify-end rounded-[2.2rem] pb-6 text-sm ${
+                left ? 'bg-rose-300/90 text-violet-950' : 'bg-white/8 text-cream'
+              }`}
+            >
+              {t('sos_left')}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRight(true)
+                buzz(24)
+              }}
+              className={`flex h-36 w-28 flex-col items-center justify-end rounded-[2.2rem] pb-6 text-sm ${
+                right ? 'bg-rose-300/90 text-violet-950' : 'bg-white/8 text-cream'
+              }`}
+            >
+              {t('sos_right')}
+            </button>
+          </div>
+        </div>
+        <PrimaryButton
+          disabled={!left || !right}
+          onClick={() => {
+            buzz(40)
+            speak(t('sos_then_breath'), { rate: 0.92, lang })
+            beginBreath()
+          }}
+        >
+          {t('sos_feet_btn')}
+        </PrimaryButton>
+        <GhostButton
+          className="mt-3 w-full"
+          onClick={() => {
+            running.current = false
+            audio.stop()
+            stopSpeak()
+            navigate('/')
+          }}
+        >
+          {t('sos_stop')}
+        </GhostButton>
+      </div>
+    )
+  }
+
   if (phase === 'tap') {
     return (
       <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 text-center">
         <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
         <h1 className="mt-8 font-display text-3xl leading-tight">{sentence}</h1>
-        <p className="mt-4 text-sm text-mute">
-          {taps}/10
-        </p>
+        <p className="mt-4 text-sm text-mute">{taps}/10</p>
         <button
           type="button"
           onClick={tap}

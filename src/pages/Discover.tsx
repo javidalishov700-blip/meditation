@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CoverCard, ChipRow, Rail } from '../components/CoverCard'
 import { CircleIconBtn, SearchSheet } from '../components/Sheets'
-import { groupItems, hrefFor } from '../lib/catalog'
+import { groupItems, hrefFor, itemTitle } from '../lib/catalog'
 import { useI18n } from '../lib/i18n'
 
 export function Discover() {
@@ -55,7 +55,7 @@ export function Discover() {
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
@@ -70,7 +70,7 @@ export function Discover() {
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
@@ -85,7 +85,7 @@ export function Discover() {
             key={item.id}
             to={hrefFor(item)}
             cover={item.cover}
-            title={item.title[locale]}
+            title={itemTitle(item, locale)}
             minutes={item.minutes}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}

@@ -4,7 +4,7 @@ import { Ambient } from './components/Ambient'
 import { Layout } from './components/Layout'
 import { CrisisChip } from './components/ui'
 import { EntitlementProvider } from './lib/entitlement-store'
-import { I18nProvider } from './lib/i18n'
+import { I18nProvider, useI18n } from './lib/i18n'
 import { isOnboarded, subscribeOnboard } from './lib/onboard'
 import { Discover } from './pages/Discover'
 import { More } from './pages/More'
@@ -45,15 +45,21 @@ function RoutesTree() {
 }
 
 function Gate() {
+  const { locale } = useI18n()
   const [ready, setReady] = useState(() => isOnboarded())
   useEffect(() => subscribeOnboard(() => setReady(isOnboarded())), [])
   if (!ready) return <Onboard onDone={() => setReady(true)} />
-  return <RoutesTree />
+  return <RoutesTree key={locale} />
 }
 
 export default function App() {
   useEffect(() => {
     warmVoices()
+    try {
+      if (localStorage.getItem('steady.dim') === '1') document.documentElement.classList.add('dim')
+    } catch {
+      /* ignore */
+    }
   }, [])
   return (
     <I18nProvider>

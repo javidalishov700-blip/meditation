@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ProChip } from '../components/ui'
 import { canAccess } from '../lib/entitlement'
+import { locLibrary } from '../lib/copy'
 import { extras } from '../lib/library'
 import { useI18n } from '../lib/i18n'
 import type { StringKey } from '../lib/strings'
@@ -12,10 +13,12 @@ const extraKeys: Record<string, StringKey> = {
   'ten-steps': 'more_walk',
   'tension-drop': 'more_tension',
   'morning-light': 'more_morning',
+  'three-objects': 'more_objects',
+  'room-sound': 'more_room',
 }
 
 export function More() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   return (
     <div className="pb-8">
       <h1 className="mt-6 font-display text-3xl">{t('more_title')}</h1>
@@ -23,7 +26,8 @@ export function More() {
       <div className="mt-8 space-y-3">
         {extras.map((e) => {
           const open = canAccess('extra', e.id)
-          const label = extraKeys[e.id] ? t(extraKeys[e.id]!) : e.title
+          const located = locLibrary(e, locale)
+          const label = extraKeys[e.id] ? t(extraKeys[e.id]!) : located.title
           return (
             <Link
               key={e.id}
