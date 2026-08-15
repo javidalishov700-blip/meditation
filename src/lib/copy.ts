@@ -1,18 +1,20 @@
 import type { LocaleId } from './locales'
+import { MED_SCRIPTS } from './med-scripts'
 import type { BreathPattern, LibraryItem, MedPath, ProgramDay } from './types'
 import type { Door } from './treatments'
 
+/** fr/de args stay so existing 6-slot call sites keep working; those locales are gone. */
 export function L(
   tr: string,
   en: string,
   es: string,
-  fr: string,
-  de: string,
+  _fr: string,
+  _de: string,
   it: string,
   az?: string,
   ru?: string,
 ): Record<LocaleId, string> {
-  return { tr, en, es, fr, de, it, az: az || tr, ru: ru || en }
+  return { tr, en, es, it, az: az || tr, ru: ru || en }
 }
 
 export type Pack = {
@@ -436,42 +438,15 @@ PACK.first = {
 }
 PACK['first-settle'] = {
   title: L('Yerleş', 'Arrive', 'Llegar', 'Arriver', 'Ankommen', 'Arrivare', 'Yerləş', 'Приход'),
-  body: L(
-    '',
-    'This is not a treatment. Sit or lie down. The room stays the room. Notice the forehead. Soft jaw. Shoulders may drop. Stay for three breaths. Palms. Belly. Soles. No command to relax. Only arrive.',
-    'Esto no es un tratamiento. Siéntate o acuéstate. La habitación sigue. Frente. Mandíbula suave. Hombros. Quédate tres respiraciones. Palmas. Vientre. Plantas. Sin orden de relajarte. Solo llegar.',
-    'Ce n’est pas un traitement. Assieds-toi ou allonge-toi. La pièce reste. Front. Mâchoire douce. Épaules. Reste trois souffles. Paumes. Ventre. Plantes. Pas d’ordre. Seulement arriver.',
-    'Das ist keine Behandlung. Sitz oder lieg. Der Raum bleibt. Stirn. Weicher Kiefer. Schultern. Bleib drei Atemzüge. Handflächen. Bauch. Sohlen. Kein Befehl. Nur ankommen.',
-    'Non è una cura. Siediti o sdraiati. La stanza resta. Fronte. Mascella morbida. Spalle. Resta tre respiri. Palmi. Ventre. Piante. Niente ordine. Solo arrivare.',
-    'Bu müalicə deyil. Otur və ya uzan. Otaq eyni otaqdır. Alnını duy. Çənə yumşaq. Çiyinlər enə bilər. Burada üç nəfəs. Ovuc. Qarın. Ayaq altı. “Rahatla” əmri yoxdur. Yalnız yerləş.',
-    'Это не лечение. Сядь или ляг. Комната остаётся комнатой. Лоб. Мягкая челюсть. Плечи могут опуститься. Здесь три дыхания. Ладони. Живот. Стопы. Нет команды расслабиться. Только прибыть.',
-  ),
+  body: MED_SCRIPTS['first-settle'],
 }
 PACK['first-breath'] = {
   title: L('Nefesini izle', 'Watch the breath', 'Mira la respiración', 'Regarde le souffle', 'Den Atem ansehen', 'Guarda il respiro', 'Nəfəsini izlə', 'Смотри на дыхание'),
-  body: L(
-    '',
-    'This is not a treatment. Do not change the breath. Feel air at the nose or the chest. In. Out. Stay for three breaths. If the mind leaves, return to one exhale. You are not managing air. You are watching.',
-    'Esto no es un tratamiento. No cambies el aliento. Aire en la nariz o el pecho. Entra. Sale. Quédate tres respiraciones. Si la mente se va, vuelve a una exhalación. No gestionas el aire. Lo miras.',
-    'Ce n’est pas un traitement. Ne change pas le souffle. Air au nez ou à la poitrine. Entre. Sort. Reste trois souffles. Si l’esprit part, reviens à une expiration. Tu ne gères pas l’air. Tu regardes.',
-    'Das ist keine Behandlung. Ändere den Atem nicht. Luft an der Nase oder Brust. Ein. Aus. Bleib drei Atemzüge. Wenn der Kopf geht, zurück zu einem Ausatem. Du steuerst die Luft nicht. Du siehst zu.',
-    'Non è una cura. Non cambiare il respiro. Aria al naso o al petto. Entra. Esce. Resta tre respiri. Se la mente parte, torna a un’espirazione. Non gestisci l’aria. La guardi.',
-    'Bu müalicə deyil. Nəfəsi dəyişdirmə. Hava burunda və ya sinədə. Alış. Veriş. Burada üç nəfəs. Ağıl getsə bir verişə qayıt. Havanı idarə etmirsən. İzləyirsən.',
-    'Это не лечение. Не меняй дыхание. Воздух в носу или в груди. Вдох. Выдох. Здесь три дыхания. Если ум ушёл — вернись к одному выдоху. Ты не управляешь воздухом. Ты смотришь.',
-  ),
+  body: MED_SCRIPTS['first-breath'],
 }
 PACK['first-ground'] = {
   title: L('Yer tutuyor', 'The ground holds', 'El suelo sostiene', 'Le sol tient', 'Der Boden hält', 'Il suolo tiene', 'Yer tutur', 'Земля держит'),
-  body: L(
-    '',
-    'This is not a treatment. Two soles on the floor. Heel. Arch. Toes. Stay for three breaths. Weight can drop a millimetre. No race. The ground holds you.',
-    'Esto no es un tratamiento. Dos plantas en el suelo. Talón. Arco. Dedos. Quédate tres respiraciones. El peso puede bajar un milímetro. Sin carrera. El suelo te sostiene.',
-    'Ce n’est pas un traitement. Deux plantes au sol. Talon. Voûte. Orteils. Reste trois souffles. Le poids peut descendre d’un millimètre. Pas de course. Le sol te tient.',
-    'Das ist keine Behandlung. Zwei Sohlen am Boden. Ferse. Gewölbe. Zehen. Bleib drei Atemzüge. Gewicht darf einen Millimeter sinken. Kein Wettkampf. Der Boden hält dich.',
-    'Non è una cura. Due piante a terra. Tallone. Arco. Dita. Resta tre respiri. Il peso può scendere di un millimetro. Niente gara. Il suolo ti tiene.',
-    'Bu müalicə deyil. İki ayaq altı yerdə. Daban. Tağ. Barmaq. Burada üç nəfəs. Ağırlıq milim enə bilər. Yarış yoxdur. Yer səni tutur.',
-    'Это не лечение. Две стопы на полу. Пятка. Свод. Пальцы. Здесь три дыхания. Вес может опуститься на миллиметр. Без гонки. Земля держит тебя.',
-  ),
+  body: MED_SCRIPTS['first-ground'],
 }
 PACK.room = {
   title: L('Bilinen oda', 'Known room', 'Habitación conocida', 'Pièce connue', 'Bekannter Raum', 'Stanza nota'),
@@ -479,42 +454,15 @@ PACK.room = {
 }
 PACK['room-door'] = {
   title: L('Kapı yerinde', 'The door is there', 'La puerta está', 'La porte est là', 'Die Tür ist da', 'La porta c’è', 'Qapı yerindədir', 'Дверь на месте'),
-  body: L(
-    '',
-    'This is not a treatment. A room you know. See the door. Four edges. Window. Floor. Stay for three breaths. Three objects are enough. You will not redecorate.',
-    'Esto no es un tratamiento. Una habitación que conoces. La puerta. Cuatro bordes. Ventana. Suelo. Quédate tres respiraciones. Tres objetos bastan. No redecorarás.',
-    'Ce n’est pas un traitement. Une pièce que tu connais. La porte. Quatre bords. Fenêtre. Sol. Reste trois souffles. Trois objets suffisent. Tu ne redécoreras pas.',
-    'Das ist keine Behandlung. Ein Raum, den du kennst. Die Tür. Vier Kanten. Fenster. Boden. Bleib drei Atemzüge. Drei Dinge reichen. Du dekorierst nicht um.',
-    'Non è una cura. Una stanza che conosci. La porta. Quattro bordi. Finestra. Pavimento. Resta tre respiri. Tre oggetti bastano. Non arredi di nuovo.',
-    'Bu müalicə deyil. Bildiyin otaq. Qapını içindən gör. Dörd kənar. Pəncərə. Döşəmə. Burada üç nəfəs. Üç əşya bəsdir. Otağı yenidən bəzəməyəcəksən.',
-    'Это не лечение. Комната, которую ты знаешь. Дверь. Четыре края. Окно. Пол. Здесь три дыхания. Трёх предметов достаточно. Ты не будешь заново обставлять.',
-  ),
+  body: MED_SCRIPTS['room-door'],
 }
 PACK['room-light'] = {
   title: L('Pencere ışığı', 'Window light', 'Luz de la ventana', 'Lumière de fenêtre', 'Fensterlicht', 'Luce della finestra', 'Pəncərə işığı', 'Свет из окна'),
-  body: L(
-    '',
-    'This is not a treatment. Soft eyes. Where is the light coming from. Where does the shadow fall. Stay for three breaths. Draw one edge. Do not sharpen the image.',
-    'Esto no es un tratamiento. Ojos suaves. De dónde viene la luz. Dónde cae la sombra. Quédate tres respiraciones. Un borde. No nítidez.',
-    'Ce n’est pas un traitement. Yeux doux. D’où vient la lumière. Où tombe l’ombre. Reste trois souffles. Un bord. Ne nettoie pas l’image.',
-    'Das ist keine Behandlung. Weiche Augen. Woher das Licht. Wohin der Schatten. Bleib drei Atemzüge. Eine Kante. Das Bild nicht schärfen.',
-    'Non è una cura. Occhi morbidi. Da dove arriva la luce. Dove cade l’ombra. Resta tre respiri. Un bordo. Non mettere a fuoco.',
-    'Bu müalicə deyil. Gözlər yumşaq. İşıq haradandır. Kölgə hara düşür. Burada üç nəfəs. Bir kənar bəsdir. Şəkli itiləmə.',
-    'Это не лечение. Мягкие глаза. Откуда свет. Куда падает тень. Здесь три дыхания. Одного края достаточно. Не заостряй картинку.',
-  ),
+  body: MED_SCRIPTS['room-light'],
 }
 PACK['room-hands'] = {
   title: L('El ve nabız', 'Hand and pulse', 'Mano y pulso', 'Main et pouls', 'Hand und Puls', 'Mano e polso', 'Əl və nəbz', 'Рука и пульс'),
-  body: L(
-    '',
-    'This is not a treatment. Two hands. One wrist. If you find a pulse, do not count it. Heat is enough. Stay for three breaths. Whisper your name. Do not make the pulse a proof.',
-    'Esto no es un tratamiento. Dos manos. Una muñeca. Si hay pulso, no lo cuentes. El calor basta. Quédate tres respiraciones. Susurra tu nombre. No hagas del pulso una prueba.',
-    'Ce n’est pas un traitement. Deux mains. Un poignet. S’il y a un pouls, ne compte pas. La chaleur suffit. Reste trois souffles. Chuchote ton nom. N’en fais pas une preuve.',
-    'Das ist keine Behandlung. Zwei Hände. Ein Handgelenk. Wenn Puls da ist, nicht zählen. Wärme reicht. Bleib drei Atemzüge. Flüstere deinen Namen. Mach den Puls nicht zum Beweis.',
-    'Non è una cura. Due mani. Un polso. Se c’è un battito, non contare. Il calore basta. Resta tre respiri. Sussurra il tuo nome. Non fare del polso una prova.',
-    'Bu müalicə deyil. İki əl. Bir bilək. Nəbz varsa sayma. İstilik bəsdir. Burada üç nəfəs. Adını pıçılda. Nəbzi sübut etmə.',
-    'Это не лечение. Две руки. Одно запястье. Если есть пульс — не считай. Тепла достаточно. Здесь три дыхания. Шепни своё имя. Не делай пульс доказательством.',
-  ),
+  body: MED_SCRIPTS['room-hands'],
 }
 PACK.shore = {
   title: L('Kıyıda', 'On the shore', 'En la orilla', 'Sur le rivage', 'Am Ufer', 'Sulla riva'),
@@ -522,42 +470,15 @@ PACK.shore = {
 }
 PACK['shore-edge'] = {
   title: L('Kenarda otur', 'Sit at the edge', 'Siéntate al borde', 'Assieds-toi au bord', 'Am Rand sitzen', 'Siediti sul bordo', 'Kənarda otur', 'Сядь на краю'),
-  body: L(
-    '',
-    'This is not a treatment. A pier or a stone. The wave comes. The pier stays. You are the pier. Stay for three breaths. The exhale may be long. No force.',
-    'Esto no es un tratamiento. Un muelle o una piedra. La ola llega. El muelle queda. Eres el muelle. Quédate tres respiraciones. La exhalación puede ser larga. Sin fuerza.',
-    'Ce n’est pas un traitement. Un ponton ou une pierre. La vague vient. Le ponton reste. Tu es le ponton. Reste trois souffles. L’expiration peut être longue. Sans forcer.',
-    'Das ist keine Behandlung. Steg oder Stein. Die Welle kommt. Der Steg bleibt. Du bist der Steg. Bleib drei Atemzüge. Der Ausatem darf lang sein. Kein Zwang.',
-    'Non è una cura. Un molo o una pietra. L’onda arriva. Il molo resta. Sei il molo. Resta tre respiri. L’espirazione può essere lunga. Senza forza.',
-    'Bu müalicə deyil. İskələ və ya daş. Dalğa gəlir. Kənar qalır. Sən kənardasan. Burada üç nəfəs. Veriş uzun ola bilər. Məcbur etmə.',
-    'Это не лечение. Пирс или камень. Волна приходит. Край остаётся. Ты на краю. Здесь три дыхания. Выдох может быть длинным. Без силы.',
-  ),
+  body: MED_SCRIPTS['shore-edge'],
 }
 PACK['shore-stone'] = {
   title: L('Avuçta ağırlık', 'Weight in the palm', 'Peso en la palma', 'Poids dans la paume', 'Gewicht in der Hand', 'Peso nel palmo', 'Ovucda ağırlıq', 'Вес на ладони'),
-  body: L(
-    '',
-    'This is not a treatment. A stone, a key, or a cup. Weight. Edge. Heat or cool. Stay for three breaths. If the mind makes a story, return to the object.',
-    'Esto no es un tratamiento. Una piedra, una llave o una taza. Peso. Borde. Calor o fresco. Quédate tres respiraciones. Si la mente inventa, vuelve al objeto.',
-    'Ce n’est pas un traitement. Une pierre, une clé ou une tasse. Poids. Bord. Chaud ou frais. Reste trois souffles. Si l’esprit invente, reviens à l’objet.',
-    'Das ist keine Behandlung. Ein Stein, ein Schlüssel oder eine Tasse. Gewicht. Kante. Warm oder kühl. Bleib drei Atemzüge. Wenn der Kopf eine Geschichte baut, zurück zum Ding.',
-    'Non è una cura. Una pietra, una chiave o una tazza. Peso. Bordo. Caldo o fresco. Resta tre respiri. Se la mente inventa, torna all’oggetto.',
-    'Bu müalicə deyil. Bir daş, bir açar, bir fincan. Ağırlıq. Kənar. İstilik və ya serinlik. Burada üç nəfəs. Ağıl hekayə uydursa əşyaya qayıt.',
-    'Это не лечение. Камень, ключ или чашка. Вес. Край. Тепло или прохлада. Здесь три дыхания. Если ум плетёт историю — вернись к предмету.',
-  ),
+  body: MED_SCRIPTS['shore-stone'],
 }
 PACK['shore-seed'] = {
   title: L('Tek kare', 'One frame', 'Un fotograma', 'Un cadre', 'Ein Bild', 'Un fotogramma', 'Tək kadr', 'Один кадр'),
-  body: L(
-    '',
-    'This is not a treatment. One scene: a closed garden, a warm stone, a small lamp. Do not make a film. Stay for three breaths. Leave the seed to the night.',
-    'Esto no es un tratamiento. Una escena: jardín cerrado, piedra tibia, lámpara. No hagas cine. Quédate tres respiraciones. Deja la semilla a la noche.',
-    'Ce n’est pas un traitement. Une scène : jardin fermé, pierre tiède, lampe. Pas un film. Reste trois souffles. Laisse la graine à la nuit.',
-    'Das ist keine Behandlung. Eine Szene: geschlossener Garten, warmer Stein, Lampe. Kein Film. Bleib drei Atemzüge. Lass den Samen der Nacht.',
-    'Non è una cura. Una scena: giardino chiuso, pietra tiepida, lampada. Niente film. Resta tre respiri. Lascia il seme alla notte.',
-    'Bu müalicə deyil. Tək səhnə: bağlı bağ, ilıq daş, kiçik çıraq. Film yox. Burada üç nəfəs. Toxumu gecəyə burax.',
-    'Это не лечение. Одна сцена: закрытый сад, тёплый камень, маленький светильник. Не фильм. Здесь три дыхания. Оставь семя ночи.',
-  ),
+  body: MED_SCRIPTS['shore-seed'],
 }
 
 function lab(
@@ -1046,8 +967,6 @@ export function packRecord(id: string, fallback: string): Record<LocaleId, strin
     tr: packTitle(id, 'tr', fallback),
     en: packTitle(id, 'en', fallback),
     es: packTitle(id, 'es', fallback),
-    fr: packTitle(id, 'fr', fallback),
-    de: packTitle(id, 'de', fallback),
     it: packTitle(id, 'it', fallback),
     az: packTitle(id, 'az', fallback),
     ru: packTitle(id, 'ru', fallback),

@@ -277,7 +277,7 @@ function MeditationPlayer({
     writeJson('med.bed', id)
     setBed(id)
     await audio.playNature(id)
-    if (!snap.paused) audio.hushForVoice()
+    if (!snap.paused && snap.speaking) audio.hushForVoice()
   }
 
   const frac = total ? elapsed / total : 0

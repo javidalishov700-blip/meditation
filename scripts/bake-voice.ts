@@ -1,9 +1,10 @@
 /**
- * Bake OpenAI tts-1 MP3s into public/voice/clips.
- * Store languages: tr, az, en, ru, es, fr.
+ * Bake OpenAI gpt-4o-mini-tts MP3s into public/voice/clips.
+ * Store languages: tr, az, en, ru, es.
  * Key stays in .env — never commit it, never ship it in the IPA.
  *
  *   npm run bake-voice
+ *   npm run bake-voice -- --only=med
  */
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -14,9 +15,12 @@ import { listVoiceClips } from '../src/lib/voice-catalog.ts'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dir = join(root, 'public', 'voice', 'clips')
 const manifestPath = join(root, 'public', 'voice', 'manifest.json')
-const SPEED = 0.85
-const VOICE = 'nova'
-const MAX = 4000
+const MODEL = 'gpt-4o-mini-tts'
+const VOICE = 'coral'
+const SPEED = 0.94
+const MAX = 2200
+const INSTRUCTIONS =
+  'A calm adult woman in a quiet room. Warm, unhurried, natural. Speak as if sitting next to the listener, not as a robot, not as an advertisement, not as a commercial meditation app. Soft chest voice. Pause a full breath after each paragraph and after each short line. Do not sound theatrical or whispery. Do not give commands to relax. Present and steady.'
 
 function loadKey() {
   const envPath = join(root, '.env')
@@ -30,7 +34,10 @@ function loadKey() {
 }
 
 function hashOf(locale: string, text: string) {
-  return createHash('sha1').update(`${VOICE}|${SPEED}|${locale}|${text}`).digest('hex').slice(0, 16)
+  return createHash('sha1')
+    .update(`${MODEL}|${VOICE}|${SPEED}|${INSTRUCTIONS}|${locale}|${text}`)
+    .digest('hex')
+    .slice(0, 16)
 }
 
 function chunks(text: string) {
@@ -62,27 +69,43 @@ function chunks(text: string) {
 
 async function tts(apiKey: string, text: string) {
   let last = 'openai failed'
-  for (let attempt = 0; attempt < 6; attempt++) {
-    const res = await fetch('https://api.openai.com/v1/audio/speech', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'tts-1',
-        voice: VOICE,
-        speed: SPEED,
-        input: text,
-        response_format: 'mp3',
-      }),
-    })
-    if (res.ok) return Buffer.from(await res.arrayBuffer())
-    const detail = await res.text()
-    last = `openai ${res.status}: ${detail.slice(0, 180)}`
-    const quota = /insufficient_quota|credit_balance_exhausted|no credits/i.test(detail)
-    if (quota || (res.status !== 429 && res.status < 500)) throw new Error(last)
-    await new Promise((r) => setTimeout(r, 1500 * 2 ** attempt))
+  const bodies = [
+    {
+      model: MODEL,
+      voice: VOICE,
+      speed: SPEED,
+      input: text,
+      instructions: INSTRUCTIONS,
+      response_format: 'mp3',
+    },
+    {
+      model: MODEL,
+      voice: VOICE,
+      input: text,
+      instructions: INSTRUCTIONS,
+      response_format: 'mp3',
+    },
+  ]
+  for (const body of bodies) {
+    for (let attempt = 0; attempt < 6; attempt++) {
+      const res = await fetch('https://api.openai.com/v1/audio/speech', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+      if (res.ok) return Buffer.from(await res.arrayBuffer())
+      const detail = await res.text()
+      last = `openai ${res.status}: ${detail.slice(0, 220)}`
+      const quota = /insufficient_quota|credit_balance_exhausted|no credits/i.test(detail)
+      if (quota) throw new Error(last)
+      const badSpeed = res.status === 400 && 'speed' in body && /speed|unknown parameter|unrecognized/i.test(detail)
+      if (badSpeed) break
+      if (res.status !== 429 && res.status < 500) throw new Error(last)
+      await new Promise((r) => setTimeout(r, 1500 * 2 ** attempt))
+    }
   }
   throw new Error(last)
 }
@@ -90,8 +113,14 @@ async function tts(apiKey: string, text: string) {
 type Manifest = {
   voice: string
   speed: number
+  model?: string
   updated: string
   clips: Record<string, string>
+}
+
+function rank(id: string) {
+  if (id === 'sample' || id.startsWith('med:')) return 0
+  return 1
 }
 
 async function main() {
@@ -100,8 +129,9 @@ async function main() {
     console.error('OPENAI_API_KEY missing. Put it in .env (not git), then rerun.')
     process.exit(1)
   }
+  const onlyMed = process.argv.includes('--only=med')
   mkdirSync(dir, { recursive: true })
-  let manifest: Manifest = { voice: VOICE, speed: SPEED, updated: '', clips: {} }
+  let manifest: Manifest = { voice: VOICE, speed: SPEED, model: MODEL, updated: '', clips: {} }
   if (existsSync(manifestPath)) {
     try {
       manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Manifest
@@ -109,7 +139,8 @@ async function main() {
       /* start clean */
     }
   }
-  const clips = listVoiceClips()
+  let clips = listVoiceClips().sort((a, b) => rank(a.id) - rank(b.id) || a.locale.localeCompare(b.locale) || a.id.localeCompare(b.id))
+  if (onlyMed) clips = clips.filter((c) => rank(c.id) === 0)
   let made = 0
   let skipped = 0
   for (const clip of clips) {
@@ -132,16 +163,23 @@ async function main() {
       await new Promise((r) => setTimeout(r, 80))
     }
     manifest.clips[key] = files.join(',')
-    if (made > 0 && made % 15 === 0) {
+    if (made > 0 && made % 8 === 0) {
       manifest.updated = new Date().toISOString()
+      manifest.voice = VOICE
+      manifest.speed = SPEED
+      manifest.model = MODEL
       writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
     }
   }
+  for (const key of Object.keys(manifest.clips)) {
+    if (key.startsWith('fr:')) delete manifest.clips[key]
+  }
   manifest.voice = VOICE
   manifest.speed = SPEED
+  manifest.model = MODEL
   manifest.updated = new Date().toISOString()
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
-  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}`)
+  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}`)
   console.log('Upload public/voice/ to your host (manifest.json + clips/).')
   console.log('Listening never calls OpenAI. Set VITE_VOICE_URL if files are not same-origin.')
 }

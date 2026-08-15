@@ -464,6 +464,7 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
       }
     }
     if (opts.fillMs) {
+      audio.duck(false)
       const rest = Math.max(0, opts.fillMs - liveElapsed())
       if (rest > 80) await wait(rest, gen)
     }

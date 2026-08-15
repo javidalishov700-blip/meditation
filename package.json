@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host",
     "bake-voice": "npx --yes tsx scripts/bake-voice.ts",
+    "bake-voice:med": "npx --yes tsx scripts/bake-voice.ts --only=med",
     "cap:sync": "npm run build && npx cap sync && node scripts/patch-native-locales.mjs"
   },
   "dependencies": {

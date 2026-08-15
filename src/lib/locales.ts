@@ -1,9 +1,9 @@
-export const LOCALE_IDS = ['tr', 'en', 'es', 'fr', 'de', 'it', 'az', 'ru'] as const
+export const LOCALE_IDS = ['tr', 'en', 'es', 'it', 'az', 'ru'] as const
 
 export type LocaleId = (typeof LOCALE_IDS)[number]
 
 /** Languages we bake to MP3 for the store. */
-export const VOICE_LANGS = ['tr', 'az', 'en', 'ru', 'es', 'fr'] as const
+export const VOICE_LANGS = ['tr', 'az', 'en', 'ru', 'es'] as const
 export type VoiceLang = (typeof VOICE_LANGS)[number]
 
 export type LocaleMeta = {
@@ -21,8 +21,6 @@ export const LOCALES: LocaleMeta[] = [
   { id: 'en', native: 'English', bcp47: 'en-US', dir: 'ltr', emergency: '112 / 911', tel: '112' },
   { id: 'ru', native: 'Русский', bcp47: 'ru-RU', dir: 'ltr', emergency: '112', tel: '112' },
   { id: 'es', native: 'Español', bcp47: 'es-ES', dir: 'ltr', emergency: '112', tel: '112' },
-  { id: 'fr', native: 'Français', bcp47: 'fr-FR', dir: 'ltr', emergency: '112', tel: '112' },
-  { id: 'de', native: 'Deutsch', bcp47: 'de-DE', dir: 'ltr', emergency: '112', tel: '112' },
   { id: 'it', native: 'Italiano', bcp47: 'it-IT', dir: 'ltr', emergency: '112', tel: '112' },
 ]
 
@@ -40,8 +38,6 @@ function matchLocale(raw: string): LocaleId | null {
   if (short === 'az') return 'az'
   if (short === 'ru') return 'ru'
   if (short === 'es') return 'es'
-  if (short === 'fr') return 'fr'
-  if (short === 'de') return 'de'
   if (short === 'it') return 'it'
   if (short === 'en') return 'en'
   return null
@@ -59,7 +55,7 @@ export function detectLocale(): LocaleId {
 
 /**
  * Packing:
- * - 6 slots: tr|en|es|fr|de|it  (az→tr, ru→en)
+ * - 6 slots: tr|en|es|fr|de|it  (az→tr, ru→en; fr/de slots unused)
  * - 8 slots: tr|en|az|ru|es|fr|de|it
  * - 16 slots (legacy): tr|en|az|ru|es|fr|de|it|…
  */
@@ -69,8 +65,6 @@ const LEGACY_SLOT: Record<LocaleId, number> = {
   az: 2,
   ru: 3,
   es: 4,
-  fr: 5,
-  de: 6,
   it: 7,
 }
 
@@ -78,8 +72,6 @@ const COMPACT_SLOT: Record<LocaleId, number> = {
   tr: 0,
   en: 1,
   es: 2,
-  fr: 3,
-  de: 4,
   it: 5,
   az: 0,
   ru: 1,

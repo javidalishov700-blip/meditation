@@ -290,9 +290,11 @@ export class AudioEngine {
   id = ''
   kind = ''
   now = { playing: false, label: '', route: '', id: '', kind: '' }
-  private restGain = 0.32
-  private bedLevel = 0.55
+  private restGain = 0.4
+  private bedLevel = 0.7
   private held = false
+  /** Soften the bed under speech; never mute it. */
+  private ducked = false
   private listeners = new Set<() => void>()
 
   constructor() {
@@ -325,7 +327,7 @@ export class AudioEngine {
       const Ctor = window.AudioContext || window.webkitAudioContext
       this.ctx = new Ctor()
       this.master = this.ctx.createGain()
-      this.master.gain.value = 0.32
+      this.master.gain.value = 0.4
       this.master.connect(this.ctx.destination)
       this.voiceBus = this.ctx.createGain()
       this.voiceBus.gain.value = 1
@@ -458,6 +460,7 @@ export class AudioEngine {
     this.id = ''
     this.kind = ''
     this.held = false
+    this.ducked = false
     this.emit()
     window.setTimeout(() => {
       handles.forEach((h) => h())
@@ -484,20 +487,25 @@ export class AudioEngine {
     const now = this.ctx.currentTime
     this.master.gain.cancelScheduledValues(now)
     this.master.gain.setValueAtTime(0.0001, now)
-    this.fadeMaster(this.held ? 0.0008 : targetGain * this.bedLevel, fadeIn)
+    this.fadeMaster(this.held ? 0.0008 : this.bedTarget(), fadeIn)
     this.emit()
   }
 
+  private bedTarget() {
+    return this.restGain * this.bedLevel * (this.ducked ? 0.52 : 1)
+  }
+
   duck(on: boolean) {
+    this.ducked = on
     if (!this.playing || this.held) return
-    this.fadeMaster((on ? 0.07 : this.restGain) * this.bedLevel, 0.28)
+    this.fadeMaster(this.bedTarget(), 0.4)
   }
 
   hold(on: boolean) {
     this.held = on
     if (!this.playing) return
     if (on) this.fadeMaster(0.0008, 0.2)
-    else this.fadeMaster(0.07 * this.bedLevel, 0.28)
+    else this.fadeMaster(this.bedTarget(), 0.28)
   }
 
   getBedLevel() {
@@ -512,14 +520,12 @@ export class AudioEngine {
       /* ignore */
     }
     if (!this.playing || this.held) return
-    this.fadeMaster(this.restGain * this.bedLevel, 0.18)
+    this.fadeMaster(this.bedTarget(), 0.18)
   }
 
   hushForVoice() {
-    if (this.kind === 'pad' || this.kind === 'onboard' || !this.playing) {
-      if (this.playing) this.stop(0.22)
-      return
-    }
+    if (!this.playing) return
+    if (this.kind === 'pad' || this.kind === 'onboard') return
     this.duck(true)
   }
 
@@ -717,7 +723,7 @@ export class AudioEngine {
     this.stop(0.08)
     await this.ensure()
     const scene = NATURE_SCENES.find((s) => s.id === id)
-    this.beginPlay(scene?.title ?? 'Doğa', 0.32, 2, {
+    this.beginPlay(scene?.title ?? 'Doğa', 0.4, 2, {
       route: `/session/nature/${id}`,
       id,
       kind: 'nature',
@@ -850,19 +856,19 @@ export class AudioEngine {
   }
 
   private forest(ctx: AudioContext) {
-    this.warmPad(ctx, [123, 185], 0.028)
+    this.warmPad(ctx, [123, 185], 0.045)
     const src = loopNoise(ctx, 'pink', 4, 2)
     const bp = ctx.createBiquadFilter()
     bp.type = 'bandpass'
     bp.frequency.value = 900
     bp.Q.value = 0.4
     const g = ctx.createGain()
-    g.gain.value = 0.16
+    g.gain.value = 0.3
     src.connect(bp)
     bp.connect(g)
-    this.out(g, 0.85, 0.5)
+    this.out(g, 0.9, 0.5)
     src.start()
-    this.lfo(ctx, g.gain, 0.07, 0.04, 0.16)
+    this.lfo(ctx, g.gain, 0.07, 0.06, 0.3)
     this.track(() => {
       try {
         src.stop()
@@ -882,14 +888,14 @@ export class AudioEngine {
       o.frequency.exponentialRampToValueAtTime(start * 1.18, ctx.currentTime + 0.22)
       const cg = ctx.createGain()
       cg.gain.setValueAtTime(0.0001, ctx.currentTime)
-      cg.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 0.05)
+      cg.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.05)
       cg.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.28)
       o.connect(cg)
-      this.out(cg, 0.5, 0.8)
+      this.out(cg, 0.55, 0.8)
       o.start()
       o.stop(ctx.currentTime + 0.3)
     }
-    const id = window.setInterval(chirp, 3800)
+    const id = window.setInterval(chirp, 2600)
     this.track(() => window.clearInterval(id))
   }
 
@@ -969,7 +975,7 @@ export class AudioEngine {
     lp.type = 'lowpass'
     lp.frequency.value = 150
     const g = ctx.createGain()
-    g.gain.value = 0.14
+    g.gain.value = 0.22
     src.connect(lp)
     lp.connect(g)
     this.out(g, 1, 0.45)
@@ -990,7 +996,7 @@ export class AudioEngine {
       o.type = 'triangle'
       o.frequency.value = 3800 + Math.random() * 500
       const cg = ctx.createGain()
-      cg.gain.value = 0.008
+      cg.gain.value = 0.018
       o.connect(cg)
       this.out(cg, 0.4, 0.7)
       o.start()
@@ -1165,7 +1171,7 @@ export class AudioEngine {
         o.frequency.value = f
         const g = ctx.createGain()
         g.gain.setValueAtTime(0.0001, now)
-        g.gain.linearRampToValueAtTime(0.07, now + 0.08)
+        g.gain.linearRampToValueAtTime(0.12, now + 0.08)
         g.gain.exponentialRampToValueAtTime(0.0001, now + 6.5)
         o.connect(g)
         this.out(g, 0.55, 0.95)
@@ -1241,7 +1247,7 @@ export class AudioEngine {
       const g = ctx.createGain()
       const now = ctx.currentTime
       g.gain.setValueAtTime(0.0001, now)
-      g.gain.linearRampToValueAtTime(0.05, now + 0.12)
+      g.gain.linearRampToValueAtTime(0.085, now + 0.12)
       g.gain.exponentialRampToValueAtTime(0.0001, now + 2.8)
       o.connect(g)
       this.out(g, 0.5, 0.9)
@@ -1290,7 +1296,7 @@ export class AudioEngine {
       o.frequency.value = f
       o.detune.value = detune
       const g = ctx.createGain()
-      g.gain.value = 0.045
+      g.gain.value = 0.07
       o.connect(g)
       this.out(g, 0.7, 0.85)
       o.start()
@@ -1310,7 +1316,7 @@ export class AudioEngine {
     bp.frequency.value = 520
     bp.Q.value = 2.4
     const g = ctx.createGain()
-    g.gain.value = 0.035
+    g.gain.value = 0.06
     src.connect(bp)
     bp.connect(g)
     this.out(g, 0.8, 0.6)
@@ -1365,11 +1371,11 @@ export class AudioEngine {
       o.frequency.value = f
       o.detune.value = cents
       const g = ctx.createGain()
-      g.gain.value = 0.028
+      g.gain.value = 0.045
       o.connect(g)
       this.out(g, 0.55, 0.9)
       o.start()
-      this.lfo(ctx, g.gain, 0.03, 0.01, 0.028)
+      this.lfo(ctx, g.gain, 0.03, 0.016, 0.045)
       this.track(() => {
         try {
           o.stop()
@@ -1432,12 +1438,12 @@ export class AudioEngine {
     lp.type = 'lowpass'
     lp.frequency.value = 240
     const g = ctx.createGain()
-    g.gain.value = 0.08
+    g.gain.value = 0.16
     src.connect(lp)
     lp.connect(g)
     this.out(g, 1, 0.5)
     src.start()
-    this.lfo(ctx, g.gain, 0.085, 0.05, 0.08)
+    this.lfo(ctx, g.gain, 0.085, 0.06, 0.16)
     this.track(() => {
       try {
         src.stop()
@@ -1464,7 +1470,7 @@ export class AudioEngine {
       o.frequency.value = f
       const g = ctx.createGain()
       g.gain.setValueAtTime(0.0001, now)
-      g.gain.linearRampToValueAtTime(0.04, now + 0.06)
+      g.gain.linearRampToValueAtTime(0.07, now + 0.06)
       g.gain.exponentialRampToValueAtTime(0.0001, now + 3.4)
       o.connect(g)
       this.out(g, 0.5, 0.92)

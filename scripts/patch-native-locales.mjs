@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-const langs = ['tr', 'az', 'en', 'ru', 'es', 'fr', 'de', 'it']
+const langs = ['tr', 'az', 'en', 'ru', 'es', 'it']
 const root = process.cwd()
 
 function patchIos() {

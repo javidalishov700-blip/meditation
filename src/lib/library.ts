@@ -1,3 +1,4 @@
+import { medBody } from './med-scripts'
 import type { BreathPattern, LibraryItem, MedPath } from './types'
 
 export const breaths: (BreathPattern & { subtitle: string; free?: boolean; minutes: number })[] = [
@@ -457,37 +458,21 @@ export const meditations: MedPath[] = [
         title: 'Yerleş',
         minutes: 5,
         bed: 'forest',
-        body: `Bu bir tedavi değildir. Otur veya yat. Oda aynı oda. Doğru bir pozisyon yok.
-
-Alnını fark et. Kaşlar gerilmek zorunda değil. Göz kapakları ağır olabilir. Çene yumuşak. Burada üç nefes.
-
-Omuzlar kulaklardan milim uzaklaşabilir. Avuçlar duruyor. Karın nefesle hareket edebilir. Tabanlar yerdeyse yer seni tutuyor. Burada üç nefes.
-
-“Rahatla” emri yok. Sadece yerleş. Zihin listeye dönerse bir bölgeye dön. Sonra bırak.`,
+        body: medBody('first-settle'),
       },
       {
         id: 'first-breath',
         title: 'Nefesini izle',
         minutes: 6,
         bed: 'ohm',
-        body: `Bu bir tedavi değildir. Nefesi değiştirme. Yönetme. Sadece izle.
-
-Hava burunda veya göğüste. Alış. Veriş. Hangisi daha netse orada kal. Burada üç nefes.
-
-Zihin giderse bir verişe dön. Hava bitmesin diye yarışma. Sen havayı yönetmiyorsun. İzliyorsun. Burada iki nefes.
-
-Veriş biraz uzun olabilir. Zorlama. Sonra bırak.`,
+        body: medBody('first-breath'),
       },
       {
         id: 'first-ground',
         title: 'Yer tutuyor',
         minutes: 7,
         bed: 'bowl',
-        body: `Bu bir tedavi değildir. İki tabanı yere bas. Topuk. Kemer. Parmak. Sayı yok. Daha sert yok. Sadece basınç. Burada üç nefes.
-
-Her verişte milim daha fazla ağırlık bırakabilirsin. Yarış yok. Yer seni tutuyor. Burada iki nefes.
-
-Cümle içinden: tabanlarım yerde. Sonra bırak.`,
+        body: medBody('first-ground'),
       },
     ],
   },
@@ -501,29 +486,21 @@ Cümle içinden: tabanlarım yerde. Sonra bırak.`,
         title: 'Kapı yerinde',
         minutes: 6,
         bed: 'harp',
-        body: `Bu bir tedavi değildir. Bildiğin bir oda. İcat yok.
-
-Kapıyı içinden gör. Dört kenar. Pencere. Yerin cinsi. Burada üç nefes.
-
-Üç nesne yeter. Adını söyle, içinden. Odayı dekore etmeyeceksin. Kapı yerinde. Sen yerindesin. Burada iki nefes. Sonra bırak.`,
+        body: medBody('room-door'),
       },
       {
         id: 'room-light',
         title: 'Pencere ışığı',
         minutes: 7,
         bed: 'swell',
-        body: `Bu bir tedavi değildir. Gözler yumuşak. Işık nereden geliyor. Gölge nereye düşüyor. Burada üç nefes.
-
-Bir kenar yeter. Sis yorumunu büyütme. Işık bir yerden geliyor. Netleşmezse de ışık duruyor. Burada iki nefes. Sonra bırak.`,
+        body: medBody('room-light'),
       },
       {
         id: 'room-hands',
         title: 'El ve nabız',
         minutes: 5,
         bed: 'crystal',
-        body: `Bu bir tedavi değildir. Ayna yok. İki el. Bir bilek. Nabız varsa sayma. Yoksa ısı yeter. Burada üç nefes.
-
-Adını fısılda. Nabzı kanıt yapma. Eller sende. Burada iki nefes. Sonra bırak.`,
+        body: medBody('room-hands'),
       },
     ],
   },
@@ -537,29 +514,21 @@ Adını fısılda. Nabzı kanıt yapma. Eller sende. Burada iki nefes. Sonra bı
         title: 'Kenarda otur',
         minutes: 6,
         bed: 'waves',
-        body: `Bu bir tedavi değildir. İskele veya taş. Su varsa su. Yoksa ritmik bir ses yeter.
-
-Dalga gelir. Kenar kalır. Sen kenardasın. Burada üç nefes.
-
-Veriş uzun olabilir. Zorlama. Dalgayı yönetmeyeceksin. Burada iki nefes. Sonra bırak.`,
+        body: medBody('shore-edge'),
       },
       {
         id: 'shore-stone',
         title: 'Avuçta ağırlık',
         minutes: 7,
         bed: 'piano',
-        body: `Bu bir tedavi değildir. Bir taş, bir anahtar, bir kupa. Ağırlık. Kenar. Isı veya serinlik. Burada üç nefes.
-
-Zihin hikâye uydurursa nesneye dön. Taşı kanıt yapma. Burada iki nefes. Sonra bırak.`,
+        body: medBody('shore-stone'),
       },
       {
         id: 'shore-seed',
         title: 'Tek kare',
         minutes: 5,
         bed: 'night',
-        body: `Bu bir tedavi değildir. Tek sahne: kapalı bahçe, ılık taş, küçük kandil. Film yok. Burada üç nefes.
-
-Kartpostal yeter. Tohumu geceye bırak. Uyku görev değil. Burada iki nefes. Sonra bırak.`,
+        body: medBody('shore-seed'),
       },
     ],
   },
