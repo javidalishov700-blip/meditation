@@ -145,10 +145,6 @@ function setFlags(partial: { speaking?: boolean; loading?: boolean; paused?: boo
   emit()
 }
 
-/** Tiny looping silence. Must not `ended` or WebViews flash a black fullscreen player. */
-const SILENCE =
-  'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
-
 function armInline(node: HTMLAudioElement) {
   const media = node as HTMLAudioElement & { playsInline?: boolean }
   media.playsInline = true
@@ -162,9 +158,6 @@ function armInline(node: HTMLAudioElement) {
     /* older webkit */
   }
   node.setAttribute('controlslist', 'nofullscreen nodownload noremoteplayback')
-  node.setAttribute('aria-hidden', 'true')
-  node.classList.add('steady-voice')
-  if (!node.isConnected) document.body.appendChild(node)
 }
 
 function player() {
@@ -178,21 +171,11 @@ function player() {
 }
 
 export async function primeAudio() {
-  const ctxWait = audio.ensure().catch(() => undefined)
-  const node = player()
-  const keep = node.src && !node.src.startsWith('data:') ? node.src : ''
   try {
-    node.loop = true
-    node.muted = true
-    if (!keep) node.src = SILENCE
-    await Promise.all([ctxWait, node.play().catch(() => undefined)])
-    node.pause()
+    await audio.ensure()
   } catch {
-    /* autoplay lock */
+    /* no Web Audio */
   }
-  node.muted = false
-  node.loop = false
-  if (keep && node.src !== keep) node.src = keep
 }
 
 function langPrefix(bcp47: string) {
@@ -405,7 +388,6 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   clockDuration = opts.fillMs ?? total
   setFlags({ speaking: true, loading: true, paused: false, error: null })
   armClock()
-  audio.hushForVoice()
   try {
     let skip = startMs
     for (let i = 0; i < blobs.length; i++) {
@@ -461,6 +443,7 @@ async function playUrl(url: string, gen: number, offsetSec = 0) {
   if (cancelled || gen !== speakGen) return
   ;(node as HTMLAudioElement & { playsInline?: boolean }).playsInline = true
   await node.play()
+  audio.hushForVoice()
   setFlags({ loading: false, speaking: true, paused: false })
   await new Promise<void>((resolve, reject) => {
     const done = window.setInterval(() => {

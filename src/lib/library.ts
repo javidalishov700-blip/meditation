@@ -456,7 +456,7 @@ export const meditations: MedPath[] = [
         id: 'first-settle',
         title: 'Yerleş',
         minutes: 5,
-        bed: 'drone',
+        bed: 'forest',
         body: `Bu bir tedavi değildir. Otur veya yat. Oda aynı oda. Doğru bir pozisyon yok.
 
 Alnını fark et. Kaşlar gerilmek zorunda değil. Göz kapakları ağır olabilir. Çene yumuşak. Burada üç nefes.

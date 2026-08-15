@@ -7,7 +7,7 @@ import { useI18n } from '../lib/i18n'
 import { markSession } from '../lib/activity'
 import { completedSteps, markMedStep, pathPercent, stepUnlocked } from '../lib/med-progress'
 import { MED_ALIAS, meditationById, pathMinutes } from '../lib/library'
-import { primeAudio, seekSpeakTo, speak, speechClipId, speechSnap, stopSpeak, togglePause, writeVoiceVolume } from '../lib/speech'
+import { seekSpeakTo, speak, speechClipId, speechSnap, stopSpeak, togglePause, writeVoiceVolume } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
 import { PrimaryButton } from '../components/ui'
@@ -20,6 +20,7 @@ const MED_BEDS = [
   'rain',
   'ocean',
   'forest',
+  'birds',
   'night',
   'fire',
   'river',
@@ -113,11 +114,7 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                   const clipId = `med:${s.id}`
                   const fillMs = s.minutes * 60 * 1000
                   const bedId = readBed(s.bed)
-                  void (async () => {
-                    await primeAudio()
-                    await audio.playNature(bedId)
-                    audio.hushForVoice()
-                  })()
+                  void audio.playNature(bedId)
                   speak(s.body, {
                     lang: meta.bcp47,
                     mode: 'calm',
@@ -203,10 +200,7 @@ function MeditationPlayer({
     const keep =
       speechClipId() === clipId && (live.speaking || live.loading || live.paused)
     if (!keep) {
-      void (async () => {
-        await audio.playNature(bed)
-        audio.hushForVoice()
-      })()
+      void audio.playNature(bed)
       speak(step.body, {
         lang: meta.bcp47,
         mode: 'calm',
@@ -339,11 +333,15 @@ function MeditationPlayer({
       >
         {snap.loading ? (
           <span className="h-9 w-9 animate-spin rounded-full border-2 border-white/25 border-t-white" />
-        ) : snap.paused ? (
+        ) : snap.paused || !snap.speaking ? (
           <svg viewBox="0 0 24 24" className="h-14 w-14 text-white/90" fill="currentColor">
             <path d="M8 5.5v13l11-6.5L8 5.5Z" />
           </svg>
-        ) : null}
+        ) : (
+          <svg viewBox="0 0 24 24" className="h-14 w-14 text-white/90" fill="currentColor">
+            <path d="M7 6h3.2v12H7V6Zm6.8 0H17v12h-3.2V6Z" />
+          </svg>
+        )}
       </button>
 
       {err ? (

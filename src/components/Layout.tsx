@@ -22,7 +22,7 @@ export function Layout() {
           : 'safe-bottom'
   return (
     <>
-      <div className={`relative z-10 safe-top mx-auto min-h-dvh max-w-lg px-5 ${pad}`}>
+      <div className={`relative safe-top mx-auto min-h-dvh max-w-lg px-5 ${pad} ${room ? 'z-[120]' : 'z-10'}`}>
         <div key={pathname} className={room ? undefined : 'page-enter'}>
           <Outlet />
         </div>
