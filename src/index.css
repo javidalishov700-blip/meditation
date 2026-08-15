@@ -234,9 +234,82 @@ a {
   .aurora-blob,
   .stars,
   .halo,
-  .breathe-orb {
+  .breathe-orb,
+  .ob-in,
+  .ob-in-back {
     animation: none !important;
   }
+}
+
+.ob-glow {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 230px;
+  pointer-events: none;
+  background: radial-gradient(80% 120% at 50% -12%, rgba(123, 97, 255, 0.4), transparent 72%);
+}
+
+.ob-in {
+  animation: ob-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ob-in-back {
+  animation: ob-in-back 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ob-in {
+  from {
+    opacity: 0;
+    transform: translate3d(32px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ob-in-back {
+  from {
+    opacity: 0;
+    transform: translate3d(-32px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lang-chip {
+  transition:
+    background-color 0.28s ease,
+    color 0.28s ease,
+    transform 0.2s ease,
+    box-shadow 0.28s ease;
+}
+
+.lang-chip:active {
+  transform: scale(0.97);
+}
+
+.ob-illus {
+  width: 9.2rem;
+  height: 9.2rem;
+  border-radius: 50%;
+}
+
+.ob-illus-storm {
+  background:
+    radial-gradient(circle at 50% 60%, rgba(251, 146, 60, 0.5), transparent 44%),
+    radial-gradient(circle at 36% 30%, rgba(244, 114, 182, 0.38), transparent 42%),
+    radial-gradient(circle at 72% 26%, rgba(167, 139, 250, 0.5), transparent 46%),
+    #24151f;
+}
+
+.ob-illus-soft {
+  background:
+    radial-gradient(circle at 50% 58%, rgba(196, 181, 253, 0.55), transparent 48%),
+    radial-gradient(circle at 38% 38%, rgba(125, 211, 252, 0.28), transparent 52%),
+    #161c2a;
 }
 
 .scene-night {

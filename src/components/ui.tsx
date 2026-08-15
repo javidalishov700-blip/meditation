@@ -53,7 +53,7 @@ export function Card({
   className?: string
 }) {
   return (
-    <div className={`rounded-3xl border border-white/[0.07] bg-white/[0.03] p-5 ${className}`}>{children}</div>
+    <div className={`rounded-[1.35rem] bg-[#1C1C1E] p-5 ${className}`}>{children}</div>
   )
 }
 
@@ -111,7 +111,7 @@ export function PrimaryButton({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`w-full rounded-full bg-gradient-to-r from-rose-300 to-fuchsia-400/90 px-5 py-3.5 text-sm font-semibold text-ink shadow-[0_0_20px_rgba(244,114,182,0.18)] disabled:opacity-40 ${className}`}
+      className={`w-full rounded-full bg-[#7B61FF] px-5 py-[1.05rem] text-sm font-semibold tracking-[0.06em] text-white shadow-[0_0_22px_rgba(123,97,255,0.28)] disabled:bg-[#2C2C2E] disabled:text-white/40 disabled:shadow-none ${className}`}
     >
       {children}
     </button>
@@ -135,13 +135,13 @@ export function Switch({
       role="switch"
       aria-checked={on}
       onClick={() => onChange(!on)}
-      className="flex w-full items-center gap-3 rounded-3xl border border-white/[0.07] bg-white/[0.03] px-4 py-4 text-left"
+      className="flex w-full items-center gap-3 rounded-[1.35rem] bg-[#1C1C1E] px-4 py-4 text-left"
     >
       <span className="min-w-0 flex-1">
         <span className="block text-sm text-cream">{label}</span>
         {hint ? <span className="mt-1 block text-xs leading-5 text-mute">{hint}</span> : null}
       </span>
-      <span className={`relative h-7 w-12 shrink-0 rounded-full ${on ? 'bg-fuchsia-400' : 'bg-white/15'}`}>
+      <span className={`relative h-7 w-12 shrink-0 rounded-full ${on ? 'bg-[#7B61FF]' : 'bg-white/15'}`}>
         <span
           className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
             on ? 'translate-x-[22px]' : 'translate-x-0.5'

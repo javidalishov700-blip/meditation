@@ -6,18 +6,30 @@ export const TRIAL_MS = 3 * 24 * 60 * 60 * 1000
 export type BringId = 'wave' | 'worry' | 'sleep' | 'world' | 'self'
 export type NeedId = 'stop' | 'sleep' | 'sentence' | 'breath'
 export type FreqId = 'rarely' | 'sometimes' | 'often' | 'always'
+export type HoursId = 'lt6' | 'h67' | 'h78' | 'h89' | 'h9'
+export type WakeId = 'every' | 'most' | 'sometimes' | 'rarely'
+export type FallId = 'meditate' | 'story' | 'nature'
+export type MedexId = 'none' | 'some' | 'skip'
+export type AgreeId = 'yes' | 'no'
 
 export type OnboardAnswers = {
   bring?: BringId
   need?: NeedId
   often?: FreqId
   sleepHard?: FreqId
+  hours?: HoursId
+  wake?: WakeId
+  fall: FallId[]
+  medex?: MedexId
+  agree1?: AgreeId
+  agree2?: AgreeId
   remindQuote: boolean
   remindSleep: boolean
   remindTrial: boolean
 }
 
 const EMPTY: OnboardAnswers = {
+  fall: [],
   remindQuote: false,
   remindSleep: false,
   remindTrial: true,
@@ -41,7 +53,8 @@ export function isOnboarded(): boolean {
 }
 
 export function readOnboard(): OnboardAnswers {
-  return { ...EMPTY, ...readJson<Partial<OnboardAnswers>>('onboard', {}) }
+  const raw = readJson<Partial<OnboardAnswers>>('onboard', {})
+  return { ...EMPTY, ...raw, fall: raw.fall ?? [] }
 }
 
 export function completeOnboard(answers: OnboardAnswers) {
@@ -86,7 +99,15 @@ export function suggestedPath(a: OnboardAnswers): SuggestedPath {
   if (a.need === 'stop' || a.bring === 'wave') {
     return { to: '/sos', title: 'ob_path_sos', sub: 'ob_path_sos_s' }
   }
-  if (a.need === 'sleep' || a.bring === 'sleep' || a.sleepHard === 'always' || a.sleepHard === 'often') {
+  if (
+    a.need === 'sleep' ||
+    a.bring === 'sleep' ||
+    a.sleepHard === 'always' ||
+    a.sleepHard === 'often' ||
+    a.wake === 'every' ||
+    a.wake === 'most' ||
+    a.fall.includes('story')
+  ) {
     return { to: '/sleep', title: 'ob_path_sleep', sub: 'ob_path_sleep_s' }
   }
   if (a.need === 'sentence') {
@@ -103,6 +124,9 @@ export function suggestedPath(a: OnboardAnswers): SuggestedPath {
   }
   if (a.bring === 'self') {
     return { to: '/treat/depersonalization', title: 'ob_path_self', sub: 'ob_path_self_s' }
+  }
+  if (a.fall.includes('nature')) {
+    return { to: '/sleep', title: 'ob_path_sleep', sub: 'ob_path_sleep_s' }
   }
   return { to: '/discover', title: 'ob_path_disc', sub: 'ob_path_disc_s' }
 }

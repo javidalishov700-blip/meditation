@@ -18,7 +18,7 @@ export function CategoryTile({
   return (
     <Link
       to={to}
-      className="relative flex min-h-[6.2rem] flex-col justify-between rounded-[1.5rem] border border-white/[0.06] bg-white/[0.025] p-4"
+      className="relative flex min-h-[6.2rem] flex-col justify-between rounded-[1.35rem] bg-[#1C1C1E] p-4"
     >
       <div className="text-lilac/70">{icon}</div>
       <div>

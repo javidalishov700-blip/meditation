@@ -1,22 +1,33 @@
 import { useI18n } from '../lib/i18n'
 import type { LocaleId } from '../lib/locales'
 
-export function LangPicker() {
+export function LangPicker({ onPick }: { onPick?: () => void }) {
   const { locale, setLocale, locales, t } = useI18n()
   return (
-    <label className="block">
-      <span className="text-xs text-mute">{t('home_lang')}</span>
-      <select
-        value={locale}
-        onChange={(e) => setLocale(e.target.value as LocaleId)}
-        className="mt-3 w-full appearance-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-cream"
-      >
-        {locales.map((l) => (
-          <option key={l.id} value={l.id}>
-            {l.native}
-          </option>
-        ))}
-      </select>
-    </label>
+    <div>
+      <p className="text-xs text-mute">{t('home_lang')}</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {locales.map((l) => {
+          const on = locale === l.id
+          return (
+            <button
+              key={l.id}
+              type="button"
+              onClick={() => {
+                setLocale(l.id as LocaleId)
+                onPick?.()
+              }}
+              className={`lang-chip rounded-full px-3.5 py-2 text-sm ${
+                on
+                  ? 'bg-[#7B61FF] text-white shadow-[0_0_18px_rgba(123,97,255,0.28)]'
+                  : 'bg-white/[0.05] text-cream/85'
+              }`}
+            >
+              {l.native}
+            </button>
+          )
+        })}
+      </div>
+    </div>
   )
 }

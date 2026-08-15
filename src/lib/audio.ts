@@ -342,6 +342,61 @@ export class AudioEngine {
     })
   }
 
+  async playOnboard() {
+    if (this.playing && this.label === 'Onboard') return
+    const ctx = await this.ensure()
+    this.stop(0.08)
+    await this.ensure()
+    this.beginPlay('Onboard', 0.4, 3.2)
+    this.startSpace(ctx, 0.58)
+    this.warmPad(ctx, [98, 146.83, 196, 246.94], 0.038)
+
+    const brown = loopNoise(ctx, 'brown', 7, 2)
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 140
+    const g = ctx.createGain()
+    g.gain.value = 0.07
+    brown.connect(lp)
+    lp.connect(g)
+    this.out(g, 1, 0.45)
+    brown.start()
+    this.lfo(ctx, g.gain, 0.04, 0.018, 0.07)
+    this.track(() => {
+      try {
+        brown.stop()
+        brown.disconnect()
+        lp.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+
+    const notes = [196, 220, 246.94, 293.66, 329.63, 261.63, 220, 196]
+    let i = 0
+    const motif = () => {
+      if (!this.playing || this.label !== 'Onboard' || !this.ctx) return
+      const f = notes[i % notes.length]!
+      i += 1
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      const og = ctx.createGain()
+      const now = ctx.currentTime
+      og.gain.setValueAtTime(0.0001, now)
+      og.gain.linearRampToValueAtTime(0.042, now + 0.45)
+      og.gain.exponentialRampToValueAtTime(0.0001, now + 3.6)
+      o.connect(og)
+      this.out(og, 0.45, 0.95)
+      o.start(now)
+      o.stop(now + 3.8)
+    }
+    motif()
+    const id = window.setInterval(motif, 2600)
+    this.track(() => window.clearInterval(id))
+  }
+
   async playPad() {
     const ctx = await this.ensure()
     this.stop(0.08)
