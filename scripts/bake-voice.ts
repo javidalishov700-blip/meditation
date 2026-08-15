@@ -7,7 +7,7 @@
  *   npm run bake-voice -- --only=med
  */
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { listVoiceClips } from '../src/lib/voice-catalog.ts'
@@ -123,6 +123,17 @@ function rank(id: string) {
   return 1
 }
 
+function flush(manifest: Manifest) {
+  manifest.voice = VOICE
+  manifest.speed = SPEED
+  manifest.model = MODEL
+  manifest.updated = new Date().toISOString()
+  for (const key of Object.keys(manifest.clips)) {
+    if (key.startsWith('fr:')) delete manifest.clips[key]
+  }
+  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+}
+
 async function main() {
   const apiKey = loadKey()
   if (!apiKey) {
@@ -143,10 +154,13 @@ async function main() {
   if (onlyMed) clips = clips.filter((c) => rank(c.id) === 0)
   let made = 0
   let skipped = 0
+  let stopped = false
   for (const clip of clips) {
+    if (stopped) break
     const key = `${clip.locale}:${clip.id}`
     const parts = chunks(clip.text)
     const files: string[] = []
+    let complete = true
     for (let i = 0; i < parts.length; i++) {
       const h = hashOf(clip.locale, parts[i]!)
       const name = parts.length === 1 ? `${h}.mp3` : `${h}-${i}.mp3`
@@ -157,29 +171,44 @@ async function main() {
         continue
       }
       process.stdout.write(`bake ${key} [${i + 1}/${parts.length}]\n`)
-      const buf = await tts(apiKey, parts[i]!)
-      writeFileSync(dest, buf)
-      made += 1
+      try {
+        const buf = await tts(apiKey, parts[i]!)
+        writeFileSync(dest, buf)
+        made += 1
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err)
+        if (/insufficient_quota|credit_balance_exhausted|no credits/i.test(msg)) {
+          console.error(`quota while baking ${key}; keeping clips already on disk`)
+          complete = false
+          stopped = true
+          break
+        }
+        throw err
+      }
       await new Promise((r) => setTimeout(r, 80))
     }
-    manifest.clips[key] = files.join(',')
-    if (made > 0 && made % 8 === 0) {
-      manifest.updated = new Date().toISOString()
-      manifest.voice = VOICE
-      manifest.speed = SPEED
-      manifest.model = MODEL
-      writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+    if (complete && files.every((rel) => existsSync(join(root, 'public', 'voice', rel)))) {
+      manifest.clips[key] = files.join(',')
+      flush(manifest)
     }
   }
-  for (const key of Object.keys(manifest.clips)) {
-    if (key.startsWith('fr:')) delete manifest.clips[key]
+  flush(manifest)
+  if (!stopped) {
+    const keep = new Set(
+      Object.values(manifest.clips).flatMap((raw) =>
+        raw
+          .split(',')
+          .map((s) => s.trim().replace(/^clips\//, ''))
+          .filter(Boolean),
+      ),
+    )
+    for (const name of readdirSync(dir)) {
+      if (!name.endsWith('.mp3')) continue
+      if (keep.has(name)) continue
+      unlinkSync(join(dir, name))
+    }
   }
-  manifest.voice = VOICE
-  manifest.speed = SPEED
-  manifest.model = MODEL
-  manifest.updated = new Date().toISOString()
-  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
-  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}`)
+  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${stopped ? ' (stopped: quota)' : ''}`)
   console.log('Upload public/voice/ to your host (manifest.json + clips/).')
   console.log('Listening never calls OpenAI. Set VITE_VOICE_URL if files are not same-origin.')
 }
