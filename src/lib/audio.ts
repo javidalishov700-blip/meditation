@@ -87,6 +87,7 @@ export class AudioEngine {
   private epoch = 0
   playing = false
   label = ''
+  private restGain = 0.55
 
   async ensure(): Promise<AudioContext> {
     if (!this.ctx) {
@@ -133,7 +134,7 @@ export class AudioEngine {
     window.setTimeout(() => {
       handles.forEach((h) => h())
       if (this.epoch === epoch && this.master && ctx) {
-        this.master.gain.setValueAtTime(0.7, ctx.currentTime)
+        this.master.gain.setValueAtTime(this.restGain, ctx.currentTime)
       }
     }, fade * 1000 + 40)
   }
@@ -142,11 +143,17 @@ export class AudioEngine {
     this.epoch += 1
     this.playing = true
     this.label = label
+    this.restGain = targetGain
     if (!this.ctx || !this.master) return
     const now = this.ctx.currentTime
     this.master.gain.cancelScheduledValues(now)
     this.master.gain.setValueAtTime(0.0001, now)
     this.fadeMaster(targetGain, fadeIn)
+  }
+
+  duck(on: boolean) {
+    if (!this.playing) return
+    this.fadeMaster(on ? 0.1 : this.restGain, 0.16)
   }
 
   setTimer(minutes: number, onDone?: () => void) {
@@ -161,13 +168,13 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.05)
     await this.ensure()
-    this.beginPlay('SOS yatağı', 0.72, 1.2)
+    this.beginPlay('SOS', 0.48, 1.2)
 
     const osc = ctx.createOscillator()
     osc.type = 'sine'
     osc.frequency.value = 174
     const oscGain = ctx.createGain()
-    oscGain.gain.value = 0.18
+    oscGain.gain.value = 0.12
     osc.connect(oscGain)
     this.connect(oscGain)
     osc.start()
@@ -186,7 +193,7 @@ export class AudioEngine {
     filter.type = 'lowpass'
     filter.frequency.value = 280
     const brownGain = ctx.createGain()
-    brownGain.gain.value = 0.42
+    brownGain.gain.value = 0.26
     brown.connect(filter)
     filter.connect(brownGain)
     this.connect(brownGain)

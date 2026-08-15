@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Card, Kicker, LegalNote } from '../components/ui'
+import { Card, Kicker } from '../components/ui'
 import { greeting } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { todaysQuote } from '../lib/quotes'
@@ -33,10 +33,6 @@ export function Home() {
           <p className="mt-4 text-xs text-mute">{quote.author}</p>
         </Card>
       </Link>
-
-      <div className="mt-12">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

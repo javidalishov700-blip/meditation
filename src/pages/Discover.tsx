@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { CategoryTile, TileIcon } from '../components/CategoryTile'
-import { LegalNote } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
 export function Discover() {
@@ -39,9 +38,6 @@ export function Discover() {
       <Link to="/more" className="mt-8 block text-center text-sm text-mute">
         {t('cat_more')}
       </Link>
-      <div className="mt-16">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

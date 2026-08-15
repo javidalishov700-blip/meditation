@@ -3,7 +3,7 @@ import { NATURE_SCENES } from '../lib/audio'
 import { stories, sleepLab } from '../lib/library'
 import { useEntitlement } from '../lib/entitlement-store'
 import { canAccess } from '../lib/entitlement'
-import { Card, FoldList, Kicker, LegalNote, ProChip } from '../components/ui'
+import { Card, FoldList, Kicker, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
 export function Sleep() {
@@ -95,10 +95,6 @@ export function Sleep() {
           />
         </div>
       </section>
-
-      <div className="mt-16">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

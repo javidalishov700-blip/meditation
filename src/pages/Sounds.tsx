@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { TONES } from '../lib/audio'
 import { canAccess } from '../lib/entitlement'
-import { FoldList, LegalNote, ProChip } from '../components/ui'
+import { FoldList, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
 export function Sounds() {
@@ -38,10 +38,6 @@ export function Sounds() {
             )
           }}
         />
-      </div>
-
-      <div className="mt-16">
-        <LegalNote compact />
       </div>
     </div>
   )

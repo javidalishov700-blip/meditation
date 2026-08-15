@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, FoldList, GhostButton, LegalNote, PrimaryButton, ProChip } from '../components/ui'
+import { Card, FoldList, GhostButton, PrimaryButton, ProChip } from '../components/ui'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
 import { quotes, type Quote } from '../lib/quotes'
@@ -75,10 +75,6 @@ export function Quotes() {
           </div>
         </div>
       ) : null}
-
-      <div className="mt-16">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { breaths, meditations, todaysClarity, writings } from '../lib/library'
 import { canAccess } from '../lib/entitlement'
-import { Card, FoldList, Kicker, LegalNote, ProChip } from '../components/ui'
+import { Card, FoldList, Kicker, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 
 export function Practice() {
@@ -99,10 +99,6 @@ export function Practice() {
           />
         </div>
       </section>
-
-      <div className="mt-16">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

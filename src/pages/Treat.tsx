@@ -3,7 +3,7 @@ import { programs } from '../lib/content'
 import { canAccess } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { treatments, type Door } from '../lib/treatments'
-import { Card, FoldList, Kicker, LegalNote, ProChip } from '../components/ui'
+import { Card, FoldList, Kicker, ProChip } from '../components/ui'
 import { useI18n } from '../lib/i18n'
 import type { StringKey } from '../lib/strings'
 
@@ -77,10 +77,6 @@ export function Treat() {
           />
         </div>
       </section>
-
-      <div className="mt-16">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ import { useI18n } from '../lib/i18n'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import type { BreathPattern, LibraryItem, ProgramDay, SessionKind } from '../lib/types'
-import { Card, FoldList, LegalNote, PrimaryButton } from '../components/ui'
+import { Card, FoldList, PrimaryButton } from '../components/ui'
 import { useWakeLock } from '../lib/wake'
 
 function isKind(s: string | undefined): s is SessionKind {
@@ -132,7 +132,6 @@ function ToneSession({ id }: { id: string }) {
           </>
         )}
       </div>
-      <LegalNote compact />
     </div>
   )
 }
@@ -416,9 +415,6 @@ function ScriptView({
       >
         {speaking ? t('speak_stop') : t('speak')}
       </PrimaryButton>
-      <div className="mt-12">
-        <LegalNote compact />
-      </div>
     </div>
   )
 }

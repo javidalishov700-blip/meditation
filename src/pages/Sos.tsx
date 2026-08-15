@@ -7,7 +7,7 @@ import { addPassed } from '../lib/passed'
 import { pick } from '../lib/phrases'
 import { sosSentences, tapSentences } from '../lib/sosPhrases'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
-import { CrisisLink, GhostButton, PrimaryButton } from '../components/ui'
+import { GhostButton, PrimaryButton } from '../components/ui'
 import { useWakeLock } from '../lib/wake'
 
 type Phase = 'idle' | 'inhale' | 'hold' | 'exhale' | 'phrase' | 'tap' | 'done'
@@ -104,7 +104,6 @@ export function Sos() {
       /* ignore */
     }
     await audio.playSosBed()
-    speakCue(t('sos_in'), lang)
     void loop()
   }
 
@@ -149,12 +148,9 @@ export function Sos() {
   if (phase === 'idle') {
     return (
       <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-        <div className="flex items-center justify-between">
-          <button type="button" className="text-sm text-mute" onClick={() => navigate(-1)}>
-            {t('back')}
-          </button>
-          <CrisisLink />
-        </div>
+        <button type="button" className="self-start text-sm text-mute" onClick={() => navigate(-1)}>
+          {t('back')}
+        </button>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <h1 className="font-display text-4xl">{t('sos_title')}</h1>
           <p className="mt-3 max-w-[14rem] text-sm leading-7 text-mute">{t('sos_sub')}</p>
@@ -170,9 +166,6 @@ export function Sos() {
             </span>
           </button>
         </div>
-        <p className="text-center text-[11px] text-mute">
-          {t('crisis')}: {meta.emergency}. {t('not_medical')}
-        </p>
       </div>
     )
   }
@@ -209,9 +202,8 @@ export function Sos() {
 
   return (
     <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center">
         <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
-        <CrisisLink />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
         <div

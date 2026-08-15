@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Ambient } from './components/Ambient'
 import { Layout } from './components/Layout'
-import { LockScreen } from './components/LockScreen'
+import { CrisisChip } from './components/ui'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider } from './lib/i18n'
 import { Discover } from './pages/Discover'
 import { More } from './pages/More'
 import { Quotes } from './pages/Quotes'
-import { LockProvider, useLock } from './lib/lock'
 import { warmVoices } from './lib/speech'
 import { Home } from './pages/Home'
 import { Treat } from './pages/Treat'
@@ -20,38 +19,26 @@ import { Paywall } from './pages/Paywall'
 import { Me } from './pages/Me'
 import { Session } from './pages/Session'
 
-function Gate() {
-  const { hasPin, unlocked, sosBypass, setSosBypass } = useLock()
-  const loc = useLocation()
-  const onSos = loc.pathname === '/sos'
-  const locked = hasPin && !unlocked && !(sosBypass && onSos)
-
-  useEffect(() => {
-    if (!onSos) setSosBypass(false)
-  }, [onSos, setSosBypass])
-
+function RoutesTree() {
   return (
-    <>
-      {locked ? <LockScreen /> : null}
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path="/treat" element={<Treat />} />
-          <Route path="/treat/:door" element={<Treat />} />
-          <Route path="/sleep" element={<Sleep />} />
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/more" element={<More />} />
-          <Route path="/quotes" element={<Quotes />} />
-          <Route path="/sounds" element={<Sounds />} />
-          <Route path="/paywall" element={<Paywall />} />
-          <Route path="/me" element={<Me />} />
-          <Route path="/session/:kind/:id" element={<Session />} />
-        </Route>
-        <Route path="/sos" element={<Sos />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/treat" element={<Treat />} />
+        <Route path="/treat/:door" element={<Treat />} />
+        <Route path="/sleep" element={<Sleep />} />
+        <Route path="/practice" element={<Practice />} />
+        <Route path="/more" element={<More />} />
+        <Route path="/quotes" element={<Quotes />} />
+        <Route path="/sounds" element={<Sounds />} />
+        <Route path="/paywall" element={<Paywall />} />
+        <Route path="/me" element={<Me />} />
+        <Route path="/session/:kind/:id" element={<Session />} />
+      </Route>
+      <Route path="/sos" element={<Sos />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
 
@@ -62,13 +49,12 @@ export default function App() {
   return (
     <I18nProvider>
       <EntitlementProvider>
-        <LockProvider>
-          <BrowserRouter>
-            <Ambient />
-            <div className="grain" />
-            <Gate />
-          </BrowserRouter>
-        </LockProvider>
+        <BrowserRouter>
+          <Ambient />
+          <div className="grain" />
+          <CrisisChip />
+          <RoutesTree />
+        </BrowserRouter>
       </EntitlementProvider>
     </I18nProvider>
   )

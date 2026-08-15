@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LegalNote, ProChip } from '../components/ui'
+import { ProChip } from '../components/ui'
 import { canAccess } from '../lib/entitlement'
 import { extras } from '../lib/library'
 import { useI18n } from '../lib/i18n'
@@ -35,9 +35,6 @@ export function More() {
             </Link>
           )
         })}
-      </div>
-      <div className="mt-12">
-        <LegalNote compact />
       </div>
     </div>
   )
