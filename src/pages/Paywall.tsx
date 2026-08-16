@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IncludedList, LegalRow, OfferWash, TrialTimeline } from '../components/TrialOffer'
 import { Card, GhostButton, LegalNote, PrimaryButton } from '../components/ui'
@@ -6,20 +6,46 @@ import { FREE_KEYS, PLANS, PRO_KEYS, isDemoPro } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 import { isTrialActive, requestNotify, trialUsed } from '../lib/onboard'
+import {
+  iapConfigured,
+  loadStorePlans,
+  purchasePlan,
+  refreshStoreEntitlement,
+  restoreStorePurchases,
+  type StorePlan,
+} from '../lib/purchases'
 import { readRemindTrial, writeRemindTrial } from '../lib/remind'
+import type { PlanId } from '../lib/types'
 
 export function Paywall() {
   const { demo, trial, unlockDemo, startTrial, refresh } = useEntitlement()
   const navigate = useNavigate()
   const { t } = useI18n()
   const [remind, setRemind] = useState(() => readRemindTrial())
-  const [legal, setLegal] = useState<'none' | 'privacy' | 'terms'>('none')
   const [restored, setRestored] = useState('')
+  const [store, setStore] = useState<StorePlan[] | null>(null)
+  const [busy, setBusy] = useState<PlanId | 'restore' | null>(null)
   const used = trialUsed()
   const offer = !used && !demo
   const live = trial && !demo
   const shop = used && !trial && !demo
   const planLabel = { week: t('pay_week'), month: t('pay_month'), year: t('pay_year') }
+  const nativeIap = iapConfigured() && Boolean(store?.length)
+
+  useEffect(() => {
+    let alive = true
+    void loadStorePlans().then((plans) => {
+      if (alive) setStore(plans)
+    })
+    void refreshStoreEntitlement().then((ok) => {
+      if (ok) refresh()
+    })
+    return () => {
+      alive = false
+    }
+    // refresh reads storage; identity is not required
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function setRemindOn(value: boolean) {
     setRemind(value)
@@ -27,9 +53,29 @@ export function Paywall() {
     if (value) void requestNotify()
   }
 
-  function restore() {
-    refresh()
-    setRestored(isDemoPro() || isTrialActive() ? t('pay_restore_ok') : t('pay_restore_none'))
+  async function restore() {
+    setBusy('restore')
+    if (iapConfigured()) {
+      const ok = await restoreStorePurchases()
+      refresh()
+      setRestored(ok ? t('pay_restore_ok') : t('pay_restore_none'))
+    } else {
+      refresh()
+      setRestored(isDemoPro() || isTrialActive() ? t('pay_restore_ok') : t('pay_restore_none'))
+    }
+    setBusy(null)
+  }
+
+  async function buy(id: PlanId) {
+    if (!nativeIap) return
+    setBusy(id)
+    const result = await purchasePlan(id)
+    if (result === 'ok') refresh()
+    setBusy(null)
+  }
+
+  function priceOf(id: PlanId, fallback: string) {
+    return store?.find((p) => p.id === id)?.price || fallback
   }
 
   return (
@@ -87,9 +133,14 @@ export function Paywall() {
                     {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
                   </div>
                   <p className="mt-2 font-display text-3xl">
-                    {p.price}
-                    <span className="text-base text-mute"> {p.period}</span>
+                    {priceOf(p.id, p.price)}
+                    {nativeIap ? null : <span className="text-base text-mute"> {p.period}</span>}
                   </p>
+                  {nativeIap ? (
+                    <PrimaryButton className="mt-4" disabled={busy != null} onClick={() => void buy(p.id)}>
+                      {busy === p.id ? t('voice_loading') : t('pay_buy')}
+                    </PrimaryButton>
+                  ) : null}
                 </Card>
               ))}
             </div>
@@ -109,22 +160,23 @@ export function Paywall() {
                 ))}
               </ul>
             </Card>
-            <PrimaryButton className="mt-8" onClick={() => unlockDemo()}>
-              {t('pay_open')}
-            </PrimaryButton>
-            <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
+            {nativeIap ? (
+              <p className="mt-6 text-center text-xs leading-5 text-mute">{t('pay_iap')}</p>
+            ) : (
+              <>
+                <PrimaryButton className="mt-8" onClick={() => unlockDemo()}>
+                  {t('pay_open')}
+                </PrimaryButton>
+                <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
+              </>
+            )}
           </>
         )}
 
         <div className="mt-8">
-          <LegalRow
-            onPrivacy={() => setLegal(legal === 'privacy' ? 'none' : 'privacy')}
-            onTerms={() => setLegal(legal === 'terms' ? 'none' : 'terms')}
-            onRestore={restore}
-          />
+          <LegalRow onRestore={() => void restore()} />
           {restored ? <p className="mt-3 text-center text-xs text-mute">{restored}</p> : null}
-          {legal === 'privacy' ? <p className="mt-4 text-xs leading-5 text-mute">{t('legal_full')}</p> : null}
-          {legal === 'terms' ? <p className="mt-4 text-xs leading-5 text-mute">{t('pay_stripe')}</p> : null}
+          <p className="mt-4 text-xs leading-5 text-mute">{t('legal_terms')}</p>
         </div>
 
         <div className="mt-10">

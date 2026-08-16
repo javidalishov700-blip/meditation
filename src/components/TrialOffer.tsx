@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Switch } from './ui'
 import { useI18n } from '../lib/i18n'
+import { legalUrl } from '../lib/purchases'
 import type { StringKey } from '../lib/strings'
 
 const STEPS: { title: StringKey; sub?: StringKey; tone: 'done' | 'now' | 'soon' | 'end'; mark: string }[] = [
@@ -81,24 +82,16 @@ export function IncludedList() {
   )
 }
 
-export function LegalRow({
-  onPrivacy,
-  onTerms,
-  onRestore,
-}: {
-  onPrivacy: () => void
-  onTerms: () => void
-  onRestore: () => void
-}) {
+export function LegalRow({ onRestore }: { onRestore: () => void }) {
   const { t } = useI18n()
   return (
     <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-mute">
-      <button type="button" onClick={onPrivacy}>
+      <a href={legalUrl('privacy')} target="_blank" rel="noreferrer">
         {t('pay_privacy')}
-      </button>
-      <button type="button" onClick={onTerms}>
+      </a>
+      <a href={legalUrl('terms')} target="_blank" rel="noreferrer">
         {t('pay_terms')}
-      </button>
+      </a>
       <button type="button" onClick={onRestore}>
         {t('pay_restore')}
       </button>
