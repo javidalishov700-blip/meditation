@@ -34,6 +34,7 @@ export function writeMood(id: MoodId | null) {
   const day = todayKey()
   const prev = readMoodHistory().filter((e) => e.day !== day)
   writeJson('moodHistory', [{ day, mood: id, at: Date.now() }, ...prev].slice(0, 120))
+  void import('./unlock-notify').then((m) => m.announceSkillUnlocks())
 }
 
 export function moodForDay(day: string): MoodId | null {

@@ -10,6 +10,7 @@ export function readPassed(): PassedRecord[] {
 export function addPassed(record: PassedRecord) {
   const all = [record, ...readPassed()].slice(0, 200)
   writeJson(KEY, all)
+  void import('./unlock-notify').then((m) => m.announceSkillUnlocks())
   return all
 }
 

@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, GhostButton, LegalNote } from '../components/ui'
+import { Card, LegalNote } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
+import { SkillGrid } from '../components/SkillGrid'
 import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, monthTitle, weekdayLetters } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
-import { SKILLS, skillUnlocked } from '../lib/skills'
 
 export function Me() {
   const { t, locale } = useI18n()
@@ -48,29 +48,33 @@ export function Me() {
         </span>
       </div>
 
-      <Card className="mt-6 overflow-hidden !p-0">
-        <img src="/covers/cover-freeze.png" alt="" className="h-36 w-full object-cover keep-dark" />
-        <div className="p-5">
-          <p className="text-xs uppercase tracking-[0.12em] text-mute">{t('freeze_title')}</p>
-          <p className="mt-1 text-lg font-semibold">{t('freeze_left', { n: left })}</p>
-          {froze ? <p className="mt-2 text-sm text-mute">{t('freeze_ok')}</p> : null}
-          {canFreeze ? (
-            <GhostButton
-              className="mt-4"
-              onClick={() => {
-                if (!applyFreeze()) return
-                setLeft(freezeLeft())
-                setCanFreeze(canApplyFreeze())
-                setFroze(true)
-              }}
-            >
-              {t('freeze_use')}
-            </GhostButton>
-          ) : left <= 0 ? (
-            <p className="mt-2 text-sm text-mute">{t('freeze_used')}</p>
-          ) : null}
-        </div>
-      </Card>
+      <button
+        type="button"
+        disabled={!canFreeze}
+        onClick={() => {
+          if (!applyFreeze()) return
+          setLeft(freezeLeft())
+          setCanFreeze(canApplyFreeze())
+          setFroze(true)
+        }}
+        className="mt-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1.5 pl-1.5 pr-3 text-left disabled:opacity-70"
+      >
+        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.55rem] bg-[#9BD7FF]/25">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#C8EEFF]" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="6" y="6" width="12" height="12" rx="2.2" />
+            <path d="M12 7.5v9M8.5 12h7M9.2 9.2l5.6 5.6M14.8 9.2l-5.6 5.6" opacity="0.55" />
+          </svg>
+          <svg viewBox="0 0 24 24" className="absolute h-3 w-3 text-amber-200" fill="currentColor">
+            <path d="M13 3 7.5 12h5L11 21l6.5-10h-5L13 3Z" />
+          </svg>
+        </span>
+        <span className="min-w-0">
+          <span className="block text-[13px] font-medium leading-none">{t('freeze_title')}</span>
+          <span className="mt-1 block text-[11px] leading-none text-white/45">
+            {froze ? t('freeze_ok') : canFreeze ? t('freeze_use') : left <= 0 ? t('freeze_used') : t('freeze_left', { n: left })}
+          </span>
+        </span>
+      </button>
 
       {!pro ? (
         <Link to="/paywall" className="mt-3 block overflow-hidden rounded-[1.35rem] surface">
@@ -125,19 +129,13 @@ export function Me() {
       <MoodHistory />
 
       <section className="mt-8">
-        <h2 className="text-[1.35rem] font-semibold tracking-tight">{t('skills_title')}</h2>
-        <div className="mt-4 grid grid-cols-3 gap-3">
-          {SKILLS.map((s) => {
-            const on = skillUnlocked(s.id)
-            return (
-              <div key={s.id} className={`surface overflow-hidden rounded-[1.2rem] p-2 text-center ${on ? '' : 'opacity-55'}`}>
-                <img src={s.image} alt="" className={`mx-auto h-16 w-16 rounded-full object-cover ${on ? '' : 'grayscale'}`} />
-                <p className="mt-2 text-[11px] font-medium leading-tight">{t(s.key)}</p>
-                {on ? null : <p className="mt-1 text-[9px] leading-4 text-mute">{t('skill_locked')}</p>}
-              </div>
-            )
-          })}
+        <div className="flex items-end justify-between">
+          <h2 className="text-[1.35rem] font-semibold tracking-tight">{t('skills_title')}</h2>
+          <Link to="/me/skills" className="text-sm text-white/45">
+            {t('view_all_short')}
+          </Link>
         </div>
+        <SkillGrid limit={6} />
       </section>
 
       <Card className="mt-6">

@@ -1,6 +1,7 @@
 import { activityStats, readSessionIds, readSessionKinds } from './activity'
 import { readMoodHistory } from './mood'
 import { readPassed } from './passed'
+import { readJson, writeJson } from './storage'
 import type { StringKey } from './strings'
 
 export type SkillId =
@@ -37,6 +38,24 @@ export const SKILLS: Skill[] = [
   { id: 'night', key: 'skill_night', image: '/skills/skill-night.png' },
   { id: 'courage', key: 'skill_courage', image: '/skills/skill-courage.png' },
 ]
+
+export function unlockedSkillIds(): SkillId[] {
+  return SKILLS.filter((s) => skillUnlocked(s.id)).map((s) => s.id)
+}
+
+/** First run snapshots current unlocks so an update does not spam. Later new ids notify. */
+export function takeFreshUnlocks(): SkillId[] {
+  const now = unlockedSkillIds()
+  const seen = readJson<string[] | null>('skills.seen', null)
+  if (seen == null) {
+    writeJson('skills.seen', now)
+    return []
+  }
+  const prior = new Set(seen)
+  const fresh = now.filter((id) => !prior.has(id))
+  if (fresh.length) writeJson('skills.seen', now)
+  return fresh
+}
 
 export function skillUnlocked(id: SkillId): boolean {
   try {

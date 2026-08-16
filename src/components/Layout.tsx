@@ -19,7 +19,7 @@ function LayoutBody() {
   const now = useNowPlaying()
   const listen = useSessionListen()
   const room = pathname.startsWith('/session')
-  const nested = pathname.startsWith('/me/settings')
+  const nested = pathname.startsWith('/me/settings') || pathname.startsWith('/me/skills')
   const banner = !room && !listen && !pro && !nested
   const dock = now.playing && (now.kind === 'nature' || now.kind === 'tone') && !room && !listen
   const pad = listen

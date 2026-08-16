@@ -18,9 +18,11 @@ import { readPassed } from '../lib/passed'
 import { hasPin, subscribePin, supportId } from '../lib/pin'
 import { readRemindTrial, writeRemindTrial } from '../lib/remind'
 import { readDim, readTheme, writeDim, writeTheme, type ThemeId } from '../lib/theme'
+import { readCellularMedia, writeCellularMedia } from '../lib/media'
+import { legalUrl } from '../lib/purchases'
 import type { StringKey } from '../lib/strings'
 
-const PANELS = ['help', 'lang', 'notify', 'lock', 'voice', 'emergency', 'theme', 'history'] as const
+const PANELS = ['lang', 'notify', 'lock', 'voice', 'emergency', 'theme', 'history'] as const
 type Panel = (typeof PANELS)[number]
 
 function isPanel(value: string | undefined): value is Panel {
@@ -28,7 +30,6 @@ function isPanel(value: string | undefined): value is Panel {
 }
 
 const TITLES: Record<Panel, StringKey> = {
-  help: 'me_help',
   lang: 'me_set_lang',
   notify: 'me_set_notify',
   lock: 'me_pin',
@@ -68,6 +69,7 @@ function Row({
   value,
   badge,
   to,
+  href,
   onClick,
 }: {
   icon: ReactNode
@@ -75,6 +77,7 @@ function Row({
   value?: string
   badge?: string
   to?: string
+  href?: string
   onClick?: () => void
 }) {
   const inner = (
@@ -96,6 +99,13 @@ function Row({
       </Link>
     )
   }
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={cls}>
+        {inner}
+      </a>
+    )
+  }
   return (
     <button type="button" onClick={onClick} className={cls}>
       {inner}
@@ -106,11 +116,13 @@ function Row({
 function RowSwitch({
   icon,
   label,
+  hint,
   on,
   onChange,
 }: {
   icon: ReactNode
   label: string
+  hint?: string
   on: boolean
   onChange: () => void
 }) {
@@ -123,7 +135,10 @@ function RowSwitch({
       className="flex w-full items-center gap-3 px-4 py-3.5 text-left"
     >
       <IconWrap>{icon}</IconWrap>
-      <span className="min-w-0 flex-1 text-sm text-cream">{label}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm text-cream">{label}</span>
+        {hint ? <span className="mt-0.5 block text-[11px] leading-4 text-white/35">{hint}</span> : null}
+      </span>
       <span className={`relative h-7 w-12 shrink-0 rounded-full ${on ? 'bg-[#7B61FF]' : 'bg-white/15'}`}>
         <span
           className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
@@ -215,6 +230,15 @@ function ClockIcon() {
   )
 }
 
+function DataIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="7" y="3.5" width="10" height="17" rx="2" />
+      <path d="M11 17.5h2" />
+    </svg>
+  )
+}
+
 function ReplayIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -239,33 +263,6 @@ function SettingsHeader({ title, backTo }: { title: string; backTo: string }) {
       </Link>
       <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
     </header>
-  )
-}
-
-function HelpPanel() {
-  const { t } = useI18n()
-  const helpId = supportId()
-  const [copied, setCopied] = useState(false)
-  return (
-    <Card className="mt-6">
-      <p className="text-sm leading-6 text-mute">{t('me_help_body')}</p>
-      <button
-        type="button"
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(`#${helpId}`)
-            setCopied(true)
-            window.setTimeout(() => setCopied(false), 1400)
-          } catch {
-            /* ignore */
-          }
-        }}
-        className="mt-4 inline-flex items-center rounded-full bg-white/8 px-3 py-1.5 font-mono text-sm text-white/85"
-      >
-        #{helpId}
-      </button>
-      {copied ? <p className="mt-2 text-xs text-mute">{t('me_copied')}</p> : null}
-    </Card>
   )
 }
 
@@ -414,6 +411,7 @@ function Index() {
   const emergency = useEmergencyLine()
   const helpId = supportId()
   const [pinOn, setPinOn] = useState(() => hasPin())
+  const [cellular, setCellular] = useState(() => readCellularMedia())
   const theme = readTheme()
   const remind = readRemindTrial()
   const ms = trialEndsAt - Date.now()
@@ -459,6 +457,18 @@ function Index() {
       <Group>
         <Row icon={<VoiceIcon />} label={t('voice')} to="/me/settings/voice" />
         <Hairline />
+        <RowSwitch
+          icon={<DataIcon />}
+          label={t('me_mobile_data')}
+          hint={t('me_mobile_data_h')}
+          on={cellular}
+          onChange={() => {
+            const next = !cellular
+            writeCellularMedia(next)
+            setCellular(next)
+          }}
+        />
+        <Hairline />
         <Row icon={<PhoneIcon />} label={t('me_emergency')} value={emergency.tel} to="/me/settings/emergency" />
         <Hairline />
         <Row
@@ -473,6 +483,12 @@ function Index() {
         <Row icon={<StarIcon />} label={t('me_tier')} value={tier} to="/paywall" />
         <Hairline />
         <Row icon={<ClockIcon />} label={t('me_history')} to="/me/settings/history" />
+      </Group>
+
+      <Group>
+        <Row icon={<HelpIcon />} label={t('pay_terms')} href={legalUrl('terms')} />
+        <Hairline />
+        <Row icon={<HelpIcon />} label={t('pay_privacy')} href={legalUrl('privacy')} />
       </Group>
 
       {demo || trial ? (
@@ -506,7 +522,6 @@ export function Settings() {
     <div className="pb-8">
       <SettingsHeader title={title} backTo={backTo} />
       {!current ? <Index /> : null}
-      {current === 'help' ? <HelpPanel /> : null}
       {current === 'lang' ? (
         <Card className="mt-6">
           <LangPicker />

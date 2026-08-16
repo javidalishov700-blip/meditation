@@ -50,6 +50,7 @@ export function markSession(kind: string, id?: string, now = Date.now()) {
     const ids = readSessionIds()
     if (!ids.includes(id)) writeJson('sessionIds', [...ids, id].slice(0, 400))
   }
+  void import('./unlock-notify').then((m) => m.announceSkillUnlocks())
 }
 
 type FreezeState = { week: string; used: number; days: string[] }

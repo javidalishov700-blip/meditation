@@ -25,8 +25,13 @@ import { Sounds } from './pages/Sounds'
 import { Paywall } from './pages/Paywall'
 import { Me } from './pages/Me'
 import { Settings } from './pages/Settings'
+import { Help } from './pages/Help'
+import { Skills } from './pages/Skills'
 import { Session } from './pages/Session'
 import { Onboard } from './pages/Onboard'
+import { UnlockToast } from './components/UnlockToast'
+import { setUnlockCopy } from './lib/unlock-notify'
+import { SKILLS, takeFreshUnlocks } from './lib/skills'
 import { applyTheme, readTheme } from './lib/theme'
 
 function RoutesTree() {
@@ -45,7 +50,10 @@ function RoutesTree() {
         <Route path="/sounds" element={<Sounds />} />
         <Route path="/paywall" element={<Paywall />} />
         <Route path="/me" element={<Me />} />
+        <Route path="/me/skills" element={<Skills />} />
         <Route path="/me/settings" element={<Settings />} />
+        <Route path="/me/settings/help" element={<Help />} />
+        <Route path="/me/settings/help/:topic" element={<Help />} />
         <Route path="/me/settings/:panel" element={<Settings />} />
         <Route path="/session/:kind/:id" element={<Session />} />
       </Route>
@@ -75,6 +83,7 @@ function Boot() {
       <Ambient />
       <div className="grain" />
       <CrisisChip />
+      <UnlockToast />
       <Gate />
     </>
   )
@@ -108,6 +117,17 @@ function VoiceWarm() {
   useEffect(() => {
     warmVoices(meta.bcp47)
   }, [meta.bcp47])
+  useEffect(() => {
+    setUnlockCopy((id) => {
+      const skill = SKILLS.find((s) => s.id === id)
+      return {
+        title: t('skill_unlock_h', { n: skill ? t(skill.key) : id }),
+        text: t('skill_unlock_t'),
+      }
+    })
+    takeFreshUnlocks()
+    return () => setUnlockCopy(null)
+  }, [t])
   useEffect(() => {
     const copy = () => ({ title: t('ob_rem_trial'), text: t('ob_rem_trial_t') })
     void armNativeNotificationTap()

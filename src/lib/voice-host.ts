@@ -1,3 +1,5 @@
+import { readCellularMedia } from './media'
+
 /** Local bundle first (IPA / same-origin PWA), then optional CDN. */
 function slash(s: string) {
   return s.endsWith('/') ? s : `${s}/`
@@ -17,6 +19,6 @@ export function remoteVoiceRoot() {
 export function voiceRoots() {
   const local = localVoiceRoot()
   const remote = remoteVoiceRoot()
-  if (remote && remote !== local) return [local, remote]
+  if (remote && remote !== local && readCellularMedia()) return [local, remote]
   return [local]
 }
