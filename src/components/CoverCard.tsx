@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { hrefFor, itemTitle, itemsById, type BadgeKind } from '../lib/catalog'
 import { isFavorite, toggleFavorite } from '../lib/favorites'
@@ -46,7 +46,6 @@ export function CoverCard({
   const { t } = useI18n()
   const [flash, setFlash] = useState(false)
   const [broken, setBroken] = useState(false)
-  const hold = useRef<number | null>(null)
 
   function save() {
     toggleFavorite({ to, title, cover })
@@ -57,38 +56,27 @@ export function CoverCard({
   return (
     <Link
       to={to}
-      className={`cover-card keep-dark relative block overflow-hidden rounded-[1.45rem] ${
+      className={`cover-card keep-dark relative block touch-manipulation overflow-hidden rounded-[1.45rem] ${
         fill ? 'h-[13.4rem] w-full' : wide ? 'h-[10.5rem] w-[16.5rem] shrink-0 snap-start' : 'h-[15.6rem] w-[10.6rem] shrink-0 snap-start'
       }`}
       onContextMenu={(e) => {
         e.preventDefault()
         save()
       }}
-      onPointerDown={() => {
-        hold.current = window.setTimeout(save, 520)
-      }}
-      onPointerUp={() => {
-        if (hold.current) window.clearTimeout(hold.current)
-      }}
-      onPointerLeave={() => {
-        if (hold.current) window.clearTimeout(hold.current)
-      }}
-      onPointerCancel={() => {
-        if (hold.current) window.clearTimeout(hold.current)
-      }}
     >
       {broken ? (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#4c3a78] via-[#2a1650] to-[#120c1c]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#4c3a78] via-[#2a1650] to-[#120c1c]" />
       ) : (
         <img
           src={cover}
           alt=""
-          className="cover-ken absolute inset-0 h-full w-full object-cover"
+          draggable={false}
+          className="cover-ken pointer-events-none absolute inset-0 h-full w-full object-cover"
           style={{ animationDelay: `${kenDelay}s` }}
           onError={() => setBroken(true)}
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/10" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/10" />
       {badge ? (
         <span className="absolute left-2.5 top-2.5 inline-flex items-center rounded-full bg-black/35 px-2 py-0.5 text-[9px] font-semibold tracking-[0.12em] text-white/95 backdrop-blur-md">
           {t(BADGE_KEY[badge])}
@@ -99,7 +87,7 @@ export function CoverCard({
           <LockIcon />
         </span>
       ) : null}
-      <div className="absolute inset-x-3 bottom-3">
+      <div className="pointer-events-none absolute inset-x-3 bottom-3">
         {minutes != null ? (
           <p className="mb-1 flex items-center gap-1 text-[11px] text-white/80">
             <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.7">
