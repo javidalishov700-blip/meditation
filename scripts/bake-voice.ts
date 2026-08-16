@@ -210,7 +210,7 @@ async function main() {
       unlinkSync(join(dir, name))
     }
   }
-  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${onlySos ? ' (sos+sample)' : ''}${stopped ? ' (stopped: quota)' : ''}`)
+  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${onlySos ? ' (sos)' : ''}${stopped ? ' (stopped: quota)' : ''}`)
   console.log('Upload public/voice/ to your host (manifest.json + clips/).')
   console.log('Listening never calls OpenAI. Set VITE_VOICE_URL if files are not same-origin.')
 }
