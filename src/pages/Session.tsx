@@ -215,6 +215,7 @@ function BreathSession({ id }: { id: string }) {
     () => () => {
       running.current = false
       stopSpeak()
+      audio.stopBreath()
       audio.stop(0.4)
     },
     [],
@@ -243,8 +244,10 @@ function BreathSession({ id }: { id: string }) {
       setKind('in')
       setPhase(inn)
       speakCue(inn, meta.bcp47, 'ui:sos_in')
+      void audio.playBreathPhase('in', pat.inhale)
       await wait(pat.inhale * 1000)
       if (pat.hold1 && running.current) {
+        audio.stopBreath()
         setKind('hold')
         setPhase(hold)
         speakCue(hold, meta.bcp47, 'ui:sos_hold')
@@ -254,13 +257,16 @@ function BreathSession({ id }: { id: string }) {
       setKind('out')
       setPhase(out)
       speakCue(out, meta.bcp47, 'ui:sos_out')
+      void audio.playBreathPhase('out', pat.exhale)
       await wait(pat.exhale * 1000)
       if (pat.hold2 && running.current) {
+        audio.stopBreath()
         setKind('hold')
         setPhase(hold)
         await wait(pat.hold2 * 1000)
       }
     }
+    audio.stopBreath()
     running.current = false
     setOn(false)
     setKind('idle')
@@ -293,6 +299,7 @@ function BreathSession({ id }: { id: string }) {
             if (on) {
               running.current = false
               stopSpeak()
+              audio.stopBreath()
               audio.stop(0.4)
               setOn(false)
               setKind('idle')
