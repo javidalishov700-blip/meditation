@@ -12,8 +12,8 @@ export function Me() {
   const { pro } = useEntitlement()
   const [left, setLeft] = useState(() => freezeLeft())
   const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
-  const [froze, setFroze] = useState(false)
-  const stats = activityStats()
+  const [froze, setFroze] = useState<'ok' | 'used' | 'none' | null>(null)
+  const [stats, setStats] = useState(() => activityStats())
   const now = new Date()
   const year = now.getFullYear()
   const month = now.getMonth()
@@ -50,14 +50,17 @@ export function Me() {
 
       <button
         type="button"
-        disabled={!canFreeze}
         onClick={() => {
-          if (!applyFreeze()) return
-          setLeft(freezeLeft())
-          setCanFreeze(canApplyFreeze())
-          setFroze(true)
+          if (applyFreeze()) {
+            setLeft(freezeLeft())
+            setCanFreeze(canApplyFreeze())
+            setStats(activityStats())
+            setFroze('ok')
+            return
+          }
+          setFroze(freezeLeft() <= 0 ? 'used' : 'none')
         }}
-        className="mt-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1.5 pl-1.5 pr-3 text-left disabled:opacity-70"
+        className="mt-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1.5 pl-1.5 pr-3 text-left"
       >
         <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.55rem] bg-[#9BD7FF]/25">
           <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#C8EEFF]" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -71,7 +74,17 @@ export function Me() {
         <span className="min-w-0">
           <span className="block text-[13px] font-medium leading-none">{t('freeze_title')}</span>
           <span className="mt-1 block text-[11px] leading-none text-white/45">
-            {froze ? t('freeze_ok') : canFreeze ? t('freeze_use') : left <= 0 ? t('freeze_used') : t('freeze_left', { n: left })}
+            {froze === 'ok'
+              ? t('freeze_ok')
+              : froze === 'used'
+                ? t('freeze_used')
+                : froze === 'none'
+                  ? t('freeze_none')
+                  : canFreeze
+                    ? t('freeze_use')
+                    : left <= 0
+                      ? t('freeze_used')
+                      : t('freeze_left', { n: left })}
           </span>
         </span>
       </button>

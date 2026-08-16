@@ -83,19 +83,24 @@ function rawActiveDays(): Set<string> {
   return new Set([...sos, ...readSessionDays()])
 }
 
-export function canApplyFreeze(now = Date.now()): boolean {
-  if (freezeLeft(now) <= 0) return false
+export function freezeTarget(now = Date.now()): string | null {
+  if (freezeLeft(now) <= 0) return null
   const yesterday = addDays(dayKey(now), -1)
-  return !rawActiveDays().has(yesterday) && !freezeDays(now).includes(yesterday)
+  if (!rawActiveDays().has(yesterday) && !freezeDays(now).includes(yesterday)) return yesterday
+  return null
+}
+
+export function canApplyFreeze(now = Date.now()): boolean {
+  return freezeTarget(now) != null
 }
 
 export function applyFreeze(now = Date.now()): boolean {
-  if (!canApplyFreeze(now)) return false
+  const day = freezeTarget(now)
+  if (!day) return false
   const w = weekKey(now)
-  const yesterday = addDays(dayKey(now), -1)
   const st = readFreeze()
   const days = st.week === w ? st.days : []
-  writeJson('freeze', { week: w, used: 1, days: [...days, yesterday] })
+  writeJson('freeze', { week: w, used: 1, days: [...days, day] })
   return true
 }
 
