@@ -168,6 +168,11 @@ function patchIos() {
       `"CFBundleDisplayName" = "Steady";\n"NSUserNotificationsUsageDescription" = "${notifyCopy[l]}";\n`,
     )
   }
+  const iconSrc = path.join(root, 'public/icon-512.png')
+  const iconDst = path.join(root, 'ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png')
+  if (fs.existsSync(iconSrc) && fs.existsSync(path.dirname(iconDst))) {
+    fs.copyFileSync(iconSrc, iconDst)
+  }
   patchPbxproj(path.join(root, 'ios/App/App.xcodeproj/project.pbxproj'))
 }
 

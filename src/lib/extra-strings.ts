@@ -155,6 +155,8 @@ export const EXTRA = {
   med_done: R('Tamamlandı|Done|Tamamlandı|Done|Hecho|Fatto'),
   med_tap: R('Dokun: süre|Tap: time|Dokun: süre|Tap: time|Toca: tiempo|Tocca: tempo'),
   splash_tag: R('Buradasın.|You’re here.|Buradasın.|You’re here.|Estás aquí.|Sei qui.'),
+  splash_line: R('Kendine inan.|Believe in yourself.|Özünə inan.|Верь себе.|Confía en ti.|Credi in te.'),
+  splash_more: R('Bu bedendesin. Bir sonraki nefes yeter.|You are in this body. The next breath is enough.|Bu bədəndəsən. Növbəti nəfəs bəsdir.|Ты в этом теле. Следующего вдоха довольно.|Estás en este cuerpo. La siguiente respiración basta.|Sei in questo corpo. Il prossimo respiro basta.'),
   lang_phone: R('Telefondan değiştir|Change on the phone|Telefondan değiştir|Change on the phone|Cambiar en el teléfono|Cambia sul telefono'),
   lang_phone_hint: R('iPhone: Ayarlar açılır. Steady → Dil. Dönünce dil gelir.|iPhone: Settings opens. Steady → Language. It applies when you return.|iPhone: Ayarlar açılır. Steady → Dil. Dönünce dil gelir.|iPhone: Settings opens. Steady → Language. It applies when you return.|iPhone: se abren Ajustes. Steady → Idioma. Se aplica al volver.|iPhone: si aprono Impostazioni. Steady → Lingua. Si applica al ritorno.'),
   lang_web_hint: R('Tarayıcıda buradan seçebilirsin. iPhone uygulamasında dil telefon Ayarları’ndan gelir.|In the browser you can pick here. In the iPhone app, language comes from phone Settings.|Tarayıcıda buradan seçebilirsin. iPhone uygulamasında dil telefon Ayarları’ndan gelir.|In the browser you can pick here. In the iPhone app, language comes from phone Settings.|En el navegador eliges aquí. En la app de iPhone el idioma sale de Ajustes.|Nel browser scegli qui. Nell’app iPhone la lingua arriva da Impostazioni.'),

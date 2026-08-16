@@ -781,19 +781,20 @@ html.light a.bg-\[\#7B61FF\] {
 
 .splash-glow {
   position: absolute;
-  width: 16rem;
-  height: 16rem;
+  width: 18rem;
+  height: 18rem;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(244, 114, 182, 0.28) 0%, rgba(74, 4, 78, 0.12) 48%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 212, 160, 0.28) 0%, rgba(90, 40, 110, 0.16) 48%, transparent 70%);
   filter: blur(8px);
   animation: splash-glow 1.8s ease both;
 }
 
 .splash-mark {
   position: relative;
-  width: 6rem;
-  height: 6rem;
-  border-radius: 1.5rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 1.65rem;
+  box-shadow: 0 18px 40px rgba(40, 12, 40, 0.45);
   animation: splash-mark 1.05s ease both;
 }
 
@@ -807,13 +808,28 @@ html.light a.bg-\[\#7B61FF\] {
   animation: splash-name 1.05s 0.18s ease both;
 }
 
+.splash-line {
+  position: relative;
+  margin-top: 1.15rem;
+  max-width: 18rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: rgba(255, 246, 236, 0.92);
+  animation: splash-name 1.05s 0.32s ease both;
+}
+
 .splash-tag {
   position: relative;
-  margin-top: 0.7rem;
+  margin-top: 0.55rem;
+  max-width: 18rem;
   font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  color: rgba(255, 241, 245, 0.48);
-  animation: splash-name 1.05s 0.38s ease both;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: rgba(255, 241, 245, 0.52);
+  animation: splash-name 1.05s 0.48s ease both;
 }
 
 .splash-out {
@@ -1022,6 +1038,7 @@ html.session-listen {
   .splash-glow,
   .splash-mark,
   .splash-name,
+  .splash-line,
   .splash-tag,
   .calm-glow,
   .calm-ring,
