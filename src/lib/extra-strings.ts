@@ -210,4 +210,9 @@ export const EXTRA = {
   me_emergency: R('Acil hat|Emergency line|Təcili xətt|Экстренная линия|Línea de emergencia|Ligne d’urgence|Notruf|Linea di emergenza'),
   me_emergency_auto: R('Telefon bölgesi|Phone region|Telefon regionu|Регион телефона|Región del teléfono|Région du téléphone|Telefonregion|Regione del telefono'),
   me_emergency_hint: R('Dil değil. Telefonun ülkesi. Yolculukta buradan değiştir.|Not language. The phone’s country. Change this when you travel.|Dil deyil. Telefonun ölkəsi. Səyahətdə buradan dəyiş.|Не язык. Страна телефона. В поездке смени здесь.|No es el idioma. El país del teléfono. Cámbialo al viajar.|Pas la langue. Le pays du téléphone. Change-le en voyage.|Nicht die Sprache. Das Land des Telefons. Unterwegs hier ändern.|Non la lingua. Il paese del telefono. Cambialo in viaggio.'),
+  me_set_notify: R('Bildirimler ve hatırlatmalar|Notifications & reminders|Bildirişlər və xatırlatmalar|Уведомления и напоминания|Notificaciones y recordatorios|Notifications et rappels|Mitteilungen und Erinnerungen|Notifiche e promemoria|Notificações e lembretes|الإشعارات والتذكيرات|Meldingen en herinneringen|Powiadomienia i przypomnienia|Сповіщення та нагадування|通知とリマインダー|اعلان‌ها و یادآورها|通知与提醒'),
+  me_set_lang: R('Dili değiştir|Change language|Dili dəyiş|Сменить язык|Cambiar idioma|Changer la langue|Sprache ändern|Cambia lingua|Alterar idioma|تغيير اللغة|Taal wijzigen|Zmień język|Змінити мову|言語を変える|تغییر زبان|更改语言'),
+  me_set_on: R('Açık|On|Açıq|Вкл|Activado|Activé|An|Attivo|Ligado|تشغيل|Aan|Włączone|Увімк|オン|روشن|开'),
+  me_set_off: R('Kapalı|Off|Qapalı|Выкл|Desactivado|Désactivé|Aus|Spento|Desligado|إيقاف|Uit|Wyłączone|Вимк|オフ|خاموش|关'),
+  me_set_go: R('Pro|Pro|Pro|Pro|Pro|Pro|Pro|Pro|Pro|برو|Pro|Pro|Pro|Pro|پرو|Pro'),
 } as const

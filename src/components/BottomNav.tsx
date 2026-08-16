@@ -43,7 +43,7 @@ function MeIcon({ active }: { active: boolean }) {
 
 function tabActive(path: string, tab: 'home' | 'discover' | 'sleep' | 'sounds' | 'me') {
   if (tab === 'home') return path === '/'
-  if (tab === 'me') return path === '/me' || path === '/paywall'
+  if (tab === 'me') return path === '/me' || path.startsWith('/me/') || path === '/paywall'
   if (tab === 'sounds') return path === '/sounds' || path.startsWith('/session/tone')
   if (tab === 'sleep') {
     return (

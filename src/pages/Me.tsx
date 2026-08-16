@@ -1,41 +1,18 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { LangPicker } from '../components/LangPicker'
-import { PinSettings } from '../components/PinLock'
-import { VoicePicker } from '../components/VoicePicker'
-import { Card, GhostButton, LegalNote, Switch } from '../components/ui'
+import { Card, GhostButton, LegalNote } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
 import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, monthTitle, weekdayLetters } from '../lib/activity'
-import {
-  EMERGENCY_CHOICES,
-  readOverrideRegion,
-  useEmergencyLine,
-  writeOverrideRegion,
-} from '../lib/emergency'
 import { useEntitlement } from '../lib/entitlement-store'
-import { formatClock, formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
-import { resetOnboard } from '../lib/onboard'
-import { readPassed } from '../lib/passed'
 import { SKILLS, skillUnlocked } from '../lib/skills'
-import { supportId } from '../lib/pin'
-import { requestNotify } from '../lib/onboard'
-import { readRemindTrial, writeRemindTrial } from '../lib/remind'
-import { readTheme, writeTheme, type ThemeId } from '../lib/theme'
 
 export function Me() {
   const { t, locale } = useI18n()
-  const { pro, demo, trial, trialEndsAt, lockDemo } = useEntitlement()
-  const [settings, setSettings] = useState(false)
-  const [theme, setTheme] = useState<ThemeId>(() => readTheme())
+  const { pro } = useEntitlement()
   const [left, setLeft] = useState(() => freezeLeft())
   const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
   const [froze, setFroze] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [remindTrial, setRemindTrial] = useState(() => readRemindTrial())
-  const emergency = useEmergencyLine()
-  const helpId = supportId()
-  const history = readPassed()
   const stats = activityStats()
   const now = new Date()
   const year = now.getFullYear()
@@ -44,30 +21,21 @@ export function Me() {
   const startPad = (first.getDay() + 6) % 7
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const letters = weekdayLetters(locale)
-  const ms = trialEndsAt - Date.now()
-  const tier = demo
-    ? t('me_pro')
-    : trial && ms > 0
-      ? ms < 86_400_000
-        ? t('me_trial_today')
-        : t('me_trial', { n: Math.ceil(ms / 86_400_000) })
-      : t('me_free')
 
   return (
     <div className="pb-8">
       <header className="flex items-center justify-between pt-2">
         <h1 className="text-[2rem] font-semibold tracking-tight">{t('me_title')}</h1>
-        <button
-          type="button"
+        <Link
+          to="/me/settings"
           aria-label={t('me_settings')}
-          onClick={() => setSettings((v) => !v)}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-white/12 text-white/80"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
             <circle cx="12" cy="12" r="3" />
             <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.3.7.9 1.1 1.6 1.1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z" />
           </svg>
-        </button>
+        </Link>
       </header>
 
       <div className="mt-6 flex items-center gap-3">
@@ -202,127 +170,6 @@ export function Me() {
           })}
         </div>
       </Card>
-
-      <Card className="mt-4">
-        <VoicePicker />
-      </Card>
-      <Card className="mt-3">
-        <LangPicker />
-      </Card>
-
-      {settings ? (
-        <>
-          <Card className="mt-3">
-            <PinSettings />
-          </Card>
-          <Card className="mt-3">
-            <p className="text-xs text-white/40">{t('me_emergency')}</p>
-            <p className="mt-1 text-xl font-semibold tabular-nums">{emergency.tel}</p>
-            <p className="mt-2 text-sm leading-6 text-mute">{t('me_emergency_hint')}</p>
-            <label className="mt-3 block">
-              <select
-                aria-label={t('me_emergency')}
-                className="w-full rounded-2xl bg-white/8 px-3 py-3 text-sm text-white/90"
-                value={readOverrideRegion() || ''}
-                onChange={(e) => writeOverrideRegion(e.target.value || null)}
-              >
-                <option value="">{t('me_emergency_auto')}</option>
-                {EMERGENCY_CHOICES.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} · {c.tel}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </Card>
-          <div className="mt-3">
-            <Switch
-              on={remindTrial}
-              label={t('ob_rem_trial')}
-              hint={t('ob_rem_trial_h')}
-              onChange={(v) => {
-                setRemindTrial(v)
-                writeRemindTrial(v)
-                if (v) void requestNotify()
-              }}
-            />
-          </div>
-          <Card className="mt-3">
-            <p className="text-xs text-white/40">{t('me_help')}</p>
-            <p className="mt-2 text-sm leading-6 text-mute">{t('me_help_body')}</p>
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(`#${helpId}`)
-                  setCopied(true)
-                  window.setTimeout(() => setCopied(false), 1400)
-                } catch {
-                  /* ignore */
-                }
-              }}
-              className="mt-3 inline-flex items-center rounded-full bg-white/8 px-3 py-1.5 text-sm text-white/85"
-            >
-              #{helpId}
-            </button>
-            {copied ? <p className="mt-2 text-xs text-mute">{t('me_copied')}</p> : null}
-          </Card>
-          <Card className="mt-3">
-            <p className="text-xs text-white/40">{t('theme')}</p>
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              {(['dark', 'light'] as const).map((id) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => {
-                    writeTheme(id)
-                    setTheme(id)
-                  }}
-                  className={`rounded-2xl px-3 py-3 text-sm ${theme === id ? 'bg-[#7B61FF] text-white' : 'bg-white/8'}`}
-                >
-                  {id === 'dark' ? t('theme_dark') : t('theme_light')}
-                </button>
-              ))}
-            </div>
-          </Card>
-          <Card className="mt-3">
-            <p className="text-xs text-white/40">{t('me_tier')}</p>
-            <p className="mt-1 text-xl font-semibold">{tier}</p>
-            {demo || trial ? (
-              <GhostButton className="mt-4" onClick={lockDemo}>
-                {t('me_demo_off')}
-              </GhostButton>
-            ) : (
-              <Link to="/paywall" className="mt-4 inline-block text-sm text-[#C4B5FD]">
-                {t('me_vitrine')}
-              </Link>
-            )}
-          </Card>
-          <Card className="mt-3">
-            <p className="text-xs text-white/40">{t('me_history')}</p>
-            {!pro ? (
-              <p className="mt-3 text-sm text-white/45">{t('me_history_locked')}</p>
-            ) : history.length === 0 ? (
-              <p className="mt-3 text-sm text-white/45">{t('me_history_empty')}</p>
-            ) : (
-              <ul className="mt-3 space-y-2">
-                {history.map((h) => (
-                  <li key={h.id} className="rounded-2xl bg-black/30 px-3 py-2 text-sm">
-                    <p>{formatClock(h.endedAt, locale)}</p>
-                    <p className="text-white/45">
-                      {formatDuration(h.seconds, locale)} · {t('taps_n', { n: h.taps })}
-                    </p>
-                    <p className="mt-1">{h.sentence}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Card>
-          <GhostButton className="mt-6" onClick={() => resetOnboard()}>
-            {t('me_ob_replay')}
-          </GhostButton>
-        </>
-      ) : null}
 
       <div className="mt-10">
         <LegalNote />

@@ -19,11 +19,12 @@ function LayoutBody() {
   const now = useNowPlaying()
   const listen = useSessionListen()
   const room = pathname.startsWith('/session')
-  const banner = !room && !listen && !pro
+  const nested = pathname.startsWith('/me/settings')
+  const banner = !room && !listen && !pro && !nested
   const dock = now.playing && (now.kind === 'nature' || now.kind === 'tone') && !room && !listen
   const pad = listen
     ? 'pb-0'
-    : room
+    : room || nested
       ? 'pb-[calc(1.25rem+env(safe-area-inset-bottom))]'
       : dock && banner
         ? 'safe-bottom-banner-now'
@@ -40,7 +41,7 @@ function LayoutBody() {
       <div className={shell}>
         <Outlet />
       </div>
-      {room || listen ? null : (
+      {room || listen || nested ? null : (
         <>
           {banner ? <PremiumBanner /> : null}
           <NowPlayingBar lift={Boolean(banner)} />

@@ -23,6 +23,7 @@ import { Sos } from './pages/Sos'
 import { Sounds } from './pages/Sounds'
 import { Paywall } from './pages/Paywall'
 import { Me } from './pages/Me'
+import { Settings } from './pages/Settings'
 import { Session } from './pages/Session'
 import { Onboard } from './pages/Onboard'
 import { applyTheme, readTheme } from './lib/theme'
@@ -43,6 +44,8 @@ function RoutesTree() {
         <Route path="/sounds" element={<Sounds />} />
         <Route path="/paywall" element={<Paywall />} />
         <Route path="/me" element={<Me />} />
+        <Route path="/me/settings" element={<Settings />} />
+        <Route path="/me/settings/:panel" element={<Settings />} />
         <Route path="/session/:kind/:id" element={<Session />} />
       </Route>
       <Route path="/sos" element={<Sos />} />

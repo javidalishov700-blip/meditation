@@ -71,6 +71,10 @@ export function completeOnboard(answers: OnboardAnswers) {
   emit()
 }
 
+export function patchOnboard(partial: Partial<OnboardAnswers>) {
+  writeJson('onboard', { ...readOnboard(), ...partial })
+}
+
 export function resetOnboard() {
   writeJson('onboarded', false)
   emit()

@@ -11,23 +11,7 @@ import { useI18n } from '../lib/i18n'
 import { MOOD_KEYS, readMood, type MoodId } from '../lib/mood'
 import { quotes } from '../lib/quotes'
 import { isLoading, isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
-
-function readDim() {
-  try {
-    return localStorage.getItem('steady.dim') === '1'
-  } catch {
-    return false
-  }
-}
-
-function writeDim(on: boolean) {
-  try {
-    localStorage.setItem('steady.dim', on ? '1' : '0')
-  } catch {
-    /* ignore */
-  }
-  document.documentElement.classList.toggle('dim', on)
-}
+import { readDim, writeDim } from '../lib/theme'
 
 export function Home() {
   const { t, locale, meta } = useI18n()
