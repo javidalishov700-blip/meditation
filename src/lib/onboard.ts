@@ -1,5 +1,13 @@
+import { isNativeApp } from './device'
 import type { StringKey } from './strings'
 import { readJson, writeJson } from './storage'
+
+export const STEADY_TRIAL_EVENT = 'steady-trial'
+
+export function emitTrialChange() {
+  if (typeof window === 'undefined') return
+  window.dispatchEvent(new Event(STEADY_TRIAL_EVENT))
+}
 
 export const TRIAL_MS = 3 * 24 * 60 * 60 * 1000
 
@@ -83,10 +91,12 @@ export function trialUsed(): boolean {
 export function startTrial() {
   if (trialUsed()) return
   writeJson('trialUntil', Date.now() + TRIAL_MS)
+  emitTrialChange()
 }
 
 export function clearTrial() {
   writeJson('trialUntil', 0)
+  emitTrialChange()
 }
 
 export type SuggestedPath = {
@@ -132,6 +142,15 @@ export function suggestedPath(a: OnboardAnswers): SuggestedPath {
 }
 
 export async function requestNotify(): Promise<boolean> {
+  if (isNativeApp()) {
+    try {
+      const { LocalNotifications } = await import('@capacitor/local-notifications')
+      const perm = await LocalNotifications.requestPermissions()
+      return perm.display === 'granted'
+    } catch {
+      return false
+    }
+  }
   if (typeof Notification === 'undefined') return false
   if (Notification.permission === 'granted') return true
   if (Notification.permission === 'denied') return false

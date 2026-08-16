@@ -929,7 +929,7 @@ export function warmVoices(lang?: string): Promise<void> {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     try {
       window.speechSynthesis.getVoices()
-      window.speechSynthesis.addEventListener('voiceschanged', () => {}, { once: true })
+      void waitVoices()
     } catch {
       /* ignore */
     }

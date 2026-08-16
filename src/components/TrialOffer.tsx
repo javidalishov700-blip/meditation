@@ -46,7 +46,7 @@ export function TrialTimeline({
         ))}
       </ol>
       <div className="mt-2">
-        <Switch on={remind} label={t('ob_rem_trial')} hint={t('ob_remind_sub')} onChange={onRemind} />
+        <Switch on={remind} label={t('ob_rem_trial')} hint={t('ob_rem_trial_h')} onChange={onRemind} />
       </div>
     </div>
   )

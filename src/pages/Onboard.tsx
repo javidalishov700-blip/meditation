@@ -178,6 +178,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
   function finish(withTrial: boolean) {
     if (withTrial) startTrial()
     writeRemindTrial(answers.remindTrial)
+    if (answers.remindTrial) void requestNotify()
     completeOnboard(answers)
     audio.stop(0.8)
     onDone()

@@ -5,13 +5,14 @@ import { Layout } from './components/Layout'
 import { PinGate } from './components/PinLock'
 import { needsIntro, Splash } from './components/Splash'
 import { CrisisChip } from './components/ui'
+import { onAppResume } from './lib/device'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider, useI18n } from './lib/i18n'
-import { isOnboarded, subscribeOnboard } from './lib/onboard'
+import { isOnboarded, STEADY_TRIAL_EVENT, subscribeOnboard } from './lib/onboard'
 import { Discover } from './pages/Discover'
 import { More } from './pages/More'
 import { Quotes } from './pages/Quotes'
-import { tickTrialReminder } from './lib/remind'
+import { armNativeNotificationTap, syncTrialReminder } from './lib/remind'
 import { warmVoices } from './lib/speech'
 import { Home } from './pages/Home'
 import { Treat } from './pages/Treat'
@@ -102,15 +103,27 @@ function VoiceWarm() {
     warmVoices(meta.bcp47)
   }, [meta.bcp47])
   useEffect(() => {
+    const copy = () => ({ title: t('ob_rem_trial'), text: t('ob_rem_trial_t') })
+    void armNativeNotificationTap()
     const fire = () => {
-      void tickTrialReminder({ title: t('ob_rem_trial'), text: t('ob_tl3s') })
+      void syncTrialReminder(copy())
     }
     fire()
     const onVis = () => {
       if (document.visibilityState === 'visible') fire()
     }
+    const onTrial = () => fire()
     document.addEventListener('visibilitychange', onVis)
-    return () => document.removeEventListener('visibilitychange', onVis)
+    window.addEventListener(STEADY_TRIAL_EVENT, onTrial)
+    let offResume = () => undefined as void
+    void onAppResume(fire).then((release) => {
+      offResume = release
+    })
+    return () => {
+      document.removeEventListener('visibilitychange', onVis)
+      window.removeEventListener(STEADY_TRIAL_EVENT, onTrial)
+      offResume()
+    }
   }, [t])
   return null
 }

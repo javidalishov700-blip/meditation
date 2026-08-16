@@ -239,7 +239,7 @@ export function Me() {
             <Switch
               on={remindTrial}
               label={t('ob_rem_trial')}
-              hint={t('ob_remind_sub')}
+              hint={t('ob_rem_trial_h')}
               onChange={(v) => {
                 setRemindTrial(v)
                 writeRemindTrial(v)

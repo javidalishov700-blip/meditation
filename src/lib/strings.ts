@@ -268,6 +268,8 @@ const CORE = {
   ob_rem_sleep: R('Uyku hatırlatması|Sleep reminder|Yuxu xatırlatması'),
   ob_rem_sleep_h: R('Gece, istersen uyku sayfasına.|At night, toward Sleep if you want.|Gecə, istəsən Yuxu səhifəsinə.'),
   ob_rem_trial: R('Deneme bitmeden hatırlat|Remind me before the trial ends|Sınaq bitməmiş xatırlat'),
+  ob_rem_trial_h: R('iPhone uygulamasında son gün, Steady kapalı olsa da gelir. Tarayıcıda yalnızca açıkken.|On the iPhone app it arrives on the last day even if Steady is closed. In a browser, only while open.|iPhone tətbiqində son gün, Steady bağlı olsa da gəlir. Brauzerdə yalnız açıq olanda.'),
+  ob_rem_trial_t: R('Denemen bitmek üzere. SOS her zaman açık.|Your trial is about to end. SOS stays open.|Sınağın bitmək üzrədir. SOS həmişə açıqdır.'),
   ob_trial: R('Üç gün ücretsiz dene|Start your three free days|Üç gün pulsuz sına'),
   ob_trial_sub: R('Planın hazır.|Your plan is ready.|Planın hazırdır.'),
   ob_tl1: R('Plan oluşturuldu.|The plan is set.|Plan quruldu.'),
