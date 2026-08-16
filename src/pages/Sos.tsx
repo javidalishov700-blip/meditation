@@ -6,6 +6,7 @@ import { useI18n } from '../lib/i18n'
 import { addPassed } from '../lib/passed'
 import { sosSentences, tapSentences } from '../lib/sosPhrases'
 import { speak, speakCue, stopSpeak } from '../lib/speech'
+import { readJson, writeJson } from '../lib/storage'
 import { GhostButton, PrimaryButton } from '../components/ui'
 import { useWakeLock } from '../lib/wake'
 import type { StringKey } from '../lib/strings'
@@ -37,6 +38,46 @@ function randomIndex(n: number) {
   return Math.max(0, Math.floor(Math.random() * Math.max(1, n)))
 }
 
+function MuteVoiceBtn({
+  muted,
+  onToggle,
+  labeled = false,
+}: {
+  muted: boolean
+  onToggle: () => void
+  labeled?: boolean
+}) {
+  const { t } = useI18n()
+  const label = muted ? t('sos_voice_on') : t('sos_voice_mute')
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={muted}
+      aria-label={label}
+      className={`flex items-center gap-2 rounded-full border border-white/12 bg-black/35 ${
+        labeled ? 'px-4 py-2.5 text-sm' : 'h-10 w-10 justify-center'
+      }`}
+    >
+      <MuteGlyph muted={muted} />
+      {labeled ? <span>{label}</span> : null}
+    </button>
+  )
+}
+
+function MuteGlyph({ muted }: { muted: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M4 10v4h3.2L12 18V6L7.2 10H4Z" />
+      {muted ? (
+        <path d="M16 9.5 20.5 14.5M20.5 9.5 16 14.5" />
+      ) : (
+        <path d="M16 9.2a4.2 4.2 0 0 1 0 5.6M18.4 7a7 7 0 0 1 0 10" />
+      )}
+    </svg>
+  )
+}
+
 export function Sos() {
   const navigate = useNavigate()
   const { t, locale, meta } = useI18n()
@@ -51,10 +92,30 @@ export function Sos() {
   const [color, setColor] = useState<StringKey | null>(null)
   const [left, setLeft] = useState(false)
   const [right, setRight] = useState(false)
+  const [muted, setMuted] = useState(() => readJson('sos.voiceMuted', false))
   const started = useRef(0)
   const running = useRef(false)
   const cycle = useRef(0)
+  const mutedRef = useRef(muted)
+  mutedRef.current = muted
   const lang = meta.bcp47
+
+  function toggleMute() {
+    const next = !muted
+    setMuted(next)
+    writeJson('sos.voiceMuted', next)
+    if (next) stopSpeak()
+  }
+
+  function say(text: string, clipId: string) {
+    if (mutedRef.current) return
+    speak(text, { lang, clipId })
+  }
+
+  function cue(text: string, clipId: string) {
+    if (mutedRef.current) return
+    speakCue(text, lang, clipId)
+  }
   useWakeLock(phase !== 'idle' && phase !== 'done')
 
   useEffect(() => {
@@ -95,19 +156,23 @@ export function Sos() {
     while (running.current) {
       setPhase('inhale')
       setLabel(inn)
-      speakCue(inn, lang, 'ui:sos_in')
+      cue(inn, 'ui:sos_in')
+      void audio.playBreathPhase('in', 4)
       await wait(4000)
       if (!running.current) return
+      audio.stopBreath()
       setPhase('hold')
       setLabel(hold)
-      speakCue(hold, lang, 'ui:sos_hold')
+      cue(hold, 'ui:sos_hold')
       await wait(2000)
       if (!running.current) return
       setPhase('exhale')
       setLabel(out)
-      speakCue(out, lang, 'ui:sos_out')
+      cue(out, 'ui:sos_out')
+      void audio.playBreathPhase('out', 6)
       await wait(6000)
       if (!running.current) return
+      audio.stopBreath()
       cycle.current += 1
       if (cycle.current % 3 === 0) {
         const waves = sosSentences(locale)
@@ -116,7 +181,7 @@ export function Sos() {
         setPhase('phrase')
         setLabel(lineK)
         setLivePhrase(line)
-        speak(line, { lang, clipId: `sos:wave:${i}` })
+        say(line, `sos:wave:${i}`)
         await wait(4200)
         setLivePhrase('')
       }
@@ -140,7 +205,7 @@ export function Sos() {
     buzz(40)
     await audio.playSosBed()
     setPhase('ground')
-    speak(t('sos_ground_sub'), { lang, clipId: 'ui:sos_ground_sub' })
+    say(t('sos_ground_sub'), 'ui:sos_ground_sub')
   }
 
   function beginBreath() {
@@ -157,7 +222,7 @@ export function Sos() {
     setSeconds(secs)
     setPhase('tap')
     setLabel(t('sos_passed'))
-    speak(sentence, { lang, clipId: `sos:tap:${tapIdx}` })
+    say(sentence, `sos:tap:${tapIdx}`)
   }
 
   function tap() {
@@ -174,7 +239,7 @@ export function Sos() {
         sentence,
       })
       stopSpeak()
-      speak(t('sos_thanks'), { lang, clipId: 'ui:sos_thanks' })
+      say(t('sos_thanks'), 'ui:sos_thanks')
       setPhase('done')
     }
   }
@@ -185,9 +250,12 @@ export function Sos() {
   if (phase === 'idle') {
     return (
       <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-        <button type="button" className="self-start text-sm text-mute" onClick={() => navigate(-1)} aria-label={t('back')}>
-          {t('back')}
-        </button>
+        <div className="flex items-center justify-between">
+          <button type="button" className="text-sm text-mute" onClick={() => navigate(-1)} aria-label={t('back')}>
+            {t('back')}
+          </button>
+          <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+        </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <h1 className="font-display text-4xl">{t('sos_title')}</h1>
           <p className="mt-3 max-w-[16rem] text-sm leading-7 text-mute">{t('sos_sub')}</p>
@@ -203,6 +271,9 @@ export function Sos() {
               <span className="font-display text-4xl">SOS</span>
             </span>
           </button>
+          <div className="mt-8">
+            <MuteVoiceBtn muted={muted} onToggle={toggleMute} labeled />
+          </div>
         </div>
       </div>
     )
@@ -212,9 +283,12 @@ export function Sos() {
     const prompt = t(OBJ_KEYS[obj]!)
     return (
       <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-        <p className="text-sm text-mute">
-          {formatDuration(seconds, locale)} · {obj + 1}/3
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-mute">
+            {formatDuration(seconds, locale)} · {obj + 1}/3
+          </p>
+          <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+        </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <p className="text-[11px] uppercase tracking-[0.16em] text-rose-200/70">{t('sos_ground')}</p>
           <h1 className="mt-3 max-w-xs font-display text-3xl leading-tight">{prompt}</h1>
@@ -229,7 +303,7 @@ export function Sos() {
                   onClick={() => {
                     setColor(c.key)
                     buzz(18)
-                    speak(t(c.key), { lang, clipId: `ui:${c.key}` })
+                    say(t(c.key), `ui:${c.key}`)
                   }}
                   className={`flex h-14 w-14 flex-col items-center justify-center rounded-2xl border ${
                     on ? 'border-white scale-105' : 'border-white/15'
@@ -254,12 +328,12 @@ export function Sos() {
               setPhase('feet')
               setLeft(false)
               setRight(false)
-              speak(t('sos_feet'), { lang, clipId: 'ui:sos_feet' })
+              say(t('sos_feet'), 'ui:sos_feet')
               return
             }
             setObj((n) => n + 1)
             setColor(null)
-            speak(t(OBJ_KEYS[obj + 1]!), { lang, clipId: `ui:${OBJ_KEYS[obj + 1]!}` })
+            say(t(OBJ_KEYS[obj + 1]!), `ui:${OBJ_KEYS[obj + 1]!}`)
           }}
         >
           {t('sos_touched')}
@@ -282,7 +356,10 @@ export function Sos() {
   if (phase === 'feet') {
     return (
       <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-        <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
+          <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+        </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <h1 className="max-w-xs font-display text-3xl leading-tight">{t('sos_feet')}</h1>
           <div className="mt-10 flex gap-4">
@@ -318,7 +395,7 @@ export function Sos() {
           disabled={!left || !right}
           onClick={() => {
             buzz(40)
-            speak(t('sos_then_breath'), { lang, clipId: 'ui:sos_then_breath' })
+            say(t('sos_then_breath'), 'ui:sos_then_breath')
             beginBreath()
           }}
         >
@@ -341,18 +418,23 @@ export function Sos() {
 
   if (phase === 'tap') {
     return (
-      <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 text-center">
-        <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
-        <h1 className="mt-8 font-display text-3xl leading-tight">{sentence}</h1>
-        <p className="mt-4 text-sm text-mute">{taps}/10</p>
-        <button
-          type="button"
-          onClick={tap}
-          aria-label={t('sos_tap_btn')}
-          className="mt-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 to-fuchsia-800/80 text-lg font-medium shadow-[0_0_40px_rgba(244,114,182,0.2)]"
-        >
-          {t('sos_tap_btn')}
-        </button>
+      <div className="relative z-10 flex min-h-dvh flex-col items-center px-6 pt-[calc(1.25rem+env(safe-area-inset-top))] text-center">
+        <div className="flex w-full items-center justify-between">
+          <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
+          <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <h1 className="mt-8 font-display text-3xl leading-tight">{sentence}</h1>
+          <p className="mt-4 text-sm text-mute">{taps}/10</p>
+          <button
+            type="button"
+            onClick={tap}
+            aria-label={t('sos_tap_btn')}
+            className="mt-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 to-fuchsia-800/80 text-lg font-medium shadow-[0_0_40px_rgba(244,114,182,0.2)]"
+          >
+            {t('sos_tap_btn')}
+          </button>
+        </div>
       </div>
     )
   }
@@ -370,8 +452,9 @@ export function Sos() {
 
   return (
     <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-      <div className="flex items-center">
+      <div className="flex items-center justify-between">
         <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
+        <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
         <div

@@ -206,6 +206,7 @@ function BreathSession({ id }: { id: string }) {
   const { t, meta, locale } = useI18n()
   const b = raw ? locBreath(raw, locale) : undefined
   const [phase, setPhase] = useState(t('ready'))
+  const [kind, setKind] = useState<'idle' | 'in' | 'hold' | 'out'>('idle')
   const [on, setOn] = useState(false)
   const running = useRef(false)
   useWakeLock(on)
@@ -239,30 +240,40 @@ function BreathSession({ id }: { id: string }) {
     const hold = t('sos_hold')
     const out = t('sos_out')
     for (let i = 0; i < pat.cycles && running.current; i++) {
+      setKind('in')
       setPhase(inn)
       speakCue(inn, meta.bcp47, 'ui:sos_in')
+      void audio.playBreathPhase('in', pat.inhale)
       await wait(pat.inhale * 1000)
       if (pat.hold1 && running.current) {
+        audio.stopBreath()
+        setKind('hold')
         setPhase(hold)
         speakCue(hold, meta.bcp47, 'ui:sos_hold')
         await wait(pat.hold1 * 1000)
       }
       if (!running.current) return
+      setKind('out')
       setPhase(out)
       speakCue(out, meta.bcp47, 'ui:sos_out')
+      void audio.playBreathPhase('out', pat.exhale)
       await wait(pat.exhale * 1000)
       if (pat.hold2 && running.current) {
+        audio.stopBreath()
+        setKind('hold')
         setPhase(hold)
         await wait(pat.hold2 * 1000)
       }
     }
+    audio.stopBreath()
     running.current = false
     setOn(false)
+    setKind('idle')
     setPhase(t('leave'))
     speak(t('sos_thanks'), { lang: meta.bcp47, clipId: 'ui:sos_thanks' })
   }
 
-  const scale = phase === t('sos_in') ? 1.1 : phase === t('sos_out') ? 0.88 : 1
+  const scale = kind === 'in' ? 1.1 : kind === 'out' ? 0.88 : 1
 
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
@@ -287,11 +298,14 @@ function BreathSession({ id }: { id: string }) {
             if (on) {
               running.current = false
               stopSpeak()
+              audio.stopBreath()
               audio.stop(0.4)
               setOn(false)
+              setKind('idle')
               setPhase(t('stop'))
               return
             }
+            audio.unlock()
             running.current = true
             setOn(true)
             markSession('breath', id)
