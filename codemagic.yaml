@@ -29,6 +29,10 @@ workflows:
         XCODE_WORKSPACE: App.xcworkspace
         XCODE_SCHEME: App
         BUNDLE_ID: app.steady.calm
+        # Codemagic UI encrypted env (never commit values):
+        # VITE_REVENUECAT_IOS_KEY — public appl_… SDK key
+        # VITE_LEGAL_ORIGIN — public https origin for /legal/*
+        # APPLE_TEAM_ID — optional; signing uses the Apple integration
       node: 22
       xcode: latest
       cocoapods: default
@@ -39,6 +43,16 @@ workflows:
     scripts:
       - name: Install npm
         script: npm ci
+      - name: Store env check
+        script: |
+          if [ -z "${VITE_REVENUECAT_IOS_KEY:-}" ]; then
+            echo "VITE_REVENUECAT_IOS_KEY empty — IPA paywall stays a labeled device demo"
+          else
+            echo "VITE_REVENUECAT_IOS_KEY is set (value not printed)"
+          fi
+          if [ -z "${VITE_LEGAL_ORIGIN:-}" ]; then
+            echo "VITE_LEGAL_ORIGIN empty — in-app legal is bundled; App Store Connect still needs a public https URL"
+          fi
       - name: Bake store MP3s
         script: |
           if [ -n "$OPENAI_API_KEY" ]; then

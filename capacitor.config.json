@@ -2,6 +2,10 @@
   "appId": "app.steady.calm",
   "appName": "Steady",
   "webDir": "dist",
+  "ios": {
+    "scheme": "App",
+    "contentInset": "automatic"
+  },
   "server": {
     "androidScheme": "https"
   },

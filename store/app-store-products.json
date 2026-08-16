@@ -1,0 +1,29 @@
+{
+  "bundleId": "app.steady.calm",
+  "sku": "steady-calm",
+  "primaryLocale": "tr",
+  "subscriptionGroup": "Steady Pro",
+  "entitlement": "pro",
+  "offering": "default",
+  "subscriptions": [
+    {
+      "productId": "app.steady.calm.weekly",
+      "duration": "P1W",
+      "referenceName": "Steady Pro Weekly",
+      "display": { "tr": "Haftalık", "en": "Weekly" }
+    },
+    {
+      "productId": "app.steady.calm.monthly",
+      "duration": "P1M",
+      "referenceName": "Steady Pro Monthly",
+      "display": { "tr": "Aylık", "en": "Monthly" }
+    },
+    {
+      "productId": "app.steady.calm.yearly",
+      "duration": "P1Y",
+      "referenceName": "Steady Pro Yearly",
+      "display": { "tr": "Yıllık", "en": "Yearly" }
+    }
+  ],
+  "reviewNote": "SOS is always free. Pro unlocks extra tones, programs, sleep lab, and writings. Subscriptions use Apple IAP. No account. No diagnosis."
+}

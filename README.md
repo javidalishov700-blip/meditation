@@ -30,8 +30,8 @@ npm run preview
 
 Kilitli: diğer tonlar, DP / DR / anksiyete programları, uyku laboratuvarı, doğa timer’ları, çoğu meditasyon ve yazı, Geçti geçmişi.
 
-Vitrin: $2.99 / hafta, $9.99 / ay, $59.99 / yıl, 3 gün deneme. Paywall’daki buton cihazda Pro açar; Stripe sonra.
+Vitrin: $2.99 / hafta, $9.99 / ay, $59.99 / yıl, 3 gün deneme. Native IPA: App Store IAP (`app.steady.calm.weekly|monthly|yearly`, RevenueCat `pro`). Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
 
 ## Kod
 
-Vite + React + TypeScript + Tailwind. Ana yerler: `src/pages/` (Home, Treat, Sleep, Practice, Sos, Sounds, Paywall, Me), `src/lib/content.ts`, `src/lib/library.ts`, `src/lib/treatments.ts`, `src/lib/audio.ts`.
+Vite + React + TypeScript + Tailwind. Ana yerler: `src/pages/` (Home, Treat, Sleep, Practice, Sos, Sounds, Paywall, Me), `src/lib/content.ts`, `src/lib/library.ts`, `src/lib/treatments.ts`, `src/lib/audio.ts`. iOS: Capacitor bundle `app.steady.calm`, Codemagic `ios-testflight`.

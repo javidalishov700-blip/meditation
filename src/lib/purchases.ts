@@ -2,7 +2,7 @@ import { isNativeApp } from './device'
 import { setPro } from './entitlement'
 import type { PlanId } from './types'
 
-/** App Store Connect product ids. Create these before TestFlight IAP. */
+/** App Store Connect product ids. Mirror of store/app-store-products.json */
 export const STORE_PRODUCTS: Record<PlanId, string> = {
   week: 'app.steady.calm.weekly',
   month: 'app.steady.calm.monthly',
