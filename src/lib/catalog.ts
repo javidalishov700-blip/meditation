@@ -820,9 +820,47 @@ const UNIQUE_COVER: Record<string, string> = {
   'breath-sigh': `${C}/cover-sigh.png`,
   'breath-equal': `${C}/cover-equal.png`,
   'breath-count8': `${C}/cover-count8.png`,
-  'med-first': `${C}/cover-palms.png`,
-  'med-room': `${C}/cover-forest.png`,
-  'med-shore': `${C}/cover-lake.png`,
+  'med-first': `${C}/cover-path.png`,
+  'med-room': `${C}/cover-room.png`,
+  'med-shore': `${C}/cover-wave.png`,
+  'write-wave': `${C}/cover-wave.png`,
+  'write-colors': `${C}/cover-objects.png`,
+  'write-window': `${C}/snd-rain.png`,
+  'write-edges': `${C}/cover-objects.png`,
+  'write-weight': `${C}/cover-tension.png`,
+  'write-gratitude': `${C}/cover-kind.png`,
+  'write-seed': `${C}/cover-about-sleep.png`,
+  'write-unsend': `${C}/cover-task.png`,
+  'write-safe': `${C}/cover-well.png`,
+}
+
+export const CLARITY_COVER = `${C}/cover-clarity.png`
+
+export const MED_COVER: Record<string, string> = {
+  first: `${C}/cover-path.png`,
+  room: `${C}/cover-room.png`,
+  shore: `${C}/cover-wave.png`,
+}
+
+export const WRITE_COVER: Record<string, string> = {
+  'after-wave': `${C}/cover-wave.png`,
+  'worry-window': `${C}/snd-rain.png`,
+  edges: `${C}/cover-objects.png`,
+  weight: `${C}/cover-tension.png`,
+  'gratitude-small': `${C}/cover-kind.png`,
+  'night-seed-note': `${C}/cover-about-sleep.png`,
+  unsend: `${C}/cover-task.png`,
+  'three-colors': `${C}/cover-objects.png`,
+  'safe-list': `${C}/cover-well.png`,
+}
+
+export const BREATH_COVER: Record<string, string> = {
+  wave: `${C}/cover-wave.png`,
+  box: `${C}/cover-box.png`,
+  '478': `${C}/cover-478.png`,
+  sigh: `${C}/cover-sigh.png`,
+  equal: `${C}/cover-equal.png`,
+  count8: `${C}/cover-count8.png`,
 }
 
 for (const item of ITEMS) {
@@ -870,7 +908,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       kind: 'meditation' as const,
       to: `/session/meditation/${s.id}`,
       title: packRecord(s.id, s.title),
-      cover: `${C}/cover-forest.png`,
+      cover: MED_COVER[s.id] ?? `${C}/cover-forest.png`,
       minutes: pathMinutes(s),
       badge: 'journey' as const,
       group: 'start' as const,
@@ -890,7 +928,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       kind: 'breath' as const,
       to: `/session/breath/${s.id}`,
       title: packRecord(s.id, s.label),
-      cover: `${C}/cover-lake.png`,
+      cover: BREATH_COVER[s.id] ?? `${C}/cover-wave.png`,
       minutes: s.minutes,
       badge: 'journey' as const,
       group: 'daily' as const,
@@ -900,7 +938,7 @@ export function searchCatalog(q: string, locale: LocaleId): CatalogItem[] {
       kind: 'writing' as const,
       to: `/session/writing/${s.id}`,
       title: packRecord(s.id, s.title),
-      cover: `${C}/cover-forest.png`,
+      cover: WRITE_COVER[s.id] ?? `${C}/cover-room.png`,
       minutes: s.minutes,
       badge: 'program' as const,
       group: 'daily' as const,

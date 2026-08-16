@@ -4,7 +4,9 @@ import { CoverCard, Rail } from '../components/CoverCard'
 import { CircleIconBtn, FavSheet, LangSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
 import { MoodHistory } from '../components/MoodHistory'
 import { Presence } from '../components/Presence'
-import { BREATH_RAIL_IDS, HERO_COVERS, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
+import { BREATH_RAIL_IDS, CLARITY_COVER, HERO_COVERS, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
+import { locLibrary } from '../lib/copy'
+import { todaysClarity } from '../lib/library'
 import { activityStats } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
@@ -47,6 +49,7 @@ export function Home() {
   const now = itemsById(nowIds(mood, new Date().getHours()))
   const sounds = itemsById([...SOUND_RAIL_IDS])
   const breaths = itemsById([...BREATH_RAIL_IDS])
+  const today = locLibrary(todaysClarity(), locale)
 
   return (
     <div className="pb-6">
@@ -203,6 +206,19 @@ export function Home() {
           }
         />
       </div>
+
+      <section className="mt-8">
+        <h2 className="text-[1.35rem] font-semibold tracking-tight">{t('cat_clarity')}</h2>
+        <div className="mt-4">
+          <CoverCard
+            to={`/session/clarity/${today.id}`}
+            cover={CLARITY_COVER}
+            title={today.title}
+            minutes={today.minutes}
+            fill
+          />
+        </div>
+      </section>
 
       <Rail title={t('now_rail')}>
         {now.map((item, i) => (
