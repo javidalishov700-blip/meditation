@@ -5,6 +5,7 @@ import { Layout } from './components/Layout'
 import { PinGate } from './components/PinLock'
 import { needsIntro, Splash } from './components/Splash'
 import { CrisisChip } from './components/ui'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { onAppResume } from './lib/device'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider, useI18n } from './lib/i18n'
@@ -90,12 +91,14 @@ export default function App() {
   }, [])
   return (
     <I18nProvider>
-      <VoiceWarm />
-      <EntitlementProvider>
-        <BrowserRouter>
-          <Boot />
-        </BrowserRouter>
-      </EntitlementProvider>
+      <ErrorBoundary>
+        <VoiceWarm />
+        <EntitlementProvider>
+          <BrowserRouter>
+            <Boot />
+          </BrowserRouter>
+        </EntitlementProvider>
+      </ErrorBoundary>
     </I18nProvider>
   )
 }

@@ -185,13 +185,18 @@ export function Sos() {
   if (phase === 'idle') {
     return (
       <div className="relative z-10 flex min-h-dvh flex-col px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(1.25rem+env(safe-area-inset-top))]">
-        <button type="button" className="self-start text-sm text-mute" onClick={() => navigate(-1)}>
+        <button type="button" className="self-start text-sm text-mute" onClick={() => navigate(-1)} aria-label={t('back')}>
           {t('back')}
         </button>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <h1 className="font-display text-4xl">{t('sos_title')}</h1>
           <p className="mt-3 max-w-[16rem] text-sm leading-7 text-mute">{t('sos_sub')}</p>
-          <button type="button" onClick={() => void start()} className="halo-wrap mt-14 h-48 w-48">
+          <button
+            type="button"
+            onClick={() => void start()}
+            className="halo-wrap mt-14 h-48 w-48"
+            aria-label={t('sos_title')}
+          >
             <span className="halo halo-a" />
             <span className="halo halo-b" />
             <span className="orb-pulse relative z-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 via-fuchsia-800/60 to-violet-950 shadow-[0_0_40px_rgba(244,114,182,0.18)]">
@@ -283,6 +288,7 @@ export function Sos() {
           <div className="mt-10 flex gap-4">
             <button
               type="button"
+              aria-label={t('sos_left')}
               onClick={() => {
                 setLeft(true)
                 buzz(24)
@@ -295,6 +301,7 @@ export function Sos() {
             </button>
             <button
               type="button"
+              aria-label={t('sos_right')}
               onClick={() => {
                 setRight(true)
                 buzz(24)
@@ -341,6 +348,7 @@ export function Sos() {
         <button
           type="button"
           onClick={tap}
+          aria-label={t('sos_tap_btn')}
           className="mt-10 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-rose-200/90 to-fuchsia-800/80 text-lg font-medium shadow-[0_0_40px_rgba(244,114,182,0.2)]"
         >
           {t('sos_tap_btn')}

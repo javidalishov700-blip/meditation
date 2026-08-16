@@ -761,7 +761,7 @@ async function runSynth(text: string, gen: number, opts: SpeakOpts, prefix: stri
       /* Chrome drops long utterances unless resumed */
     }
   }, 8000)
-  let skip = startMs / Math.max(1, estMs)
+  const skip = startMs / Math.max(1, estMs)
   let acc = 0
   try {
     await wait(40, gen)

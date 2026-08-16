@@ -35,3 +35,16 @@ export function removeKey(key: string): void {
     /* private mode / disabled storage */
   }
 }
+
+export const SCHEMA_VERSION = 1
+
+/** Stamp and reshape local keys after an app update. v0 had no version field. */
+export function migrateStorage(): void {
+  const from = readJson<number>('schemaVersion', 0)
+  if (from === SCHEMA_VERSION) return
+  if (from > SCHEMA_VERSION) {
+    writeJson('schemaVersion', SCHEMA_VERSION)
+    return
+  }
+  writeJson('schemaVersion', SCHEMA_VERSION)
+}
