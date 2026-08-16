@@ -27,6 +27,7 @@ VOICES = {
     "az": "az-AZ-BanuNeural",
     "ru": "ru-RU-SvetlanaNeural",
     "es": "es-ES-ElviraNeural",
+    "it": "it-IT-ElsaNeural",
 }
 RATE = "-12%"
 PITCH = "-2Hz"
@@ -113,7 +114,12 @@ async def worker(q: asyncio.Queue, made: list[int], skipped: list[int], failed: 
 
 
 async def main() -> int:
-    src = Path(sys.argv[1] if len(sys.argv) > 1 else "/tmp/steady-med-clips.json")
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = [a for a in sys.argv[1:] if a.startswith("--")]
+    prune_med = "--prune=none" not in flags
+    lang_flag = next((a for a in flags if a.startswith("--langs=")), "")
+    only_langs = [s.strip() for s in lang_flag[len("--langs=") :].split(",") if s.strip()] if lang_flag else []
+    src = Path(args[0] if args else "/tmp/steady-med-clips.json")
     clips = json.loads(src.read_text())
     CLIPS_DIR.mkdir(parents=True, exist_ok=True)
     manifest = {"voice": "edge-neural", "speed": 0.88, "model": "edge-tts", "updated": "", "clips": {}}
@@ -122,7 +128,13 @@ async def main() -> int:
             manifest = json.loads(MANIFEST_PATH.read_text())
         except json.JSONDecodeError:
             pass
-    clips = [c for c in clips if c.get("locale") in VOICES and (c.get("text") or "").strip()]
+    clips = [
+        c
+        for c in clips
+        if c.get("locale") in VOICES
+        and (c.get("text") or "").strip()
+        and (not only_langs or c.get("locale") in only_langs)
+    ]
     q: asyncio.Queue = asyncio.Queue()
     planned: list[tuple[str, str]] = []
     old_med: set[str] = set()
@@ -156,11 +168,12 @@ async def main() -> int:
             manifest["clips"][key] = rel
             kept.add(rel)
 
-    for rel in old_med - kept:
-        stale = ROOT / "public" / "voice" / rel
-        if stale.exists():
-            stale.unlink()
-            print(f"drop {rel}", flush=True)
+    if prune_med:
+        for rel in old_med - kept:
+            stale = ROOT / "public" / "voice" / rel
+            if stale.exists():
+                stale.unlink()
+                print(f"drop {rel}", flush=True)
 
     manifest["updated"] = datetime.now(timezone.utc).isoformat()
     manifest["medVoice"] = "edge-plain"
