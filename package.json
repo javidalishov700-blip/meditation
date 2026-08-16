@@ -9,7 +9,7 @@
     "lint": "eslint src",
     "preview": "vite preview --host",
     "bake-voice": "npx --yes tsx scripts/bake-voice.ts",
-    "bake-voice:med": "npx --yes tsx scripts/bake-voice.ts --only=med",
+    "bake-voice:sos": "npx --yes tsx scripts/bake-voice.ts --only=sos",
     "bake-voice:med-edge": "npx --yes tsx scripts/dump-med-clips.ts /tmp/steady-med-clips.json && python3 scripts/bake-med-edge.py /tmp/steady-med-clips.json",
     "cap:sync": "npm run build && npx cap sync && node scripts/patch-native-locales.mjs"
   },

@@ -157,10 +157,8 @@ export function Sos() {
       setPhase('inhale')
       setLabel(inn)
       cue(inn, 'ui:sos_in')
-      void audio.playBreathPhase('in', 4)
       await wait(4000)
       if (!running.current) return
-      audio.stopBreath()
       setPhase('hold')
       setLabel(hold)
       cue(hold, 'ui:sos_hold')
@@ -169,10 +167,8 @@ export function Sos() {
       setPhase('exhale')
       setLabel(out)
       cue(out, 'ui:sos_out')
-      void audio.playBreathPhase('out', 6)
       await wait(6000)
       if (!running.current) return
-      audio.stopBreath()
       cycle.current += 1
       if (cycle.current % 3 === 0) {
         const waves = sosSentences(locale)

@@ -264,9 +264,6 @@ function loopNoise(
   return src
 }
 
-/** Close, quiet playback for baked coral MP3s. Does not rebake clips. */
-export const VOICE_ASMR_GAIN = 0.56
-
 function impulse(ctx: AudioContext, seconds = 2.2, decay = 3) {
   const length = Math.floor(ctx.sampleRate * seconds)
   const buffer = ctx.createBuffer(2, length, ctx.sampleRate)
@@ -286,7 +283,6 @@ export class AudioEngine {
   private space: ConvolverNode | null = null
   private stops: StopHandle[] = []
   private introStops: StopHandle[] = []
-  private breathStops: StopHandle[] = []
   private timer: number | null = null
   private epoch = 0
   playing = false
@@ -335,18 +331,8 @@ export class AudioEngine {
       this.master.gain.value = 0.4
       this.master.connect(this.ctx.destination)
       this.voiceBus = this.ctx.createGain()
-      this.voiceBus.gain.value = VOICE_ASMR_GAIN
-      const low = this.ctx.createBiquadFilter()
-      low.type = 'lowpass'
-      low.frequency.value = 2100
-      low.Q.value = 0.45
-      const shelf = this.ctx.createBiquadFilter()
-      shelf.type = 'highshelf'
-      shelf.frequency.value = 2800
-      shelf.gain.value = -7
-      this.voiceBus.connect(low)
-      low.connect(shelf)
-      shelf.connect(this.ctx.destination)
+      this.voiceBus.gain.value = 1
+      this.voiceBus.connect(this.ctx.destination)
     }
     if (this.ctx.state === 'suspended') await this.ctx.resume()
     return this.ctx
@@ -434,64 +420,6 @@ export class AudioEngine {
     this.introStops = []
   }
 
-  stopBreath() {
-    this.breathStops.forEach((h) => h())
-    this.breathStops = []
-  }
-
-  /** Air in / air out, timed to the phase. Not speech. */
-  async playBreathPhase(kind: 'in' | 'out', seconds: number) {
-    this.stopBreath()
-    const ctx = await this.ensure()
-    const t0 = ctx.currentTime
-    const dur = Math.max(0.7, seconds)
-    const bus = ctx.createGain()
-    bus.connect(ctx.destination)
-
-    const noise = loopNoise(ctx, kind === 'in' ? 'pink' : 'brown', 2)
-    const hp = ctx.createBiquadFilter()
-    hp.type = 'highpass'
-    hp.frequency.value = kind === 'in' ? 180 : 90
-    const filter = ctx.createBiquadFilter()
-    const g = ctx.createGain()
-    g.gain.setValueAtTime(0.0001, t0)
-    if (kind === 'in') {
-      filter.type = 'bandpass'
-      filter.Q.value = 0.85
-      filter.frequency.setValueAtTime(420, t0)
-      filter.frequency.exponentialRampToValueAtTime(1680, t0 + dur * 0.78)
-      g.gain.linearRampToValueAtTime(0.13, t0 + Math.min(0.28, dur * 0.2))
-      g.gain.setValueAtTime(0.13, t0 + dur * 0.72)
-    } else {
-      filter.type = 'lowpass'
-      filter.Q.value = 0.45
-      filter.frequency.setValueAtTime(1500, t0)
-      filter.frequency.exponentialRampToValueAtTime(240, t0 + dur * 0.88)
-      g.gain.linearRampToValueAtTime(0.16, t0 + Math.min(0.22, dur * 0.12))
-      g.gain.setValueAtTime(0.16, t0 + dur * 0.7)
-    }
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + 0.06)
-    noise.connect(hp)
-    hp.connect(filter)
-    filter.connect(g)
-    g.connect(bus)
-    noise.start(t0)
-    noise.stop(t0 + dur + 0.12)
-
-    this.breathStops.push(() => {
-      try {
-        noise.stop()
-      } catch {
-        /* already stopped */
-      }
-      try {
-        bus.disconnect()
-      } catch {
-        /* already stopped */
-      }
-    })
-  }
-
   ctxTime() {
     return this.ctx?.currentTime ?? 0
   }
@@ -502,7 +430,7 @@ export class AudioEngine {
 
   setVoiceLevel(n: number) {
     if (!this.voiceBus) return
-    this.voiceBus.gain.value = clamp(n, 0, 1) * VOICE_ASMR_GAIN
+    this.voiceBus.gain.value = clamp(n, 0, 1)
   }
 
   private track(stop: StopHandle) {
@@ -595,7 +523,6 @@ export class AudioEngine {
   }
 
   stop(fade = 0.6) {
-    this.stopBreath()
     if (this.timer != null) {
       window.clearTimeout(this.timer)
       this.timer = null

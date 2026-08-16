@@ -94,7 +94,7 @@ const CORE = {
 
   sos_ready: R('Hazır|Ready|Hazır|Готово|Listo|Pronto'),
   sos_title: R('Dur.|Pause.|Dayan.|Стоп.|Pausa.|Pausa.'),
-  sos_sub: R('Önce 3 nesne. Renk. Dokun. Sonra nefes.|First 3 objects. Color. Touch. Then breath.|Önce 3 nesne. Renk. Dokun. Sonra nefes.|First 3 objects. Color. Touch. Then breath.|Primero 3 objetos. Color. Tocar. Luego respirar.|Prima 3 oggetti. Colore. Toccare. Poi il respiro.'),
+  sos_sub: R('Önce 3 nesne. Renk. Dokun. Sonra nefes.|First 3 objects. Color. Touch. Then breath.|Əvvəl 3 əşya. Rəng. Toxun. Sonra nəfəs.|Сначала три предмета. Цвет. Коснись. Потом дыхание.|Primero 3 objetos. Color. Tocar. Luego respirar.|Prima 3 oggetti. Colore. Toccare. Poi il respiro.'),
   sos_in: R('Nefes al|Breathe in|Nəfəs al|Вдох|Inhala|Inspira'),
   sos_hold: R('Tut|Hold|Tut|Пауза|Sostén|Tieni'),
   sos_out: R('Ver|Breathe out|Ver|Выдох|Suelta|Espira'),

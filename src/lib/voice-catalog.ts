@@ -1,7 +1,7 @@
 import { locDay, locLibrary, locMedPath } from './copy'
 import { programs } from './content'
 import { clarity, extras, meditations, sleepLab, stories, writings } from './library'
-import { VOICE_LANGS, type VoiceLang } from './locales'
+import { LOCALE_IDS, VOICE_LANGS, type LocaleId } from './locales'
 import { quotes } from './quotes'
 import { sosSentences, tapSentences } from './sosPhrases'
 import { translate, type StringKey } from './strings'
@@ -10,7 +10,7 @@ import { VOICE_SAMPLE } from './voice-lines'
 
 export type VoiceClip = {
   id: string
-  locale: VoiceLang
+  locale: LocaleId
   text: string
 }
 
@@ -40,7 +40,7 @@ function libraryItems(): LibraryItem[] {
   return [...stories, ...writings, ...sleepLab, ...clarity, ...extras]
 }
 
-function push(out: VoiceClip[], locale: VoiceLang, id: string, text: string) {
+function push(out: VoiceClip[], locale: LocaleId, id: string, text: string) {
   const clean = text.trim()
   if (!clean) return
   out.push({ id, locale, text: clean })
@@ -48,7 +48,7 @@ function push(out: VoiceClip[], locale: VoiceLang, id: string, text: string) {
 
 export function listVoiceClips(): VoiceClip[] {
   const out: VoiceClip[] = []
-  for (const locale of VOICE_LANGS) {
+  for (const locale of LOCALE_IDS) {
     const sample = VOICE_SAMPLE[locale]?.trim()
     if (sample) push(out, locale, 'sample', sample)
 
@@ -57,7 +57,9 @@ export function listVoiceClips(): VoiceClip[] {
     }
     sosSentences(locale).forEach((line, i) => push(out, locale, `sos:wave:${i}`, line))
     tapSentences(locale).forEach((line, i) => push(out, locale, `sos:tap:${i}`, line))
+  }
 
+  for (const locale of VOICE_LANGS) {
     for (const q of quotes) {
       push(out, locale, `quote:${q.id}`, q.text[locale] || q.text.en || q.text.tr)
     }

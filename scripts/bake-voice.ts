@@ -141,6 +141,7 @@ async function main() {
     process.exit(1)
   }
   const onlyMed = process.argv.includes('--only=med')
+  const onlySos = process.argv.includes('--only=sos')
   mkdirSync(dir, { recursive: true })
   let manifest: Manifest = { voice: VOICE, speed: SPEED, model: MODEL, updated: '', clips: {} }
   if (existsSync(manifestPath)) {
@@ -152,6 +153,7 @@ async function main() {
   }
   let clips = listVoiceClips().sort((a, b) => rank(a.id) - rank(b.id) || a.locale.localeCompare(b.locale) || a.id.localeCompare(b.id))
   if (onlyMed) clips = clips.filter((c) => rank(c.id) === 0)
+  if (onlySos) clips = clips.filter((c) => c.id.startsWith('ui:sos') || c.id.startsWith('sos:'))
   let made = 0
   let skipped = 0
   let stopped = false
@@ -208,7 +210,7 @@ async function main() {
       unlinkSync(join(dir, name))
     }
   }
-  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${stopped ? ' (stopped: quota)' : ''}`)
+  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${onlySos ? ' (sos+sample)' : ''}${stopped ? ' (stopped: quota)' : ''}`)
   console.log('Upload public/voice/ to your host (manifest.json + clips/).')
   console.log('Listening never calls OpenAI. Set VITE_VOICE_URL if files are not same-origin.')
 }
