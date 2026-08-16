@@ -29,5 +29,9 @@ export function writeJson<T>(key: string, value: T): void {
 }
 
 export function removeKey(key: string): void {
-  localStorage.removeItem(PREFIX + key)
+  try {
+    localStorage.removeItem(PREFIX + key)
+  } catch {
+    /* private mode / disabled storage */
+  }
 }

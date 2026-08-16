@@ -1,5 +1,6 @@
 import { Fragment, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { useEmergencyLine } from '../lib/emergency'
 import { useI18n } from '../lib/i18n'
 
 export function Kicker({ children }: { children: ReactNode }) {
@@ -58,29 +59,30 @@ export function Card({
 }
 
 export function LegalNote({ compact = false }: { compact?: boolean }) {
-  const { t, meta } = useI18n()
+  const { t } = useI18n()
+  const line = useEmergencyLine()
   return (
     <p className={`text-mute/80 ${compact ? 'text-[11px] leading-5' : 'text-xs leading-5'}`}>
       {compact
-        ? `${t('crisis')}: ${meta.emergency} · ${t('legal_short')}`
-        : `${t('legal_full')} ${t('crisis')}: ${meta.emergency}.`}
+        ? `${t('crisis')}: ${line.tel} · ${t('legal_short')}`
+        : `${t('legal_full')} ${t('crisis')}: ${line.tel}.`}
     </p>
   )
 }
 
 export function CrisisChip() {
-  const { t, meta } = useI18n()
-  const num = meta.emergency.split(/[/,·]/)[0]?.trim() || meta.emergency
+  const { t } = useI18n()
+  const line = useEmergencyLine()
   return (
     <a
-      href={`tel:${meta.tel}`}
-      aria-label={t('crisis')}
+      href={`tel:${line.tel}`}
+      aria-label={`${t('crisis')} ${line.tel}`}
       className="fixed right-[max(0.75rem,env(safe-area-inset-right))] top-[max(0.45rem,env(safe-area-inset-top))] z-[500] flex h-7 items-center gap-1 rounded-full border border-white/10 bg-ink/45 px-2.5 text-[11px] text-cream/70 backdrop-blur-md"
     >
       <svg viewBox="0 0 24 24" className="h-3 w-3 opacity-80" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M6.6 4.2h2.8l1.2 3.6-2 1.2a13 13 0 0 0 6.4 6.4l1.2-2 3.6 1.2v2.8A15.5 15.5 0 0 1 6.6 4.2Z" />
       </svg>
-      {num}
+      {line.tel}
     </a>
   )
 }

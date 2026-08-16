@@ -207,4 +207,7 @@ export const EXTRA = {
   breath_focus_sigh: R('Bırakış|Release|Soltar|Lâcher|Loslassen|Rilascio'),
   breath_focus_equal: R('Eşit tempo|Even tempo|Tempo igual|Tempo égal|Gleiches Tempo|Tempo uguale'),
   breath_focus_count8: R('Uzun veriş|Long exhale|Exhalación larga|Expiration longue|Langer Ausatem|Espirazione lunga'),
+  me_emergency: R('Acil hat|Emergency line|Təcili xətt|Экстренная линия|Línea de emergencia|Ligne d’urgence|Notruf|Linea di emergenza'),
+  me_emergency_auto: R('Telefon bölgesi|Phone region|Telefon regionu|Регион телефона|Región del teléfono|Région du téléphone|Telefonregion|Regione del telefono'),
+  me_emergency_hint: R('Dil değil. Telefonun ülkesi. Yolculukta buradan değiştir.|Not language. The phone’s country. Change this when you travel.|Dil deyil. Telefonun ölkəsi. Səyahətdə buradan dəyiş.|Не язык. Страна телефона. В поездке смени здесь.|No es el idioma. El país del teléfono. Cámbialo al viajar.|Pas la langue. Le pays du téléphone. Change-le en voyage.|Nicht die Sprache. Das Land des Telefons. Unterwegs hier ändern.|Non la lingua. Il paese del telefono. Cambialo in viaggio.'),
 } as const

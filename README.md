@@ -1,17 +1,10 @@
 # Steady
 
-Panik atak, anksiyete, derealizasyon ve depersonalizasyon **yanı sıra** uyku, nefes, meditasyon, yazı, doğa, özler ve daha fazlası için sakinleşme PWA’sı. Meditopia kopyası değil. Tıbbi teşhis veya tedavi iddiası yoktur. Krizde yerel acil hat (TR: **112**).
+Panik atak, anksiyete, derealizasyon ve depersonalizasyon **yanı sıra** uyku, nefes, meditasyon, yazı, doğa, özler ve daha fazlası için sakinleşme PWA’sı. Meditopia kopyası değil. Tıbbi teşhis veya tedavi iddiası yoktur. Krizde yerel acil hat (telefonun ülkesi; TR’de **112**).
 
 6 dil: Türkçe, Azərbaycan, English, Русский, Español, Italiano. Dil: Profil veya karşılama.
 
 Joseph Murphy / *Bilinçaltının Gücü* alıntısı yoktur. Rahatlatıcı özler: kamu malı satırların kendi çevirisi (Epictetus, Seneca, Marcus Aurelius, William James) + yaklaşım özleri (CBT, ACT, grounding — alıntı değil).
-
-## Çalıştır
-
-```bash
-npm install
-npm run dev
-```
 
 ## Sekmeler
 

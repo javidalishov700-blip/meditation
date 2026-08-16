@@ -6,6 +6,12 @@ import { VoicePicker } from '../components/VoicePicker'
 import { Card, GhostButton, LegalNote, Switch } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
 import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, monthTitle, weekdayLetters } from '../lib/activity'
+import {
+  EMERGENCY_CHOICES,
+  readOverrideRegion,
+  useEmergencyLine,
+  writeOverrideRegion,
+} from '../lib/emergency'
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatClock, formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
@@ -27,6 +33,7 @@ export function Me() {
   const [froze, setFroze] = useState(false)
   const [copied, setCopied] = useState(false)
   const [remindTrial, setRemindTrial] = useState(() => readRemindTrial())
+  const emergency = useEmergencyLine()
   const helpId = supportId()
   const history = readPassed()
   const stats = activityStats()
@@ -207,6 +214,26 @@ export function Me() {
         <>
           <Card className="mt-3">
             <PinSettings />
+          </Card>
+          <Card className="mt-3">
+            <p className="text-xs text-white/40">{t('me_emergency')}</p>
+            <p className="mt-1 text-xl font-semibold tabular-nums">{emergency.tel}</p>
+            <p className="mt-2 text-sm leading-6 text-mute">{t('me_emergency_hint')}</p>
+            <label className="mt-3 block">
+              <select
+                aria-label={t('me_emergency')}
+                className="w-full rounded-2xl bg-white/8 px-3 py-3 text-sm text-white/90"
+                value={readOverrideRegion() || ''}
+                onChange={(e) => writeOverrideRegion(e.target.value || null)}
+              >
+                <option value="">{t('me_emergency_auto')}</option>
+                {EMERGENCY_CHOICES.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} · {c.tel}
+                  </option>
+                ))}
+              </select>
+            </label>
           </Card>
           <div className="mt-3">
             <Switch

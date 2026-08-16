@@ -11,17 +11,15 @@ export type LocaleMeta = {
   native: string
   bcp47: string
   dir: 'ltr' | 'rtl'
-  emergency: string
-  tel: string
 }
 
 export const LOCALES: LocaleMeta[] = [
-  { id: 'tr', native: 'Türkçe', bcp47: 'tr-TR', dir: 'ltr', emergency: '112', tel: '112' },
-  { id: 'az', native: 'Azərbaycan', bcp47: 'az-AZ', dir: 'ltr', emergency: '112', tel: '112' },
-  { id: 'en', native: 'English', bcp47: 'en-US', dir: 'ltr', emergency: '112 / 911', tel: '112' },
-  { id: 'ru', native: 'Русский', bcp47: 'ru-RU', dir: 'ltr', emergency: '112', tel: '112' },
-  { id: 'es', native: 'Español', bcp47: 'es-ES', dir: 'ltr', emergency: '112', tel: '112' },
-  { id: 'it', native: 'Italiano', bcp47: 'it-IT', dir: 'ltr', emergency: '112', tel: '112' },
+  { id: 'tr', native: 'Türkçe', bcp47: 'tr-TR', dir: 'ltr' },
+  { id: 'az', native: 'Azərbaycan', bcp47: 'az-AZ', dir: 'ltr' },
+  { id: 'en', native: 'English', bcp47: 'en-US', dir: 'ltr' },
+  { id: 'ru', native: 'Русский', bcp47: 'ru-RU', dir: 'ltr' },
+  { id: 'es', native: 'Español', bcp47: 'es-ES', dir: 'ltr' },
+  { id: 'it', native: 'Italiano', bcp47: 'it-IT', dir: 'ltr' },
 ]
 
 export function localeMeta(id: string): LocaleMeta {

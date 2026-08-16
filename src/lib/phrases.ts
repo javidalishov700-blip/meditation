@@ -28,8 +28,3 @@ export function pick<T>(list: T[], seed?: number): T {
   if (seed == null) return list[Math.floor(Math.random() * list.length)]!
   return list[Math.abs(seed) % list.length]!
 }
-
-export const LEGAL =
-  'Steady tıbbi teşhis veya tedavi sunmaz. Panik, anksiyete, derealizasyon ve depersonalizasyon için başa çıkma araçlarıdır. Krizde acil yardım: 112.'
-
-export const CRISIS = 'Krizde acil hat: 112'
