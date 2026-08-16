@@ -50,102 +50,106 @@ export function Home() {
 
   return (
     <div className="pb-6">
-      <header className="flex items-start justify-between gap-3 pt-2">
-        <div>
-          <p className="text-[11px] tracking-[0.16em] text-[#C4B5FD]/75">{t('home_kicker')}</p>
-          <p className="mt-1 text-[1.65rem] font-semibold leading-none tracking-tight">{t('hello')}</p>
-          <button type="button" onClick={() => setMoodOpen(true)} className="mt-2 flex items-center gap-1 text-sm text-white/55">
-            {mood ? t(MOOD_KEYS[mood]) : t('mood_check')}
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangOpen(true)}
-            className="mt-2 inline-flex items-center rounded-full border border-white/12 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/85"
-            aria-label={t('lang_now')}
-          >
-            {meta.native}
-          </button>
-          {trialLine ? <p className="mt-1 text-[11px] text-[#C4B5FD]/80">{trialLine}</p> : null}
-        </div>
-        <div className="flex items-center gap-2 pt-1">
-          <CircleIconBtn
-            label={t('dim')}
-            onClick={() => {
-              const next = !dim
-              writeDim(next)
-              setDim(next)
-            }}
-          >
-            <svg viewBox="0 0 24 24" className={`h-4 w-4 ${dim ? 'text-[#C4B5FD]' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.7">
-              <path d="M18 13.5A7 7 0 1 1 10.5 6 5.5 5.5 0 0 0 18 13.5Z" />
-            </svg>
-          </CircleIconBtn>
-          <div className="relative">
-            <CircleIconBtn to="/me" label={t('current_streak')}>
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <path d="M13 3 6 13h6l-1 8 8-12h-6l0-6Z" />
+      <section className="keep-dark relative -mx-5 -mt-[calc(2.15rem+env(safe-area-inset-top))] min-h-[26.5rem] overflow-hidden rounded-b-[1.85rem]">
+        {slides.map((line, i) => (
+          <img
+            key={line.id}
+            src={HERO_COVERS[i % HERO_COVERS.length]!}
+            alt=""
+            className={`cover-ken absolute inset-0 h-full w-full object-cover ${i === slide ? '' : 'hidden'}`}
+          />
+        ))}
+        <img
+          src={HERO_COVERS[slide % HERO_COVERS.length]!}
+          alt=""
+          className="home-hero-blur pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="home-hero-frost" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/12 to-black/78" />
+
+        <header className="relative z-10 flex items-start justify-between gap-3 px-5 pt-[calc(2.15rem+env(safe-area-inset-top))]">
+          <div>
+            <p className="text-[11px] tracking-[0.16em] text-[#C4B5FD]">{t('home_kicker')}</p>
+            <p className="mt-1 text-[1.65rem] font-semibold leading-none tracking-tight text-white">{t('hello')}</p>
+            <button type="button" onClick={() => setMoodOpen(true)} className="mt-2 flex items-center gap-1 text-sm text-white/85">
+              {mood ? t(MOOD_KEYS[mood]) : t('mood_check')}
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="M7 10l5 5 5-5" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => setLangOpen(true)}
+              className="mt-2 inline-flex items-center rounded-full border border-white/18 bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-md"
+              aria-label={t('lang_now')}
+            >
+              {meta.native}
+            </button>
+            {trialLine ? <p className="mt-1 text-[11px] text-[#C4B5FD]">{trialLine}</p> : null}
+          </div>
+          <div className="flex items-center gap-2 pt-1">
+            <CircleIconBtn
+              label={t('dim')}
+              onClick={() => {
+                const next = !dim
+                writeDim(next)
+                setDim(next)
+              }}
+            >
+              <svg viewBox="0 0 24 24" className={`h-4 w-4 ${dim ? 'text-[#C4B5FD]' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.7">
+                <path d="M18 13.5A7 7 0 1 1 10.5 6 5.5 5.5 0 0 0 18 13.5Z" />
               </svg>
             </CircleIconBtn>
-            <span className="absolute -right-0.5 -top-0.5 min-w-[1rem] rounded-full bg-white/15 px-1 text-center text-[9px] text-white">
-              {stats.currentStreak}
-            </span>
-          </div>
-          <CircleIconBtn onClick={() => setSearch(true)} label={t('search')}>
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="11" cy="11" r="6.5" />
-              <path d="m16 16 4 4" />
-            </svg>
-          </CircleIconBtn>
-        </div>
-      </header>
-
-      <section className="relative mt-5 overflow-hidden rounded-[1.6rem] keep-dark">
-        {slides.map((line, i) => (
-          <div
-            key={line.id}
-            className={`relative ${i === slide ? 'block' : 'hidden'}`}
-            style={{ minHeight: '15.2rem' }}
-          >
-            <img
-              src={HERO_COVERS[i % HERO_COVERS.length]!}
-              alt=""
-              className="cover-ken absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/28 to-black/10" />
-            <div className="relative flex min-h-[15.2rem] flex-col justify-end px-5 pb-9 pt-10">
-              <p className="text-[11px] uppercase tracking-[0.14em] text-white/60">{t('home_quote')}</p>
-              <p className="mt-2 max-w-[19rem] text-[1.05rem] font-medium leading-snug text-white">{line.text[locale]}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/18 px-3.5 py-1.5 text-[12px] text-white backdrop-blur-md"
-                  onClick={() => {
-                    if (reading) {
-                      stopSpeak()
-                      return
-                    }
-                    speak(line.text[locale], { lang: meta.bcp47, clipId: `quote:${line.id}` })
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-                    <path d="M4 9v6h4l5 4V5L8 9H4Zm13.5 3a5.5 5.5 0 0 0-3-4.9v9.8a5.5 5.5 0 0 0 3-4.9Z" />
-                  </svg>
-                  {reading ? (isLoading() ? t('voice_loading') : t('speak_stop')) : t('listen')}
-                </button>
-                <Link
-                  to="/quotes"
-                  className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-[12px] text-white backdrop-blur-md"
-                >
-                  {t('view_details')}
-                </Link>
-              </div>
+            <div className="relative">
+              <CircleIconBtn to="/me" label={t('current_streak')}>
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+                  <path d="M13 3 6 13h6l-1 8 8-12h-6l0-6Z" />
+                </svg>
+              </CircleIconBtn>
+              <span className="absolute -right-0.5 -top-0.5 min-w-[1rem] rounded-full bg-white/15 px-1 text-center text-[9px] text-white">
+                {stats.currentStreak}
+              </span>
             </div>
+            <CircleIconBtn onClick={() => setSearch(true)} label={t('search')}>
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="11" cy="11" r="6.5" />
+                <path d="m16 16 4 4" />
+              </svg>
+            </CircleIconBtn>
           </div>
-        ))}
-        <div className="absolute inset-x-5 bottom-3 flex gap-1.5">
+        </header>
+
+        <div className="relative z-10 px-5 pb-10 pt-10">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-white/70">{t('home_quote')}</p>
+          <p className="mt-2 max-w-[19rem] text-[1.05rem] font-medium leading-snug text-white">{slides[slide]!.text[locale]}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/18 px-3.5 py-1.5 text-[12px] text-white backdrop-blur-md"
+              onClick={() => {
+                const line = slides[slide]!
+                if (reading) {
+                  stopSpeak()
+                  return
+                }
+                speak(line.text[locale], { lang: meta.bcp47, clipId: `quote:${line.id}` })
+              }}
+            >
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+                <path d="M4 9v6h4l5 4V5L8 9H4Zm13.5 3a5.5 5.5 0 0 0-3-4.9v9.8a5.5 5.5 0 0 0 3-4.9Z" />
+              </svg>
+              {reading ? (isLoading() ? t('voice_loading') : t('speak_stop')) : t('listen')}
+            </button>
+            <Link
+              to="/quotes"
+              className="inline-flex w-fit items-center rounded-full bg-white/10 px-3.5 py-1.5 text-[12px] text-white backdrop-blur-md"
+            >
+              {t('view_details')}
+            </Link>
+          </div>
+        </div>
+
+        <div className="absolute inset-x-5 bottom-3 z-10 flex gap-1.5">
           {slides.map((line, i) => (
             <button
               key={line.id}

@@ -213,7 +213,7 @@ export function CircleIconBtn({
   children: React.ReactNode
 }) {
   const className =
-    'flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/90'
+    'flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/10 text-white/90 backdrop-blur-md'
   if (to) {
     return (
       <Link to={to} aria-label={label} className={className}>

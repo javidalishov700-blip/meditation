@@ -371,6 +371,25 @@ html:lang(fa) {
   will-change: transform;
 }
 
+.home-hero-blur {
+  transform: scale(1.12);
+  filter: blur(22px);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 78%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 78%);
+}
+
+.home-hero-frost {
+  pointer-events: none;
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 13.5rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+}
+
 .cover-card {
   transform: perspective(900px) rotateX(0deg);
   transition: transform 0.35s ease;
@@ -464,6 +483,7 @@ html:lang(fa) {
   .ob-in,
   .ob-in-back,
   .cover-ken,
+  .home-hero-blur,
   .sheet-up,
   .timer-ring {
     animation: none !important;
