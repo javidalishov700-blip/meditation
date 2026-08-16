@@ -38,6 +38,10 @@ const MED_BEDS = [
 
 const SKIP = 15
 
+function playMedBed(id: string) {
+  return audio.playNature(id, true)
+}
+
 function readBed(fallback: string) {
   const v = readJson<string | null>('med.bed', null)
   return v && MED_BEDS.includes(v as (typeof MED_BEDS)[number]) ? v : fallback
@@ -121,7 +125,7 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                   const fillMs = s.minutes * 60 * 1000
                   const bedId = readBed(s.bed)
                   audio.unlock()
-                  void audio.playNature(bedId).then(() => {
+                  void playMedBed(bedId).then(() => {
                     if (speechClipId() === clipId && !speechSnap().paused) audio.hushForVoice()
                   })
                   speak(s.body, {
@@ -209,7 +213,7 @@ function MeditationPlayer({
       speechClipId() === clipId && (live.speaking || live.loading || live.paused)
     if (!keep) {
       audio.unlock()
-      void audio.playNature(bed)
+      void playMedBed(bed)
       speak(step.body, {
         lang: meta.bcp47,
         mode: 'calm',
@@ -276,7 +280,7 @@ function MeditationPlayer({
   async function changeBed(id: string) {
     writeJson('med.bed', id)
     setBed(id)
-    await audio.playNature(id)
+    await playMedBed(id)
     if (!snap.paused && snap.speaking) audio.hushForVoice()
   }
 
@@ -299,7 +303,7 @@ function MeditationPlayer({
                 const fillMs = next.minutes * 60 * 1000
                 const clipId = `med:${next.id}`
                 audio.unlock()
-                void audio.playNature(readBed(next.bed)).then(() => {
+                void playMedBed(readBed(next.bed)).then(() => {
                   if (speechClipId() === clipId && !speechSnap().paused) audio.hushForVoice()
                 })
                 speak(next.body, {

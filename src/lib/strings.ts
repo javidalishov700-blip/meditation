@@ -20,7 +20,7 @@ const CORE = {
   see_less: R('Daha az|Show less|Daha az|Меньше|Ver menos|Mostra meno'),
   home_sub: R('Panik tek kapı değil. Uyku, nefes, sözler ve hikâyeler burada.|Panic is only one door. Sleep, breath, lines and stories are here.|Panik tək qapı deyil. Yuxu, nəfəs, sözlər və hekayələr buradadır.|Паника — не единственная дверь. Сон, дыхание, слова и истории здесь.|El pánico no es la única puerta. Sueño, respiración, palabras e historias.|Il panico non è l’unica porta. Sonno, respiro, parole e storie.'),
   home_sos: R('Kriz anı|Crisis moment|Böhran anı|Момент кризиса|Momento de crisis|Momento di crisi'),
-  home_sos_sub: R('174 Hz · kahverengi gürültü · sesli nefes · kilitlenmez|174 Hz · brown noise · voiced breath · never locked|174 Hz · qəhvəyi küy · səsli nəfəs · kilidlənmir|174 Гц · коричневый шум · голос дыхания · не блокируется|174 Hz · ruido marrón · respiración hablada · nunca se bloquea|174 Hz · rumore bruno · respiro parlato · mai bloccato'),
+  home_sos_sub: R('174 Hz · yumuşak müzik · sesli nefes · kilitlenmez|174 Hz · soft music · voiced breath · never locked|174 Hz · yumşaq musiqi · səsli nəfəs · kilidlənmir|174 Гц · тихая музыка · голос дыхания · не блокируется|174 Hz · música suave · respiración hablada · nunca se bloquea|174 Hz · musica morbida · respiro parlato · mai bloccato'),
   home_now: R('Şimdi|Now|İndi|Сейчас|Ahora|Ora'),
   home_trial: R('Deneme|Trial|Sınaq|Проба|Prueba|Prova'),
   home_clarity: R('Netlik|Clarity|Aydınlıq|Ясность|Claridad|Chiarezza'),

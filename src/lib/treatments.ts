@@ -27,7 +27,7 @@ export const treatments: Door[] = [
       'Burada üç iş var: bedeni yere bağlamak, nefesi uzatmak, şimdiki zamanda tek cümle. Zihinsel sahne alarm sönünce gelir, önce değil.',
     ],
     tools: [
-      { title: 'SOS yatağı', body: '174 Hz + kahverengi gürültü, sesli al / tut / ver, arada kısa cümle.' },
+      { title: 'SOS yatağı', body: '174 Hz, yumuşak müzik, sesli al / tut / ver, arada kısa cümle.' },
       { title: 'Dalga nefesi', body: '4-2-6. Uzun veriş sinir sistemine “indi” der.' },
       { title: 'Yere temas', body: 'Topuk, sandalye, duvar kenarı. İsimlendir: soğuk, sert, sabit.' },
       { title: '7 gün program', body: '1. gün ücretsiz. Geri kalanı Pro. Her gün: rahat beden, cümle, sahne, bırakış, şükran.' },

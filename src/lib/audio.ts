@@ -630,7 +630,7 @@ export class AudioEngine {
   }
 
   private bedTarget() {
-    const duck = this.kind === 'sos' ? 0.28 : 0.42
+    const duck = this.kind === 'sos' ? 0.42 : 0.55
     return this.restGain * this.bedLevel * (this.ducked ? duck : 1)
   }
 
@@ -643,7 +643,7 @@ export class AudioEngine {
   hold(on: boolean) {
     this.held = on
     if (!this.playing) return
-    if (on) this.fadeMaster(0.0008, 0.2)
+    if (on) this.fadeMaster(this.restGain * this.bedLevel * 0.62, 0.25)
     else this.fadeMaster(this.bedTarget(), 0.28)
   }
 
@@ -680,17 +680,17 @@ export class AudioEngine {
     const ctx = await this.ensure()
     this.stop(0.05)
     await this.ensure()
-    this.beginPlay('SOS', 0.32, 1.4, { route: '/sos', id: 'sos', kind: 'sos' })
-    this.startSpace(ctx, 0.22)
-    this.warmPad(ctx, [87, 174], 0.03)
+    this.beginPlay('SOS', 0.4, 1.6, { route: '/sos', id: 'sos', kind: 'sos' })
+    this.startSpace(ctx, 0.42)
+    this.warmPad(ctx, [87, 130.81, 174], 0.028)
 
     const osc = ctx.createOscillator()
     osc.type = 'sine'
     osc.frequency.value = 174
     const oscGain = ctx.createGain()
-    oscGain.gain.value = 0.1
+    oscGain.gain.value = 0.055
     osc.connect(oscGain)
-    this.out(oscGain, 0.9, 0.35)
+    this.out(oscGain, 0.85, 0.4)
     osc.start()
     this.track(() => {
       try {
@@ -705,12 +705,12 @@ export class AudioEngine {
     const brown = loopNoise(ctx, 'brown', 5, 2)
     const filter = ctx.createBiquadFilter()
     filter.type = 'lowpass'
-    filter.frequency.value = 240
+    filter.frequency.value = 180
     const brownGain = ctx.createGain()
-    brownGain.gain.value = 0.22
+    brownGain.gain.value = 0.08
     brown.connect(filter)
     filter.connect(brownGain)
-    this.out(brownGain, 1, 0.25)
+    this.out(brownGain, 1, 0.22)
     brown.start()
     this.track(() => {
       try {
@@ -722,6 +722,8 @@ export class AudioEngine {
         /* already stopped */
       }
     })
+
+    this.calmMusic(ctx)
   }
 
   async playTone(hz: number, label: string, id = String(hz)) {
@@ -857,17 +859,17 @@ export class AudioEngine {
     })
   }
 
-  async playNature(id: string) {
+  async playNature(id: string, withMusic = false) {
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
     const scene = NATURE_SCENES.find((s) => s.id === id)
-    this.beginPlay(scene?.title ?? 'Doğa', 0.4, 2, {
+    this.beginPlay(scene?.title ?? 'Doğa', withMusic ? 0.44 : 0.4, 2, {
       route: `/session/nature/${id}`,
       id,
       kind: 'nature',
     })
-    this.startSpace(ctx, 0.36)
+    this.startSpace(ctx, withMusic ? 0.44 : 0.36)
 
     if (id === 'rain') this.rain(ctx)
     else if (id === 'ocean') this.ocean(ctx)
@@ -895,6 +897,78 @@ export class AudioEngine {
     else if (id === 'brown') this.noiseBed(ctx, 'brown', 0.26)
     else if (id === 'radio') this.radio(ctx)
     else this.night(ctx)
+    if (withMusic) this.calmMusic(ctx)
+  }
+
+  /** Slow piano and pad under SOS / guided sessions. Not a beep, not a toy loop. */
+  private calmMusic(ctx: AudioContext) {
+    this.warmPad(ctx, [110, 164.81, 220, 329.63], 0.042)
+    const chords = [
+      [110, 164.81, 220],
+      [130.81, 196, 261.63],
+      [87.31, 130.81, 174.61],
+      [98, 146.83, 196],
+    ]
+    let c = 0
+    const swell = () => {
+      if (!this.playing || !this.ctx) return
+      const now = ctx.currentTime
+      const chord = chords[c % chords.length]!
+      c += 1
+      for (const f of chord) {
+        const o = ctx.createOscillator()
+        o.type = 'sine'
+        o.frequency.value = f
+        const g = ctx.createGain()
+        g.gain.setValueAtTime(0.0001, now)
+        g.gain.linearRampToValueAtTime(0.068, now + 1.6)
+        g.gain.setValueAtTime(0.068, now + 6.2)
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 11)
+        o.connect(g)
+        this.out(g, 0.55, 0.95)
+        o.start(now)
+        o.stop(now + 11.2)
+      }
+    }
+    swell()
+    const swellId = window.setInterval(swell, 10000)
+    const melody = [220, 246.94, 261.63, 293.66, 329.63, 392, 329.63, 261.63]
+    let m = 0
+    const note = () => {
+      if (!this.playing || !this.ctx) return
+      const f = melody[m % melody.length]!
+      m += 1
+      const now = ctx.currentTime
+      const o = ctx.createOscillator()
+      o.type = 'triangle'
+      o.frequency.value = f
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.1, now + 0.16)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 4.8)
+      o.connect(g)
+      this.out(g, 0.52, 0.94)
+      o.start(now)
+      o.stop(now + 5.1)
+      const air = ctx.createOscillator()
+      air.type = 'sine'
+      air.frequency.value = f * 2
+      const ag = ctx.createGain()
+      ag.gain.setValueAtTime(0.0001, now)
+      ag.gain.linearRampToValueAtTime(0.028, now + 0.22)
+      ag.gain.exponentialRampToValueAtTime(0.0001, now + 3.4)
+      air.connect(ag)
+      this.out(ag, 0.32, 0.9)
+      air.start(now)
+      air.stop(now + 3.6)
+    }
+    const first = window.setTimeout(note, 700)
+    const noteId = window.setInterval(note, 4600)
+    this.track(() => {
+      window.clearTimeout(first)
+      window.clearInterval(swellId)
+      window.clearInterval(noteId)
+    })
   }
 
   private lfo(ctx: AudioContext, param: AudioParam, rate: number, depth: number, base: number) {
