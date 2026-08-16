@@ -57,7 +57,7 @@ export function CoverCard({
   return (
     <Link
       to={to}
-      className={`cover-card keep-dark relative overflow-hidden rounded-[1.45rem] ${
+      className={`cover-card keep-dark relative block overflow-hidden rounded-[1.45rem] ${
         fill ? 'h-[13.4rem] w-full' : wide ? 'h-[10.5rem] w-[16.5rem] shrink-0 snap-start' : 'h-[15.6rem] w-[10.6rem] shrink-0 snap-start'
       }`}
       onContextMenu={(e) => {
