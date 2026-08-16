@@ -55,9 +55,6 @@ type SliceCtl = {
 }
 
 let sliceCtl: SliceCtl | null = null
-let synthUtter: SpeechSynthesisUtterance | null = null
-let synthChunks: string[] = []
-let usingSynth = false
 
 function liveElapsed() {
   if (!speakingFlag && !loadingFlag) return 0
@@ -182,22 +179,6 @@ function resolveLang(lang?: string) {
   return lang || document.documentElement.lang || 'tr-TR'
 }
 
-function humanize(text: string, prefix: string, mode: ReadMode) {
-  let out = text.replace(/\r\n/g, '\n')
-  if (mode === 'slow') out = out.replace(/[·•]/g, ',').replace(/\s*[—–]\s*/g, ', ')
-  else out = out.replace(/[·•]/g, '.').replace(/\s*[—–]\s*/g, '. ')
-  if (mode === 'calm') out = out.replace(/!+/g, '.')
-  out = out
-    .replace(/(\d)-(\d)-(\d)/g, '$1, $2, $3')
-    .replace(/Hz/gi, 'hertz')
-    .replace(/['’]/g, ' ')
-    .replace(/[ \t]{2,}/g, ' ')
-    .trim()
-  if (prefix === 'tr') out = out.replace(/(\d+)\s*dk\b/gi, '$1 dakika')
-  else out = out.replace(/(\d+)\s*dk\b/gi, '$1 min').replace(/(\d+)\s*min\b/gi, '$1 minutes')
-  return out
-}
-
 function sleep(ms: number) {
   return new Promise<void>((resolve) => {
     window.setTimeout(resolve, ms)
@@ -223,12 +204,11 @@ async function waitWhilePaused() {
   })
 }
 
-const VOICE_CACHE = 'steady-voice-v5'
+const VOICE_CACHE = 'steady-voice-v6'
 type VoiceManifest = { clips?: Record<string, string> }
 
 let manifestWait: Promise<Record<string, string[]>> | null = null
 let manifestMap: Record<string, string[]> | null = null
-let synthWatch: number | null = null
 
 function clipRel(rel: string) {
   const clean = rel.replace(/^\/+/, '')
@@ -423,7 +403,7 @@ async function readManifestRes(res: Response | null) {
 
 async function fetchManifestJson(root: string) {
   const cache = await cacheStore()
-  const urls = [`${root}manifest.json?v=5`, `${root}manifest.json`]
+  const urls = [`${root}manifest.json?v=6`, `${root}manifest.json`]
   if (canHitNetwork(urls[0]!)) {
     for (const url of urls) {
       try {
@@ -598,207 +578,11 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
 }
 
 function haltSynth() {
-  usingSynth = false
-  synthUtter = null
-  if (synthWatch != null) {
-    window.clearInterval(synthWatch)
-    synthWatch = null
-  }
   try {
     window.speechSynthesis.cancel()
   } catch {
-    /* no speechSynthesis */
+    /* device TTS is unused */
   }
-}
-
-function unlockSynth(lang?: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return
-  try {
-    window.speechSynthesis.resume()
-    const u = new SpeechSynthesisUtterance(' ')
-    u.volume = 0
-    u.rate = 1
-    u.lang = lang || document.documentElement.lang || 'en-US'
-    window.speechSynthesis.speak(u)
-  } catch {
-    /* ignore */
-  }
-}
-
-function waitVoices() {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return Promise.resolve()
-  const ready = window.speechSynthesis.getVoices()
-  if (ready.length) return Promise.resolve()
-  return new Promise<void>((resolve) => {
-    const done = () => resolve()
-    window.speechSynthesis.addEventListener('voiceschanged', done, { once: true })
-    window.setTimeout(done, 700)
-  })
-}
-
-function pickVoice(prefix: string) {
-  const voices = window.speechSynthesis.getVoices()
-  const lang = prefix === 'az' ? ['az', 'tr'] : prefix === 'en' ? ['en'] : [prefix]
-  const pool = voices.filter((v) => lang.some((p) => v.lang.toLowerCase().startsWith(p)))
-  const female =
-    /female|samantha|karen|moira|serena|fiona|tessa|veena|yelda|filiz|monica|paulina|alice|federica|milena|katya|zira|hazel|siri|ava|jenny|aria|emma|michelle|susan|victoria|kathy|google uk english female|google us english/i
-  return (
-    pool.find((v) => female.test(v.name)) ||
-    pool.find((v) => /neural|premium|enhanced/i.test(v.name)) ||
-    pool.find((v) => v.localService) ||
-    pool[0] ||
-    null
-  )
-}
-
-function splitForSynth(text: string) {
-  const paras = text
-    .split(/\n{2,}/)
-    .map((s) => s.replace(/\s+/g, ' ').trim())
-    .filter(Boolean)
-  const out: string[] = []
-  for (const p of paras) {
-    if (p.length <= 220) {
-      out.push(p)
-      continue
-    }
-    const bits = p.split(/(?<=[.!?…])\s+/)
-    let buf = ''
-    for (const b of bits) {
-      const next = buf ? `${buf} ${b}` : b
-      if (next.length > 220 && buf) {
-        out.push(buf)
-        buf = b
-      } else buf = next
-    }
-    if (buf) out.push(buf)
-  }
-  return out
-}
-
-function synthRate(opts: SpeakOpts) {
-  if (opts.rate) return Math.max(0.6, Math.min(1.05, opts.rate))
-  const mode = opts.mode || readReadMode()
-  if (mode === 'slow') return 0.72
-  if (mode === 'natural') return 0.94
-  return 0.8
-}
-
-function speakUtterance(text: string, prefix: string, opts: SpeakOpts, gen: number) {
-  return new Promise<void>((resolve, reject) => {
-    if (cancelled || gen !== speakGen) {
-      resolve()
-      return
-    }
-    const u = new SpeechSynthesisUtterance(text)
-    const voice = pickVoice(prefix)
-    if (voice) {
-      u.voice = voice
-      u.lang = voice.lang || `${prefix}-${prefix.toUpperCase()}`
-    } else {
-      u.lang =
-        prefix === 'en'
-          ? 'en-US'
-          : prefix === 'tr'
-            ? 'tr-TR'
-            : prefix === 'az'
-              ? 'az-AZ'
-              : prefix === 'ru'
-                ? 'ru-RU'
-                : prefix === 'es'
-                  ? 'es-ES'
-                  : prefix === 'it'
-                    ? 'it-IT'
-                    : `${prefix}-${prefix.toUpperCase()}`
-    }
-    u.rate = synthRate(opts)
-    u.pitch = 0.98
-    u.volume = Math.max(0.15, readVoiceVolume())
-    synthUtter = u
-    u.onend = () => {
-      if (synthUtter === u) synthUtter = null
-      resolve()
-    }
-    u.onerror = (ev) => {
-      if (synthUtter === u) synthUtter = null
-      if (ev.error === 'canceled' || ev.error === 'interrupted') resolve()
-      else reject(new Error(ev.error || 'synth'))
-    }
-    try {
-      window.speechSynthesis.resume()
-    } catch {
-      /* ignore */
-    }
-    window.speechSynthesis.speak(u)
-  })
-}
-
-async function runSynth(text: string, gen: number, opts: SpeakOpts, prefix: string) {
-  const line = humanize(text, prefix, opts.mode || readReadMode())
-  if (!line || typeof window === 'undefined' || !window.speechSynthesis) return false
-  await waitVoices()
-  if (cancelled || gen !== speakGen) return true
-  synthChunks = splitForSynth(line)
-  if (!synthChunks.length) return false
-  const words = line.split(/\s+/).filter(Boolean).length
-  const estMs = Math.max(1200, (words / (synthRate(opts) * 2.35)) * 1000)
-  const startMs = Math.max(0, opts.startMs ?? 0)
-  clockStartMs = startMs
-  clockOrigin = Date.now()
-  clockPauseTotal = 0
-  clockPausedAt = 0
-  clockDuration = opts.fillMs ?? estMs
-  usingSynth = true
-  setFlags({ speaking: true, loading: false, paused: false, error: null })
-  armClock()
-  audio.hushForVoice()
-  if (synthWatch != null) window.clearInterval(synthWatch)
-  synthWatch = window.setInterval(() => {
-    if (!usingSynth || cancelled || gen !== speakGen) return
-    try {
-      window.speechSynthesis.resume()
-    } catch {
-      /* Chrome drops long utterances unless resumed */
-    }
-  }, 8000)
-  const skip = startMs / Math.max(1, estMs)
-  let acc = 0
-  try {
-    await wait(40, gen)
-    for (let i = 0; i < synthChunks.length; i++) {
-      if (cancelled || gen !== speakGen) return true
-      await waitWhilePaused()
-      if (cancelled || gen !== speakGen) return true
-      const share = 1 / synthChunks.length
-      acc += share
-      if (skip >= acc) continue
-      await speakUtterance(synthChunks[i]!, prefix, opts, gen)
-      if (cancelled || gen !== speakGen) return true
-      await wait(380, gen)
-    }
-    if (opts.fillMs) {
-      audio.duck(false)
-      const rest = Math.max(0, opts.fillMs - liveElapsed())
-      if (rest > 80) await wait(rest, gen)
-    }
-  } catch {
-    if (cancelled || gen !== speakGen) return true
-    usingSynth = false
-    if (synthWatch != null) {
-      window.clearInterval(synthWatch)
-      synthWatch = null
-    }
-    await finishSpeak(gen, opts, 'tts_fail')
-    return true
-  }
-  usingSynth = false
-  if (synthWatch != null) {
-    window.clearInterval(synthWatch)
-    synthWatch = null
-  }
-  if (cancelled || gen !== speakGen) return true
-  await finishSpeak(gen, opts)
-  return true
 }
 
 export function stopSpeak() {
@@ -826,13 +610,6 @@ export function togglePause() {
     pauseWait?.()
     pauseWait = null
     audio.hold(false)
-    if (usingSynth) {
-      try {
-        window.speechSynthesis.resume()
-      } catch {
-        /* iOS often ignores resume */
-      }
-    }
     audio.hushForVoice()
     setFlags({ paused: false })
     return
@@ -845,13 +622,6 @@ export function togglePause() {
     haltSlice(elapsed)
   }
   audio.hold(true)
-  if (usingSynth) {
-    try {
-      window.speechSynthesis.pause()
-    } catch {
-      /* iOS often ignores pause */
-    }
-  }
   setFlags({ paused: true })
 }
 
@@ -872,7 +642,6 @@ export function speechClipId() {
 
 export function speak(text: string, opts: SpeakOpts = {}) {
   audio.unlock()
-  unlockSynth(opts.lang)
   void runSpeak(text, opts)
 }
 
@@ -886,7 +655,7 @@ async function runSpeak(text: string, opts: SpeakOpts) {
   setFlags({ speaking: true, loading: true, paused: false, error: null })
   await wait(90, gen)
   if (cancelled || gen !== speakGen) return
-  if (!text.trim()) {
+  if (!text.trim() || !opts.clipId) {
     await finishSpeak(gen, opts, 'voice_missing')
     return
   }
@@ -903,20 +672,15 @@ async function runSpeak(text: string, opts: SpeakOpts) {
       if (cancelled || gen !== speakGen) return
       if (used) return
     } catch {
-      /* device voice next */
+      /* missing clip */
     }
   }
-  const spoken = await runSynth(text, gen, opts, prefix)
-  if (cancelled || gen !== speakGen) return
-  if (!spoken) await finishSpeak(gen, opts, 'voice_missing')
+  await finishSpeak(gen, opts, 'voice_missing')
 }
 
 export function speakCue(text: string, lang?: string, clipId?: string) {
-  const mode = readReadMode()
-  const prefix = langPrefix(resolveLang(lang))
-  const line = humanize(text, prefix, mode)
-  if (!line) return
-  speak(line, { lang, mode, clipId })
+  if (!text.trim()) return
+  speak(text, { lang, clipId })
 }
 
 export { VOICE_SAMPLE }
@@ -926,14 +690,6 @@ export function sampleLine(bcp47: string) {
 }
 
 export function warmVoices(lang?: string): Promise<void> {
-  if (typeof window !== 'undefined' && window.speechSynthesis) {
-    try {
-      window.speechSynthesis.getVoices()
-      void waitVoices()
-    } catch {
-      /* ignore */
-    }
-  }
   const prefix = langPrefix(resolveLang(lang))
   const run = () => {
     void prefetchOfflineVoice(prefix)

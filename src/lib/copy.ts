@@ -43,10 +43,10 @@ export function pickPack(map: Record<LocaleId, string> | undefined, locale: Loca
 
 export const PACK: Record<string, Pack> = {
   lighthouse: {
-    title: L('Kıyı Feneri', 'Coastal lighthouse', 'Faro de costa', 'Phare du rivage', 'Küstenleuchtturm', 'Faro sulla costa'),
-    subtitle: L('Ege’de bir gece nöbeti', 'A night watch on the coast', 'Una guardia nocturna en la costa', 'Une veille sur la côte', 'Nachtwache an der Küste', 'Una veglia sulla costa'),
-    sentence: L('Bu kıyıda lamba yanıyor, ben duruyorum.', 'The lamp is on this shore, and I stay.', 'La lámpara está en esta orilla, y yo me quedo.', 'La lampe est sur cette rive, et je reste.', 'Die Lampe brennt an diesem Ufer, und ich bleibe.', 'La lampada è su questa riva, e io resto.'),
-    nightSeed: L('Spiral merdiven, ılık cam, durgun deniz.', 'Spiral stairs, warm glass, still sea.', 'Escalera de caracol, cristal tibio, mar quieto.', 'Escalier en spirale, verre tiède, mer calme.', 'Wendeltreppe, warmes Glas, stilles Meer.', 'Scala a chiocciola, vetro tiepido, mare fermo.'),
+    title: L('Kıyı Feneri', 'Coastal lighthouse', 'Faro de costa', 'Phare du rivage', 'Küstenleuchtturm', 'Faro sulla costa', 'Sahil mayakı', 'Береговой маяк'),
+    subtitle: L('Ege’de bir gece nöbeti', 'A night watch on the coast', 'Una guardia nocturna en la costa', 'Une veille sur la côte', 'Nachtwache an der Küste', 'Una veglia sulla costa', 'Egeydə bir gecə növbəsi', 'Ночная вахта на берегу'),
+    sentence: L('Bu kıyıda lamba yanıyor, ben duruyorum.', 'The lamp is on this shore, and I stay.', 'La lámpara está en esta orilla, y yo me quedo.', 'La lampe est sur cette rive, et je reste.', 'Die Lampe brennt an diesem Ufer, und ich bleibe.', 'La lampada è su questa riva, e io resto.', 'Bu sahildə lampa yanır, mən dururam.', 'На этом берегу горит лампа, и я остаюсь.'),
+    nightSeed: L('Spiral merdiven, ılık cam, durgun deniz.', 'Spiral stairs, warm glass, still sea.', 'Escalera de caracol, cristal tibio, mar quieto.', 'Escalier en spirale, verre tiède, mer calme.', 'Wendeltreppe, warmes Glas, stilles Meer.', 'Scala a chiocciola, vetro tiepido, mare fermo.', 'Spiral merdiven, isti şüşə, sakit dəniz.', 'Винтовая лестница, тёплое стекло, тихое море.'),
     body: L(
       'Bu hikâye bir tedavi değildir. Sadece bir kıyı, bir lamba, bir nöbet. Kayalık bir çıkıntıda beyaz bir fener var. Rüzgâr yok. Deniz duruyor. Sen bekçisin. Spiral merdiven taş, el duvarda, serin ve tuzlu. Yukarıda lamba odası. Camlar temiz. Oturuyorsun. Koy boş. Lamba düzenli tarıyor. Sen sabit noktasın. Termosta ılık su. Göğsün sakin. Paltonun cebinde bir taş. Gece ilerliyor. Fener kendi işini bilir. Omuzlarını bırak. Tohum: spiral merdiven, ılık cam, durgun deniz. Bırak.',
       'This is not a treatment. A shore, a lamp, a watch. A white lighthouse on rock. No wind. The sea holds still. You are the keeper. Stone spiral stairs, hand on the wall, cool and salt. The lamp room. Clean glass. You sit. The cove is empty. The lamp sweeps on time. You are the still point. Warm water in a flask. The chest is quiet. A stone in a coat pocket. Night moves. The lighthouse knows its work. Drop the shoulders. Seed: spiral stairs, warm glass, still sea. Release.',
@@ -54,6 +54,8 @@ export const PACK: Record<string, Pack> = {
       'Ce n’est pas un traitement. Une rive, une lampe, une veille. Un phare blanc sur la roche. Pas de vent. La mer est calme. Tu es le gardien. Escalier de pierre, main au mur, frais et salé. Salle de la lampe. Verre propre. Tu t’assieds. L’anse est vide. La lampe balaie à l’heure. Tu es le point fixe. Eau tiède. La poitrine est calme. Une pierre dans une poche. La nuit avance. Le phare sait son travail. Laisse descendre les épaules. Graine : spirale, verre tiède, mer calme. Lâche.',
       'Das ist keine Behandlung. Ein Ufer, eine Lampe, eine Wache. Ein weißes Feuer auf Fels. Kein Wind. Das Meer hält still. Du bist der Wärter. Steinerne Spirale, Hand an der Wand, kühl und salzig. Lampenraum. Sauberes Glas. Du sitzt. Die Bucht ist leer. Die Lampe streicht im Takt. Du bist der feste Punkt. Warmes Wasser. Die Brust ist ruhig. Ein Stein in der Tasche. Die Nacht geht. Der Turm kennt seine Arbeit. Schultern sinken. Samen: Spirale, warmes Glas, stilles Meer. Loslassen.',
       'Non è una cura. Una riva, una lampada, una veglia. Un faro bianco sulla roccia. Niente vento. Il mare è fermo. Sei il guardiano. Scala di pietra, mano al muro, fresco e sale. Stanza della lampada. Vetro pulito. Ti siedi. La cala è vuota. La lampada spazza a tempo. Sei il punto fermo. Acqua tiepida. Il petto è calmo. Un sasso in tasca. La notte avanza. Il faro sa il suo lavoro. Lascia scendere le spalle. Seme: scala, vetro tiepido, mare fermo. Rilascia.',
+      'Bu müalicə deyil. Bir sahil, bir lampa, bir növbə. Qayada ağ mayak. Külək yoxdur. Dəniz durur. Sən gözətçisən. Spiral daş merdiven, əl divarda, sərin və duzlu. Yuxarıda lampa otağı. Şüşələr təmiz. Oturursan. Körfəz boşdur. Lampa vaxtında tarayır. Sən sabit nöqtəsən. Termosda isti su. Sinən sakitdir. Paltonun cibində bir daş. Gecə irəliləyir. Mayak öz işini bilir. Çiyinləri burax. Toxum: spiral merdiven, isti şüşə, sakit dəniz. Burax.',
+      'Это не лечение. Берег, лампа, вахта. Белый маяк на скале. Нет ветра. Море стоит. Ты сторож. Каменная спираль, рука на стене, прохлада и соль. Комната лампы. Чистое стекло. Ты сидишь. Бухта пуста. Лампа метит вовремя. Ты неподвижная точка. Тёплая вода в термосе. Грудь тихая. Камень в кармане пальто. Ночь идёт. Маяк знает свою работу. Плечи опусти. Семя: винтовая лестница, тёплое стекло, тихое море. Отпусти.',
     ),
   },
   library: {
@@ -169,9 +171,9 @@ function short(
 
 short(
   'after-wave',
-  L('Dalga indikten sonra', 'After the wave', 'Después de la ola', 'Après la vague', 'Nach der Welle', 'Dopo l’onda'),
-  L('Üç satır, abartısız', 'Three lines, no extra', 'Tres líneas, sin extra', 'Trois lignes, sans extra', 'Drei Zeilen, ohne Extra', 'Tre righe, senza extra'),
-  L('Dalga indi, ben satırdayım.', 'The wave dropped; I am on the line.', 'La ola bajó; estoy en la línea.', 'La vague est redescendue ; je suis sur la ligne.', 'Die Welle fiel; ich bin auf der Zeile.', 'L’onda è scesa; sono sulla riga.'),
+  L('Dalga indikten sonra', 'After the wave', 'Después de la ola', 'Après la vague', 'Nach der Welle', 'Dopo l’onda', 'Dalğa endikdən sonra', 'После волны'),
+  L('Üç satır, abartısız', 'Three lines, no extra', 'Tres líneas, sin extra', 'Trois lignes, sans extra', 'Drei Zeilen, ohne Extra', 'Tre righe, senza extra', 'Üç sətir, artıqsız', 'Три строки, без лишнего'),
+  L('Dalga indi, ben satırdayım.', 'The wave dropped; I am on the line.', 'La ola bajó; estoy en la línea.', 'La vague est redescendue ; je suis sur la ligne.', 'Die Welle fiel; ich bin auf der Zeile.', 'L’onda è scesa; sono sulla riga.', 'Dalğa endi, mən sətirdəyəm.', 'Волна спала; я на строке.'),
   L(
     'Kalem. Üç başlık, her birine iki cümle. 1. Beden: nerede bir milim yumuşak. 2. Oda: bir nesne adı. 3. Şükran: küçük ve gerçek. Yorum yok. Defteri kapat. Bırakış: bunu rapor yapma.',
     'Pen. Three headings, two sentences each. 1. Body: where one millimeter is softer. 2. Room: one object name. 3. Thanks: small and real. No commentary. Close the notebook. Release: do not make this a report.',
@@ -179,6 +181,8 @@ short(
     'Stylo. Trois titres, deux phrases chacun. 1. Corps : où un millimètre est plus doux. 2. Pièce : un objet. 3. Merci : petit et vrai. Pas de commentaire. Ferme. Lâche : n’en fais pas un rapport.',
     'Stift. Drei Überschriften, je zwei Sätze. 1. Körper: wo ein Millimeter weicher ist. 2. Raum: ein Gegenstand. 3. Dank: klein und wahr. Kein Kommentar. Zu. Loslassen: mach keinen Bericht daraus.',
     'Penna. Tre titoli, due frasi ciascuno. 1. Corpo: dove un millimetro è più morbido. 2. Stanza: un oggetto. 3. Grazie: piccolo e vero. Niente commento. Chiudi. Rilascia: non farne un verbale.',
+    'Qələm. Üç başlıq, hər birinə iki cümlə. 1. Bədən: harada bir milimetr yumşaqdır. 2. Otaq: bir əşyanın adı. 3. Minnətdarlıq: kiçik və gerçək. Şərh yoxdur. Dəftəri bağla. Buraxılış: bunu hesabat etmə.',
+    'Ручка. Три заголовка, по два предложения. 1. Тело: где миллиметр мягче. 2. Комната: имя одного предмета. 3. Благодарность: маленькая и настоящая. Без комментария. Закрой тетрадь. Отпускание: не делай из этого отчёт.',
   ),
 )
 

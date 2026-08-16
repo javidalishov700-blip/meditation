@@ -22,183 +22,183 @@ export const NATURE_SCENES: NatureScene[] = [
     id: 'rain',
     title: 'Yağmur camı',
     subtitle: 'Camdaki damla ve uzak gök',
-    names: R('Yağmur camı|Rain on glass|Yağmur camı|Rain on glass|Lluvia en el cristal|Pioggia sul vetro'),
-    blurbs: R('Camdaki damla ve uzak gök|Drops on glass, distant sky|Camdaki damla ve uzak gök|Drops on glass, distant sky|Gotas en el cristal|Gocce sul vetro'),
+    names: R('Yağmur camı|Rain on glass|Yağış şüşəsi|Дождь на стекле|Lluvia en el cristal|Pioggia sul vetro'),
+    blurbs: R('Camdaki damla ve uzak gök|Drops on glass, distant sky|Şüşədə damcı və uzaq göy|Капли на стекле, дальнее небо|Gotas en el cristal|Gocce sul vetro'),
   },
   {
     id: 'ocean',
     title: 'Gece koyu',
     subtitle: 'Yavaş dalga, çakıl, tuz',
-    names: R('Gece koyu|Night cove|Gece koyu|Night cove|Cala nocturna|Cala notturna'),
-    blurbs: R('Yavaş dalga, çakıl, tuz|Slow wave, pebble, salt|Yavaş dalga, çakıl, tuz|Slow wave, pebble, salt|Ola lenta, guijarro, sal|Onda lenta, ciottolo, sale'),
+    names: R('Gece koyu|Night cove|Gecə körfəzi|Ночная бухта|Cala nocturna|Cala notturna'),
+    blurbs: R('Yavaş dalga, çakıl, tuz|Slow wave, pebble, salt|Yavaş dalğa, çınqıl, duz|Медленная волна, галька, соль|Ola lenta, guijarro, sal|Onda lenta, ciottolo, sale'),
   },
   {
     id: 'forest',
     title: 'Çam altı',
     subtitle: 'Yaprak, uzak kuş, rüzgâr',
-    names: R('Çam altı|Under the pines|Çam altı|Under the pines|Bajo los pinos|Sotto i pini'),
-    blurbs: R('Yaprak, uzak kuş, rüzgâr|Leaves, distant bird, wind|Yaprak, uzak kuş, rüzgâr|Leaves, distant bird, wind|Hojas, pájaro lejano, viento|Foglie, uccello lontano, vento'),
+    names: R('Çam altı|Under the pines|Şam altı|Под соснами|Bajo los pinos|Sotto i pini'),
+    blurbs: R('Yaprak, uzak kuş, rüzgâr|Leaves, distant bird, wind|Yarpaq, uzaq quş, külək|Листва, далёкая птица, ветер|Hojas, pájaro lejano, viento|Foglie, uccello lontano, vento'),
   },
   {
     id: 'fire',
     title: 'Köz',
     subtitle: 'Çıtırtı ve alçak ısı',
-    names: R('Köz|Embers|Köz|Embers|Brasas|Braci'),
-    blurbs: R('Çıtırtı ve alçak ısı|Crackling and low heat|Çıtırtı ve alçak ısı|Crackling and low heat|Crepitar y calor bajo|Scoppiettio e calore basso'),
+    names: R('Köz|Embers|Köz|Угли|Brasas|Braci'),
+    blurbs: R('Çıtırtı ve alçak ısı|Crackling and low heat|Çatırtı və alçaq istilik|Трескт и низкое тепло|Crepitar y calor bajo|Scoppiettio e calore basso'),
   },
   {
     id: 'wind',
     title: 'Bozkır rüzgârı',
     subtitle: 'Geniş, boş, yavaş',
-    names: R('Bozkır rüzgârı|Steppe wind|Bozkır rüzgârı|Steppe wind|Viento de estepa|Vento di steppa'),
-    blurbs: R('Geniş, boş, yavaş|Wide, empty, slow|Geniş, boş, yavaş|Wide, empty, slow|Amplio, vacío, lento|Ampio, vuoto, lento'),
+    names: R('Bozkır rüzgârı|Steppe wind|Bozqır küləyi|Степной ветер|Viento de estepa|Vento di steppa'),
+    blurbs: R('Geniş, boş, yavaş|Wide, empty, slow|Geniş, boş, yavaş|Широко, пусто, медленно|Amplio, vacío, lento|Ampio, vuoto, lento'),
   },
   {
     id: 'night',
     title: 'Kır gecesi',
     subtitle: 'Cırcır ve uzak ova',
-    names: R('Kır gecesi|Country night|Kır gecesi|Country night|Noche de campo|Notte di campagna'),
-    blurbs: R('Cırcır ve uzak ova|Crickets and a far field|Cırcır ve uzak ova|Crickets and a far field|Grillos y campo lejano|Grilli e campo lontano'),
+    names: R('Kır gecesi|Country night|Kənd gecəsi|Сельская ночь|Noche de campo|Notte di campagna'),
+    blurbs: R('Cırcır ve uzak ova|Crickets and a far field|Cırcır və uzaq düz|Сверчки и дальнее поле|Grillos y campo lejano|Grilli e campo lontano'),
   },
   {
     id: 'storm',
     title: 'Gök gürültüsü',
     subtitle: 'Uzak gürleme, yağmur',
-    names: R('Gök gürültüsü|Thunder|Gök gürültüsü|Thunder|Trueno|Tuono'),
-    blurbs: R('Uzak gürleme, yağmur|Distant rumble, rain|Uzak gürleme, yağmur|Distant rumble, rain|Rumores lejanos, lluvia|Rombo lontano, pioggia'),
+    names: R('Gök gürültüsü|Thunder|Göy gurultusu|Гром|Trueno|Tuono'),
+    blurbs: R('Uzak gürleme, yağmur|Distant rumble, rain|Uzaq gurultu, yağış|Далёкий гул, дождь|Rumores lejanos, lluvia|Rombo lontano, pioggia'),
   },
   {
     id: 'river',
     title: 'Dere',
     subtitle: 'Taş, su, sürekli akış',
-    names: R('Dere|Stream|Dere|Stream|Arroyo|Ruscello'),
-    blurbs: R('Taş, su, sürekli akış|Stone, water, steady flow|Taş, su, sürekli akış|Stone, water, steady flow|Piedra, agua, flujo constante|Pietra, acqua, flusso costante'),
+    names: R('Dere|Stream|Çay|Ручей|Arroyo|Ruscello'),
+    blurbs: R('Taş, su, sürekli akış|Stone, water, steady flow|Daş, su, sabit axın|Камень, вода, ровный поток|Piedra, agua, flujo constante|Pietra, acqua, flusso costante'),
   },
   {
     id: 'birds',
     title: 'Sabah kuşları',
     subtitle: 'Uzak ötüş, yaprak',
-    names: R('Sabah kuşları|Morning birds|Sabah kuşları|Morning birds|Pájaros de mañana|Uccelli del mattino'),
-    blurbs: R('Uzak ötüş, yaprak|Distant song, leaves|Uzak ötüş, yaprak|Distant song, leaves|Canto lejano, hojas|Canto lontano, foglie'),
+    names: R('Sabah kuşları|Morning birds|Səhər quşları|Утренние птицы|Pájaros de mañana|Uccelli del mattino'),
+    blurbs: R('Uzak ötüş, yaprak|Distant song, leaves|Uzaq ötüş, yarpaq|Далёкая песня, листва|Canto lejano, hojas|Canto lontano, foglie'),
   },
   {
     id: 'cafe',
     title: 'Sessiz kafe',
     subtitle: 'Uzak mırıltı, fincan',
-    names: R('Sessiz kafe|Quiet cafe|Sessiz kafe|Quiet cafe|Café silencioso|Caffè quieto'),
-    blurbs: R('Uzak mırıltı, fincan|Distant murmur, cup|Uzak mırıltı, fincan|Distant murmur, cup|Murmullo lejano, taza|Mormorio lontano, tazza'),
+    names: R('Sessiz kafe|Quiet cafe|Sakit kafe|Тихое кафе|Café silencioso|Caffè quieto'),
+    blurbs: R('Uzak mırıltı, fincan|Distant murmur, cup|Uzaq pıçıltı, fincan|Далёкий шёпот, чашка|Murmullo lejano, taza|Mormorio lontano, tazza'),
   },
   {
     id: 'snow',
     title: 'Kar',
     subtitle: 'Yumuşak, yüksek, boş',
-    names: R('Kar|Snow|Kar|Snow|Nieve|Neve'),
-    blurbs: R('Yumuşak, yüksek, boş|Soft, high, empty|Yumuşak, yüksek, boş|Soft, high, empty|Suave, alto, vacío|Morbido, acuto, vuoto'),
+    names: R('Kar|Snow|Qar|Снег|Nieve|Neve'),
+    blurbs: R('Yumuşak, yüksek, boş|Soft, high, empty|Yumşaq, yüksək, boş|Мягко, высоко, пусто|Suave, alto, vacío|Morbido, acuto, vuoto'),
   },
   {
     id: 'bowl',
     title: 'Çan kâsesi',
     subtitle: 'Tek ton, yavaş sönüş',
-    names: R('Çan kâsesi|Singing bowl|Çan kâsesi|Singing bowl|Cuenco tibetano|Campana tibetana'),
-    blurbs: R('Tek ton, yavaş sönüş|One tone, slow fade|Tek ton, yavaş sönüş|One tone, slow fade|Un tono, desvanecer lento|Un tono, fade lento'),
+    names: R('Çan kâsesi|Singing bowl|Zəng qabı|Поющая чаша|Cuenco tibetano|Campana tibetana'),
+    blurbs: R('Tek ton, yavaş sönüş|One tone, slow fade|Tək ton, yavaş sönmə|Один тон, медленное затухание|Un tono, desvanecer lento|Un tono, fade lento'),
   },
   {
     id: 'fan',
     title: 'Vantilatör',
     subtitle: 'Düz, kapalı oda',
-    names: R('Vantilatör|Fan|Vantilatör|Fan|Ventilador|Ventilatore'),
-    blurbs: R('Düz, kapalı oda|Flat, closed room|Düz, kapalı oda|Flat, closed room|Plano, habitación cerrada|Piatto, stanza chiusa'),
+    names: R('Vantilatör|Fan|Ventilyator|Вентилятор|Ventilador|Ventilatore'),
+    blurbs: R('Düz, kapalı oda|Flat, closed room|Düz, bağlı otaq|Плоско, закрытая комната|Plano, habitación cerrada|Piatto, stanza chiusa'),
   },
   {
     id: 'waves',
     title: 'Açık deniz',
     subtitle: 'Daha büyük dalga',
-    names: R('Açık deniz|Open sea|Açık deniz|Open sea|Mar abierto|Mare aperto'),
-    blurbs: R('Daha büyük dalga|A larger wave|Daha büyük dalga|A larger wave|Una ola más grande|Un’onda più grande'),
+    names: R('Açık deniz|Open sea|Açıq dəniz|Открытое море|Mar abierto|Mare aperto'),
+    blurbs: R('Daha büyük dalga|A larger wave|Daha böyük dalğa|Более крупная волна|Una ola más grande|Un’onda più grande'),
   },
   {
     id: 'piano',
     title: 'Gece piyanosu',
     subtitle: 'Seyrek nota, pad',
-    names: R('Gece piyanosu|Night piano|Gece piyanosu|Night piano|Piano nocturno|Pianoforte notturno'),
-    blurbs: R('Seyrek nota, pad|Sparse notes, pad|Seyrek nota, pad|Sparse notes, pad|Notas escasas, fondo|Note rade, pad'),
+    names: R('Gece piyanosu|Night piano|Gecə pianosu|Ночное пианино|Piano nocturno|Pianoforte notturno'),
+    blurbs: R('Seyrek nota, pad|Sparse notes, pad|Seyrək nota, pad|Редкие ноты, подложка|Notas escasas, fondo|Note rade, pad'),
   },
   {
     id: 'drone',
     title: 'Sıcak drone',
     subtitle: 'Alçak beşli, yavaş salınım',
-    names: R('Sıcak drone|Warm drone|Sıcak drone|Warm drone|Drone cálido|Drone caldo'),
-    blurbs: R('Alçak beşli, yavaş salınım|Low fifth, slow sway|Alçak beşli, yavaş salınım|Low fifth, slow sway|Quinta baja, vaivén lento|Quinta bassa, oscillazione lenta'),
+    names: R('Sıcak drone|Warm drone|İsti drone|Тёплый дрон|Drone cálido|Drone caldo'),
+    blurbs: R('Alçak beşli, yavaş salınım|Low fifth, slow sway|Aşağı kvinta, yavaş yellənmə|Низкая квинта, медленное качание|Quinta baja, vaivén lento|Quinta bassa, oscillazione lenta'),
   },
   {
     id: 'ohm',
     title: 'Om yatağı',
     subtitle: 'Tek ünlü, hafif detune',
-    names: R('Om yatağı|Om bed|Om yatağı|Om bed|Cama de om|Letto di om'),
-    blurbs: R('Tek ünlü, hafif detune|One vowel, slight detune|Tek ünlü, hafif detune|One vowel, slight detune|Una vocal, desafinación leve|Una vocale, lieve stonatura'),
+    names: R('Om yatağı|Om bed|Om yatağı|Постель ом|Cama de om|Letto di om'),
+    blurbs: R('Tek ünlü, hafif detune|One vowel, slight detune|Tək sait, yüngül detune|Одна гласная, лёгкий расстрой|Una vocal, desafinación leve|Una vocale, lieve stonatura'),
   },
   {
     id: 'chime',
     title: 'Rüzgâr çanı',
     subtitle: 'Seyrek metal, uzun sönüş',
-    names: R('Rüzgâr çanı|Wind chime|Rüzgâr çanı|Wind chime|Campanilla de viento|Campanelle a vento'),
-    blurbs: R('Seyrek metal, uzun sönüş|Sparse metal, long fade|Seyrek metal, uzun sönüş|Sparse metal, long fade|Metal escaso, fade largo|Metallo rado, fade lungo'),
+    names: R('Rüzgâr çanı|Wind chime|Külək zəngi|Ветряные колокольчики|Campanilla de viento|Campanelle a vento'),
+    blurbs: R('Seyrek metal, uzun sönüş|Sparse metal, long fade|Seyrək metal, uzun sönmə|Редкий металл, долгое затухание|Metal escaso, fade largo|Metallo rado, fade lungo'),
   },
   {
     id: 'crystal',
     title: 'Kristal',
     subtitle: 'İnce katman, yavaş vuruş',
-    names: R('Kristal|Crystal|Kristal|Crystal|Cristal|Cristallo'),
-    blurbs: R('İnce katman, yavaş vuruş|Thin layer, slow beat|İnce katman, yavaş vuruş|Thin layer, slow beat|Capa fina, pulso lento|Strato sottile, battito lento'),
+    names: R('Kristal|Crystal|Kristal|Кристалл|Cristal|Cristallo'),
+    blurbs: R('İnce katman, yavaş vuruş|Thin layer, slow beat|İncə qat, yavaş vuruş|Тонкий слой, медленный удар|Capa fina, pulso lento|Strato sottile, battito lento'),
   },
   {
     id: 'gong',
     title: 'Gong',
     subtitle: 'Derin vuruş, uzun oda',
     names: R('Gong|Gong|Gong|Gong|Gong|Gong'),
-    blurbs: R('Derin vuruş, uzun oda|Deep strike, long room|Derin vuruş, uzun oda|Deep strike, long room|Golpe hondo, sala larga|Colpo profondo, stanza lunga'),
+    blurbs: R('Derin vuruş, uzun oda|Deep strike, long room|Dərin vuruş, uzun otaq|Глубокий удар, длинная комната|Golpe hondo, sala larga|Colpo profondo, stanza lunga'),
   },
   {
     id: 'swell',
     title: 'Nefes yatağı',
     subtitle: 'Al-ver gibi şişer, iner',
-    names: R('Nefes yatağı|Breath bed|Nefes yatağı|Breath bed|Cama de aliento|Letto di respiro'),
-    blurbs: R('Al-ver gibi şişer, iner|Swells like in and out|Al-ver gibi şişer, iner|Swells like in and out|Crece como inhalar y soltar|Si gonfia come dentro e fuori'),
+    names: R('Nefes yatağı|Breath bed|Nəfəs yatağı|Дыхательная постель|Cama de aliento|Letto di respiro'),
+    blurbs: R('Al-ver gibi şişer, iner|Swells like in and out|Al-ver kimi şişir, enir|Набухает как вдох и выдох|Crece como inhalar y soltar|Si gonfia come dentro e fuori'),
   },
   {
     id: 'harp',
     title: 'Seyrek arp',
     subtitle: 'Beş nota, geniş boşluk',
-    names: R('Seyrek arp|Sparse harp|Seyrek arp|Sparse harp|Arpa escasa|Arpa rada'),
-    blurbs: R('Beş nota, geniş boşluk|Five notes, wide space|Beş nota, geniş boşluk|Five notes, wide space|Cinco notas, espacio amplio|Cinque note, spazio ampio'),
+    names: R('Seyrek arp|Sparse harp|Seyrək arfa|Редкая арфа|Arpa escasa|Arpa rada'),
+    blurbs: R('Beş nota, geniş boşluk|Five notes, wide space|Beş nota, geniş boşluq|Пять нот, широкое пространство|Cinco notas, espacio amplio|Cinque note, spazio ampio'),
   },
   {
     id: 'white',
     title: 'Beyaz gürültü',
     subtitle: 'Düz, açık, örtü',
-    names: R('Beyaz gürültü|White noise|Beyaz gürültü|White noise|Ruido blanco|Rumore bianco'),
-    blurbs: R('Düz, açık, örtü|Flat, open, a cover|Düz, açık, örtü|Flat, open, a cover|Plano, abierto, una cubierta|Piatto, aperto, una coperta'),
+    names: R('Beyaz gürültü|White noise|Ağ küy|Белый шум|Ruido blanco|Rumore bianco'),
+    blurbs: R('Düz, açık, örtü|Flat, open, a cover|Düz, açıq, örtük|Плоско, открыто, покрывало|Plano, abierto, una cubierta|Piatto, aperto, una coperta'),
   },
   {
     id: 'pink',
     title: 'Pembe gürültü',
     subtitle: 'Yumuşak, orta, oda',
-    names: R('Pembe gürültü|Pink noise|Pembe gürültü|Pink noise|Ruido rosa|Rumore rosa'),
-    blurbs: R('Yumuşak, orta, oda|Soft, mid, a room|Yumuşak, orta, oda|Soft, mid, a room|Suave, medio, una habitación|Morbido, medio, una stanza'),
+    names: R('Pembe gürültü|Pink noise|Çəhrayı küy|Розовый шум|Ruido rosa|Rumore rosa'),
+    blurbs: R('Yumuşak, orta, oda|Soft, mid, a room|Yumşaq, orta, otaq|Мягко, середина, комната|Suave, medio, una habitación|Morbido, medio, una stanza'),
   },
   {
     id: 'brown',
     title: 'Kahverengi gürültü',
     subtitle: 'Alçak, kalın, zemin',
-    names: R('Kahverengi gürültü|Brown noise|Kahverengi gürültü|Brown noise|Ruido marrón|Rumore bruno'),
-    blurbs: R('Alçak, kalın, zemin|Low, thick, ground|Alçak, kalın, zemin|Low, thick, ground|Bajo, espeso, suelo|Basso, spesso, terra'),
+    names: R('Kahverengi gürültü|Brown noise|Qəhvəyi küy|Коричневый шум|Ruido marrón|Rumore bruno'),
+    blurbs: R('Alçak, kalın, zemin|Low, thick, ground|Aşağı, qalın, zəmin|Низко, густо, земля|Bajo, espeso, suelo|Basso, spesso, terra'),
   },
   {
     id: 'radio',
     title: 'Gece radyosu',
     subtitle: 'Yavaş nota, ılık pad',
-    names: R('Gece radyosu|Night radio|Gece radyosu|Night radio|Radio nocturna|Radio notturna'),
-    blurbs: R('Yavaş nota, ılık pad|Slow notes, warm pad|Yavaş nota, ılık pad|Slow notes, warm pad|Notas lentas, fondo cálido|Note lente, pad caldo'),
+    names: R('Gece radyosu|Night radio|Gecə radiosu|Ночное радио|Radio nocturna|Radio notturna'),
+    blurbs: R('Yavaş nota, ılık pad|Slow notes, warm pad|Yavaş nota, isti pad|Медленные ноты, тёплый фон|Notas lentas, fondo cálido|Note lente, pad caldo'),
   },
 ]
 
@@ -331,7 +331,7 @@ export class AudioEngine {
       this.master.gain.value = 0.4
       this.master.connect(this.ctx.destination)
       this.voiceBus = this.ctx.createGain()
-      this.voiceBus.gain.value = 1
+      this.voiceBus.gain.value = 1.55
       this.voiceBus.connect(this.ctx.destination)
     }
     if (this.ctx.state === 'suspended') await this.ctx.resume()
@@ -430,7 +430,7 @@ export class AudioEngine {
 
   setVoiceLevel(n: number) {
     if (!this.voiceBus) return
-    this.voiceBus.gain.value = clamp(n, 0, 1)
+    this.voiceBus.gain.value = clamp(n, 0, 1) * 1.55
   }
 
   private track(stop: StopHandle) {
@@ -570,7 +570,8 @@ export class AudioEngine {
   }
 
   private bedTarget() {
-    return this.restGain * this.bedLevel * (this.ducked ? 0.52 : 1)
+    const duck = this.kind === 'sos' ? 0.28 : 0.42
+    return this.restGain * this.bedLevel * (this.ducked ? duck : 1)
   }
 
   duck(on: boolean) {

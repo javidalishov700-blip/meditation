@@ -11,16 +11,19 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFile
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { listVoiceClips } from '../src/lib/voice-catalog.ts'
+import {
+  VOICE_INSTRUCTIONS as INSTRUCTIONS,
+  VOICE_MODEL as MODEL,
+  VOICE_NAME as VOICE,
+  VOICE_SPEED as SPEED,
+  chunkVoiceText,
+  clipFileName,
+  voiceHashPayload,
+} from '../src/lib/voice-hash.ts'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dir = join(root, 'public', 'voice', 'clips')
 const manifestPath = join(root, 'public', 'voice', 'manifest.json')
-const MODEL = 'gpt-4o-mini-tts'
-const VOICE = 'coral'
-const SPEED = 0.94
-const MAX = 2200
-const INSTRUCTIONS =
-  'A calm adult woman in a quiet room. Warm, unhurried, natural. Speak as if sitting next to the listener, not as a robot, not as an advertisement, not as a commercial meditation app. Soft chest voice. Pause a full breath after each paragraph and after each short line. Do not sound theatrical or whispery. Do not give commands to relax. Present and steady.'
 
 function loadKey() {
   const envPath = join(root, '.env')
@@ -34,37 +37,7 @@ function loadKey() {
 }
 
 function hashOf(locale: string, text: string) {
-  return createHash('sha1')
-    .update(`${MODEL}|${VOICE}|${SPEED}|${INSTRUCTIONS}|${locale}|${text}`)
-    .digest('hex')
-    .slice(0, 16)
-}
-
-function chunks(text: string) {
-  if (text.length <= MAX) return [text]
-  const parts: string[] = []
-  const paras = text.split(/\n{2,}/)
-  let buf = ''
-  for (const p of paras) {
-    const next = buf ? `${buf}\n\n${p}` : p
-    if (next.length > MAX && buf) {
-      parts.push(buf)
-      buf = p
-    } else buf = next
-  }
-  if (buf) parts.push(buf)
-  return parts.flatMap((p) => {
-    if (p.length <= MAX) return [p]
-    const bits: string[] = []
-    let rest = p
-    while (rest.length > MAX) {
-      const cut = rest.lastIndexOf(' ', MAX)
-      bits.push(rest.slice(0, cut > 40 ? cut : MAX).trim())
-      rest = rest.slice(cut > 40 ? cut : MAX).trim()
-    }
-    if (rest) bits.push(rest)
-    return bits
-  })
+  return createHash('sha1').update(voiceHashPayload(locale, text)).digest('hex').slice(0, 16)
 }
 
 async function tts(apiKey: string, text: string) {
@@ -142,6 +115,14 @@ async function main() {
   }
   const onlyMed = process.argv.includes('--only=med')
   const onlySos = process.argv.includes('--only=sos')
+  const langArg = process.argv.find((a) => a.startsWith('--langs='))
+  const onlyLangs = langArg
+    ? langArg
+        .slice('--langs='.length)
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : []
   mkdirSync(dir, { recursive: true })
   let manifest: Manifest = { voice: VOICE, speed: SPEED, model: MODEL, updated: '', clips: {} }
   if (existsSync(manifestPath)) {
@@ -154,18 +135,19 @@ async function main() {
   let clips = listVoiceClips().sort((a, b) => rank(a.id) - rank(b.id) || a.locale.localeCompare(b.locale) || a.id.localeCompare(b.id))
   if (onlyMed) clips = clips.filter((c) => rank(c.id) === 0)
   if (onlySos) clips = clips.filter((c) => c.id.startsWith('ui:sos') || c.id.startsWith('sos:'))
+  if (onlyLangs.length) clips = clips.filter((c) => onlyLangs.includes(c.locale))
   let made = 0
   let skipped = 0
   let stopped = false
   for (const clip of clips) {
     if (stopped) break
     const key = `${clip.locale}:${clip.id}`
-    const parts = chunks(clip.text)
+    const parts = chunkVoiceText(clip.text)
     const files: string[] = []
     let complete = true
     for (let i = 0; i < parts.length; i++) {
       const h = hashOf(clip.locale, parts[i]!)
-      const name = parts.length === 1 ? `${h}.mp3` : `${h}-${i}.mp3`
+      const name = clipFileName(h, i, parts.length)
       const dest = join(dir, name)
       files.push(`clips/${name}`)
       if (existsSync(dest)) {
@@ -210,7 +192,9 @@ async function main() {
       unlinkSync(join(dir, name))
     }
   }
-  console.log(`done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${onlySos ? ' (sos)' : ''}${stopped ? ' (stopped: quota)' : ''}`)
+  console.log(
+    `done. new=${made} cached=${skipped} clips=${clips.length}${onlyMed ? ' (med+sample)' : ''}${onlySos ? ' (sos)' : ''}${onlyLangs.length ? ` (${onlyLangs.join(',')})` : ''}${stopped ? ' (stopped: quota)' : ''}`,
+  )
   console.log('Upload public/voice/ to your host (manifest.json + clips/).')
   console.log('Listening never calls OpenAI. Set VITE_VOICE_URL if files are not same-origin.')
 }
