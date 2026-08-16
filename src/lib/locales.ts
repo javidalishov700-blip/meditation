@@ -53,10 +53,18 @@ export function detectLocale(): LocaleId {
 
 /**
  * Packing:
- * - 6 slots: tr|en|es|fr|de|it  (az→tr, ru→en; fr/de slots unused)
- * - 8 slots: tr|en|az|ru|es|fr|de|it
- * - 16 slots (legacy): tr|en|az|ru|es|fr|de|it|…
+ * - 6 slots: tr|en|az|ru|es|it
+ * - 8/16 slots (legacy): tr|en|az|ru|es|fr|de|it|…
  */
+const USED_SLOT: Record<LocaleId, number> = {
+  tr: 0,
+  en: 1,
+  az: 2,
+  ru: 3,
+  es: 4,
+  it: 5,
+}
+
 const LEGACY_SLOT: Record<LocaleId, number> = {
   tr: 0,
   en: 1,
@@ -66,19 +74,10 @@ const LEGACY_SLOT: Record<LocaleId, number> = {
   it: 7,
 }
 
-const COMPACT_SLOT: Record<LocaleId, number> = {
-  tr: 0,
-  en: 1,
-  es: 2,
-  it: 5,
-  az: 0,
-  ru: 1,
-}
-
 export function R(packed: string): Record<LocaleId, string> {
   const parts = packed.split('|')
   const out = {} as Record<LocaleId, string>
-  const table = parts.length === 6 ? COMPACT_SLOT : parts.length >= 8 ? LEGACY_SLOT : null
+  const table = parts.length === 6 ? USED_SLOT : parts.length >= 8 ? LEGACY_SLOT : null
   LOCALE_IDS.forEach((id) => {
     if (table) {
       out[id] = (parts[table[id]] || parts[1] || parts[0] || '').trim()
