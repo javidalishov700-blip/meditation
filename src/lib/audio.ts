@@ -282,6 +282,7 @@ export class AudioEngine {
   private voiceBus: GainNode | null = null
   private space: ConvolverNode | null = null
   private stops: StopHandle[] = []
+  private introStops: StopHandle[] = []
   private timer: number | null = null
   private epoch = 0
   playing = false
@@ -340,6 +341,83 @@ export class AudioEngine {
   /** Resume the graph in the same turn as a tap. Voice then plays through this context, not HTMLAudio. */
   unlock() {
     void this.ensure()
+  }
+
+  /** One-shot dawn sting for the splash. No voice, no now-playing bar. */
+  async playIntroSfx() {
+    this.stopIntroSfx()
+    const ctx = await this.ensure()
+    const t0 = ctx.currentTime
+    const bus = ctx.createGain()
+    bus.gain.value = 0.85
+    bus.connect(ctx.destination)
+
+    const seconds = 1.2
+    const length = Math.floor(ctx.sampleRate * seconds)
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate)
+    fillNoise(buffer.getChannelData(0), 'pink')
+    const noise = ctx.createBufferSource()
+    noise.buffer = buffer
+    const bp = ctx.createBiquadFilter()
+    bp.type = 'bandpass'
+    bp.Q.value = 0.7
+    bp.frequency.setValueAtTime(280, t0)
+    bp.frequency.exponentialRampToValueAtTime(1400, t0 + 0.85)
+    const ng = ctx.createGain()
+    ng.gain.setValueAtTime(0.0001, t0)
+    ng.gain.linearRampToValueAtTime(0.16, t0 + 0.1)
+    ng.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.35)
+    noise.connect(bp)
+    bp.connect(ng)
+    ng.connect(bus)
+    noise.start(t0)
+
+    const bells = [
+      { f: 392, at: 0.06, g: 0.11 },
+      { f: 523.25, at: 0.38, g: 0.13 },
+      { f: 659.25, at: 0.72, g: 0.07 },
+    ]
+    const oscs: OscillatorNode[] = []
+    for (const bell of bells) {
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = bell.f
+      const g = ctx.createGain()
+      const start = t0 + bell.at
+      g.gain.setValueAtTime(0.0001, start)
+      g.gain.linearRampToValueAtTime(bell.g, start + 0.035)
+      g.gain.exponentialRampToValueAtTime(0.0001, start + 2.15)
+      o.connect(g)
+      g.connect(bus)
+      o.start(start)
+      o.stop(start + 2.3)
+      oscs.push(o)
+    }
+
+    this.introStops.push(() => {
+      try {
+        noise.stop()
+      } catch {
+        /* already stopped */
+      }
+      oscs.forEach((o) => {
+        try {
+          o.stop()
+        } catch {
+          /* already stopped */
+        }
+      })
+      try {
+        bus.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+  }
+
+  stopIntroSfx() {
+    this.introStops.forEach((h) => h())
+    this.introStops = []
   }
 
   ctxTime() {
