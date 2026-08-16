@@ -264,6 +264,9 @@ function loopNoise(
   return src
 }
 
+/** Close, quiet playback for baked coral MP3s. Does not rebake clips. */
+export const VOICE_ASMR_GAIN = 0.56
+
 function impulse(ctx: AudioContext, seconds = 2.2, decay = 3) {
   const length = Math.floor(ctx.sampleRate * seconds)
   const buffer = ctx.createBuffer(2, length, ctx.sampleRate)
@@ -331,8 +334,18 @@ export class AudioEngine {
       this.master.gain.value = 0.4
       this.master.connect(this.ctx.destination)
       this.voiceBus = this.ctx.createGain()
-      this.voiceBus.gain.value = 1
-      this.voiceBus.connect(this.ctx.destination)
+      this.voiceBus.gain.value = VOICE_ASMR_GAIN
+      const low = this.ctx.createBiquadFilter()
+      low.type = 'lowpass'
+      low.frequency.value = 2100
+      low.Q.value = 0.45
+      const shelf = this.ctx.createBiquadFilter()
+      shelf.type = 'highshelf'
+      shelf.frequency.value = 2800
+      shelf.gain.value = -7
+      this.voiceBus.connect(low)
+      low.connect(shelf)
+      shelf.connect(this.ctx.destination)
     }
     if (this.ctx.state === 'suspended') await this.ctx.resume()
     return this.ctx
@@ -430,7 +443,7 @@ export class AudioEngine {
 
   setVoiceLevel(n: number) {
     if (!this.voiceBus) return
-    this.voiceBus.gain.value = clamp(n, 0, 1)
+    this.voiceBus.gain.value = clamp(n, 0, 1) * VOICE_ASMR_GAIN
   }
 
   private track(stop: StopHandle) {

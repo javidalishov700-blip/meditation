@@ -1,4 +1,4 @@
-import { audio } from './audio'
+import { audio, VOICE_ASMR_GAIN } from './audio'
 import { readJson, writeJson } from './storage'
 import { remoteVoiceRoot, voiceRoots } from './voice-host'
 import { VOICE_SAMPLE } from './voice-lines'
@@ -105,6 +105,13 @@ export function writeTtsVoice(voice: TtsVoice) {
 export function readVoiceVolume() {
   const n = readJson<number>('tts.volume', 1)
   return Math.max(0, Math.min(1, n))
+}
+
+/** Slider stays 0–1; actual speech is quieter and closer. */
+function playbackVoiceVolume() {
+  const n = readVoiceVolume()
+  if (n <= 0) return 0
+  return Math.min(1, n * VOICE_ASMR_GAIN)
 }
 
 export function writeVoiceVolume(n: number) {
@@ -677,11 +684,11 @@ function splitForSynth(text: string) {
 }
 
 function synthRate(opts: SpeakOpts) {
-  if (opts.rate) return Math.max(0.6, Math.min(1.05, opts.rate))
+  if (opts.rate) return Math.max(0.58, Math.min(1.05, opts.rate))
   const mode = opts.mode || readReadMode()
-  if (mode === 'slow') return 0.72
-  if (mode === 'natural') return 0.94
-  return 0.8
+  if (mode === 'slow') return 0.66
+  if (mode === 'natural') return 0.88
+  return 0.74
 }
 
 function speakUtterance(text: string, prefix: string, opts: SpeakOpts, gen: number) {
@@ -712,8 +719,8 @@ function speakUtterance(text: string, prefix: string, opts: SpeakOpts, gen: numb
                     : `${prefix}-${prefix.toUpperCase()}`
     }
     u.rate = synthRate(opts)
-    u.pitch = 0.98
-    u.volume = Math.max(0.15, readVoiceVolume())
+    u.pitch = 0.9
+    u.volume = playbackVoiceVolume()
     synthUtter = u
     u.onend = () => {
       if (synthUtter === u) synthUtter = null
