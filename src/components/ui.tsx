@@ -61,11 +61,12 @@ export function Card({
 export function LegalNote({ compact = false }: { compact?: boolean }) {
   const { t } = useI18n()
   const line = useEmergencyLine()
+  const guess = line.source === 'default' ? t('crisis_alts') : t('crisis_guess')
   return (
     <p className={`text-mute/80 ${compact ? 'text-[11px] leading-5' : 'text-xs leading-5'}`}>
       {compact
         ? `${t('crisis')}: ${line.tel} · ${t('legal_short')}`
-        : `${t('legal_full')} ${t('crisis')}: ${line.tel}.`}
+        : `${t('legal_full')} ${t('crisis')}: ${line.tel}. ${guess}`}
     </p>
   )
 }

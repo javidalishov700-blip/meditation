@@ -5,10 +5,12 @@ import { TrialTimeline } from '../components/TrialOffer'
 import { PrimaryButton, Switch } from '../components/ui'
 import { audio } from '../lib/audio'
 import { useEntitlement } from '../lib/entitlement-store'
+import { useEmergencyLine } from '../lib/emergency'
 import { useI18n } from '../lib/i18n'
 import { writeRemindTrial } from '../lib/remind'
 import {
   completeOnboard,
+  onboardHighLoad,
   requestNotify,
   type AgreeId,
   type BringId,
@@ -36,6 +38,7 @@ const STEPS = [
   'medex',
   'need',
   'often',
+  'risk',
   'analyze',
   'plan',
   'remind',
@@ -57,6 +60,7 @@ const PCT: Record<Step, number> = {
   medex: 83,
   need: 87,
   often: 90,
+  risk: 91,
   analyze: 93,
   plan: 96,
   remind: 98,
@@ -126,6 +130,7 @@ const FOOTLESS: Step[] = ['part', 'agree1', 'agree2']
 export function Onboard({ onDone }: { onDone: () => void }) {
   const { t, locale } = useI18n()
   const { startTrial } = useEntitlement()
+  const emergency = useEmergencyLine()
   const navigate = useNavigate()
   const [step, setStep] = useState<Step>('lang')
   const [dir, setDir] = useState(1)
@@ -171,7 +176,8 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
   function next() {
     const i = STEPS.indexOf(step)
-    const n = STEPS[i + 1]
+    let n = STEPS[i + 1]
+    if (n === 'risk' && !onboardHighLoad(answers)) n = STEPS[i + 2]
     if (n) go(n, 1)
   }
 
@@ -193,6 +199,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
     (step === 'plan' && planN >= PLAN.length) ||
     step === 'remind' ||
     step === 'trial' ||
+    step === 'risk' ||
     (step === 'bring' && Boolean(answers.bring)) ||
     (step === 'need' && Boolean(answers.need)) ||
     (step === 'often' && Boolean(answers.often)) ||
@@ -421,6 +428,26 @@ export function Onboard({ onDone }: { onDone: () => void }) {
                 />
               ))}
             </Choices>
+          </Screen>
+        ) : null}
+
+        {step === 'risk' ? (
+          <Screen title={t('ob_risk')} sub={t('ob_risk_sub')}>
+            <div className="mt-8 space-y-3">
+              <a
+                href={`tel:${emergency.tel}`}
+                className="flex w-full items-center justify-between rounded-[1.15rem] bg-[#1C1C1E] px-4 py-[1.05rem] text-left"
+              >
+                <span className="text-[15px] text-cream">{t('ob_risk_tel', { n: emergency.tel })}</span>
+                <span className="text-sm tabular-nums text-[#C4B5FD]">{emergency.tel}</span>
+              </a>
+              <p className="px-1 text-sm leading-6 text-mute">{t('ob_risk_sos')}</p>
+              {emergency.source === 'default' ? (
+                <p className="px-1 text-xs leading-5 text-mute">{t('crisis_alts')}</p>
+              ) : (
+                <p className="px-1 text-xs leading-5 text-mute">{t('crisis_guess')}</p>
+              )}
+            </div>
           </Screen>
         ) : null}
 

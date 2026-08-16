@@ -199,10 +199,21 @@ function regionFromLanguages(): string | null {
   if (typeof navigator === 'undefined') return null
   const listed = [...(navigator.languages || []), navigator.language]
   for (const raw of listed) {
-    const region = regionFromLocaleTag(raw || '')
+    const region = regionFromIntl(raw || '')
     if (region) return region
   }
   return null
+}
+
+/** Region only when the tag carries one (en-US → US). Bare "en" is not a country. */
+function regionFromIntl(raw: string): string | null {
+  try {
+    const loc = new Intl.Locale(raw)
+    if (loc.region && /^[A-Z]{2}$/i.test(loc.region)) return loc.region.toUpperCase()
+  } catch {
+    /* ignore */
+  }
+  return regionFromLocaleTag(raw)
 }
 
 function regionFromTimeZone(): string | null {

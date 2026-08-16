@@ -75,6 +75,11 @@ export function patchOnboard(partial: Partial<OnboardAnswers>) {
   writeJson('onboard', { ...readOnboard(), ...partial })
 }
 
+/** Highest-intensity answers. Not a diagnosis — a reason to show the crisis card. */
+export function onboardHighLoad(a: OnboardAnswers): boolean {
+  return a.often === 'always' || a.sleepHard === 'always' || a.wake === 'every'
+}
+
 export function resetOnboard() {
   writeJson('onboarded', false)
   emit()
