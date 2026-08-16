@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
-import { audio, sceneName } from '../lib/audio'
+import { audio, bedLabel, isBedId } from '../lib/audio'
 import { locMedPath } from '../lib/copy'
 import { formatMmSs } from '../lib/format'
 import { useI18n } from '../lib/i18n'
@@ -11,40 +11,22 @@ import { seekSpeakTo, speak, speechClipId, speechSnap, stopSpeak, togglePause, w
 import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
 import { PrimaryButton } from '../components/ui'
+import { BedPicker } from '../components/BedPicker'
 import { CalmField } from '../components/CalmField'
 import { SessionStage } from '../components/SessionStage'
 import { useSpeech } from '../components/VoicePlayer'
 import type { MedPath, MedStep } from '../lib/types'
 
-const MED_BEDS = [
-  'rain',
-  'ocean',
-  'forest',
-  'birds',
-  'night',
-  'fire',
-  'river',
-  'bowl',
-  'drone',
-  'ohm',
-  'waves',
-  'piano',
-  'harp',
-  'swell',
-  'crystal',
-  'brown',
-  'chime',
-] as const
-
 const SKIP = 15
 
 function playMedBed(id: string) {
-  return audio.playNature(id, true)
+  return audio.playBed(id)
 }
 
-function readBed(fallback: string) {
+function readBed(_fallback?: string) {
   const v = readJson<string | null>('med.bed', null)
-  return v && MED_BEDS.includes(v as (typeof MED_BEDS)[number]) ? v : fallback
+  if (v && isBedId(v)) return v
+  return 'piano'
 }
 
 export function MeditationSession({ id }: { id: string }) {
@@ -178,9 +160,8 @@ function MeditationPlayer({
   const total = Math.max(0, (step.minutes || 0) * 60)
   const [elapsed, setElapsed] = useState(0)
   const [ended, setEnded] = useState(false)
-  const [bed, setBed] = useState(() => readBed(step.bed))
+  const [bed, setBed] = useState(() => readBed())
   const [bedVol, setBedVol] = useState(() => audio.getBedLevel())
-  const [bedsOpen, setBedsOpen] = useState(false)
   const [exitArmed, setExitArmed] = useState(false)
   const elapsedRef = useRef(0)
   const stampRef = useRef(Date.now())
@@ -351,7 +332,7 @@ function MeditationPlayer({
         className="pointer-events-none absolute inset-x-10 z-20 text-center text-[11px] uppercase tracking-[0.14em] text-white/45"
         style={{ top: 'max(3.1rem, calc(env(safe-area-inset-top) + 2.15rem))' }}
       >
-        {sceneName(bed, locale)}
+        {bedLabel(bed, locale)}
         {snap.loading ? ` · ${t('voice_loading')}` : ''}
       </p>
 
@@ -446,32 +427,12 @@ function MeditationPlayer({
             </button>
           </div>
 
-          <button
-            type="button"
-            className="mb-2 mt-4 text-[11px] uppercase tracking-[0.14em] text-white/40"
-            onClick={() => setBedsOpen((v) => !v)}
-          >
-            {t('bed_pick')}: {sceneName(bed, locale)}
-          </button>
-          {bedsOpen ? (
-            <div className="mb-3 flex gap-2 overflow-x-auto pb-1 hide-scroll">
-              {MED_BEDS.map((id) => {
-                const on = bed === id
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => void changeBed(id)}
-                    className={`shrink-0 rounded-full px-3 py-1.5 text-xs ${
-                      on ? 'bg-[#7B61FF] text-white' : 'bg-white/8 text-white/70'
-                    }`}
-                  >
-                    {sceneName(id, locale)}
-                  </button>
-                )
-              })}
-            </div>
-          ) : null}
+          <BedPicker
+            className="mb-3 mt-4"
+            value={bed}
+            showVolume={false}
+            onChange={(id) => void changeBed(id)}
+          />
           <label className="mb-2 flex items-center gap-2 text-xs text-white/50">
             <span className="w-14">{t('vol_bed')}</span>
             <input

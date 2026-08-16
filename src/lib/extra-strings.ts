@@ -171,6 +171,7 @@ export const EXTRA = {
   vol_voice: R('Okuma|Voice|Oxu|Чтение|Voz|Voce'),
   vol_bed: R('Yatak|Bed|Yataq|Фон|Fondo|Letto'),
   bed_pick: R('Yatak sesi|Bed sound|Yataq səsi|Фоновый звук|Sonido de fondo|Suono di letto'),
+  sos_bed: R('SOS yatağı · 174 Hz|SOS bed · 174 Hz|SOS yatağı · 174 Hz|Постель SOS · 174 Гц|Cama SOS · 174 Hz|Letto SOS · 174 Hz'),
   tts_missing: R('Bu cihazda ses çıkmadı. Sesi aç, sessiz düğmesini kontrol et, sonra yeniden dene.|No voice on this device. Turn the sound on, check the silent switch, then try again.|Bu cihazda səs çıxmadı. Səsi aç, səssiz düyməni yoxla, sonra yenidən yoxla.|На этом устройстве нет звука. Включи звук, проверь переключатель и попробуй снова.|No hubo voz en este dispositivo. Sube el volumen, mira el silencio, y prueba otra vez.|Nessuna voce su questo dispositivo. Alza il volume, controlla il silenzioso, poi riprova.'),
   tts_fail: R('Ses şu an gelemedi. Biraz sonra dene.|The voice could not load. Try again in a moment.|Səs indi gəlmədi. Bir az sonra yoxla.|Голос сейчас не загрузился. Попробуй через минуту.|La voz no pudo cargar. Prueba en un momento.|La voce non è caricata. Riprova tra poco.'),
   skip_back: R('15 saniye geri|15 seconds back|15 saniyə geri|На 15 секунд назад|15 segundos atrás|15 secondi indietro'),

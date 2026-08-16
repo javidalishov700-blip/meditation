@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { audio } from '../lib/audio'
+import { audio, SOS_DEFAULT_BED, isBedId } from '../lib/audio'
 import { formatDuration } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { addPassed } from '../lib/passed'
 import { sosSentences, tapSentences } from '../lib/sosPhrases'
-import { speak, speakCue, stopSpeak } from '../lib/speech'
+import { speak, speakCue, speechSnap, stopSpeak } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import { GhostButton, PrimaryButton } from '../components/ui'
+import { BedPicker } from '../components/BedPicker'
 import { useWakeLock } from '../lib/wake'
 import type { StringKey } from '../lib/strings'
 
@@ -36,6 +37,11 @@ function buzz(ms = 28) {
 
 function randomIndex(n: number) {
   return Math.max(0, Math.floor(Math.random() * Math.max(1, n)))
+}
+
+function readSosBed() {
+  const v = readJson<string | null>('sos.bed', null)
+  return v && isBedId(v) ? v : SOS_DEFAULT_BED
 }
 
 function MuteVoiceBtn({
@@ -93,6 +99,7 @@ export function Sos() {
   const [left, setLeft] = useState(false)
   const [right, setRight] = useState(false)
   const [muted, setMuted] = useState(() => readJson('sos.voiceMuted', false))
+  const [bed, setBed] = useState(readSosBed)
   const started = useRef(0)
   const running = useRef(false)
   const cycle = useRef(0)
@@ -115,6 +122,15 @@ export function Sos() {
   function cue(text: string, clipId: string) {
     if (mutedRef.current) return
     speakCue(text, lang, clipId)
+  }
+
+  async function pickBed(id: string) {
+    writeJson('sos.bed', id)
+    setBed(id)
+    if (phase === 'tap' || phase === 'done') return
+    await audio.playBed(id)
+    const live = speechSnap()
+    if (live.speaking || live.loading) audio.hushForVoice()
   }
   useWakeLock(phase !== 'idle' && phase !== 'done')
 
@@ -203,7 +219,7 @@ export function Sos() {
     setTapIdx(ti)
     setSentence(taps[ti] || '')
     buzz(40)
-    await audio.playSosBed()
+    await audio.playBed(bed)
     setPhase('ground')
     say(t('sos_ground_sub'), 'ui:sos_ground_sub')
   }
@@ -271,7 +287,10 @@ export function Sos() {
               <span className="font-display text-4xl">SOS</span>
             </span>
           </button>
-          <div className="mt-8">
+          <div className="mt-8 w-full max-w-xs">
+            <BedPicker value={bed} onChange={(id) => void pickBed(id)} />
+          </div>
+          <div className="mt-4">
             <MuteVoiceBtn muted={muted} onToggle={toggleMute} labeled />
           </div>
         </div>
@@ -288,6 +307,9 @@ export function Sos() {
             {formatDuration(seconds, locale)} · {obj + 1}/3
           </p>
           <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+        </div>
+        <div className="mt-3">
+          <BedPicker value={bed} onChange={(id) => void pickBed(id)} />
         </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <p className="text-[11px] uppercase tracking-[0.16em] text-rose-200/70">{t('sos_ground')}</p>
@@ -359,6 +381,9 @@ export function Sos() {
         <div className="flex items-center justify-between">
           <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
           <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+        </div>
+        <div className="mt-3">
+          <BedPicker value={bed} onChange={(id) => void pickBed(id)} />
         </div>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <h1 className="max-w-xs font-display text-3xl leading-tight">{t('sos_feet')}</h1>
@@ -455,6 +480,9 @@ export function Sos() {
       <div className="flex items-center justify-between">
         <p className="text-sm text-mute">{formatDuration(seconds, locale)}</p>
         <MuteVoiceBtn muted={muted} onToggle={toggleMute} />
+      </div>
+      <div className="mt-3">
+        <BedPicker value={bed} onChange={(id) => void pickBed(id)} />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
         <div

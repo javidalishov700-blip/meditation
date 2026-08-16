@@ -1,4 +1,5 @@
 import { R, type LocaleId } from './locales'
+import { translate } from './strings'
 import type { NatureScene, Tone } from './types'
 
 export const TONES: Tone[] = [
@@ -210,6 +211,30 @@ export function sceneName(id: string, locale: LocaleId): string {
 export function sceneBlurb(id: string, locale: LocaleId): string {
   const scene = NATURE_SCENES.find((s) => s.id === id)
   return scene?.blurbs[locale] || scene?.subtitle || ''
+}
+
+/** Built-in SOS mix (174 Hz + piano pad). */
+export const SOS_DEFAULT_BED = 'sos'
+
+const MUSIC_BED_IDS = ['piano', 'harp', 'radio', 'swell', 'ohm', 'drone', 'bowl', 'crystal', 'chime', 'gong'] as const
+
+export function listBeds(): string[] {
+  const nature = NATURE_SCENES.map((s) => s.id)
+  const music = MUSIC_BED_IDS.filter((id) => nature.includes(id))
+  const rest = nature.filter((id) => !MUSIC_BED_IDS.includes(id as (typeof MUSIC_BED_IDS)[number]))
+  const tones = TONES.map((t) => t.id)
+  return [SOS_DEFAULT_BED, ...music, ...tones, ...rest]
+}
+
+export function isBedId(id: string): boolean {
+  return id === SOS_DEFAULT_BED || NATURE_SCENES.some((s) => s.id === id) || TONES.some((t) => t.id === id)
+}
+
+export function bedLabel(id: string, locale: LocaleId): string {
+  if (id === SOS_DEFAULT_BED) return translate('sos_bed', locale)
+  const tone = TONES.find((t) => t.id === id)
+  if (tone) return tone.title
+  return sceneName(id, locale)
 }
 
 export const TIMER_MINUTES = [15, 30, 45, 60] as const
@@ -581,8 +606,8 @@ export class AudioEngine {
     g.linearRampToValueAtTime(to, now + seconds)
   }
 
-  stop(fade = 0.6) {
-    this.stopBreath()
+  stop(fade = 0.6, keepBreath = false) {
+    if (!keepBreath) this.stopBreath()
     if (this.timer != null) {
       window.clearTimeout(this.timer)
       this.timer = null
@@ -678,7 +703,7 @@ export class AudioEngine {
 
   async playSosBed() {
     const ctx = await this.ensure()
-    this.stop(0.05)
+    this.stop(0.05, true)
     await this.ensure()
     this.beginPlay('SOS', 0.4, 1.6, { route: '/sos', id: 'sos', kind: 'sos' })
     this.startSpace(ctx, 0.42)
@@ -728,7 +753,7 @@ export class AudioEngine {
 
   async playTone(hz: number, label: string, id = String(hz)) {
     const ctx = await this.ensure()
-    this.stop(0.08)
+    this.stop(0.08, true)
     await this.ensure()
     this.beginPlay(label, 0.34, 1.8, { route: `/session/tone/${id}`, id, kind: 'tone' })
     this.startSpace(ctx, 0.4)
@@ -859,9 +884,16 @@ export class AudioEngine {
     })
   }
 
+  async playBed(id: string) {
+    if (id === SOS_DEFAULT_BED) return this.playSosBed()
+    const tone = TONES.find((t) => t.id === id)
+    if (tone) return this.playTone(tone.hz, tone.title, tone.id)
+    return this.playNature(id)
+  }
+
   async playNature(id: string, withMusic = false) {
     const ctx = await this.ensure()
-    this.stop(0.08)
+    this.stop(0.08, true)
     await this.ensure()
     const scene = NATURE_SCENES.find((s) => s.id === id)
     this.beginPlay(scene?.title ?? 'Doğa', withMusic ? 0.44 : 0.4, 2, {
