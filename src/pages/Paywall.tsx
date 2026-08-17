@@ -90,7 +90,9 @@ export function Paywall() {
   }
 
   function priceOf(id: PlanId) {
-    return store?.find((p) => p.id === id)?.price || displayPlanPrice(id)
+    const live = store?.find((p) => p.id === id)?.price?.trim()
+    if (live && /\d/.test(live)) return live
+    return displayPlanPrice(id)
   }
 
   function beginTrialDay() {
@@ -140,9 +142,9 @@ export function Paywall() {
                         <p className="font-display text-2xl">{planLabel[p.id]}</p>
                         {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
                       </div>
-                      <p className="mt-2 font-display text-3xl tabular-nums">
+                      <p className="mt-2 font-display text-3xl tabular-nums text-white">
                         {priceOf(p.id)}
-                        <span className="text-base text-mute"> {t(PERIOD[p.id])}</span>
+                        <span className="text-base font-sans text-mute"> {t(PERIOD[p.id])}</span>
                       </p>
                       <p className="mt-1 text-xs leading-5 text-mute">{planHint[p.id]}</p>
                     </Card>
@@ -152,7 +154,9 @@ export function Paywall() {
             </div>
 
             <PrimaryButton className="mt-6" disabled={busy != null} onClick={() => void buy(picked)}>
-              {busy === picked ? t('pay_loading') : t('pay_continue', { n: planLabel[picked] })}
+              {busy === picked
+                ? t('pay_loading')
+                : t('pay_continue', { n: `${planLabel[picked]} · ${priceOf(picked)}` })}
             </PrimaryButton>
 
             {fail ? <p className="mt-4 text-center text-sm text-amber-100">{fail}</p> : null}

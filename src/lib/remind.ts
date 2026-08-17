@@ -163,7 +163,7 @@ export async function syncSleepReminder(locale: LocaleId): Promise<void> {
         {
           id: SLEEP_ID,
           title: translate('sleep_chime_title', locale),
-          body: translate('sleep_chime_body', locale, { n: plan.hours }),
+          body: translate('sleep_chime_body', locale, { n: Number.isInteger(plan.hours) ? plan.hours : plan.hours.toFixed(1) }),
           schedule: {
             on: { hour: Math.floor(bed / 60), minute: bed % 60 },
             repeats: true,
@@ -207,7 +207,7 @@ export async function maybeSleepChime(locale: LocaleId): Promise<void> {
   if (!ok) return
   try {
     new Notification(translate('sleep_chime_title', locale), {
-      body: translate('sleep_chime_body', locale, { n: plan.hours }),
+      body: translate('sleep_chime_body', locale, { n: Number.isInteger(plan.hours) ? plan.hours : plan.hours.toFixed(1) }),
       tag: 'steady-sleep',
     })
   } catch {
