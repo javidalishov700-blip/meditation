@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { isNativeApp, onAppResume } from './device'
+import { onAppResume } from './device'
 import {
   detectLocale,
   localeMeta,
@@ -33,7 +33,6 @@ type I18nCtx = {
 const Ctx = createContext<I18nCtx | null>(null)
 
 function readSource(): LocaleSource {
-  if (isNativeApp()) return 'device'
   return readJson<string>('locale.source', 'device') === 'manual' ? 'manual' : 'device'
 }
 
@@ -97,7 +96,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         setLocaleState(next)
       },
       setLocale: (id: LocaleId) => {
-        if (isNativeApp()) return
         writeJson('locale', id)
         writeJson('locale.source', 'manual')
         applyDocument(id)

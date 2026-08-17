@@ -60,14 +60,28 @@ export function Me() {
           }
           setFroze(freezeLeft() <= 0 ? 'used' : 'none')
         }}
-        className="mt-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1.5 pl-1.5 pr-3 text-left"
+        className={`mt-5 inline-flex max-w-full items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 text-left transition ${
+          froze === 'ok' || left <= 0
+            ? 'border-amber-200/45 bg-amber-200/12 shadow-[0_0_18px_rgba(251,191,36,0.28)]'
+            : canFreeze
+              ? 'border-[#9BD7FF]/55 bg-[#9BD7FF]/16 shadow-[0_0_20px_rgba(155,215,255,0.4)]'
+              : 'border-white/12 bg-white/[0.06]'
+        }`}
       >
-        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.55rem] bg-[#9BD7FF]/25">
+        <span
+          className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.55rem] ${
+            froze === 'ok' || left <= 0 ? 'bg-amber-200/30' : 'bg-[#9BD7FF]/25'
+          }`}
+        >
           <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#C8EEFF]" fill="none" stroke="currentColor" strokeWidth="1.5">
             <rect x="6" y="6" width="12" height="12" rx="2.2" />
             <path d="M12 7.5v9M8.5 12h7M9.2 9.2l5.6 5.6M14.8 9.2l-5.6 5.6" opacity="0.55" />
           </svg>
-          <svg viewBox="0 0 24 24" className="absolute h-3 w-3 text-amber-200" fill="currentColor">
+          <svg
+            viewBox="0 0 24 24"
+            className={`absolute h-3 w-3 ${froze === 'ok' || left <= 0 ? 'text-amber-100' : 'text-amber-200'}`}
+            fill="currentColor"
+          >
             <path d="M13 3 7.5 12h5L11 21l6.5-10h-5L13 3Z" />
           </svg>
         </span>

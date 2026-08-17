@@ -66,16 +66,19 @@ function readFreeze(): FreezeState {
   }
 }
 
-export function freezeDays(now = Date.now()): string[] {
-  const st = readFreeze()
-  return st.week === weekKey(now) ? st.days : []
+/** One freeze credit is granted each Monday. It can cover a miss from the last 2 days. */
+export const FREEZE_PER_WEEK = 1
+export const FREEZE_WINDOW_DAYS = 2
+
+export function freezeDays(): string[] {
+  return readFreeze().days
 }
 
 export function freezeLeft(now = Date.now()): number {
   const st = readFreeze()
   const w = weekKey(now)
-  if (st.week !== w) return 1
-  return Math.max(0, 1 - st.used)
+  if (st.week !== w) return FREEZE_PER_WEEK
+  return Math.max(0, FREEZE_PER_WEEK - st.used)
 }
 
 function rawActiveDays(): Set<string> {
@@ -85,8 +88,13 @@ function rawActiveDays(): Set<string> {
 
 export function freezeTarget(now = Date.now()): string | null {
   if (freezeLeft(now) <= 0) return null
-  const yesterday = addDays(dayKey(now), -1)
-  if (!rawActiveDays().has(yesterday) && !freezeDays(now).includes(yesterday)) return yesterday
+  const today = dayKey(now)
+  const frozen = new Set(readFreeze().days)
+  const active = rawActiveDays()
+  for (let n = 1; n <= FREEZE_WINDOW_DAYS; n++) {
+    const day = addDays(today, -n)
+    if (!active.has(day) && !frozen.has(day)) return day
+  }
   return null
 }
 
@@ -99,13 +107,15 @@ export function applyFreeze(now = Date.now()): boolean {
   if (!day) return false
   const w = weekKey(now)
   const st = readFreeze()
-  const days = st.week === w ? st.days : []
-  writeJson('freeze', { week: w, used: 1, days: [...days, day] })
+  const used = st.week === w ? st.used : 0
+  if (used >= FREEZE_PER_WEEK) return false
+  const days = st.days.includes(day) ? st.days : [...st.days, day]
+  writeJson('freeze', { week: w, used: used + 1, days })
   return true
 }
 
 export function activityStats(now = Date.now()): ActivityStats {
-  const days = new Set([...rawActiveDays(), ...freezeDays(now)])
+  const days = new Set([...rawActiveDays(), ...freezeDays()])
   const rows = readPassed()
   const totalMinutes = Math.round(rows.reduce((s, r) => s + r.seconds, 0) / 60)
   const sorted = [...days].sort((a, b) => {

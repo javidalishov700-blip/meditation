@@ -89,9 +89,10 @@ export function CrisisChip() {
 }
 
 export function ProChip() {
+  const { t } = useI18n()
   return (
     <span className="rounded-full bg-orchid/20 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-orchid">
-      Pro
+      {t('me_pro')}
     </span>
   )
 }

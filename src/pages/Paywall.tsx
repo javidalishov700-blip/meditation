@@ -17,14 +17,21 @@ import {
 import { readRemindTrial, writeRemindTrial } from '../lib/remind'
 import type { PlanId } from '../lib/types'
 
+const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_period_year'> = {
+  week: 'pay_period_week',
+  month: 'pay_period_month',
+  year: 'pay_period_year',
+}
+
 export function Paywall() {
   const { demo, trial, unlockDemo, startTrial, refresh } = useEntitlement()
   const navigate = useNavigate()
-  const { t, meta } = useI18n()
+  const { t } = useI18n()
   const [remind, setRemind] = useState(() => readRemindTrial())
   const [restored, setRestored] = useState('')
   const [fail, setFail] = useState('')
   const [store, setStore] = useState<StorePlan[] | null>(null)
+  const [picked, setPicked] = useState<PlanId>('month')
   const [busy, setBusy] = useState<PlanId | 'restore' | 'trial' | null>(null)
   const used = trialUsed()
   const offer = !used && !demo
@@ -69,17 +76,21 @@ export function Paywall() {
   }
 
   async function buy(id: PlanId) {
-    if (!native) return
     setBusy(id)
     setFail('')
+    if (!native) {
+      unlockDemo()
+      setBusy(null)
+      return
+    }
     const result = await purchasePlan(id)
     if (result === 'ok') refresh()
     if (result === 'unavailable') setFail(t('pay_buy_fail'))
     setBusy(null)
   }
 
-  function priceOf(id: PlanId, fallback: string) {
-    return store?.find((p) => p.id === id)?.price || fallback
+  function priceOf(id: PlanId) {
+    return store?.find((p) => p.id === id)?.price || displayPlanPrice(id)
   }
 
   function beginTrialDay() {
@@ -104,7 +115,7 @@ export function Paywall() {
           </svg>
         </button>
 
-        <h1 className="mt-5 font-display text-3xl">{paid ? t('pay_on') : t('pay_title')}</h1>
+        <h1 className="mt-5 font-display text-3xl">{paid ? t('pay_on') : t('pay_more')}</h1>
         <p className="mt-3 text-sm leading-7 text-mute">{paid ? t('pay_sub') : t('pay_direct')}</p>
 
         {paid ? (
@@ -114,37 +125,42 @@ export function Paywall() {
         ) : (
           <>
             <div className="mt-8 space-y-3">
-              {PLANS.map((p) => (
-                <Card key={p.id} className={p.featured ? 'border border-white/14' : ''}>
-                  <div className="flex items-baseline justify-between gap-3">
-                    <p className="font-display text-2xl">{planLabel[p.id]}</p>
-                    {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
-                  </div>
-                  <p className="mt-2 font-display text-3xl tabular-nums">
-                    {priceOf(p.id, displayPlanPrice(p.id, meta.bcp47))}
-                    {native ? null : <span className="text-base text-mute"> {p.period}</span>}
-                  </p>
-                  <p className="mt-1 text-xs leading-5 text-mute">{planHint[p.id]}</p>
-                  {native ? (
-                    <PrimaryButton className="mt-4" disabled={busy != null} onClick={() => void buy(p.id)}>
-                      {busy === p.id ? t('pay_loading') : t('pay_buy')}
-                    </PrimaryButton>
-                  ) : null}
-                </Card>
-              ))}
+              {PLANS.map((p) => {
+                const on = picked === p.id
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setPicked(p.id)}
+                    className={`w-full rounded-[1.35rem] text-left ${on ? 'ring-2 ring-[#7B61FF] ring-offset-2 ring-offset-black' : ''}`}
+                  >
+                    <Card className={on || p.featured ? 'border border-white/14' : ''}>
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="font-display text-2xl">{planLabel[p.id]}</p>
+                        {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
+                      </div>
+                      <p className="mt-2 font-display text-3xl tabular-nums">
+                        {priceOf(p.id)}
+                        <span className="text-base text-mute"> {t(PERIOD[p.id])}</span>
+                      </p>
+                      <p className="mt-1 text-xs leading-5 text-mute">{planHint[p.id]}</p>
+                    </Card>
+                  </button>
+                )
+              })}
             </div>
+
+            <PrimaryButton className="mt-6" disabled={busy != null} onClick={() => void buy(picked)}>
+              {busy === picked ? t('pay_loading') : t('pay_continue', { n: planLabel[picked] })}
+            </PrimaryButton>
 
             {fail ? <p className="mt-4 text-center text-sm text-amber-100">{fail}</p> : null}
 
             {native ? (
               <p className="mt-5 text-center text-xs leading-5 text-mute">{t('pay_iap')}</p>
             ) : (
-              <>
-                <PrimaryButton className="mt-8" onClick={() => unlockDemo()}>
-                  {t('pay_open')}
-                </PrimaryButton>
-                <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
-              </>
+              <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
             )}
 
             {offer || live ? (

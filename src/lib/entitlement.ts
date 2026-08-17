@@ -11,39 +11,16 @@ export const STEADY_PRO_EVENT = 'steady-pro'
 
 export const PLANS: {
   id: PlanId
-  label: string
   price: string
-  period: string
-  note: string
   featured?: boolean
 }[] = [
-  {
-    id: 'week',
-    label: 'Haftalık',
-    price: '$3.99',
-    period: '/ hafta',
-    note: 'App Store',
-  },
-  {
-    id: 'month',
-    label: 'Aylık',
-    price: '$12.99',
-    period: '/ ay',
-    note: 'App Store',
-    featured: true,
-  },
-  {
-    id: 'year',
-    label: 'Yıllık',
-    price: '$59.99',
-    period: '/ yıl',
-    note: 'App Store',
-  },
+  { id: 'week', price: '$3.99' },
+  { id: 'month', price: '$12.99', featured: true },
+  { id: 'year', price: '$59.99' },
 ]
 
-/** Vitrin fallback when App Store prices are not loaded yet. */
-export function displayPlanPrice(id: PlanId, bcp47?: string): string {
-  if (id === 'year' && bcp47?.toLowerCase().startsWith('az')) return '$39.99'
+/** Fallback only when App Store prices have not loaded. Never tied to UI language. */
+export function displayPlanPrice(id: PlanId): string {
   return PLANS.find((p) => p.id === id)?.price ?? ''
 }
 
