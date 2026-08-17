@@ -32,6 +32,8 @@ workflows:
         # VITE_REVENUECAT_IOS_KEY — public appl_… SDK key
         # VITE_LEGAL_ORIGIN — public https origin for /legal/*
         # APPLE_TEAM_ID — optional; signing uses the Apple integration
+        # CERTIFICATE_PRIVATE_KEY — PEM from `openssl genrsa 2048` (Codemagic encrypted).
+        #   Apple does not give the Distribution cert private key; this one creates it.
       node: 22
       xcode: latest
       cocoapods: default
@@ -74,16 +76,22 @@ workflows:
       # exists yet. --create makes the App ID / Distribution cert / profile.
       - name: Code signing
         script: |
+          if [ -z "${CERTIFICATE_PRIVATE_KEY:-}" ]; then
+            echo "Set Codemagic encrypted env CERTIFICATE_PRIVATE_KEY"
+            echo "Generate once: openssl genrsa 2048"
+            echo "Paste the full PEM including BEGIN/END lines. Do not commit it."
+            exit 1
+          fi
           keychain initialize
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
             --create \
-            --strict-match-identifier
+            --strict-match-identifier \
+            --certificate-key @env:CERTIFICATE_PRIVATE_KEY
           keychain add-certificates
-          # Default **/*.xcodeproj also hits node_modules; then App has no profile.
           xcode-project use-profiles \
             --project ios/App/App.xcodeproj \
-            --archive-method store \
+            --archive-method app-store \
             --code-signing-setup-verbose-logging
           if ! grep -q 'PROVISIONING_PROFILE' ios/App/App.xcodeproj/project.pbxproj; then
             echo "use-profiles did not write a provisioning profile onto App.xcodeproj"
