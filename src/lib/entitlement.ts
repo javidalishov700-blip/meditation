@@ -7,6 +7,8 @@ import { readJson, writeJson } from './storage'
 import type { StringKey } from './strings'
 import type { PlanId, SessionKind } from './types'
 
+export const STEADY_PRO_EVENT = 'steady-pro'
+
 export const PLANS: {
   id: PlanId
   label: string
@@ -20,14 +22,14 @@ export const PLANS: {
     label: 'Haftalık',
     price: '$2.99',
     period: '/ hafta',
-    note: '1 gün deneme · vitrin fiyatı',
+    note: 'App Store',
   },
   {
     id: 'month',
     label: 'Aylık',
     price: '$9.99',
     period: '/ ay',
-    note: '1 gün deneme · vitrin fiyatı',
+    note: 'App Store',
     featured: true,
   },
   {
@@ -35,7 +37,7 @@ export const PLANS: {
     label: 'Yıllık',
     price: '$59.99',
     period: '/ yıl',
-    note: '1 gün deneme · en sakin tempo',
+    note: 'App Store',
   },
 ]
 
@@ -53,6 +55,7 @@ export function isPro(): boolean {
 
 export function setPro(value: boolean) {
   writeJson('pro', value)
+  if (typeof window !== 'undefined') window.dispatchEvent(new Event(STEADY_PRO_EVENT))
 }
 
 export function isItemFree(kind: SessionKind, id: string, extra?: AccessExtra): boolean {

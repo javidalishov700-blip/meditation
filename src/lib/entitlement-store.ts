@@ -1,6 +1,8 @@
-import { createContext, createElement, useContext, useMemo, useState, type ReactNode } from 'react'
-import { isDemoPro, setPro as persistPro } from './entitlement'
+import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { onAppResume } from './device'
+import { isDemoPro, setPro as persistPro, STEADY_PRO_EVENT } from './entitlement'
 import { clearTrial, isTrialActive, startTrial as beginTrial, trialUntil } from './onboard'
+import { refreshStoreEntitlement } from './purchases'
 
 type EntitlementCtx = {
   pro: boolean
@@ -23,6 +25,21 @@ function snap() {
 
 export function EntitlementProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState(snap)
+  useEffect(() => {
+    const sync = () => setState(snap())
+    window.addEventListener(STEADY_PRO_EVENT, sync)
+    let offResume = () => undefined as void
+    void onAppResume(() => {
+      void refreshStoreEntitlement().then(sync)
+    }).then((release) => {
+      offResume = release
+    })
+    void refreshStoreEntitlement().then(sync)
+    return () => {
+      window.removeEventListener(STEADY_PRO_EVENT, sync)
+      offResume()
+    }
+  }, [])
   const value = useMemo<EntitlementCtx>(
     () => ({
       ...state,

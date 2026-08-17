@@ -182,14 +182,14 @@ export function Onboard({ onDone }: { onDone: () => void }) {
     if (n) go(n, 1)
   }
 
-  function finish(withTrial: boolean) {
+  function finish(withTrial: boolean, toPaywall = false) {
     if (withTrial) startTrial()
     writeRemindTrial(answers.remindTrial)
     if (answers.remindTrial) void requestNotify()
     completeOnboard(answers)
     audio.stop(0.8)
     onDone()
-    navigate('/', { replace: true })
+    navigate(toPaywall ? '/paywall' : '/', { replace: true })
   }
 
   const pct = PCT[step]
@@ -546,6 +546,9 @@ export function Onboard({ onDone }: { onDone: () => void }) {
                 {t('ob_cta')}
               </PrimaryButton>
               <p className="mt-3 text-center text-[11px] leading-5 text-mute">{t('ob_price')}</p>
+              <button type="button" className="mt-3 w-full text-center text-sm text-white/85" onClick={() => finish(false, true)}>
+                {t('ob_buy')}
+              </button>
               <button type="button" className="mt-3 w-full text-center text-sm text-mute" onClick={() => finish(false)}>
                 {t('ob_skip')}
               </button>

@@ -23,27 +23,28 @@ export function Paywall() {
   const { t } = useI18n()
   const [remind, setRemind] = useState(() => readRemindTrial())
   const [restored, setRestored] = useState('')
+  const [fail, setFail] = useState('')
   const [store, setStore] = useState<StorePlan[] | null>(null)
-  const [busy, setBusy] = useState<PlanId | 'restore' | null>(null)
+  const [busy, setBusy] = useState<PlanId | 'restore' | 'trial' | null>(null)
   const used = trialUsed()
   const offer = !used && !demo
   const live = trial && !demo
-  const shop = used && !trial && !demo
+  const paid = demo
+  const native = iapConfigured()
   const planLabel = { week: t('pay_week'), month: t('pay_month'), year: t('pay_year') }
-  const nativeIap = iapConfigured() && Boolean(store?.length)
+  const planHint = { week: t('pay_note'), month: t('pay_note'), year: t('pay_year_note') }
 
   useEffect(() => {
     let alive = true
     void loadStorePlans().then((plans) => {
       if (alive) setStore(plans)
     })
-    void refreshStoreEntitlement().then((ok) => {
-      if (ok) refresh()
+    void refreshStoreEntitlement().then(() => {
+      if (alive) refresh()
     })
     return () => {
       alive = false
     }
-    // refresh reads storage; identity is not required
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -55,7 +56,8 @@ export function Paywall() {
 
   async function restore() {
     setBusy('restore')
-    if (iapConfigured()) {
+    setFail('')
+    if (native) {
       const ok = await restoreStorePurchases()
       refresh()
       setRestored(ok ? t('pay_restore_ok') : t('pay_restore_none'))
@@ -67,15 +69,25 @@ export function Paywall() {
   }
 
   async function buy(id: PlanId) {
-    if (!nativeIap) return
+    if (!native) return
     setBusy(id)
+    setFail('')
     const result = await purchasePlan(id)
     if (result === 'ok') refresh()
+    if (result === 'unavailable') setFail(t('pay_buy_fail'))
     setBusy(null)
   }
 
   function priceOf(id: PlanId, fallback: string) {
     return store?.find((p) => p.id === id)?.price || fallback
+  }
+
+  function beginTrialDay() {
+    setBusy('trial')
+    startTrial()
+    if (remind) void requestNotify()
+    setBusy(null)
+    navigate(-1)
   }
 
   return (
@@ -92,34 +104,10 @@ export function Paywall() {
           </svg>
         </button>
 
-        <h1 className="mt-5 font-display text-3xl">{demo ? t('pay_on') : shop ? t('pay_title') : t('ob_trial')}</h1>
-        <p className="mt-3 text-sm leading-7 text-mute">{offer || live ? t('ob_trial_sub') : t('pay_sub')}</p>
+        <h1 className="mt-5 font-display text-3xl">{paid ? t('pay_on') : t('pay_title')}</h1>
+        <p className="mt-3 text-sm leading-7 text-mute">{paid ? t('pay_sub') : t('pay_direct')}</p>
 
-        {offer || live ? (
-          <div className="mt-8">
-            <TrialTimeline remind={remind} onRemind={setRemindOn} />
-          </div>
-        ) : null}
-
-        <Card className="mt-8">
-          <IncludedList />
-        </Card>
-
-        {offer ? (
-          <>
-            <PrimaryButton
-              className="mt-8"
-              onClick={() => {
-                startTrial()
-                if (remind) void requestNotify()
-                navigate(-1)
-              }}
-            >
-              {t('ob_cta')}
-            </PrimaryButton>
-            <p className="mt-3 text-center text-xs leading-5 text-mute">{t('ob_price')}</p>
-          </>
-        ) : live || demo ? (
+        {paid ? (
           <GhostButton className="mt-8 w-full" onClick={() => navigate(-1)}>
             {t('pay_back')}
           </GhostButton>
@@ -127,23 +115,60 @@ export function Paywall() {
           <>
             <div className="mt-8 space-y-3">
               {PLANS.map((p) => (
-                <Card key={p.id} className={p.featured ? 'border-white/14' : ''}>
-                  <div className="flex items-baseline justify-between">
+                <Card key={p.id} className={p.featured ? 'border border-white/14' : ''}>
+                  <div className="flex items-baseline justify-between gap-3">
                     <p className="font-display text-2xl">{planLabel[p.id]}</p>
                     {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
                   </div>
-                  <p className="mt-2 font-display text-3xl">
+                  <p className="mt-2 font-display text-3xl tabular-nums">
                     {priceOf(p.id, p.price)}
-                    {nativeIap ? null : <span className="text-base text-mute"> {p.period}</span>}
+                    {native ? null : <span className="text-base text-mute"> {p.period}</span>}
                   </p>
-                  {nativeIap ? (
+                  <p className="mt-1 text-xs leading-5 text-mute">{planHint[p.id]}</p>
+                  {native ? (
                     <PrimaryButton className="mt-4" disabled={busy != null} onClick={() => void buy(p.id)}>
-                      {busy === p.id ? t('voice_loading') : t('pay_buy')}
+                      {busy === p.id ? t('pay_loading') : t('pay_buy')}
                     </PrimaryButton>
                   ) : null}
                 </Card>
               ))}
             </div>
+
+            {fail ? <p className="mt-4 text-center text-sm text-amber-100">{fail}</p> : null}
+
+            {native ? (
+              <p className="mt-5 text-center text-xs leading-5 text-mute">{t('pay_iap')}</p>
+            ) : (
+              <>
+                <PrimaryButton className="mt-8" onClick={() => unlockDemo()}>
+                  {t('pay_open')}
+                </PrimaryButton>
+                <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
+              </>
+            )}
+
+            {offer || live ? (
+              <div className="mt-10">
+                <p className="text-center text-sm text-white/70">{t('pay_or_trial')}</p>
+                {live ? (
+                  <p className="mt-3 text-center text-sm text-mute">{t('me_trial_today')}</p>
+                ) : (
+                  <>
+                    <div className="mt-5">
+                      <TrialTimeline remind={remind} onRemind={setRemindOn} />
+                    </div>
+                    <GhostButton className="mt-6 w-full" onClick={beginTrialDay}>
+                      {t('ob_cta')}
+                    </GhostButton>
+                    <p className="mt-3 text-center text-xs leading-5 text-mute">{t('ob_price')}</p>
+                  </>
+                )}
+              </div>
+            ) : null}
+
+            <Card className="mt-8">
+              <IncludedList />
+            </Card>
             <Card className="mt-4">
               <p className="text-xs uppercase tracking-[0.12em] text-mute">{t('pay_free_k')}</p>
               <ul className="mt-3 space-y-2 text-sm leading-6">
@@ -160,16 +185,6 @@ export function Paywall() {
                 ))}
               </ul>
             </Card>
-            {nativeIap ? (
-              <p className="mt-6 text-center text-xs leading-5 text-mute">{t('pay_iap')}</p>
-            ) : (
-              <>
-                <PrimaryButton className="mt-8" onClick={() => unlockDemo()}>
-                  {t('pay_open')}
-                </PrimaryButton>
-                <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
-              </>
-            )}
           </>
         )}
 
