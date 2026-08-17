@@ -110,12 +110,14 @@ function ToneSession({ id }: { id: string }) {
           <>
             <button
               type="button"
+              onPointerDown={() => audio.unlock()}
               onClick={async () => {
                 if (on) {
                   audio.stop()
                   setOn(false)
                   return
                 }
+                audio.unlock()
                 await audio.playTone(tone.hz, tone.title, tone.id)
                 markSession('tone', tone.id)
                 setOn(true)
@@ -170,6 +172,7 @@ function NatureSession({ id }: { id: string }) {
         <button
           type="button"
           className="halo-wrap mt-12 h-44 w-44"
+          onPointerDown={() => audio.unlock()}
           onClick={async () => {
             if (on) {
               audio.stop()
@@ -181,6 +184,7 @@ function NatureSession({ id }: { id: string }) {
               return
             }
             setDone(false)
+            audio.unlock()
             await audio.playNature(scene.id)
             markSession('nature', scene.id)
             audio.setTimer(minutes, () => {

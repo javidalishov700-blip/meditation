@@ -492,6 +492,7 @@ export class AudioEngine {
 
   /** Air in / air out, timed to the phase. Not speech. */
   async playBreathPhase(kind: 'in' | 'out', seconds: number) {
+    this.unlock()
     this.stopBreath()
     const ctx = await this.ensure()
     const t0 = ctx.currentTime
@@ -652,7 +653,7 @@ export class AudioEngine {
       this.timer = null
     }
     const epoch = this.epoch
-    this.fadeMaster(0, fade)
+    this.fadeMaster(0.0001, fade)
     const ctx = this.ctx
     const handles = [...this.stops]
     this.stops = []
@@ -741,6 +742,7 @@ export class AudioEngine {
   }
 
   async playSosBed() {
+    this.unlock()
     const ctx = await this.ensure()
     this.stop(0.05, true)
     await this.ensure()
@@ -791,6 +793,7 @@ export class AudioEngine {
   }
 
   async playTone(hz: number, label: string, id = String(hz)) {
+    this.unlock()
     const ctx = await this.ensure()
     this.stop(0.08, true)
     await this.ensure()
@@ -895,6 +898,7 @@ export class AudioEngine {
   }
 
   async playPad() {
+    this.unlock()
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
@@ -925,6 +929,7 @@ export class AudioEngine {
   }
 
   async playBed(id: string) {
+    this.unlock()
     if (id === SOS_DEFAULT_BED) return this.playSosBed()
     const tone = TONES.find((t) => t.id === id)
     if (tone) return this.playTone(tone.hz, tone.title, tone.id)
@@ -932,6 +937,7 @@ export class AudioEngine {
   }
 
   async playNature(id: string, withMusic = false) {
+    this.unlock()
     const ctx = await this.ensure()
     this.stop(0.08, true)
     await this.ensure()

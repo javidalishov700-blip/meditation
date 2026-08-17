@@ -125,6 +125,7 @@ export function Sos() {
   }
 
   async function pickBed(id: string) {
+    audio.unlock()
     writeJson('sos.bed', id)
     setBed(id)
     if (phase === 'tap' || phase === 'done') return
@@ -219,6 +220,7 @@ export function Sos() {
     setTapIdx(ti)
     setSentence(taps[ti] || '')
     buzz(40)
+    audio.unlock()
     await audio.playBed(bed)
     setPhase('ground')
     say(t('sos_ground_sub'), 'ui:sos_ground_sub')

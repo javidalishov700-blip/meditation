@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { hrefFor, itemTitle, itemsById, type BadgeKind } from '../lib/catalog'
 import { isFavorite, toggleFavorite } from '../lib/favorites'
+import { audio } from '../lib/audio'
 import { useI18n } from '../lib/i18n'
 import type { StringKey } from '../lib/strings'
 
@@ -59,6 +60,7 @@ export function CoverCard({
       className={`cover-card keep-dark relative block touch-manipulation overflow-hidden rounded-[1.45rem] ${
         fill ? 'h-[13.4rem] w-full' : wide ? 'h-[10.5rem] w-[16.5rem] shrink-0 snap-start' : 'h-[15.6rem] w-[10.6rem] shrink-0 snap-start'
       }`}
+      onPointerDown={() => audio.unlock()}
       onContextMenu={(e) => {
         e.preventDefault()
         save()
