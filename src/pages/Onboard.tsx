@@ -218,7 +218,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
   return (
     <div
-      className="app-scroll ob-shell relative z-10 mx-auto flex h-full max-w-lg flex-col overflow-y-auto overscroll-y-contain px-5 pb-[max(1.35rem,env(safe-area-inset-bottom))] pt-[max(0.7rem,env(safe-area-inset-top))]"
+      className="app-scroll ob-shell relative z-10 mx-auto flex h-full max-w-lg flex-col overflow-y-auto overscroll-none px-5 pb-[max(1.35rem,env(safe-area-inset-bottom))] pt-[max(0.7rem,env(safe-area-inset-top))]"
       onPointerDown={warm}
     >
       <div className="ob-glow" aria-hidden />

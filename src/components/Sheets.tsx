@@ -75,12 +75,11 @@ export function LangSheet({ open, onClose }: { open: boolean; onClose: () => voi
   const { t } = useI18n()
   if (!open) return null
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/55 px-5 py-[max(1.25rem,env(safe-area-inset-top))]" onClick={onClose}>
       <div
-        className="sheet-up surface w-full max-w-lg rounded-t-[1.6rem] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        className="surface w-full max-w-lg max-h-[min(36rem,calc(100svh-7rem))] overflow-y-auto overscroll-none rounded-[1.6rem] px-5 py-5"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
         <p className="text-lg font-semibold">{t('lang_now')}</p>
         <div className="mt-4">
           <LangPicker onPick={onClose} />
@@ -103,12 +102,11 @@ export function MoodSheet({
   const current = readMood()
   if (!open) return null
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/55 px-5 py-[max(1.25rem,env(safe-area-inset-top))]" onClick={onClose}>
       <div
-        className="sheet-up surface w-full max-w-lg rounded-t-[1.6rem] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        className="surface w-full max-w-lg max-h-[min(36rem,calc(100svh-7rem))] overflow-y-auto overscroll-none rounded-[1.6rem] px-5 py-5"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
         <p className="text-lg font-semibold">{t('mood_check')}</p>
         <div className="mt-4 grid grid-cols-1 gap-2">
           {MOODS.map((id) => (
@@ -141,12 +139,11 @@ export function FavSheet({ open, onClose }: { open: boolean; onClose: () => void
   }, [open])
   if (!open) return null
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/55" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/55 px-5 py-[max(1.25rem,env(safe-area-inset-top))]" onClick={onClose}>
       <div
-        className="sheet-up surface max-h-[78dvh] w-full max-w-lg overflow-y-auto rounded-t-[1.6rem] px-5 pb-[max(1.4rem,env(safe-area-inset-bottom))] pt-4"
+        className="surface w-full max-w-lg max-h-[min(36rem,calc(100svh-7rem))] overflow-y-auto overscroll-none rounded-[1.6rem] px-5 py-5"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
         <p className="text-lg font-semibold">{t('favorites')}</p>
         {items.length === 0 ? (
           <p className="mt-4 text-sm leading-6 text-white/45">{t('fav_empty')}</p>

@@ -35,7 +35,7 @@ function LayoutBody() {
             : 'safe-bottom'
   const shell = listen
     ? 'fixed inset-0 z-[400] max-w-none bg-[#1c0f32] px-0 pt-0'
-    : `app-scroll relative z-10 safe-top mx-auto h-full max-w-lg overflow-y-auto overscroll-y-contain px-5 ${pad}`
+    : `app-scroll relative z-10 safe-top mx-auto h-full max-w-lg overflow-y-auto overscroll-none px-5 ${pad}`
   return (
     <>
       <div className={shell}>
