@@ -1,5 +1,6 @@
 import { isNativeApp } from './device'
 import { setPro } from './entitlement'
+import type { LocaleId } from './locales'
 import type { PlanId } from './types'
 
 /** App Store Connect product ids. Mirror of store/app-store-products.json */
@@ -34,10 +35,11 @@ export function iapConfigured(): boolean {
   return isNativeApp() && Boolean(iosKey())
 }
 
-export function legalUrl(page: 'privacy' | 'terms'): string {
+export function legalUrl(page: 'privacy' | 'terms', lang?: LocaleId): string {
   const origin = (import.meta.env.VITE_LEGAL_ORIGIN as string | undefined)?.replace(/\/$/, '') || ''
   const path = `/legal/${page}.html`
-  return origin ? `${origin}${path}` : path
+  const q = lang ? `?lang=${encodeURIComponent(lang)}` : ''
+  return `${origin}${path}${q}`
 }
 
 async function ensure(): Promise<boolean> {

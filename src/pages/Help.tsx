@@ -48,7 +48,7 @@ function Header({ title, backTo }: { title: string; backTo: string }) {
 }
 
 export function Help() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const { topic } = useParams()
   const helpId = supportId()
   const [q, setQ] = useState('')
@@ -121,12 +121,12 @@ export function Help() {
         {!rows.length ? <p className="px-4 py-4 text-sm text-mute">{t('no_results')}</p> : null}
       </div>
       <div className="mt-3 overflow-hidden rounded-[1.35rem] surface">
-        <a href={legalUrl('terms')} target="_blank" rel="noreferrer" className="flex w-full items-center gap-3 px-4 py-3.5">
+        <a href={legalUrl('terms', locale)} target="_blank" rel="noreferrer" className="flex w-full items-center gap-3 px-4 py-3.5">
           <span className="min-w-0 flex-1 text-sm text-cream">{t('pay_terms')}</span>
           <Chevron />
         </a>
         <div className="mx-4 h-px bg-white/[0.07]" />
-        <a href={legalUrl('privacy')} target="_blank" rel="noreferrer" className="flex w-full items-center gap-3 px-4 py-3.5">
+        <a href={legalUrl('privacy', locale)} target="_blank" rel="noreferrer" className="flex w-full items-center gap-3 px-4 py-3.5">
           <span className="min-w-0 flex-1 text-sm text-cream">{t('pay_privacy')}</span>
           <Chevron />
         </a>

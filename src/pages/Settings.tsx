@@ -407,7 +407,7 @@ function HistoryPanel() {
 }
 
 function Index() {
-  const { t, meta } = useI18n()
+  const { t, meta, locale } = useI18n()
   const navigate = useNavigate()
   const { pro, demo, trial, trialEndsAt, lockDemo } = useEntitlement()
   const emergency = useEmergencyLine()
@@ -488,9 +488,9 @@ function Index() {
       </Group>
 
       <Group>
-        <Row icon={<HelpIcon />} label={t('pay_terms')} href={legalUrl('terms')} />
+        <Row icon={<HelpIcon />} label={t('pay_terms')} href={legalUrl('terms', locale)} />
         <Hairline />
-        <Row icon={<HelpIcon />} label={t('pay_privacy')} href={legalUrl('privacy')} />
+        <Row icon={<HelpIcon />} label={t('pay_privacy')} href={legalUrl('privacy', locale)} />
       </Group>
 
       {demo || trial ? (

@@ -83,13 +83,13 @@ export function IncludedList() {
 }
 
 export function LegalRow({ onRestore }: { onRestore: () => void }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   return (
     <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-mute">
-      <a href={legalUrl('privacy')} target="_blank" rel="noreferrer">
+      <a href={legalUrl('privacy', locale)} target="_blank" rel="noreferrer">
         {t('pay_privacy')}
       </a>
-      <a href={legalUrl('terms')} target="_blank" rel="noreferrer">
+      <a href={legalUrl('terms', locale)} target="_blank" rel="noreferrer">
         {t('pay_terms')}
       </a>
       <button type="button" onClick={onRestore}>
