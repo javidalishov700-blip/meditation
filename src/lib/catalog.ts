@@ -792,6 +792,24 @@ const UNIQUE_COVER: Record<string, string> = {
   'nat-pink': `${C}/snd-pink.png`,
   'nat-brown': `${C}/snd-brown.png`,
   'nat-radio': `${C}/snd-radio.png`,
+  'nat-flow': `${C}/snd-flow.png`,
+  'nat-dryer': `${C}/snd-dryer.png`,
+  'nat-site': `${C}/snd-site.png`,
+  'nat-lullaby': `${C}/snd-lullaby.png`,
+  'nat-heart': `${C}/snd-heart.png`,
+  'nat-cups': `${C}/snd-cups.png`,
+  'nat-pages': `${C}/snd-pages.png`,
+  'nat-grey': `${C}/snd-grey.png`,
+  'nat-flight': `${C}/snd-flight.png`,
+  'nat-bus': `${C}/snd-bus.png`,
+  'nat-murmur': `${C}/snd-murmur.png`,
+  'nat-yellow': `${C}/snd-yellow.png`,
+  'nat-rumble': `${C}/snd-rumble.png`,
+  'nat-wood': `${C}/snd-wood.png`,
+  'nat-blue': `${C}/snd-blue.png`,
+  'nat-bath': `${C}/snd-bath.png`,
+  'nat-study': `${C}/snd-study.png`,
+  'nat-spa': `${C}/snd-spa.png`,
   'tone-174': `${C}/snd-174.png`,
   'tone-396': `${C}/snd-396.png`,
   'tone-417': `${C}/snd-417.png`,
@@ -799,6 +817,7 @@ const UNIQUE_COVER: Record<string, string> = {
   'tone-639': `${C}/snd-639.png`,
   'tone-741': `${C}/snd-741.png`,
   'tone-852': `${C}/snd-852.png`,
+  'tone-432': `${C}/snd-432.png`,
   'story-boat': `${C}/cover-kids.png`,
   'story-cat': `${C}/cover-cat.png`,
   'story-olive': `${C}/cover-myth.png`,
@@ -833,6 +852,56 @@ const UNIQUE_COVER: Record<string, string> = {
   'write-unsend': `${C}/cover-task.png`,
   'write-safe': `${C}/cover-well.png`,
 }
+
+function syncAudioCatalog() {
+  const musicIds = new Set([
+    'piano',
+    'harp',
+    'radio',
+    'swell',
+    'ohm',
+    'drone',
+    'bowl',
+    'crystal',
+    'chime',
+    'gong',
+    'flow',
+    'lullaby',
+    'bath',
+    'spa',
+  ])
+  const haveNature = new Set(ITEMS.filter((i) => i.kind === 'nature').map((i) => i.to.split('/').pop()))
+  for (const s of NATURE_SCENES) {
+    if (haveNature.has(s.id)) continue
+    const music = musicIds.has(s.id)
+    ITEMS.push({
+      id: `nat-${s.id}`,
+      kind: 'nature',
+      to: `/session/nature/${s.id}`,
+      title: s.names,
+      cover: `${C}/snd-${s.id}.png`,
+      minutes: 30,
+      badge: music ? 'music' : 'sound',
+      group: music ? 'music' : 'sounds',
+    })
+  }
+  const haveTone = new Set(ITEMS.filter((i) => i.kind === 'tone').map((i) => i.to.split('/').pop()))
+  for (const s of TONES) {
+    if (haveTone.has(s.id)) continue
+    ITEMS.push({
+      id: `tone-${s.id}`,
+      kind: 'tone',
+      to: `/session/tone/${s.id}`,
+      title: R(`${s.title}|${s.title}|${s.title}|${s.title}|${s.title}|${s.title}`),
+      cover: `${C}/snd-${s.id}.png`,
+      minutes: 15,
+      badge: 'music',
+      group: 'music',
+    })
+  }
+}
+
+syncAudioCatalog()
 
 export const CLARITY_COVER = `${C}/cover-clarity.png`
 
@@ -1071,6 +1140,23 @@ export function itemTitle(item: CatalogItem, locale: LocaleId): string {
   return item.title[locale]
 }
 
+export function itemByPath(to: string): CatalogItem | undefined {
+  const clean = to.split('?')[0]
+  return ITEMS.find((i) => i.to === to || i.to.split('?')[0] === clean)
+}
+
+export function resolveFavorite(fav: { to: string; title: string; cover: string }, locale: LocaleId) {
+  const item = itemByPath(fav.to)
+  if (!item) {
+    return {
+      to: fav.to,
+      title: fav.title || fav.to,
+      cover: fav.cover || `${C}/cover-moon.png`,
+    }
+  }
+  return { to: item.to, title: itemTitle(item, locale), cover: item.cover }
+}
+
 export function nowIds(mood: MoodId | null, hour: number): string[] {
   const night = hour >= 21 || hour < 6
   if (mood === 'tense' || mood === 'wave') {
@@ -1085,7 +1171,7 @@ export function nowIds(mood: MoodId | null, hour: number): string[] {
   return ['story-lighthouse', 'breath-wave', 'med-first', 'extra-objects', 'story-harbor', 'write-colors', 'med-shore', 'nat-rain']
 }
 
-export const SOUND_RAIL_IDS = ['nat-rain', 'nat-drone', 'nat-bowl', 'nat-ocean', 'nat-swell', 'nat-forest', 'nat-ohm', 'nat-piano'] as const
+export const SOUND_RAIL_IDS = ['nat-rain', 'nat-flow', 'nat-heart', 'nat-bowl', 'nat-study', 'nat-ocean', 'nat-spa', 'nat-piano'] as const
 
 export const EXPLORE_TAB_IDS = {
   start: ['med-first', 'med-room', 'med-shore', 'extra-objects', 'guide-hour', 'breath-wave', 'extra-ground'],
@@ -1105,27 +1191,80 @@ export const SLEEP_TAB_IDS = {
   sleep_med: ['med-first', 'med-room', 'med-shore', 'lab-1'],
   viz: ['med-shore', 'med-room', 'lab-1', 'med-first'],
   stories: ['story-lighthouse', 'story-meadow', 'story-wagon', 'story-harbor', 'story-bath', 'story-attic', 'story-coral', 'story-library'],
-  sleep_sounds: ['nat-night', 'nat-rain', 'nat-fan', 'nat-snow', 'nat-brown', 'nat-ocean'],
-  sleep_music: ['nat-piano', 'nat-bowl', 'nat-drone', 'nat-harp', 'nat-swell', 'nat-radio'],
-  kids: ['story-boat', 'story-cat'],
+  sleep_sounds: ['nat-night', 'nat-rain', 'nat-fan', 'nat-snow', 'nat-brown', 'nat-ocean', 'nat-heart', 'nat-grey', 'nat-dryer'],
+  sleep_music: ['nat-piano', 'nat-bowl', 'nat-drone', 'nat-harp', 'nat-swell', 'nat-radio', 'nat-lullaby', 'nat-spa'],
+  kids: ['story-boat', 'story-cat', 'nat-lullaby'],
   myth: ['story-olive', 'story-well', 'story-library', 'story-coral'],
-  instrumental: ['nat-piano', 'nat-harp', 'nat-bowl', 'nat-radio'],
-  noise: ['nat-white', 'nat-pink', 'nat-brown', 'nat-fan'],
-  rain: ['nat-rain', 'nat-storm', 'story-harbor', 'story-attic'],
+  instrumental: ['nat-piano', 'nat-harp', 'nat-bowl', 'nat-radio', 'nat-flow'],
+  noise: ['nat-white', 'nat-pink', 'nat-brown', 'nat-fan', 'nat-grey', 'nat-yellow', 'nat-blue'],
+  rain: ['nat-rain', 'nat-storm', 'nat-study', 'nat-rumble', 'story-harbor', 'story-attic'],
   more: ['guide-sleep', 'lab-1', 'med-shore'],
 } as const
 
 export const SOUND_TAB_IDS = {
-  all: ['nat-rain', 'nat-ocean', 'nat-forest', 'nat-fire', 'nat-wind', 'nat-night', 'nat-storm', 'nat-river', 'nat-birds', 'nat-snow', 'nat-waves', 'nat-cafe', 'nat-fan', 'nat-white', 'nat-pink', 'nat-brown'],
-  music: ['nat-piano', 'nat-bowl', 'nat-drone', 'nat-ohm', 'nat-harp', 'nat-swell', 'nat-radio', 'nat-gong', 'nat-chime', 'nat-crystal'],
-  trending: ['nat-rain', 'nat-bowl', 'nat-radio', 'nat-piano', 'nat-ocean', 'nat-drone', 'nat-brown', 'tone-174'],
-  focus: ['nat-cafe', 'nat-fan', 'nat-white', 'nat-pink', 'nat-drone', 'tone-528', 'nat-river'],
-  sleep_music: ['nat-piano', 'nat-bowl', 'nat-harp', 'nat-swell', 'nat-night', 'nat-radio'],
-  rain: ['nat-rain', 'nat-storm', 'nat-ocean', 'nat-waves'],
-  mystical: ['nat-ohm', 'nat-gong', 'nat-crystal', 'nat-chime', 'nat-bowl', 'nat-drone'],
+  all: [
+    'nat-rain',
+    'nat-ocean',
+    'nat-forest',
+    'nat-fire',
+    'nat-wind',
+    'nat-night',
+    'nat-storm',
+    'nat-river',
+    'nat-birds',
+    'nat-snow',
+    'nat-waves',
+    'nat-cafe',
+    'nat-fan',
+    'nat-white',
+    'nat-pink',
+    'nat-brown',
+    'nat-flow',
+    'nat-dryer',
+    'nat-site',
+    'nat-heart',
+    'nat-cups',
+    'nat-pages',
+    'nat-grey',
+    'nat-flight',
+    'nat-bus',
+    'nat-murmur',
+    'nat-yellow',
+    'nat-rumble',
+    'nat-wood',
+    'nat-blue',
+    'nat-study',
+  ],
+  fresh: [
+    'nat-flow',
+    'nat-dryer',
+    'nat-site',
+    'nat-lullaby',
+    'nat-heart',
+    'nat-cups',
+    'nat-pages',
+    'tone-432',
+    'nat-grey',
+    'nat-flight',
+    'nat-bus',
+    'nat-murmur',
+    'nat-yellow',
+    'nat-rumble',
+    'nat-wood',
+    'nat-blue',
+    'nat-bath',
+    'nat-study',
+    'nat-spa',
+  ],
+  music: ['nat-piano', 'nat-bowl', 'nat-drone', 'nat-ohm', 'nat-harp', 'nat-swell', 'nat-radio', 'nat-gong', 'nat-chime', 'nat-crystal', 'nat-flow', 'nat-lullaby', 'nat-bath', 'nat-spa', 'tone-432'],
+  trending: ['nat-rain', 'nat-flow', 'nat-heart', 'nat-study', 'nat-bowl', 'nat-radio', 'nat-piano', 'tone-432'],
+  focus: ['nat-flow', 'nat-cafe', 'nat-pages', 'nat-grey', 'nat-study', 'nat-cups', 'nat-fan', 'nat-drone', 'tone-528'],
+  sleep_music: ['nat-piano', 'nat-bowl', 'nat-harp', 'nat-lullaby', 'nat-spa', 'nat-heart', 'nat-swell', 'nat-night'],
+  rain: ['nat-rain', 'nat-storm', 'nat-study', 'nat-rumble', 'nat-ocean', 'nat-waves'],
+  mystical: ['nat-ohm', 'nat-gong', 'nat-crystal', 'nat-bath', 'nat-chime', 'nat-bowl', 'tone-432'],
   radio: ['nat-radio', 'nat-piano', 'nat-harp', 'nat-swell'],
-  meditative: ['nat-bowl', 'nat-ohm', 'nat-drone', 'nat-swell', 'nat-harp', 'nat-gong', 'tone-174'],
-  nature: ['nat-rain', 'nat-ocean', 'nat-forest', 'nat-fire', 'nat-wind', 'nat-night', 'nat-storm', 'nat-river', 'nat-birds', 'nat-snow', 'nat-waves'],
+  meditative: ['nat-bowl', 'nat-ohm', 'nat-bath', 'nat-spa', 'nat-flow', 'nat-drone', 'tone-174'],
+  nature: ['nat-rain', 'nat-ocean', 'nat-forest', 'nat-fire', 'nat-wind', 'nat-night', 'nat-storm', 'nat-river', 'nat-birds', 'nat-snow', 'nat-waves', 'nat-rumble'],
 } as const
 
 export const BREATH_RAIL_IDS = ['breath-wave', 'breath-equal', 'breath-box', 'breath-478', 'breath-sigh', 'breath-count8'] as const

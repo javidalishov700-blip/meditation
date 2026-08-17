@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import math
 import random
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
@@ -85,6 +86,25 @@ SND_NAMES = [
     "639",
     "741",
     "852",
+    "432",
+    "flow",
+    "dryer",
+    "site",
+    "lullaby",
+    "heart",
+    "cups",
+    "pages",
+    "grey",
+    "flight",
+    "bus",
+    "murmur",
+    "yellow",
+    "rumble",
+    "wood",
+    "blue",
+    "bath",
+    "study",
+    "spa",
 ]
 
 SKILL_NAMES = [
@@ -1254,8 +1274,68 @@ SKILL_SCENE = {
 }
 
 
+def scene_seeded(im: Image.Image, name: str) -> Image.Image:
+    """Hash-unique dusk cover so new sound beds never share a lake default."""
+    r = rng_for(name)
+    palettes = [
+        ((18, 28, 46), (8, 10, 16), (120, 168, 210)),
+        ((42, 22, 18), (12, 8, 8), (210, 140, 90)),
+        ((22, 36, 28), (8, 12, 10), (140, 190, 150)),
+        ((40, 24, 52), (12, 8, 18), (186, 140, 220)),
+        ((48, 36, 16), (14, 10, 8), (220, 190, 90)),
+        ((16, 22, 40), (6, 8, 14), (90, 140, 210)),
+        ((36, 16, 22), (10, 6, 10), (210, 90, 120)),
+        ((24, 24, 28), (8, 8, 10), (170, 170, 180)),
+        ((20, 32, 40), (8, 10, 14), (80, 190, 190)),
+        ((32, 20, 16), (10, 8, 6), (180, 120, 70)),
+    ]
+    top, bot, acc = palettes[r.randrange(len(palettes))]
+    w, h = im.size
+    im = gradient((w, h), top, bot, 1.08 + r.random() * 0.2)
+    layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    motif = r.randrange(8)
+    if motif == 0:
+        for _ in range(4 + r.randrange(4)):
+            cx, cy = r.randint(int(w * 0.1), int(w * 0.9)), r.randint(int(h * 0.1), int(h * 0.75))
+            rx, ry = r.randint(40, 140), r.randint(30, 120)
+            d.ellipse((cx - rx, cy - ry, cx + rx, cy + ry), fill=rgba(acc, 28 + r.randrange(40)))
+    elif motif == 1:
+        for i in range(7):
+            y = int(h * (0.25 + i * 0.08))
+            d.rectangle((0, y, w, y + 10 + r.randrange(18)), fill=rgba(acc, 18 + i * 4))
+    elif motif == 2:
+        d.rounded_rectangle((int(w * 0.18), int(h * 0.22), int(w * 0.82), int(h * 0.72)), radius=28, fill=rgba(acc, 40))
+        d.ellipse((int(w * 0.32), int(h * 0.3), int(w * 0.68), int(h * 0.58)), fill=rgba(mix(acc, (255, 255, 255), 0.25), 50))
+    elif motif == 3:
+        cx, cy = w // 2, int(h * 0.42)
+        for i in range(5):
+            rad = 40 + i * 38
+            d.ellipse((cx - rad, cy - rad, cx + rad, cy + rad), outline=rgba(acc, 50 + i * 12), width=6)
+    elif motif == 4:
+        for i in range(8):
+            x = int(w * (0.08 + i * 0.11))
+            d.rectangle((x, int(h * 0.18), x + 18, int(h * 0.82)), fill=rgba(acc, 22 + i * 3))
+    elif motif == 5:
+        for _ in range(40):
+            x = r.randint(0, w)
+            y = r.randint(int(h * 0.1), int(h * 0.9))
+            d.line((x, y, x + r.randint(-6, 6), y + r.randint(18, 46)), fill=rgba(acc, 50), width=2)
+    elif motif == 6:
+        d.rectangle((int(w * 0.12), int(h * 0.62), int(w * 0.88), int(h * 0.72)), fill=rgba(acc, 45))
+        d.ellipse((int(w * 0.55), int(h * 0.22), int(w * 0.88), int(h * 0.48)), fill=rgba(mix(acc, (255, 220, 160), 0.3), 55))
+    else:
+        d.polygon(
+            [(w * 0.5, h * 0.18), (w * 0.78, h * 0.7), (w * 0.22, h * 0.7)],
+            fill=rgba(acc, 36),
+        )
+    im = overlay(im, layer, 1.2 + r.random())
+    im = overlay(im, glow((w, h), w * r.random(), h * 0.25, w * 0.35, h * 0.22, acc, 40))
+    return im.convert("RGB")
+
+
 def paint(name: str, size: tuple[int, int]) -> Image.Image:
-    fn = SCENES.get(key_of(name), scene_lake)
+    fn = SCENES.get(key_of(name), scene_seeded)
     im = Image.new("RGB", size, (12, 10, 16))
     painted = fn(im, name)
     if painted.mode != "RGB":
@@ -1307,17 +1387,23 @@ def save(im: Image.Image, path: Path) -> None:
 
 
 def main() -> None:
+    only_missing = "--only-missing" in sys.argv
     COVERS.mkdir(parents=True, exist_ok=True)
     SKILLS.mkdir(parents=True, exist_ok=True)
-    for name in COVER_NAMES:
-        save(paint(name, (540, 720)), COVERS / f"cover-{name}.png")
+    if not only_missing:
+        for name in COVER_NAMES:
+            save(paint(name, (540, 720)), COVERS / f"cover-{name}.png")
     for name in SND_NAMES:
-        save(paint(name, (540, 720)), COVERS / f"snd-{name}.png")
-    for name in SKILL_NAMES:
-        save(make_skill(name), SKILLS / f"skill-{name}.png")
-    for i in range(1, 7):
-        save(make_face(i), COVERS / f"face-{i}.png")
-    print(f"wrote {len(COVER_NAMES)} covers, {len(SND_NAMES)} sounds, {len(SKILL_NAMES)} skills, 6 faces")
+        path = COVERS / f"snd-{name}.png"
+        if only_missing and path.exists():
+            continue
+        save(paint(name, (540, 720)), path)
+    if not only_missing:
+        for name in SKILL_NAMES:
+            save(make_skill(name), SKILLS / f"skill-{name}.png")
+        for i in range(1, 7):
+            save(make_face(i), COVERS / f"face-{i}.png")
+    print(f"covers ready ({'missing sounds only' if only_missing else 'full set'})")
 
 
 if __name__ == "__main__":

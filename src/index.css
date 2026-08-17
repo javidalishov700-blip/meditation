@@ -125,6 +125,7 @@ html.dim .aurora {
 .app-scroll {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
+  overflow-anchor: none;
 }
 
 #root {
@@ -406,12 +407,11 @@ html:lang(fa) {
 }
 
 .cover-card {
-  transform: perspective(900px) rotateX(0deg);
-  transition: transform 0.35s ease;
+  transition: transform 0.2s ease;
 }
 
 .cover-card:active {
-  transform: perspective(900px) rotateY(-5deg) rotateX(3deg) scale(0.98);
+  transform: scale(0.98);
 }
 
 .hero-seg {

@@ -25,6 +25,11 @@ const TONE_CLASS: Record<SleepTone, string> = {
   late: 'text-amber-100',
 }
 
+function stepWake(plan: SleepPlan, deltaMin: number): SleepPlan {
+  const total = (plan.wakeHour * 60 + plan.wakeMinute + deltaMin + 1440) % 1440
+  return { ...plan, wakeHour: Math.floor(total / 60), wakeMinute: total % 60 }
+}
+
 export function SleepClock() {
   const { t, locale } = useI18n()
   const [plan, setPlan] = useState<SleepPlan>(() => readSleepPlan())
@@ -45,47 +50,56 @@ export function SleepClock() {
     setTone(sleepTone(next))
   }
 
-  const wakeValue = `${String(plan.wakeHour).padStart(2, '0')}:${String(plan.wakeMinute).padStart(2, '0')}`
+  const wakeLabel = formatHm(plan.wakeHour * 60 + plan.wakeMinute, locale)
 
   return (
-    <Card className="mt-6">
-      <p className="text-xs uppercase tracking-[0.12em] text-mute">{t('sleep_clock')}</p>
-      <p className={`mt-3 font-display text-2xl leading-snug ${TONE_CLASS[tone]}`}>
-        {t(TONE_KEY[tone], { t: formatHm(bed, locale) })}
+    <Card className="mt-4">
+      <p className="text-center text-[11px] uppercase tracking-[0.14em] text-mute">{t('sleep_bed')}</p>
+      <p className={`mt-3 text-center font-display text-[2.35rem] leading-none tabular-nums ${TONE_CLASS[tone]}`}>
+        {formatHm(bed, locale)}
       </p>
-      <p className="mt-2 text-sm text-mute">
-        {t('sleep_bed')}: {formatHm(bed, locale)} · {t('sleep_hours_n', { n: plan.hours })}
-      </p>
+      <p className="mt-2 text-center text-sm leading-5 text-mute">{t(TONE_KEY[tone], { t: formatHm(bed, locale) })}</p>
 
-      <label className="mt-5 block">
-        <span className="text-xs text-mute">{t('sleep_wake')}</span>
-        <input
-          type="time"
-          value={wakeValue}
-          onChange={(e) => {
-            const raw = e.target.value
-            if (!raw) return
-            const [h, m] = raw.split(':').map(Number)
-            save({ ...plan, wakeHour: h ?? 7, wakeMinute: m ?? 0 })
-          }}
-          className="mt-1.5 w-full rounded-2xl bg-white/8 px-3 py-3 text-sm text-white/90"
-        />
-      </label>
-
-      <p className="mt-4 text-xs text-mute">{t('sleep_hours_want')}</p>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {SLEEP_HOUR_CHOICES.map((n) => (
-          <button
-            key={n}
-            type="button"
-            onClick={() => save({ ...plan, hours: n })}
-            className={`rounded-full px-3 py-1.5 text-xs ${
-              plan.hours === n ? 'bg-white/10 text-cream' : 'text-mute'
-            }`}
-          >
-            {t('sleep_hours_n', { n })}
-          </button>
-        ))}
+      <div className="mt-5 grid grid-cols-2 gap-3">
+        <div className="rounded-2xl bg-white/6 px-2 py-3">
+          <p className="text-center text-[11px] text-mute">{t('sleep_wake')}</p>
+          <div className="mt-2 flex items-center justify-between gap-1">
+            <button
+              type="button"
+              aria-label="-15"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/8 text-lg text-white/80"
+              onClick={() => save(stepWake(plan, -15))}
+            >
+              −
+            </button>
+            <p className="min-w-0 flex-1 text-center font-display text-lg tabular-nums text-cream">{wakeLabel}</p>
+            <button
+              type="button"
+              aria-label="+15"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/8 text-lg text-white/80"
+              onClick={() => save(stepWake(plan, 15))}
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div className="rounded-2xl bg-white/6 px-2 py-3">
+          <p className="text-center text-[11px] text-mute">{t('sleep_need')}</p>
+          <div className="mt-2 grid grid-cols-2 gap-1.5">
+            {SLEEP_HOUR_CHOICES.map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => save({ ...plan, hours: n })}
+                className={`rounded-full py-1.5 text-xs tabular-nums ${
+                  plan.hours === n ? 'bg-[#7B61FF] text-white' : 'bg-white/8 text-white/70'
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <button
@@ -98,7 +112,7 @@ export function SleepClock() {
           patchOnboard({ remindSleep: v })
           if (v) void requestNotify()
         }}
-        className="mt-5 flex w-full items-center gap-3 text-left"
+        className="mt-4 flex w-full items-center gap-3 text-left"
       >
         <span className="min-w-0 flex-1">
           <span className="block text-sm text-cream">{t('ob_rem_sleep')}</span>

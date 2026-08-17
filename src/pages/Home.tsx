@@ -225,6 +225,7 @@ export function Home() {
           <CoverCard
             key={item.id}
             to={hrefFor(item)}
+            favTo={item.to}
             cover={item.cover}
             title={itemTitle(item, locale)}
             minutes={item.minutes}
@@ -243,6 +244,7 @@ export function Home() {
           <CoverCard
             key={item.id}
             to={hrefFor(item)}
+            favTo={item.to}
             cover={item.cover}
             title={itemTitle(item, locale)}
             minutes={item.minutes}
@@ -258,6 +260,7 @@ export function Home() {
           <CoverCard
             key={item.id}
             to={hrefFor(item)}
+            favTo={item.to}
             cover={item.cover}
             title={itemTitle(item, locale)}
             minutes={item.minutes}

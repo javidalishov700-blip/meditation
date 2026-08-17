@@ -18,6 +18,15 @@ const TABS: { id: SoundTab; label: StringKey; icon: ReactNode }[] = [
     ),
   },
   {
+    id: 'fresh',
+    label: 'new_sounds',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <path d="M12 5v14M5 12h14" />
+      </svg>
+    ),
+  },
+  {
     id: 'music',
     label: 'all_music',
     icon: (

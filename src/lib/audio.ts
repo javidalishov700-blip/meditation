@@ -12,6 +12,7 @@ export const TONES: Tone[] = [
   },
   { id: '396', hz: 396, title: '396 Hz', subtitle: 'Alçak, yavaş katman' },
   { id: '417', hz: 417, title: '417 Hz', subtitle: 'Yumuşak geçiş yatağı' },
+  { id: '432', hz: 432, title: '432 Hz', subtitle: 'Ilık, orta zemin' },
   { id: '528', hz: 528, title: '528 Hz', subtitle: 'Orta, açık alan' },
   { id: '639', hz: 639, title: '639 Hz', subtitle: 'Üst göğüs boşluğu' },
   { id: '741', hz: 741, title: '741 Hz', subtitle: 'İnce, net zemin' },
@@ -201,6 +202,132 @@ export const NATURE_SCENES: NatureScene[] = [
     names: R('Gece radyosu|Night radio|Gecə radiosu|Ночное радио|Radio nocturna|Radio notturna'),
     blurbs: R('Yavaş nota, ılık pad|Slow notes, warm pad|Yavaş nota, isti pad|Медленные ноты, тёплый фон|Notas lentas, fondo cálido|Note lente, pad caldo'),
   },
+  {
+    id: 'flow',
+    title: 'Akışa odak',
+    subtitle: 'Sürekli su, yavaş beşli',
+    names: R('Akışa odak|Focus on the flow|Axına fokus|Фокус на потоке|Foco en el flujo|Focus sul flusso'),
+    blurbs: R('Sürekli su, yavaş beşli|Steady water, slow fifth|Sabit su, yavaş kvinta|Ровная вода, медленная квинта|Agua constante, quinta lenta|Acqua ferma, quinta lenta'),
+  },
+  {
+    id: 'dryer',
+    title: 'Saç kurutma',
+    subtitle: 'Yüksek motor, ılık hava',
+    names: R('Saç kurutma|Hair dryer|Saçqurutma|Фен|Secador|Asciugacapelli'),
+    blurbs: R('Yüksek motor, ılık hava|High motor, warm air|Yüksək motor, isti hava|Высокий мотор, тёплый воздух|Motor alto, aire cálido|Motore alto, aria calda'),
+  },
+  {
+    id: 'site',
+    title: 'Şantiye',
+    subtitle: 'Uzak vuruş, alçak uğultu',
+    names: R('Şantiye|Construction|Tikinti|Стройка|Obra|Cantiere'),
+    blurbs: R('Uzak vuruş, alçak uğultu|Distant hit, low hum|Uzaq vuruş, alçaq uğultu|Далёкий удар, низкий гул|Golpe lejano, zumbido bajo|Colpo lontano, ronzio basso'),
+  },
+  {
+    id: 'lullaby',
+    title: 'Çocuk uykusu',
+    subtitle: 'Seyrek nota, yumuşak pad',
+    names: R('Çocuk uykusu|Kids bedtime|Uşaq yuxusu|Детский сон|Hora de dormir|Nanna bimbi'),
+    blurbs: R('Seyrek nota, yumuşak pad|Sparse notes, soft pad|Seyrək nota, yumşaq pad|Редкие ноты, мягкий фон|Notas escasas, fondo suave|Note rade, pad morbido'),
+  },
+  {
+    id: 'heart',
+    title: 'Kalp atışı',
+    subtitle: 'Yavaş lub-dub, gövde',
+    names: R('Kalp atışı|Heartbeat|Ürək döyüntüsü|Сердцебиение|Latido|Battito'),
+    blurbs: R('Yavaş lub-dub, gövde|Slow lub-dub, body|Yavaş lub-dub, bədən|Медленный стук, тело|Lub-dub lento, cuerpo|Lub-dub lento, corpo'),
+  },
+  {
+    id: 'cups',
+    title: 'Kahve molası',
+    subtitle: 'Buhar, fincan, oda',
+    names: R('Kahve molası|Coffee break|Qəhvə fasiləsi|Кофе-пауза|Pausa café|Pausa caffè'),
+    blurbs: R('Buhar, fincan, oda|Steam, cup, room|Buxar, fincan, otaq|Пар, чашка, комната|Vapor, taza, sala|Vapore, tazza, stanza'),
+  },
+  {
+    id: 'pages',
+    title: 'Sayfalar',
+    subtitle: 'Kâğıt, yavaş çevirme',
+    names: R('Sayfalar|Pages|Səhifələr|Страницы|Páginas|Pagine'),
+    blurbs: R('Kâğıt, yavaş çevirme|Paper, slow turn|Kağız, yavaş çevirmə|Бумага, медленный оборот|Papel, paso lento|Carta, volta lenta'),
+  },
+  {
+    id: 'grey',
+    title: 'Gri gürültü',
+    subtitle: 'Orta tepe, düz örtü',
+    names: R('Gri gürültü|Grey noise|Boz küy|Серый шум|Ruido gris|Rumore grigio'),
+    blurbs: R('Orta tepe, düz örtü|Mid bump, flat cover|Orta zirvə, düz örtük|Средний пик, ровное покрывало|Pico medio, cubierta plana|Picco medio, coperta piatta'),
+  },
+  {
+    id: 'flight',
+    title: 'Uçuş',
+    subtitle: 'Kabin uğultusu, ince hava',
+    names: R('Uçuş|Flight|Uçuş|Полёт|Vuelo|Volo'),
+    blurbs: R('Kabin uğultusu, ince hava|Cabin hum, thin air|Kabin uğultusu, incə hava|Гул кабины, тонкий воздух|Zumbido de cabina, aire fino|Ronzio di cabina, aria sottile'),
+  },
+  {
+    id: 'bus',
+    title: 'Otobüs',
+    subtitle: 'Motor, yol, ara sıra fren',
+    names: R('Otobüs|Bus|Avtobus|Автобус|Autobús|Autobus'),
+    blurbs: R('Motor, yol, ara sıra fren|Engine, road, rare brake|Motor, yol, ara fren|Мотор, дорога, редкий тормоз|Motor, carretera, freno raro|Motore, strada, freno raro'),
+  },
+  {
+    id: 'murmur',
+    title: 'Uzak sesler',
+    subtitle: 'Filtrelenmiş kalabalık, söz yok',
+    names: R('Uzak sesler|Distant voices|Uzaq səslər|Далёкие голоса|Voces lejanas|Voci lontane'),
+    blurbs: R('Filtrelenmiş kalabalık, söz yok|Filtered crowd, no words|Süzülmüş izdiham, söz yox|Фильтрованная толпа, без слов|Multitud filtrada, sin palabras|Folla filtrata, senza parole'),
+  },
+  {
+    id: 'yellow',
+    title: 'Sarı gürültü',
+    subtitle: 'Ilık orta bant',
+    names: R('Sarı gürültü|Yellow noise|Sarı küy|Жёлтый шум|Ruido amarillo|Rumore giallo'),
+    blurbs: R('Ilık orta bant|Warm mid band|İsti orta zolaq|Тёплая средняя полоса|Banda media cálida|Banda media calda'),
+  },
+  {
+    id: 'rumble',
+    title: 'Yalnız gök',
+    subtitle: 'Gürleme, yağmur yok',
+    names: R('Yalnız gök|Thunder only|Yalnız göy|Только гром|Solo trueno|Solo tuono'),
+    blurbs: R('Gürleme, yağmur yok|Rumble, no rain|Gurultu, yağış yox|Гул, без дождя|Rumores, sin lluvia|Rombo, senza pioggia'),
+  },
+  {
+    id: 'wood',
+    title: 'Dolap',
+    subtitle: 'Ahşap, seyrek gıcırtı',
+    names: R('Dolap|Cabinet|Dolab|Шкаф|Armario|Armadio'),
+    blurbs: R('Ahşap, seyrek gıcırtı|Wood, sparse creak|Taxta, seyrək cırılma|Дерево, редкий скрип|Madera, crujido escaso|Legno, scricchiolio rado'),
+  },
+  {
+    id: 'blue',
+    title: 'Mavi gürültü',
+    subtitle: 'İnce, yüksek örtü',
+    names: R('Mavi gürültü|Blue noise|Mavi küy|Синий шум|Ruido azul|Rumore blu'),
+    blurbs: R('İnce, yüksek örtü|Thin, high cover|İncə, yüksək örtük|Тонкое, высокое покрывало|Capa fina y alta|Coperta sottile e acuta'),
+  },
+  {
+    id: 'bath',
+    title: 'Ses banyosu',
+    subtitle: 'Çok kâse, uzun oda',
+    names: R('Ses banyosu|Sound bath|Səs hamamı|Звуковая ванна|Baño de sonido|Bagno sonoro'),
+    blurbs: R('Çok kâse, uzun oda|Many bowls, long room|Çox qab, uzun otaq|Много чаш, длинная комната|Varios cuencos, sala larga|Tante coppe, stanza lunga'),
+  },
+  {
+    id: 'study',
+    title: 'Yağmurlu çalışma',
+    subtitle: 'Camın ardı, oda, tik-tak',
+    names: R('Yağmurlu çalışma|Rainy study room|Yağışlı otaq|Дождливая учёба|Estudio con lluvia|Studio sotto la pioggia'),
+    blurbs: R('Camın ardı, oda, tik-tak|Behind glass, room, tick|Şüşə arxası, otaq, tik-tak|За стеклом, комната, тик-так|Tras el cristal, sala, tic|Dietro il vetro, stanza, tic'),
+  },
+  {
+    id: 'spa',
+    title: 'Spa salonu',
+    subtitle: 'Damla, ılık pad, taş',
+    names: R('Spa salonu|Spa lounge|Spa zalı|Спа-зал|Salón spa|Lounge spa'),
+    blurbs: R('Damla, ılık pad, taş|Drip, warm pad, stone|Damcı, isti pad, daş|Капля, тёплый фон, камень|Gota, fondo cálido, piedra|Goccia, pad caldo, pietra'),
+  },
 ]
 
 export function sceneName(id: string, locale: LocaleId): string {
@@ -216,7 +343,7 @@ export function sceneBlurb(id: string, locale: LocaleId): string {
 /** Built-in SOS mix (174 Hz + piano pad). */
 export const SOS_DEFAULT_BED = 'sos'
 
-const MUSIC_BED_IDS = ['piano', 'harp', 'radio', 'swell', 'ohm', 'drone', 'bowl', 'crystal', 'chime', 'gong'] as const
+const MUSIC_BED_IDS = ['piano', 'harp', 'radio', 'swell', 'ohm', 'drone', 'bowl', 'crystal', 'chime', 'gong', 'flow', 'lullaby', 'bath', 'spa'] as const
 
 export function listBeds(): string[] {
   const nature = NATURE_SCENES.map((s) => s.id)
@@ -974,6 +1101,24 @@ export class AudioEngine {
     else if (id === 'pink') this.noiseBed(ctx, 'pink', 0.2)
     else if (id === 'brown') this.noiseBed(ctx, 'brown', 0.26)
     else if (id === 'radio') this.radio(ctx)
+    else if (id === 'flow') this.flow(ctx)
+    else if (id === 'dryer') this.dryer(ctx)
+    else if (id === 'site') this.site(ctx)
+    else if (id === 'lullaby') this.lullaby(ctx)
+    else if (id === 'heart') this.heart(ctx)
+    else if (id === 'cups') this.cups(ctx)
+    else if (id === 'pages') this.pages(ctx)
+    else if (id === 'grey') this.grey(ctx)
+    else if (id === 'flight') this.flight(ctx)
+    else if (id === 'bus') this.bus(ctx)
+    else if (id === 'murmur') this.murmur(ctx)
+    else if (id === 'yellow') this.yellow(ctx)
+    else if (id === 'rumble') this.rumble(ctx)
+    else if (id === 'wood') this.wood(ctx)
+    else if (id === 'blue') this.blue(ctx)
+    else if (id === 'bath') this.bath(ctx)
+    else if (id === 'study') this.study(ctx)
+    else if (id === 'spa') this.spa(ctx)
     else this.night(ctx)
     if (withMusic) this.calmMusic(ctx)
   }
@@ -1842,6 +1987,360 @@ export class AudioEngine {
         /* already stopped */
       }
     })
+  }
+
+  private liveNoise(
+    ctx: AudioContext,
+    kind: 'white' | 'pink' | 'brown',
+    type: BiquadFilterType,
+    freq: number,
+    gain: number,
+    extra?: { q?: number; rate?: number; depth?: number; pad?: number[]; dry?: number; send?: number; peak?: number },
+  ) {
+    if (extra?.pad) this.warmPad(ctx, extra.pad, 0.02)
+    const src = loopNoise(ctx, kind, kind === 'brown' ? 6 : 3.5, 2)
+    const f = ctx.createBiquadFilter()
+    f.type = type
+    f.frequency.value = freq
+    if (extra?.q != null) f.Q.value = extra.q
+    if (type === 'peaking') f.gain.value = extra?.peak ?? 8
+    const g = ctx.createGain()
+    g.gain.value = gain
+    src.connect(f)
+    f.connect(g)
+    this.out(g, extra?.dry ?? 0.95, extra?.send ?? 0.45)
+    src.start()
+    if (extra?.rate) this.lfo(ctx, g.gain, extra.rate, extra.depth ?? gain * 0.12, gain)
+    this.track(() => {
+      try {
+        src.stop()
+        src.disconnect()
+        f.disconnect()
+        g.disconnect()
+      } catch {
+        /* already stopped */
+      }
+    })
+    return f
+  }
+
+  private flow(ctx: AudioContext) {
+    this.warmPad(ctx, [146.83, 220, 293.66], 0.03)
+    const water = this.liveNoise(ctx, 'pink', 'bandpass', 880, 0.2, { q: 0.7, rate: 0.08, depth: 0.05 })
+    this.lfo(ctx, water.frequency, 0.05, 120, 880)
+    this.liveNoise(ctx, 'white', 'highpass', 2400, 0.04, { q: 0.4 })
+  }
+
+  private dryer(ctx: AudioContext) {
+    this.liveNoise(ctx, 'white', 'bandpass', 4200, 0.16, { q: 0.55, rate: 0.42, depth: 0.03 })
+    this.liveNoise(ctx, 'brown', 'lowpass', 95, 0.14, { rate: 0.38, depth: 0.025 })
+  }
+
+  private site(ctx: AudioContext) {
+    this.liveNoise(ctx, 'brown', 'lowpass', 110, 0.16, { rate: 0.07, depth: 0.03 })
+    const hit = () => {
+      if (!this.playing || !this.ctx) return
+      const n = loopNoise(ctx, 'white', 0.22, 2)
+      const hp = ctx.createBiquadFilter()
+      hp.type = 'highpass'
+      hp.frequency.value = 700 + Math.random() * 900
+      const cg = ctx.createGain()
+      const now = ctx.currentTime
+      cg.gain.setValueAtTime(0.0001, now)
+      cg.gain.linearRampToValueAtTime(0.11, now + 0.012)
+      cg.gain.exponentialRampToValueAtTime(0.0001, now + 0.28)
+      n.connect(hp)
+      hp.connect(cg)
+      this.out(cg, 0.7, 0.35)
+      n.start()
+      n.stop(now + 0.32)
+    }
+    const id = window.setInterval(hit, 2800)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private lullaby(ctx: AudioContext) {
+    this.warmPad(ctx, [98, 147, 196], 0.038)
+    const notes = [196, 220, 246.94, 261.63, 293.66, 261.63, 220]
+    let i = 0
+    const play = () => {
+      if (!this.playing || !this.ctx) return
+      const f = notes[i % notes.length]!
+      i += 1
+      const now = ctx.currentTime
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = f
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.055, now + 0.2)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 4.4)
+      o.connect(g)
+      this.out(g, 0.5, 0.92)
+      o.start(now)
+      o.stop(now + 4.6)
+    }
+    play()
+    const id = window.setInterval(play, 4200)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private heart(ctx: AudioContext) {
+    this.liveNoise(ctx, 'brown', 'lowpass', 70, 0.12)
+    const beat = () => {
+      if (!this.playing || !this.ctx) return
+      const now = ctx.currentTime
+      const thump = (delay: number, freq: number, peak: number) => {
+        const o = ctx.createOscillator()
+        o.type = 'sine'
+        o.frequency.setValueAtTime(freq, now + delay)
+        o.frequency.exponentialRampToValueAtTime(freq * 0.55, now + delay + 0.18)
+        const g = ctx.createGain()
+        g.gain.setValueAtTime(0.0001, now + delay)
+        g.gain.linearRampToValueAtTime(peak, now + delay + 0.03)
+        g.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.22)
+        o.connect(g)
+        this.out(g, 1, 0.2)
+        o.start(now + delay)
+        o.stop(now + delay + 0.24)
+      }
+      thump(0, 52, 0.22)
+      thump(0.16, 40, 0.12)
+    }
+    beat()
+    const id = window.setInterval(beat, 920)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private cups(ctx: AudioContext) {
+    this.liveNoise(ctx, 'white', 'highpass', 3200, 0.07, { rate: 8.2, depth: 0.018, pad: [110, 165] })
+    const clink = () => {
+      if (!this.playing || !this.ctx) return
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = 2100 + Math.random() * 700
+      const cg = ctx.createGain()
+      cg.gain.setValueAtTime(0.04, ctx.currentTime)
+      cg.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.16)
+      o.connect(cg)
+      this.out(cg, 0.45, 0.55)
+      o.start()
+      o.stop(ctx.currentTime + 0.18)
+    }
+    const id = window.setInterval(clink, 5200)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private pages(ctx: AudioContext) {
+    this.liveNoise(ctx, 'pink', 'highpass', 1400, 0.045, { q: 0.5 })
+    const turn = () => {
+      if (!this.playing || !this.ctx) return
+      const n = loopNoise(ctx, 'white', 0.45)
+      const bp = ctx.createBiquadFilter()
+      bp.type = 'bandpass'
+      bp.frequency.value = 1600 + Math.random() * 900
+      bp.Q.value = 1.4
+      const cg = ctx.createGain()
+      const now = ctx.currentTime
+      cg.gain.setValueAtTime(0.0001, now)
+      cg.gain.linearRampToValueAtTime(0.08, now + 0.05)
+      cg.gain.exponentialRampToValueAtTime(0.0001, now + 0.4)
+      n.connect(bp)
+      bp.connect(cg)
+      this.out(cg, 0.6, 0.3)
+      n.start()
+      n.stop(now + 0.45)
+    }
+    const id = window.setInterval(turn, 3800)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private grey(ctx: AudioContext) {
+    this.liveNoise(ctx, 'pink', 'peaking', 2500, 0.18, { q: 0.8, pad: [123, 185] })
+  }
+
+  private flight(ctx: AudioContext) {
+    this.liveNoise(ctx, 'brown', 'lowpass', 140, 0.2, { rate: 0.04, depth: 0.025 })
+    this.liveNoise(ctx, 'white', 'highpass', 2600, 0.035)
+    const ding = () => {
+      if (!this.playing || !this.ctx) return
+      const o = ctx.createOscillator()
+      o.type = 'sine'
+      o.frequency.value = 880
+      const g = ctx.createGain()
+      const now = ctx.currentTime
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.05, now + 0.02)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 1.4)
+      o.connect(g)
+      this.out(g, 0.4, 0.8)
+      o.start(now)
+      o.stop(now + 1.5)
+    }
+    const id = window.setInterval(ding, 18000)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private bus(ctx: AudioContext) {
+    this.liveNoise(ctx, 'brown', 'lowpass', 88, 0.22, { rate: 1.35, depth: 0.04 })
+    this.liveNoise(ctx, 'pink', 'bandpass', 210, 0.08, { q: 0.5 })
+    const brake = () => {
+      if (!this.playing || !this.ctx) return
+      const n = loopNoise(ctx, 'white', 0.7)
+      const hp = ctx.createBiquadFilter()
+      hp.type = 'highpass'
+      hp.frequency.value = 1800
+      const cg = ctx.createGain()
+      const now = ctx.currentTime
+      cg.gain.setValueAtTime(0.0001, now)
+      cg.gain.linearRampToValueAtTime(0.06, now + 0.08)
+      cg.gain.exponentialRampToValueAtTime(0.0001, now + 0.65)
+      n.connect(hp)
+      hp.connect(cg)
+      this.out(cg, 0.7, 0.25)
+      n.start()
+      n.stop(now + 0.7)
+    }
+    const id = window.setInterval(brake, 11000)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private murmur(ctx: AudioContext) {
+    this.warmPad(ctx, [110, 165], 0.016)
+    this.liveNoise(ctx, 'pink', 'lowpass', 900, 0.12, { rate: 0.28, depth: 0.04 })
+    const f = this.liveNoise(ctx, 'brown', 'bandpass', 520, 0.07, { q: 2.2 })
+    this.lfo(ctx, f.frequency, 0.11, 90, 520)
+  }
+
+  private yellow(ctx: AudioContext) {
+    this.liveNoise(ctx, 'pink', 'bandpass', 1100, 0.2, { q: 0.45, pad: [98, 147] })
+  }
+
+  private rumble(ctx: AudioContext) {
+    this.liveNoise(ctx, 'brown', 'lowpass', 78, 0.2)
+    const crack = () => {
+      if (!this.playing || !this.ctx) return
+      const n = loopNoise(ctx, 'white', 0.4, 2)
+      const hp = ctx.createBiquadFilter()
+      hp.type = 'highpass'
+      hp.frequency.value = 500
+      const lp = ctx.createBiquadFilter()
+      lp.type = 'lowpass'
+      lp.frequency.value = 420
+      const cg = ctx.createGain()
+      const now = ctx.currentTime
+      cg.gain.setValueAtTime(0.0001, now)
+      cg.gain.linearRampToValueAtTime(0.18, now + 0.05)
+      cg.gain.exponentialRampToValueAtTime(0.0001, now + 1.1)
+      n.connect(hp)
+      hp.connect(lp)
+      lp.connect(cg)
+      this.out(cg, 0.85, 0.45)
+      n.start()
+      n.stop(now + 1.15)
+    }
+    const id = window.setInterval(crack, 8000)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private wood(ctx: AudioContext) {
+    this.liveNoise(ctx, 'brown', 'lowpass', 95, 0.08)
+    const creak = () => {
+      if (!this.playing || !this.ctx) return
+      const o = ctx.createOscillator()
+      o.type = 'triangle'
+      const now = ctx.currentTime
+      const start = 180 + Math.random() * 160
+      o.frequency.setValueAtTime(start, now)
+      o.frequency.exponentialRampToValueAtTime(start * 0.7, now + 0.32)
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.0001, now)
+      g.gain.linearRampToValueAtTime(0.04, now + 0.04)
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.34)
+      o.connect(g)
+      this.out(g, 0.7, 0.4)
+      o.start(now)
+      o.stop(now + 0.36)
+    }
+    const id = window.setInterval(creak, 5400)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private blue(ctx: AudioContext) {
+    this.liveNoise(ctx, 'white', 'highpass', 2200, 0.1, { q: 0.5, pad: [196, 247] })
+  }
+
+  private bath(ctx: AudioContext) {
+    this.warmPad(ctx, [96, 144, 192], 0.028)
+    const bowls = [192, 256, 288, 384, 432]
+    let i = 0
+    const strike = () => {
+      if (!this.playing || !this.ctx) return
+      const f = bowls[i % bowls.length]!
+      i += 1
+      const now = ctx.currentTime
+      for (const mul of [1, 1.5, 2]) {
+        const o = ctx.createOscillator()
+        o.type = 'sine'
+        o.frequency.value = f * mul
+        const g = ctx.createGain()
+        g.gain.setValueAtTime(0.0001, now)
+        g.gain.linearRampToValueAtTime(0.07 / mul, now + 0.1)
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 7.2)
+        o.connect(g)
+        this.out(g, 0.55, 0.95)
+        o.start(now)
+        o.stop(now + 7.4)
+      }
+    }
+    strike()
+    const id = window.setInterval(strike, 5200)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private study(ctx: AudioContext) {
+    this.liveNoise(ctx, 'white', 'bandpass', 1600, 0.12, { q: 0.5, rate: 0.09, depth: 0.03, pad: [98, 147] })
+    const lp = this.liveNoise(ctx, 'pink', 'lowpass', 1100, 0.08)
+    this.lfo(ctx, lp.frequency, 0.06, 80, 1100)
+    const tick = () => {
+      if (!this.playing || !this.ctx) return
+      const o = ctx.createOscillator()
+      o.type = 'square'
+      o.frequency.value = 1400
+      const g = ctx.createGain()
+      g.gain.setValueAtTime(0.02, ctx.currentTime)
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.04)
+      o.connect(g)
+      this.out(g, 0.35, 0.15)
+      o.start()
+      o.stop(ctx.currentTime + 0.05)
+    }
+    const id = window.setInterval(tick, 1000)
+    this.track(() => window.clearInterval(id))
+  }
+
+  private spa(ctx: AudioContext) {
+    this.warmPad(ctx, [174, 220, 261.63], 0.04)
+    this.liveNoise(ctx, 'pink', 'lowpass', 320, 0.07)
+    const drip = () => {
+      if (!this.playing || !this.ctx) return
+      const n = loopNoise(ctx, 'white', 0.12)
+      const f = ctx.createBiquadFilter()
+      f.type = 'bandpass'
+      f.frequency.value = 2400 + Math.random() * 800
+      f.Q.value = 6
+      const cg = ctx.createGain()
+      cg.gain.setValueAtTime(0.0001, ctx.currentTime)
+      cg.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 0.015)
+      cg.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.14)
+      n.connect(f)
+      f.connect(cg)
+      this.out(cg, 0.5, 0.7)
+      n.start()
+      n.stop(ctx.currentTime + 0.16)
+    }
+    const id = window.setInterval(drip, 2100)
+    this.track(() => window.clearInterval(id))
   }
 }
 

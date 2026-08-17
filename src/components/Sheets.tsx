@@ -1,10 +1,53 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { hrefFor, itemTitle, searchCatalog, searchQuotes } from '../lib/catalog'
+import { hrefFor, itemTitle, resolveFavorite, searchCatalog, searchQuotes } from '../lib/catalog'
 import { LangPicker } from './LangPicker'
-import { readFavorites, type FavItem } from '../lib/favorites'
+import { readFavorites, STEADY_FAV_EVENT, toggleFavorite, type FavItem } from '../lib/favorites'
 import { useI18n } from '../lib/i18n'
 import { MOODS, MOOD_KEYS, readMood, writeMood, type MoodId } from '../lib/mood'
+
+function portal(node: ReactNode) {
+  if (typeof document === 'undefined') return null
+  return createPortal(node, document.body)
+}
+
+function SheetFrame({
+  open,
+  onClose,
+  title,
+  children,
+}: {
+  open: boolean
+  onClose: () => void
+  title: string
+  children: ReactNode
+}) {
+  const { t } = useI18n()
+  if (!open) return null
+  return portal(
+    <div
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/78 px-5 py-[max(1.25rem,env(safe-area-inset-top))]"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-lg max-h-[min(36rem,calc(100svh-6rem))] overflow-y-auto overscroll-none rounded-[1.6rem] border border-white/12 bg-[#1C1C1E] px-5 py-5 shadow-[0_24px_64px_rgba(0,0,0,0.55)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-lg font-semibold">{title}</p>
+          <button type="button" className="shrink-0 rounded-full px-3 py-1 text-sm text-white/70" onClick={onClose}>
+            {t('close')}
+          </button>
+        </div>
+        <div className="mt-4">{children}</div>
+      </div>
+    </div>,
+  )
+}
 
 export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t, locale } = useI18n()
@@ -17,9 +60,9 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
   }, [open])
 
   if (!open) return null
-  return (
-    <div className="fixed inset-0 z-[60] bg-black/92 px-5 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-xl">
-      <div className="mx-auto flex h-full max-w-lg flex-col">
+  return portal(
+    <div className="fixed inset-0 z-[80] bg-black px-5 pt-[max(1rem,env(safe-area-inset-top))]">
+      <div className="mx-auto flex h-full max-h-[100svh] max-w-lg flex-col">
         <div className="flex items-center gap-2">
           <input
             autoFocus
@@ -32,9 +75,9 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
             {t('close')}
           </button>
         </div>
-        <div className="mt-5 flex-1 overflow-y-auto pb-10">
+        <div className="mt-5 flex-1 overflow-y-auto overscroll-none pb-10">
           {q.trim() && items.length === 0 && lines.length === 0 ? (
-            <p className="text-sm text-white/45">{t('no_results')}</p>
+            <p className="text-sm text-white/70">{t('no_results')}</p>
           ) : null}
           <ul className="space-y-2">
             {items.map((item) => (
@@ -67,25 +110,16 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
           ) : null}
         </div>
       </div>
-    </div>
+    </div>,
   )
 }
 
 export function LangSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useI18n()
-  if (!open) return null
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/55 px-5 py-[max(1.25rem,env(safe-area-inset-top))]" onClick={onClose}>
-      <div
-        className="surface w-full max-w-lg max-h-[min(36rem,calc(100svh-7rem))] overflow-y-auto overscroll-none rounded-[1.6rem] px-5 py-5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <p className="text-lg font-semibold">{t('lang_now')}</p>
-        <div className="mt-4">
-          <LangPicker onPick={onClose} />
-        </div>
-      </div>
-    </div>
+    <SheetFrame open={open} onClose={onClose} title={t('lang_now')}>
+      <LangPicker onPick={onClose} />
+    </SheetFrame>
   )
 }
 
@@ -100,67 +134,74 @@ export function MoodSheet({
 }) {
   const { t } = useI18n()
   const current = readMood()
-  if (!open) return null
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/55 px-5 py-[max(1.25rem,env(safe-area-inset-top))]" onClick={onClose}>
-      <div
-        className="surface w-full max-w-lg max-h-[min(36rem,calc(100svh-7rem))] overflow-y-auto overscroll-none rounded-[1.6rem] px-5 py-5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <p className="text-lg font-semibold">{t('mood_check')}</p>
-        <div className="mt-4 grid grid-cols-1 gap-2">
-          {MOODS.map((id) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => {
-                writeMood(id)
-                onPick(id)
-                onClose()
-              }}
-              className={`rounded-2xl px-4 py-3.5 text-left text-sm ${
-                current === id ? 'bg-[#7B61FF] text-white' : 'bg-white/6 text-white/90'
-              }`}
-            >
-              {t(MOOD_KEYS[id])}
-            </button>
-          ))}
-        </div>
+    <SheetFrame open={open} onClose={onClose} title={t('mood_check')}>
+      <div className="grid grid-cols-1 gap-2">
+        {MOODS.map((id) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => {
+              writeMood(id)
+              onPick(id)
+              onClose()
+            }}
+            className={`rounded-2xl px-4 py-3.5 text-left text-sm ${
+              current === id ? 'bg-[#7B61FF] text-white' : 'bg-white/6 text-white/90'
+            }`}
+          >
+            {t(MOOD_KEYS[id])}
+          </button>
+        ))}
       </div>
-    </div>
+    </SheetFrame>
   )
 }
 
 export function FavSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [items, setItems] = useState<FavItem[]>([])
+
   useEffect(() => {
-    if (open) setItems(readFavorites())
-  }, [open])
-  if (!open) return null
+    const sync = () => setItems(readFavorites().map((f) => resolveFavorite(f, locale)))
+    if (open) sync()
+    window.addEventListener(STEADY_FAV_EVENT, sync)
+    return () => window.removeEventListener(STEADY_FAV_EVENT, sync)
+  }, [open, locale])
+
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/55 px-5 py-[max(1.25rem,env(safe-area-inset-top))]" onClick={onClose}>
-      <div
-        className="surface w-full max-w-lg max-h-[min(36rem,calc(100svh-7rem))] overflow-y-auto overscroll-none rounded-[1.6rem] px-5 py-5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <p className="text-lg font-semibold">{t('favorites')}</p>
-        {items.length === 0 ? (
-          <p className="mt-4 text-sm leading-6 text-white/45">{t('fav_empty')}</p>
-        ) : (
-          <ul className="mt-4 space-y-2">
-            {items.map((f) => (
-              <li key={f.to}>
-                <Link to={f.to} onClick={onClose} className="flex items-center gap-3 rounded-2xl bg-black/30 p-2">
-                  <img src={f.cover} alt="" className="h-14 w-11 rounded-xl object-cover" />
-                  <span className="text-sm font-medium">{f.title}</span>
+    <SheetFrame open={open} onClose={onClose} title={t('favorites')}>
+      {items.length === 0 ? (
+        <p className="text-sm leading-6 text-white/75">{t('fav_empty')}</p>
+      ) : (
+        <ul className="space-y-2">
+          {items.map((f) => (
+            <li key={f.to}>
+              <div className="flex items-center gap-2 rounded-2xl bg-white/6 p-2">
+                <Link to={f.to} onClick={onClose} className="flex min-w-0 flex-1 items-center gap-3">
+                  {f.cover ? (
+                    <img src={f.cover} alt="" className="h-14 w-11 shrink-0 rounded-xl object-cover" />
+                  ) : (
+                    <span className="h-14 w-11 shrink-0 rounded-xl bg-white/10" />
+                  )}
+                  <span className="truncate text-sm font-medium text-white">{f.title || t('favorites')}</span>
                 </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+                <button
+                  type="button"
+                  aria-label={t('favorites')}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#F472B6]"
+                  onClick={() => toggleFavorite(f)}
+                >
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                    <path d="M12 19s-7-4.4-7-9.1A4 4 0 0 1 12 7a4 4 0 0 1 7 2.9C19 14.6 12 19 12 19Z" />
+                  </svg>
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </SheetFrame>
   )
 }
 
@@ -207,7 +248,7 @@ export function CircleIconBtn({
   onClick?: () => void
   to?: string
   label: string
-  children: React.ReactNode
+  children: ReactNode
 }) {
   const className =
     'flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/10 text-white/90 backdrop-blur-md'
@@ -231,7 +272,7 @@ export function QuickTile({
   onClick,
   to,
 }: {
-  icon: React.ReactNode
+  icon: ReactNode
   label: string
   onClick?: () => void
   to?: string

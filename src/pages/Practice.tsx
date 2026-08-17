@@ -48,6 +48,7 @@ export function Practice() {
               <CoverCard
                 key={m.id}
                 to={open ? `/session/meditation/${m.id}` : '/paywall'}
+                favTo={`/session/meditation/${m.id}`}
                 cover={MED_COVER[m.id] ?? '/covers/cover-forest.png'}
                 title={m.title}
                 minutes={pathMinutes(m)}
@@ -73,6 +74,7 @@ export function Practice() {
               return (
                 <CoverCard
                   to={open ? `/session/writing/${w.id}` : '/paywall'}
+                  favTo={`/session/writing/${w.id}`}
                   cover={WRITE_COVER[w.id] ?? '/covers/cover-room.png'}
                   title={w.title}
                   minutes={w.minutes}
