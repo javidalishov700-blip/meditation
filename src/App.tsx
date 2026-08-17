@@ -13,7 +13,8 @@ import { isOnboarded, STEADY_TRIAL_EVENT, subscribeOnboard } from './lib/onboard
 import { Discover } from './pages/Discover'
 import { More } from './pages/More'
 import { Quotes } from './pages/Quotes'
-import { armNativeNotificationTap, syncTrialReminder } from './lib/remind'
+import { armNativeNotificationTap, maybeSleepChime, syncAllReminders } from './lib/remind'
+import { STEADY_SLEEP_EVENT } from './lib/sleep-plan'
 import { warmVoices } from './lib/speech'
 import { Home } from './pages/Home'
 import { Treat } from './pages/Treat'
@@ -113,7 +114,7 @@ export default function App() {
 }
 
 function VoiceWarm() {
-  const { t, meta } = useI18n()
+  const { t, locale, meta } = useI18n()
   useEffect(() => {
     warmVoices(meta.bcp47)
   }, [meta.bcp47])
@@ -129,27 +130,35 @@ function VoiceWarm() {
     return () => setUnlockCopy(null)
   }, [t])
   useEffect(() => {
-    const copy = () => ({ title: t('ob_rem_trial'), text: t('ob_rem_trial_t') })
+    const trial = () => ({ title: t('ob_rem_trial'), text: t('ob_rem_trial_t') })
     void armNativeNotificationTap()
     const fire = () => {
-      void syncTrialReminder(copy())
+      void syncAllReminders(locale, trial())
+      void maybeSleepChime(locale)
     }
     fire()
     const onVis = () => {
       if (document.visibilityState === 'visible') fire()
     }
-    const onTrial = () => fire()
     document.addEventListener('visibilitychange', onVis)
-    window.addEventListener(STEADY_TRIAL_EVENT, onTrial)
+    window.addEventListener(STEADY_TRIAL_EVENT, fire)
+    window.addEventListener(STEADY_SLEEP_EVENT, fire)
+    const unsub = subscribeOnboard(fire)
+    const tick = window.setInterval(() => {
+      void maybeSleepChime(locale)
+    }, 30_000)
     let offResume = () => undefined as void
     void onAppResume(fire).then((release) => {
       offResume = release
     })
     return () => {
       document.removeEventListener('visibilitychange', onVis)
-      window.removeEventListener(STEADY_TRIAL_EVENT, onTrial)
+      window.removeEventListener(STEADY_TRIAL_EVENT, fire)
+      window.removeEventListener(STEADY_SLEEP_EVENT, fire)
+      unsub()
+      window.clearInterval(tick)
       offResume()
     }
-  }, [t])
+  }, [t, locale])
   return null
 }

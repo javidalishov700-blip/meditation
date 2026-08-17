@@ -26,6 +26,13 @@ export function formatClock(ts: number, locale: LocaleId = 'en'): string {
   })
 }
 
+export function formatHm(minutes: number, locale: LocaleId = 'en'): string {
+  const m = ((minutes % 1440) + 1440) % 1440
+  const d = new Date()
+  d.setHours(Math.floor(m / 60), m % 60, 0, 0)
+  return d.toLocaleTimeString(localeMeta(locale).bcp47, { hour: '2-digit', minute: '2-digit' })
+}
+
 export function greeting(now = new Date(), locale: LocaleId = 'en'): string {
   const h = now.getHours()
   if (h < 6) return translate('greet_night', locale)

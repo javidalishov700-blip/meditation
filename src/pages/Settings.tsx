@@ -11,9 +11,10 @@ import {
   writeOverrideRegion,
 } from '../lib/emergency'
 import { useEntitlement } from '../lib/entitlement-store'
-import { formatClock, formatDuration } from '../lib/format'
+import { formatClock, formatDuration, formatHm } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { patchOnboard, readOnboard, requestNotify, resetOnboard } from '../lib/onboard'
+import { bedMins, readSleepPlan } from '../lib/sleep-plan'
 import { readPassed } from '../lib/passed'
 import { hasPin, subscribePin, supportId } from '../lib/pin'
 import { readRemindTrial, writeRemindTrial } from '../lib/remind'
@@ -267,11 +268,12 @@ function SettingsHeader({ title, backTo }: { title: string; backTo: string }) {
 }
 
 function NotifyPanel() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const onboard = readOnboard()
   const [trial, setTrial] = useState(() => readRemindTrial())
   const [quote, setQuote] = useState(onboard.remindQuote)
   const [sleep, setSleep] = useState(onboard.remindSleep)
+  const bed = formatHm(bedMins(readSleepPlan()), locale)
   return (
     <div className="mt-6 space-y-3">
       <Switch
@@ -297,7 +299,7 @@ function NotifyPanel() {
       <Switch
         on={sleep}
         label={t('ob_rem_sleep')}
-        hint={t('ob_rem_sleep_h')}
+        hint={`${t('ob_rem_sleep_h')} · ${bed}`}
         onChange={(v) => {
           setSleep(v)
           patchOnboard({ remindSleep: v })

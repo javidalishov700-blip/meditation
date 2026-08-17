@@ -17,12 +17,12 @@ import crypto from 'node:crypto'
 const langs = ['tr', 'az', 'en', 'ru', 'es', 'it']
 const root = process.cwd()
 const notifyCopy = {
-  tr: 'Deneme bitmeden bir hatırlatma göndermek için.',
-  az: 'Sınaq bitməmiş bir xatırlatma göndərmək üçün.',
-  en: 'To send a reminder before the trial ends.',
-  ru: 'Чтобы напомнить до окончания пробного периода.',
-  es: 'Para enviar un recordatorio antes de que acabe la prueba.',
-  it: 'Per inviare un promemoria prima della fine della prova.',
+  tr: 'Günlük seans, uyku saati ve deneme bitişi için bu telefonda hatırlatma göndermek için.',
+  az: 'Gündəlik seans, yatış saatı və sınaq bitişi üçün bu telefondan xatırlatma göndərmək üçün.',
+  en: 'To send reminders on this phone for your daily session, bedtime, and the end of the trial.',
+  ru: 'Чтобы напоминать на этом телефоне о ежедневном сеансе, часе сна и конце пробного периода.',
+  es: 'Para enviar en este teléfono recordatorios de la sesión del día, la hora de dormir y el fin de la prueba.',
+  it: 'Per inviare su questo telefono promemoria della sessione del giorno, dell’ora di nanna e della fine della prova.',
 }
 
 function insertBeforePlistEnd(xml, block) {

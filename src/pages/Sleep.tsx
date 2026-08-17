@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { CatalogGrid, ChipRow } from '../components/CoverCard'
+import { SleepClock } from '../components/SleepClock'
 import { CircleIconBtn, SearchSheet } from '../components/Sheets'
 import { SLEEP_TAB_IDS } from '../lib/catalog'
 import { useI18n } from '../lib/i18n'
@@ -130,6 +131,8 @@ export function Sleep() {
           </svg>
         </CircleIconBtn>
       </header>
+
+      <SleepClock />
 
       <ChipRow active={tab} onPick={(id) => setTab(id as Tab)} items={TABS.map((c) => ({ id: c.id, label: t(c.label), icon: c.icon }))} />
 

@@ -73,6 +73,7 @@ export function completeOnboard(answers: OnboardAnswers) {
 
 export function patchOnboard(partial: Partial<OnboardAnswers>) {
   writeJson('onboard', { ...readOnboard(), ...partial })
+  emit()
 }
 
 /** Highest-intensity answers. Not a diagnosis — a reason to show the crisis card. */

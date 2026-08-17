@@ -1,11 +1,23 @@
+import { audio } from './audio'
 import { isNativeApp } from './device'
+import type { LocaleId } from './locales'
 import { emitTrialChange, readOnboard, requestNotify, trialUntil } from './onboard'
+import { bedMins, nightId, readSleepPlan, sleepTone } from './sleep-plan'
 import { readJson, writeJson } from './storage'
+import { translate, type StringKey } from './strings'
 
 const TRIAL_KEY = 'remind.trial'
 const SENT_KEY = 'remind.trial.sent'
+const CHIME_KEY = 'sleep.chime'
 const DAY_MS = 86_400_000
 const NATIVE_ID = 41001
+const SLEEP_ID = 41021
+
+const DAILY: { id: number; hour: number; minute: number; body: StringKey; route: string }[] = [
+  { id: 41011, hour: 9, minute: 0, body: 'nudge_1_b', route: '/practice' },
+  { id: 41012, hour: 14, minute: 0, body: 'nudge_2_b', route: '/breath' },
+  { id: 41013, hour: 19, minute: 0, body: 'nudge_3_b', route: '/sleep' },
+]
 
 export function readRemindTrial(): boolean {
   const stored = readJson<boolean | null>(TRIAL_KEY, null)
@@ -29,14 +41,18 @@ async function nativePlugin() {
   }
 }
 
-export async function cancelNativeTrialReminder() {
+async function cancelIds(ids: number[]) {
   const LN = await nativePlugin()
-  if (!LN) return
+  if (!LN || !ids.length) return
   try {
-    await LN.cancel({ notifications: [{ id: NATIVE_ID }] })
+    await LN.cancel({ notifications: ids.map((id) => ({ id })) })
   } catch {
     /* ignore */
   }
+}
+
+export async function cancelNativeTrialReminder() {
+  await cancelIds([NATIVE_ID])
 }
 
 /** Last trial day, or a few seconds from now if that day has already started. */
@@ -96,6 +112,103 @@ export async function syncTrialReminder(copy: { title: string; text: string }): 
           extra: { route: '/paywall' },
         },
       ],
+    })
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function syncDailyReminders(locale: LocaleId): Promise<void> {
+  const ids = DAILY.map((d) => d.id)
+  if (!readOnboard().remindQuote) {
+    await cancelIds(ids)
+    return
+  }
+  const LN = await nativePlugin()
+  if (!LN) return
+  try {
+    const perm = await LN.requestPermissions()
+    if (perm.display !== 'granted') return
+    await LN.cancel({ notifications: ids.map((id) => ({ id })) })
+    const title = translate('nudge_title', locale)
+    await LN.schedule({
+      notifications: DAILY.map((d) => ({
+        id: d.id,
+        title,
+        body: translate(d.body, locale),
+        schedule: { on: { hour: d.hour, minute: d.minute }, repeats: true, allowWhileIdle: true },
+        extra: { route: d.route },
+      })),
+    })
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function syncSleepReminder(locale: LocaleId): Promise<void> {
+  if (!readOnboard().remindSleep) {
+    await cancelIds([SLEEP_ID])
+    return
+  }
+  const LN = await nativePlugin()
+  if (!LN) return
+  try {
+    const perm = await LN.requestPermissions()
+    if (perm.display !== 'granted') return
+    await LN.cancel({ notifications: [{ id: SLEEP_ID }] })
+    const plan = readSleepPlan()
+    const bed = bedMins(plan)
+    await LN.schedule({
+      notifications: [
+        {
+          id: SLEEP_ID,
+          title: translate('sleep_chime_title', locale),
+          body: translate('sleep_chime_body', locale, { n: plan.hours }),
+          schedule: {
+            on: { hour: Math.floor(bed / 60), minute: bed % 60 },
+            repeats: true,
+            allowWhileIdle: true,
+          },
+          extra: { route: '/sleep' },
+        },
+      ],
+    })
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function syncAllReminders(
+  locale: LocaleId,
+  trialCopy: { title: string; text: string },
+): Promise<void> {
+  await syncTrialReminder(trialCopy)
+  await syncDailyReminders(locale)
+  await syncSleepReminder(locale)
+}
+
+export async function maybeSleepChime(locale: LocaleId): Promise<void> {
+  if (!readOnboard().remindSleep) return
+  const plan = readSleepPlan()
+  if (sleepTone(plan) !== 'time') return
+  const id = nightId(plan)
+  if (readJson(CHIME_KEY, '') === id) return
+  if (audio.now.playing) return
+  writeJson(CHIME_KEY, id)
+  try {
+    audio.unlock()
+    await audio.playBed('piano')
+    window.setTimeout(() => audio.stop(1.2), 22_000)
+  } catch {
+    /* ignore */
+  }
+  if (isNativeApp()) return
+  const ok = await requestNotify()
+  if (!ok) return
+  try {
+    new Notification(translate('sleep_chime_title', locale), {
+      body: translate('sleep_chime_body', locale, { n: plan.hours }),
+      tag: 'steady-sleep',
     })
   } catch {
     /* ignore */
