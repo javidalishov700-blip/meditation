@@ -7,6 +7,7 @@ import type { StringKey } from '../lib/strings'
 const STEPS: { title: StringKey; sub?: StringKey; tone: 'done' | 'now' | 'soon' | 'end'; mark: string }[] = [
   { title: 'ob_tl1', tone: 'done', mark: '✓' },
   { title: 'ob_tl2', sub: 'ob_tl2s', tone: 'now', mark: '○' },
+  { title: 'ob_tl3', sub: 'ob_tl3s', tone: 'soon', mark: '○' },
   { title: 'ob_tl4', sub: 'ob_tl4s', tone: 'end', mark: '★' },
 ]
 

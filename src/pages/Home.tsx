@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CoverCard, Rail } from '../components/CoverCard'
 import { CircleIconBtn, FavSheet, LangSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
 import { MoodHistory } from '../components/MoodHistory'
@@ -8,6 +8,7 @@ import { BREATH_RAIL_IDS, CLARITY_COVER, HERO_COVERS, SOUND_RAIL_IDS, hrefFor, i
 import { locLibrary } from '../lib/copy'
 import { todaysClarity } from '../lib/library'
 import { activityStats } from '../lib/activity'
+import { isPro, quoteFree } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 import { MOOD_KEYS, readMood, type MoodId } from '../lib/mood'
@@ -17,7 +18,9 @@ import { readDim, writeDim } from '../lib/theme'
 
 export function Home() {
   const { t, locale, meta } = useI18n()
+  const navigate = useNavigate()
   const { trial, trialEndsAt } = useEntitlement()
+  const pro = isPro()
   const [slide, setSlide] = useState(0)
   const [search, setSearch] = useState(false)
   const [moodOpen, setMoodOpen] = useState(false)
@@ -133,6 +136,10 @@ export function Home() {
                 const line = slides[slide]!
                 if (reading) {
                   stopSpeak()
+                  return
+                }
+                if (!pro && !quoteFree(line.id)) {
+                  navigate('/paywall')
                   return
                 }
                 speak(line.text[locale], { lang: meta.bcp47, clipId: `quote:${line.id}` })

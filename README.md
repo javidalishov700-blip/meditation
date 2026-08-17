@@ -30,7 +30,7 @@ npm run preview
 
 Kilitli: diğer tonlar, DP / DR / anksiyete programları, uyku laboratuvarı, diğer sahneler, meditasyonun sonraki seansları, çoğu yazı, Geçti geçmişi.
 
-Vitrin: $3.99 / hafta, $12.99 / ay, $59.99 / yıl (Azərbaycan illik $39.99). Native IPA: App Store IAP (`app.steady.calm.weekly|monthly|yearly`, RevenueCat `pro`). 1 gün deneme isteğe bağlı, bu telefonda (Apple intro yok). Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
+Vitrin: $3.99 / hafta, $12.99 / ay, $59.99 / yıl (Azərbaycan illik $39.99). Native IPA: App Store IAP (`app.steady.calm.weekly|monthly|yearly`, RevenueCat `pro`). 3 gün deneme isteğe bağlı, bu telefonda (Apple intro yok). Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
 
 ## Kod
 
