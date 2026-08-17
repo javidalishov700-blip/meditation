@@ -124,17 +124,18 @@ def paint(size: int) -> list[list[tuple[int, int, int]]]:
     return out
 
 
-def write_png(path: Path, size: int) -> None:
+def write_png(path: Path, size: int, *, alpha: bool = True) -> None:
     pixels = paint(size)
     rows = []
+    color_type = 6 if alpha else 2
     for y in range(size):
         row = [b"\x00"]
         for x in range(size):
             r, g, b = pixels[y][x]
-            row.append(bytes((r, g, b, 255)))
+            row.append(bytes((r, g, b, 255) if alpha else (r, g, b)))
         rows.append(b"".join(row))
     raw = b"".join(rows)
-    ihdr = struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0)
+    ihdr = struct.pack(">IIBBBBB", size, size, 8, color_type, 0, 0, 0)
     png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b"")
     path.write_bytes(png)
 
@@ -144,6 +145,8 @@ def main() -> None:
     write_png(OUT / "icon-192.png", 192)
     write_png(OUT / "icon-512.png", 512)
     write_png(OUT / "apple-touch-icon.png", 180)
+    # iOS App Store marketing icon: 1024² RGB, no alpha (actool rejects 512@2x + RGBA).
+    write_png(OUT / "icon-1024.png", 1024, alpha=False)
     print("wrote icons")
 
 

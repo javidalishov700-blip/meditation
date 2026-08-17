@@ -168,10 +168,29 @@ function patchIos() {
       `"CFBundleDisplayName" = "Steady";\n"NSUserNotificationsUsageDescription" = "${notifyCopy[l]}";\n`,
     )
   }
-  const iconSrc = path.join(root, 'public/icon-512.png')
-  const iconDst = path.join(root, 'ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png')
-  if (fs.existsSync(iconSrc) && fs.existsSync(path.dirname(iconDst))) {
+  const iconset = path.join(root, 'ios/App/App/Assets.xcassets/AppIcon.appiconset')
+  const iconSrc = path.join(root, 'public/icon-1024.png')
+  const iconDst = path.join(iconset, 'AppIcon-512@2x.png')
+  if (fs.existsSync(iconSrc) && fs.existsSync(iconset)) {
     fs.copyFileSync(iconSrc, iconDst)
+    fs.writeFileSync(
+      path.join(iconset, 'Contents.json'),
+      `${JSON.stringify(
+        {
+          images: [
+            {
+              filename: 'AppIcon-512@2x.png',
+              idiom: 'universal',
+              platform: 'ios',
+              size: '1024x1024',
+            },
+          ],
+          info: { author: 'xcode', version: 1 },
+        },
+        null,
+        2,
+      )}\n`,
+    )
   }
   patchPbxproj(path.join(root, 'ios/App/App.xcodeproj/project.pbxproj'))
 }
