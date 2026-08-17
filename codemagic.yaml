@@ -77,9 +77,18 @@ workflows:
           keychain initialize
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
-            --create
+            --create \
+            --strict-match-identifier
           keychain add-certificates
-          xcode-project use-profiles
+          # Default **/*.xcodeproj also hits node_modules; then App has no profile.
+          xcode-project use-profiles \
+            --project ios/App/App.xcodeproj \
+            --archive-method store \
+            --code-signing-setup-verbose-logging
+          if ! grep -q 'PROVISIONING_PROFILE' ios/App/App.xcodeproj/project.pbxproj; then
+            echo "use-profiles did not write a provisioning profile onto App.xcodeproj"
+            exit 1
+          fi
       - name: Build IPA
         script: |
           cd ios/App
