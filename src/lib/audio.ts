@@ -276,6 +276,28 @@ function fillNoise(data: Float32Array, kind: 'white' | 'pink' | 'brown') {
   }
 }
 
+/** One-sample WAV. HTMLAudio.play() in a gesture sets iOS playback category. */
+const SILENT_WAV =
+  'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
+
+let htmlUnlock: HTMLAudioElement | null = null
+
+function armHtmlUnlock() {
+  try {
+    if (!htmlUnlock) {
+      htmlUnlock = new Audio(SILENT_WAV)
+      htmlUnlock.loop = true
+      htmlUnlock.volume = 0.0001
+      htmlUnlock.setAttribute('playsinline', 'true')
+      htmlUnlock.setAttribute('webkit-playsinline', 'true')
+    }
+    const p = htmlUnlock.play()
+    if (p && typeof p.catch === 'function') void p.catch(() => undefined)
+  } catch {
+    /* ignore */
+  }
+}
+
 function loopNoise(
   ctx: AudioContext,
   kind: 'white' | 'pink' | 'brown',
@@ -333,6 +355,11 @@ export class AudioEngine {
     } catch {
       /* ignore */
     }
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') this.unlock()
+      })
+    }
   }
 
   subscribe(fn: () => void) {
@@ -351,7 +378,7 @@ export class AudioEngine {
     this.listeners.forEach((fn) => fn())
   }
 
-  async ensure(): Promise<AudioContext> {
+  private bootGraph() {
     if (!this.ctx) {
       const Ctor = window.AudioContext || window.webkitAudioContext
       this.ctx = new Ctor()
@@ -362,17 +389,27 @@ export class AudioEngine {
       this.voiceBus.gain.value = 1.55
       this.voiceBus.connect(this.ctx.destination)
     }
-    if (this.ctx.state === 'suspended') await this.ctx.resume()
-    return this.ctx
+    if (this.ctx.state === 'suspended') void this.ctx.resume()
   }
 
-  /** Resume the graph in the same turn as a tap. Voice then plays through this context, not HTMLAudio. */
+  async ensure(): Promise<AudioContext> {
+    this.bootGraph()
+    if (this.ctx!.state === 'suspended') await this.ctx!.resume()
+    return this.ctx!
+  }
+
+  /**
+   * Must run in the same turn as a tap. iOS drops AudioContext.resume after await.
+   * A tiny HTMLAudio play also flips the session past the silent switch.
+   */
   unlock() {
-    void this.ensure()
+    this.bootGraph()
+    armHtmlUnlock()
   }
 
   /** One-shot dawn sting for the splash. No voice, no now-playing bar. */
   async playIntroSfx() {
+    this.unlock()
     this.stopIntroSfx()
     const ctx = await this.ensure()
     const t0 = ctx.currentTime
@@ -802,6 +839,7 @@ export class AudioEngine {
   }
 
   async playOnboard() {
+    this.unlock()
     if (this.playing && this.label === 'Onboard') return
     const ctx = await this.ensure()
     this.stop(0.08)

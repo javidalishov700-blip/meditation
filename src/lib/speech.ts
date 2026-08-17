@@ -1,4 +1,5 @@
 import { audio } from './audio'
+import { isNativeApp } from './device'
 import { readJson, writeJson } from './storage'
 import { remoteVoiceRoot, voiceRoots } from './voice-host'
 import { VOICE_SAMPLE } from './voice-lines'
@@ -236,6 +237,16 @@ function looksLikeAudio(type: string) {
 }
 
 async function fetchRes(url: string) {
+  if (isNativeApp()) {
+    try {
+      const res = await fetch(url, { cache: 'no-store', credentials: 'omit' })
+      if (!res.ok) return null
+      if (looksLikeHtml(res.headers.get('content-type') || '')) return null
+      return res
+    } catch {
+      return null
+    }
+  }
   const cache = await cacheStore()
   if (cache) {
     const hit = await cache.match(url)

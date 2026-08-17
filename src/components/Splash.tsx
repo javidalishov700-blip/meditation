@@ -55,6 +55,10 @@ export function Splash({ onDone }: { onDone: () => void }) {
     <button
       type="button"
       className={`splash ${out ? 'splash-out' : ''}`}
+      onPointerDown={() => {
+        audio.unlock()
+        void audio.playIntroSfx()
+      }}
       onClick={finish}
       aria-label={`${line} ${more}`}
     >

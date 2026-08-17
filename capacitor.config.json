@@ -2,9 +2,11 @@
   "appId": "app.steady.calm",
   "appName": "Steady",
   "webDir": "dist",
+  "backgroundColor": "#000000",
   "ios": {
     "scheme": "App",
-    "contentInset": "automatic"
+    "contentInset": "never",
+    "scrollEnabled": false
   },
   "server": {
     "androidScheme": "https"

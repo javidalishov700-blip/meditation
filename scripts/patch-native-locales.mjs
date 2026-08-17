@@ -193,6 +193,33 @@ function patchIos() {
     )
   }
   patchPbxproj(path.join(root, 'ios/App/App.xcodeproj/project.pbxproj'))
+  patchAppDelegate()
+}
+
+function patchAppDelegate() {
+  const p = path.join(root, 'ios/App/App/AppDelegate.swift')
+  if (!fs.existsSync(p)) return
+  let s = fs.readFileSync(p, 'utf8')
+  if (s.includes('AVAudioSession.sharedInstance()')) return
+  if (!s.includes('import AVFoundation')) {
+    s = s.replace(/^import UIKit/m, 'import UIKit\nimport AVFoundation')
+  }
+  const mark = 'didFinishLaunchingWithOptions'
+  const at = s.indexOf(mark)
+  if (at < 0) return
+  const ret = s.indexOf('return true', at)
+  if (ret < 0) return
+  s =
+    s.slice(0, ret) +
+    `do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            /* keep launch going */
+        }
+        ` +
+    s.slice(ret)
+  fs.writeFileSync(p, s)
 }
 
 function patchAndroid() {

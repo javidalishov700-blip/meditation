@@ -166,6 +166,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
   }, [step])
 
   function warm() {
+    audio.unlock()
     void audio.playOnboard()
   }
 
@@ -217,7 +218,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
   return (
     <div
-      className="ob-shell relative z-10 mx-auto flex min-h-dvh max-w-lg flex-col px-5 pb-[max(1.35rem,env(safe-area-inset-bottom))] pt-[max(0.7rem,env(safe-area-inset-top))]"
+      className="app-scroll ob-shell relative z-10 mx-auto flex h-full max-w-lg flex-col overflow-y-auto overscroll-y-contain px-5 pb-[max(1.35rem,env(safe-area-inset-bottom))] pt-[max(0.7rem,env(safe-area-inset-top))]"
       onPointerDown={warm}
     >
       <div className="ob-glow" aria-hidden />

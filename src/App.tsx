@@ -7,6 +7,7 @@ import { needsIntro, Splash } from './components/Splash'
 import { CrisisChip } from './components/ui'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { onAppResume } from './lib/device'
+import { audio } from './lib/audio'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider, useI18n } from './lib/i18n'
 import { isOnboarded, STEADY_TRIAL_EVENT, subscribeOnboard } from './lib/onboard'
@@ -148,7 +149,10 @@ function VoiceWarm() {
       void maybeSleepChime(locale)
     }, 30_000)
     let offResume = () => undefined as void
-    void onAppResume(fire).then((release) => {
+    void onAppResume(() => {
+      audio.unlock()
+      fire()
+    }).then((release) => {
       offResume = release
     })
     return () => {
