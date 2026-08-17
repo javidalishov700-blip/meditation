@@ -829,10 +829,45 @@ def build(kind: str) -> str:
     return shell(titles[kind], "\n".join(articles))
 
 
+def emit_ts() -> None:
+    import json
+
+    dest = Path(__file__).resolve().parents[1] / "src" / "lib" / "legal-html.ts"
+
+    def blob(kind: str) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
+        src = PRIVACY if kind == "privacy" else TERMS
+        titles = {lang: META[kind][lang][1] for lang in LANGS}
+        metas = {lang: META[kind][lang][2] for lang in LANGS}
+        bodies = {lang: src[lang].strip() for lang in LANGS}
+        return titles, metas, bodies
+
+    p_title, p_meta, p_body = blob("privacy")
+    t_title, t_meta, t_body = blob("terms")
+    dest.write_text(
+        "import type { LocaleId } from './locales'\n\n"
+        "export const LEGAL_PRIVACY_TITLE: Record<LocaleId, string> = "
+        + json.dumps(p_title, ensure_ascii=False, indent=2)
+        + "\n\nexport const LEGAL_PRIVACY_META: Record<LocaleId, string> = "
+        + json.dumps(p_meta, ensure_ascii=False, indent=2)
+        + "\n\nexport const LEGAL_PRIVACY: Record<LocaleId, string> = "
+        + json.dumps(p_body, ensure_ascii=False, indent=2)
+        + "\n\nexport const LEGAL_TERMS_TITLE: Record<LocaleId, string> = "
+        + json.dumps(t_title, ensure_ascii=False, indent=2)
+        + "\n\nexport const LEGAL_TERMS_META: Record<LocaleId, string> = "
+        + json.dumps(t_meta, ensure_ascii=False, indent=2)
+        + "\n\nexport const LEGAL_TERMS: Record<LocaleId, string> = "
+        + json.dumps(t_body, ensure_ascii=False, indent=2)
+        + "\n",
+        encoding="utf-8",
+    )
+    print("wrote", dest)
+
+
 def main() -> None:
     ROOT.mkdir(parents=True, exist_ok=True)
     (ROOT / "privacy.html").write_text(build("privacy"), encoding="utf-8")
     (ROOT / "terms.html").write_text(build("terms"), encoding="utf-8")
+    emit_ts()
     print("wrote", ROOT / "privacy.html", ROOT / "terms.html")
 
 

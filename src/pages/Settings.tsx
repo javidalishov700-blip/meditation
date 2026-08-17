@@ -20,7 +20,7 @@ import { hasPin, subscribePin, supportId } from '../lib/pin'
 import { readRemindTrial, writeRemindTrial } from '../lib/remind'
 import { readDim, readTheme, writeDim, writeTheme, type ThemeId } from '../lib/theme'
 import { readCellularMedia, writeCellularMedia } from '../lib/media'
-import { legalUrl } from '../lib/purchases'
+import { legalPath } from '../lib/purchases'
 import type { StringKey } from '../lib/strings'
 
 const PANELS = ['lang', 'notify', 'lock', 'voice', 'emergency', 'theme', 'history'] as const
@@ -407,7 +407,7 @@ function HistoryPanel() {
 }
 
 function Index() {
-  const { t, meta, locale } = useI18n()
+  const { t, meta } = useI18n()
   const navigate = useNavigate()
   const { pro, demo, trial, trialEndsAt, lockDemo } = useEntitlement()
   const emergency = useEmergencyLine()
@@ -488,9 +488,9 @@ function Index() {
       </Group>
 
       <Group>
-        <Row icon={<HelpIcon />} label={t('pay_terms')} href={legalUrl('terms', locale)} />
+        <Row icon={<HelpIcon />} label={t('pay_terms')} to={legalPath('terms')} />
         <Hairline />
-        <Row icon={<HelpIcon />} label={t('pay_privacy')} href={legalUrl('privacy', locale)} />
+        <Row icon={<HelpIcon />} label={t('pay_privacy')} to={legalPath('privacy')} />
       </Group>
 
       {demo || trial ? (

@@ -28,6 +28,7 @@ import { Paywall } from './pages/Paywall'
 import { Me } from './pages/Me'
 import { Settings } from './pages/Settings'
 import { Help } from './pages/Help'
+import { Legal } from './pages/Legal'
 import { Skills } from './pages/Skills'
 import { Session } from './pages/Session'
 import { Onboard } from './pages/Onboard'
@@ -57,6 +58,7 @@ function RoutesTree() {
         <Route path="/me/settings/help" element={<Help />} />
         <Route path="/me/settings/help/:topic" element={<Help />} />
         <Route path="/me/settings/:panel" element={<Settings />} />
+        <Route path="/legal/:page" element={<Legal />} />
         <Route path="/session/:kind/:id" element={<Session />} />
       </Route>
       <Route path="/sos" element={<Sos />} />

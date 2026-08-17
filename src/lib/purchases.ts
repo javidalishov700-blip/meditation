@@ -35,6 +35,10 @@ export function iapConfigured(): boolean {
   return isNativeApp() && Boolean(iosKey())
 }
 
+export function legalPath(page: 'privacy' | 'terms'): string {
+  return `/legal/${page}`
+}
+
 export function legalUrl(page: 'privacy' | 'terms', lang?: LocaleId): string {
   const origin = (import.meta.env.VITE_LEGAL_ORIGIN as string | undefined)?.replace(/\/$/, '') || ''
   const path = `/legal/${page}.html`

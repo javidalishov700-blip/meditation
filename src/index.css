@@ -1066,6 +1066,76 @@ html.session-listen {
   animation-play-state: paused;
 }
 
+.legal-doc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(247, 244, 238, 0.88);
+}
+
+.legal-doc h2 {
+  margin: 1.45rem 0 0.5rem;
+  font-size: 1.02rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: #f7f4ee;
+}
+
+.legal-doc p,
+.legal-doc li {
+  color: rgba(215, 220, 230, 0.92);
+}
+
+.legal-doc ul {
+  padding-left: 1.15rem;
+  margin: 0.35rem 0 0.7rem;
+}
+
+.legal-doc li {
+  margin: 0.32rem 0;
+}
+
+.legal-doc a {
+  color: #e8c17a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-doc .note {
+  margin: 0.4rem 0 1rem;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.legal-doc .note strong {
+  color: #e8c17a;
+}
+
+.legal-doc table {
+  width: 100%;
+  margin: 12px 0 18px;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.legal-doc th,
+.legal-doc td {
+  padding: 8px 6px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.legal-doc th {
+  color: #9aa3b5;
+  font-weight: 600;
+}
+
+.legal-doc code {
+  font-size: 0.86em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sit-fig,
   .face-breathe,

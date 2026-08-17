@@ -29,6 +29,11 @@ export async function openPhoneLanguageSettings(): Promise<boolean> {
   return true
 }
 
+export async function openExternalUrl(url: string): Promise<void> {
+  if (!url) return
+  window.open(url, '_blank', 'noopener,noreferrer')
+}
+
 export async function onAppResume(fn: () => void): Promise<() => void> {
   if (!Capacitor.isNativePlatform()) return () => undefined
   const { App } = await import('@capacitor/app')

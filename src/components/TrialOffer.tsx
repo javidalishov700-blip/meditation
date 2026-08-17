@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { Switch } from './ui'
 import { useI18n } from '../lib/i18n'
-import { legalUrl } from '../lib/purchases'
+import { legalPath } from '../lib/purchases'
 import type { StringKey } from '../lib/strings'
 
 const STEPS: { title: StringKey; sub?: StringKey; tone: 'done' | 'now' | 'soon' | 'end'; mark: string }[] = [
@@ -83,15 +84,11 @@ export function IncludedList() {
 }
 
 export function LegalRow({ onRestore }: { onRestore: () => void }) {
-  const { t, locale } = useI18n()
+  const { t } = useI18n()
   return (
     <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-mute">
-      <a href={legalUrl('privacy', locale)} target="_blank" rel="noreferrer">
-        {t('pay_privacy')}
-      </a>
-      <a href={legalUrl('terms', locale)} target="_blank" rel="noreferrer">
-        {t('pay_terms')}
-      </a>
+      <Link to={legalPath('privacy')}>{t('pay_privacy')}</Link>
+      <Link to={legalPath('terms')}>{t('pay_terms')}</Link>
       <button type="button" onClick={onRestore}>
         {t('pay_restore')}
       </button>
