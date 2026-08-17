@@ -7,7 +7,7 @@ import { Presence } from '../components/Presence'
 import { BREATH_RAIL_IDS, CLARITY_COVER, HERO_COVERS, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
 import { locLibrary } from '../lib/copy'
 import { todaysClarity } from '../lib/library'
-import { activityStats } from '../lib/activity'
+import { activityStats, canApplyFreeze } from '../lib/activity'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
@@ -30,6 +30,7 @@ export function Home() {
   const [dim, setDim] = useState(() => readDim())
   const [reading, setReading] = useState(() => isSpeaking() || isLoading())
   const stats = activityStats()
+  const restoreStreak = canApplyFreeze()
 
   const start = Math.floor(Date.now() / 86_400_000) % quotes.length
   const slides = [0, 1, 2, 3, 4].map((i) => quotes[(start + i) % quotes.length]!)
@@ -108,11 +109,21 @@ export function Home() {
             </CircleIconBtn>
             <div className="relative">
               <CircleIconBtn to="/me" label={t('current_streak')}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <svg
+                  viewBox="0 0 24 24"
+                  className={`h-4 w-4 ${restoreStreak ? 'text-[#9BD7FF]' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                >
                   <path d="M13 3 6 13h6l-1 8 8-12h-6l0-6Z" />
                 </svg>
               </CircleIconBtn>
-              <span className="absolute -right-0.5 -top-0.5 min-w-[1rem] rounded-full bg-white/15 px-1 text-center text-[9px] text-white">
+              <span
+                className={`absolute -right-0.5 -top-0.5 min-w-[1rem] rounded-full px-1 text-center text-[9px] ${
+                  restoreStreak ? 'bg-[#9BD7FF]/80 text-black' : 'bg-white/15 text-white'
+                }`}
+              >
                 {stats.currentStreak}
               </span>
             </div>

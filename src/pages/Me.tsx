@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card, LegalNote } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
 import { SkillGrid } from '../components/SkillGrid'
-import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, monthTitle, weekdayLetters } from '../lib/activity'
+import { activityStats, applyFreeze, canApplyFreeze, freezeLeft, isFrozenDay, monthTitle, STREAK_BADGES, weekdayLetters } from '../lib/activity'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 
@@ -47,61 +47,6 @@ export function Me() {
           {t('level_badge')}
         </span>
       </div>
-
-      <button
-        type="button"
-        onClick={() => {
-          if (applyFreeze()) {
-            setLeft(freezeLeft())
-            setCanFreeze(canApplyFreeze())
-            setStats(activityStats())
-            setFroze('ok')
-            return
-          }
-          setFroze(freezeLeft() <= 0 ? 'used' : 'none')
-        }}
-        className={`mt-5 inline-flex max-w-full items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 text-left transition ${
-          froze === 'ok' || left <= 0
-            ? 'border-amber-200/45 bg-amber-200/12 shadow-[0_0_18px_rgba(251,191,36,0.28)]'
-            : canFreeze
-              ? 'border-[#9BD7FF]/55 bg-[#9BD7FF]/16 shadow-[0_0_20px_rgba(155,215,255,0.4)]'
-              : 'border-white/12 bg-white/[0.06]'
-        }`}
-      >
-        <span
-          className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.55rem] ${
-            froze === 'ok' || left <= 0 ? 'bg-amber-200/30' : 'bg-[#9BD7FF]/25'
-          }`}
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#C8EEFF]" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <rect x="6" y="6" width="12" height="12" rx="2.2" />
-            <path d="M12 7.5v9M8.5 12h7M9.2 9.2l5.6 5.6M14.8 9.2l-5.6 5.6" opacity="0.55" />
-          </svg>
-          <svg
-            viewBox="0 0 24 24"
-            className={`absolute h-3 w-3 ${froze === 'ok' || left <= 0 ? 'text-amber-100' : 'text-amber-200'}`}
-            fill="currentColor"
-          >
-            <path d="M13 3 7.5 12h5L11 21l6.5-10h-5L13 3Z" />
-          </svg>
-        </span>
-        <span className="min-w-0">
-          <span className="block text-[13px] font-medium leading-none">{t('freeze_title')}</span>
-          <span className="mt-1 block text-[11px] leading-none text-white/45">
-            {froze === 'ok'
-              ? t('freeze_ok')
-              : froze === 'used'
-                ? t('freeze_used')
-                : froze === 'none'
-                  ? t('freeze_none')
-                  : canFreeze
-                    ? t('freeze_use')
-                    : left <= 0
-                      ? t('freeze_used')
-                      : t('freeze_left', { n: left })}
-          </span>
-        </span>
-      </button>
 
       {!pro ? (
         <Link to="/paywall" className="mt-3 block overflow-hidden rounded-[1.35rem] surface">
@@ -151,6 +96,74 @@ export function Me() {
             <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('longest_streak')}</p>
           </div>
         </div>
+
+        <p className="mt-5 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('streak_badges')}</p>
+        <div className="mt-3 grid grid-cols-6 gap-1.5">
+          {STREAK_BADGES.map((b) => {
+            const on = stats.longestStreak >= b.days
+            return (
+              <div key={b.days} className={`text-center ${on ? '' : 'opacity-40'}`}>
+                <span
+                  className={`mx-auto flex h-11 w-11 items-center justify-center rounded-full border text-[11px] font-semibold tabular-nums ${
+                    on
+                      ? 'border-amber-200/50 bg-amber-300/20 text-amber-100 shadow-[0_0_12px_rgba(251,191,36,0.25)]'
+                      : 'border-white/12 bg-white/[0.04] text-white/45'
+                  }`}
+                >
+                  {b.days}
+                </span>
+                <p className="mt-1 text-[9px] leading-tight text-mute">{t(b.key)}</p>
+              </div>
+            )
+          })}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (applyFreeze()) {
+              setLeft(freezeLeft())
+              setCanFreeze(canApplyFreeze())
+              setStats(activityStats())
+              setFroze('ok')
+              return
+            }
+            setFroze(freezeLeft() <= 0 ? 'used' : 'none')
+          }}
+          className={`mt-5 flex w-full items-center gap-2 rounded-[1.05rem] border px-3 py-2.5 text-left ${
+            froze === 'ok'
+              ? 'border-amber-200/45 bg-amber-200/12'
+              : canFreeze
+                ? 'border-[#9BD7FF]/55 bg-[#9BD7FF]/14 shadow-[0_0_16px_rgba(155,215,255,0.28)]'
+                : 'border-white/10 bg-white/[0.04]'
+          }`}
+        >
+          <span
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
+              froze === 'ok' ? 'bg-amber-200/25' : 'bg-[#9BD7FF]/20'
+            }`}
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#C8EEFF]" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
+            </svg>
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[13px] font-medium leading-none">{t('freeze_title')}</span>
+            <span className="mt-1 block text-[11px] leading-4 text-white/50">
+              {froze === 'ok'
+                ? t('freeze_ok')
+                : froze === 'used'
+                  ? t('freeze_used')
+                  : froze === 'none'
+                    ? t('freeze_none')
+                    : canFreeze
+                      ? t('freeze_use')
+                      : left <= 0
+                        ? t('freeze_used')
+                        : t('freeze_left')}
+            </span>
+          </span>
+        </button>
       </Card>
 
       <MoodHistory />
@@ -181,12 +194,19 @@ export function Me() {
             const day = i + 1
             const key = `${year}-${month}-${day}`
             const on = stats.days.has(key)
+            const frozen = isFrozenDay(key)
             const today = day === now.getDate()
             return (
               <span
                 key={key}
                 className={`flex h-8 items-center justify-center rounded-full ${
-                  on ? 'bg-[#7B61FF]/80 text-white' : today ? 'text-white' : 'text-white/45'
+                  frozen
+                    ? 'bg-[#9BD7FF]/35 text-white'
+                    : on
+                      ? 'bg-[#7B61FF]/80 text-white'
+                      : today
+                        ? 'text-white'
+                        : 'text-white/45'
                 }`}
               >
                 {day}

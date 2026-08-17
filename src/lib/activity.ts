@@ -66,12 +66,27 @@ function readFreeze(): FreezeState {
   }
 }
 
-/** One freeze credit is granted each Monday. It can cover a miss from the last 2 days. */
+/** One freeze credit each Monday. Restore a missed yesterday only — after that the streak is gone. */
 export const FREEZE_PER_WEEK = 1
-export const FREEZE_WINDOW_DAYS = 2
+export const FREEZE_WINDOW_DAYS = 1
+
+export const STREAK_BADGES = [
+  { days: 3, key: 'badge_s3' },
+  { days: 7, key: 'badge_s7' },
+  { days: 14, key: 'badge_s14' },
+  { days: 30, key: 'badge_s30' },
+  { days: 60, key: 'badge_s60' },
+  { days: 100, key: 'badge_s100' },
+] as const
+
+export type StreakBadge = (typeof STREAK_BADGES)[number]
 
 export function freezeDays(): string[] {
   return readFreeze().days
+}
+
+export function isFrozenDay(key: string): boolean {
+  return readFreeze().days.includes(key)
 }
 
 export function freezeLeft(now = Date.now()): number {
