@@ -22,9 +22,6 @@ workflows:
     integrations:
       app_store_connect: codemagic
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: app.steady.calm
       vars:
         XCODE_WORKSPACE: App.xcworkspace
         XCODE_SCHEME: App
@@ -71,8 +68,16 @@ workflows:
           node scripts/patch-native-locales.mjs
       - name: CocoaPods
         script: cd ios/App && pod install
+      # Don't use environment.ios_signing — it fails if no App Store profile
+      # exists yet. --create makes the App ID / Distribution cert / profile.
       - name: Code signing
-        script: xcode-project use-profiles
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
       - name: Build IPA
         script: |
           cd ios/App
