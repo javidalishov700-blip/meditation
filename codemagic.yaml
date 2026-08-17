@@ -25,8 +25,9 @@ workflows:
       app_store_connect: "Steady - Panic & Calm"
     environment:
       # Secure UI vars are injected only if this group name matches Codemagic.
+      # This app’s Environment variables screen lists CERTIFICATE_PRIVATE_KEY in group "1".
       groups:
-        - ios_signing
+        - "1"
       vars:
         XCODE_WORKSPACE: App.xcworkspace
         XCODE_SCHEME: App
@@ -80,8 +81,7 @@ workflows:
       - name: Code signing
         script: |
           if [ -z "${CERTIFICATE_PRIVATE_KEY:-}" ]; then
-            echo "CERTIFICATE_PRIVATE_KEY empty. Codemagic → Environment variables → group ios_signing"
-            echo "Variable name CERTIFICATE_PRIVATE_KEY, Secure, full PEM. Group name must be ios_signing."
+            echo "CERTIFICATE_PRIVATE_KEY empty. Codemagic group must be named 1 (see Environment variables)."
             exit 1
           fi
           keychain initialize
