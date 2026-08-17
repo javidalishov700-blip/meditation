@@ -1,0 +1,89 @@
+:root {
+  color-scheme: dark;
+  --bg: #0c1220;
+  --card: #141c2e;
+  --line: rgba(255, 255, 255, 0.1);
+  --text: #f4f1ea;
+  --mute: #9aa3b5;
+  --gold: #e8c17a;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+body { padding: 20px 18px 64px; }
+.wrap { max-width: 42rem; margin: 0 auto; }
+.kicker {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+h1 { font-size: 1.7rem; margin: 0 0 8px; letter-spacing: -0.03em; }
+.meta { color: var(--mute); font-size: 0.92rem; margin: 0 0 18px; }
+.langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
+}
+.langs a, .langs button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 0.88rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.langs a[aria-current="true"], .langs button[aria-current="true"] {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+h2 {
+  font-size: 1.12rem;
+  margin: 1.6rem 0 0.55rem;
+  letter-spacing: -0.02em;
+}
+p, li { color: #d7dce6; }
+ul { padding-left: 1.15rem; }
+li { margin: 0.35rem 0; }
+.note {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.note strong { color: var(--gold); }
+a { color: var(--gold); }
+.pack { display: none; }
+.pack.is-on { display: block; }
+.foot {
+  margin-top: 2.2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+  color: var(--mute);
+  font-size: 0.88rem;
+}
+code { font-size: 0.86em; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  margin: 12px 0 18px;
+}
+th, td {
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 6px;
+  vertical-align: top;
+}
+th { color: var(--mute); font-weight: 600; }

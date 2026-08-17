@@ -1,0 +1,29 @@
+{
+  "bundleId": "app.steady.calm",
+  "sku": "steady-calm",
+  "primaryLocale": "tr",
+  "subscriptionGroup": "Steady Pro",
+  "entitlement": "pro",
+  "offering": "default",
+  "subscriptions": [
+    {
+      "productId": "app.steady.calm.weekly",
+      "duration": "P1W",
+      "referenceName": "Steady Pro Weekly",
+      "display": { "tr": "Haftalık", "en": "Weekly" }
+    },
+    {
+      "productId": "app.steady.calm.monthly",
+      "duration": "P1M",
+      "referenceName": "Steady Pro Monthly",
+      "display": { "tr": "Aylık", "en": "Monthly" }
+    },
+    {
+      "productId": "app.steady.calm.yearly",
+      "duration": "P1Y",
+      "referenceName": "Steady Pro Yearly",
+      "display": { "tr": "Yıllık", "en": "Yearly" }
+    }
+  ],
+  "reviewNote": "SOS is always free. Free layer is thin: 174 Hz for 3 min, 1 story, 1 writing, 1 breath, panic day 1, today’s one clarity, first meditation session, rain and piano for 5 min. 15 min+ listening is Pro. Subscriptions are App Store IAP weekly $3.99, monthly $12.99, yearly $59.99 (Azerbaijan yearly $39.99): app.steady.calm.weekly|monthly|yearly. A 3-day trial is optional and on-device; leave Apple Introductory Offer empty. No account. No diagnosis."
+}

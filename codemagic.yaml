@@ -1,0 +1,115 @@
+workflows:
+  web-check:
+    name: Web build (Apple gerekmez)
+    max_build_duration: 20
+    instance_type: mac_mini_m2
+    environment:
+      node: 22
+    scripts:
+      - name: Install
+        script: npm ci
+      - name: Lint
+        script: npm run lint
+      - name: Build
+        script: npm run build
+    artifacts:
+      - dist/**
+
+  ios-testflight:
+    name: iOS TestFlight
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    integrations:
+      # Must match the Codemagic Team → Integrations → App Store Connect *name*
+      # (Apple’s API key label can be anything).
+      app_store_connect: "Steady - Panic & Calm"
+    environment:
+      # Secure UI vars are injected only if this group name matches Codemagic.
+      # This app’s Environment variables screen lists CERTIFICATE_PRIVATE_KEY in group "1".
+      groups:
+        - "1"
+      vars:
+        XCODE_WORKSPACE: App.xcworkspace
+        XCODE_SCHEME: App
+        BUNDLE_ID: app.steady.calm
+        # Codemagic UI encrypted env (never commit values):
+        # VITE_REVENUECAT_IOS_KEY — public appl_… SDK key
+        # VITE_LEGAL_ORIGIN — public https origin for /legal/*
+        # APPLE_TEAM_ID — optional; signing uses the Apple integration
+        # CERTIFICATE_PRIVATE_KEY — PEM from `openssl genrsa 2048` (Codemagic encrypted).
+        #   Apple does not give the Distribution cert private key; this one creates it.
+      node: 22
+      xcode: latest
+      cocoapods: default
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - public/voice/clips
+    scripts:
+      - name: Install npm
+        script: npm ci
+      - name: Store env check
+        script: |
+          if [ -z "${VITE_REVENUECAT_IOS_KEY:-}" ]; then
+            echo "VITE_REVENUECAT_IOS_KEY empty — IPA paywall stays a labeled device demo"
+          else
+            echo "VITE_REVENUECAT_IOS_KEY is set (value not printed)"
+          fi
+          if [ -z "${VITE_LEGAL_ORIGIN:-}" ]; then
+            echo "VITE_LEGAL_ORIGIN empty — in-app legal is bundled; App Store Connect still needs a public https URL"
+          fi
+      - name: Bake store MP3s
+        script: |
+          if [ -n "$OPENAI_API_KEY" ]; then
+            npm run bake-voice
+          else
+            echo "OPENAI_API_KEY unset — IPA will have no baked voice clips"
+          fi
+      - name: Build web
+        script: npm run build
+      - name: Add iOS platform
+        script: |
+          if [ ! -d ios ]; then
+            npx cap add ios
+          fi
+          npx cap sync ios
+          node scripts/patch-native-locales.mjs
+      - name: CocoaPods
+        script: cd ios/App && pod install
+      # Don't use environment.ios_signing — it fails if no App Store profile
+      # exists yet. --create makes the App ID / Distribution cert / profile.
+      - name: Code signing
+        script: |
+          if [ -z "${CERTIFICATE_PRIVATE_KEY:-}" ]; then
+            echo "CERTIFICATE_PRIVATE_KEY empty. Codemagic group must be named 1 (see Environment variables)."
+            exit 1
+          fi
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create \
+            --strict-match-identifier \
+            --certificate-key @env:CERTIFICATE_PRIVATE_KEY
+          keychain add-certificates
+          xcode-project use-profiles \
+            --project ios/App/App.xcodeproj \
+            --archive-method app-store \
+            --code-signing-setup-verbose-logging
+          if ! grep -q 'PROVISIONING_PROFILE' ios/App/App.xcodeproj/project.pbxproj; then
+            echo "use-profiles did not write a provisioning profile onto App.xcodeproj"
+            exit 1
+          fi
+      - name: Build IPA
+        script: |
+          cd ios/App
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - ios/App/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
