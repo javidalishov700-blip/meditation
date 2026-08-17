@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
-import { audio, NATURE_SCENES, sceneBlurb, sceneName, TIMER_MINUTES, TONES } from '../lib/audio'
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { audio, FREE_LISTEN_MINUTES, NATURE_SCENES, sceneBlurb, sceneName, TIMER_MINUTES, TONES } from '../lib/audio'
 import { locBreath, locDay, locLibrary } from '../lib/copy'
 import { programDay } from '../lib/content'
-import { canAccess } from '../lib/entitlement'
+import { canAccess, canListenMinutes } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { MED_ALIAS, breathById, clarityById, extraById, sleepLabById, storyById, writingById } from '../lib/library'
 import { VoicePlayer, useSpeech } from '../components/VoicePlayer'
@@ -15,7 +15,7 @@ import { speak, speakCue, stopSpeak } from '../lib/speech'
 import { markSession } from '../lib/activity'
 import { readJson, writeJson } from '../lib/storage'
 import type { BreathPattern, LibraryItem, ProgramDay, SessionKind } from '../lib/types'
-import { Card, FoldList, PrimaryButton } from '../components/ui'
+import { Card, FoldList, PrimaryButton, ProChip } from '../components/ui'
 import { useWakeLock } from '../lib/wake'
 
 function isKind(s: string | undefined): s is SessionKind {
@@ -39,7 +39,8 @@ export function Session() {
   const day = Number(params.get('day') || '1')
   if (!isKind(kind) || !id) return <Navigate to="/" replace />
   const accessId = kind === 'meditation' ? (MED_ALIAS[id]?.path ?? id) : id
-  if (!canAccess(kind, accessId, { day })) return <Navigate to="/paywall" replace />
+  const step = kind === 'meditation' ? (MED_ALIAS[id]?.step ?? params.get('step') ?? undefined) : undefined
+  if (!canAccess(kind, accessId, { day, step })) return <Navigate to="/paywall" replace />
 
   if (kind === 'tone') return <ToneSession id={id} />
   if (kind === 'nature') return <NatureSession id={id} />
@@ -139,14 +140,24 @@ function ToneSession({ id }: { id: string }) {
 
 function NatureSession({ id }: { id: string }) {
   const { t, locale } = useI18n()
+  const { pro } = useEntitlement()
+  const navigate = useNavigate()
   const scene = NATURE_SCENES.find((s) => s.id === id)
-  const [minutes, setMinutes] = useState<(typeof TIMER_MINUTES)[number]>(30)
+  const [minutes, setMinutes] = useState<(typeof TIMER_MINUTES)[number]>(() => (pro ? 30 : FREE_LISTEN_MINUTES))
   const [on, setOn] = useState(false)
   const [done, setDone] = useState(false)
   useWakeLock(on)
 
   useEffect(() => () => audio.stop(0.5), [])
   if (!scene) return <Navigate to="/sounds" replace />
+
+  function pickMinutes(m: (typeof TIMER_MINUTES)[number]) {
+    if (!canListenMinutes(m)) {
+      navigate('/paywall')
+      return
+    }
+    setMinutes(m)
+  }
 
   return (
     <div className="flex min-h-[calc(100dvh-4rem)] flex-col pb-4">
@@ -165,6 +176,10 @@ function NatureSession({ id }: { id: string }) {
               setOn(false)
               return
             }
+            if (!canListenMinutes(minutes)) {
+              navigate('/paywall')
+              return
+            }
             setDone(false)
             await audio.playNature(scene.id)
             markSession('nature', scene.id)
@@ -181,20 +196,25 @@ function NatureSession({ id }: { id: string }) {
             {on ? t('stop') : t('play')}
           </span>
         </button>
-        <div className="mt-10 flex gap-2">
-          {TIMER_MINUTES.map((m) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => setMinutes(m)}
-              className={`rounded-full px-3 py-1.5 text-xs ${
-                minutes === m ? 'bg-white/10 text-cream' : 'text-mute'
-              }`}
-            >
-              {t('min_n', { n: m })}
-            </button>
-          ))}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+          {TIMER_MINUTES.map((m) => {
+            const locked = !canListenMinutes(m)
+            return (
+              <button
+                key={m}
+                type="button"
+                onClick={() => pickMinutes(m)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${
+                  minutes === m ? 'bg-white/10 text-cream' : 'text-mute'
+                }`}
+              >
+                {t('min_n', { n: m })}
+                {locked ? <ProChip /> : null}
+              </button>
+            )
+          })}
         </div>
+        {!pro ? <p className="mt-4 text-xs text-mute">{t('listen_free_hint')}</p> : null}
         {done ? <p className="mt-6 text-sm text-mute">{t('timer_done')}</p> : null}
       </div>
     </div>

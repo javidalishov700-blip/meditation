@@ -438,7 +438,16 @@ med(
 
 PACK.first = {
   title: L('İlk adım', 'First step', 'Primer paso', 'Premier pas', 'Erster Schritt', 'Primo passo'),
-  subtitle: L('Üç seans. Yerleş, nefes, yer.', 'Three sessions. Arrive, breath, ground.', 'Tres sesiones. Llegar, respirar, suelo.', 'Trois séances. Arriver, souffle, sol.', 'Drei Sitzungen. Ankommen, Atem, Boden.', 'Tre sessioni. Arrivare, respiro, terra.'),
+  subtitle: L(
+    'İlk seans açık, sonrası Pro.',
+    'First session open, the rest is Pro.',
+    'Primera sesión abierta, el resto es Pro.',
+    'Première séance ouverte, le reste est Pro.',
+    'Erste Sitzung offen, der Rest ist Pro.',
+    'Prima sessione aperta, il resto è Pro.',
+    'İlk seans açıq, qalanı Pro.',
+    'Первый сеанс открыт, остальное — Pro.',
+  ),
 }
 PACK['first-settle'] = {
   title: L('Yerleş', 'Arrive', 'Llegar', 'Arriver', 'Ankommen', 'Arrivare', 'Yerləş', 'Приход'),

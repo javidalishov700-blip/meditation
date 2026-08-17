@@ -26,11 +26,11 @@ npm run preview
 
 ## Ücretsiz / Pro
 
-Ücretsiz dar: SOS (her zaman, PIN üstünden de), 174 Hz 3 dk deneme, 1 hikâye, 1 yazı, 1 nefes, panik programı 1. gün, günün netliği.
+Ücretsiz dar: SOS (her zaman, PIN üstünden de), 174 Hz 3 dk deneme, 1 hikâye, 1 yazı, 1 nefes, panik programı 1. gün, günün tek netliği, ilk meditasyon seansı, yağmur ve piyano 5 dk. 15 dk ve üzeri dinleme Pro.
 
-Kilitli: diğer tonlar, DP / DR / anksiyete programları, uyku laboratuvarı, doğa timer’ları, çoğu meditasyon ve yazı, Geçti geçmişi.
+Kilitli: diğer tonlar, DP / DR / anksiyete programları, uyku laboratuvarı, diğer sahneler, meditasyonun sonraki seansları, çoğu yazı, Geçti geçmişi.
 
-Vitrin: $2.99 / hafta, $9.99 / ay, $59.99 / yıl, 3 gün deneme. Native IPA: App Store IAP (`app.steady.calm.weekly|monthly|yearly`, RevenueCat `pro`). Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
+Vitrin: $2.99 / hafta, $9.99 / ay, $59.99 / yıl, 1 gün deneme. Native IPA: App Store IAP (`app.steady.calm.weekly|monthly|yearly`, RevenueCat `pro`). Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
 
 ## Kod
 

@@ -9,7 +9,7 @@ export function emitTrialChange() {
   window.dispatchEvent(new Event(STEADY_TRIAL_EVENT))
 }
 
-export const TRIAL_MS = 3 * 24 * 60 * 60 * 1000
+export const TRIAL_MS = 1 * 24 * 60 * 60 * 1000
 
 export type BringId = 'wave' | 'worry' | 'sleep' | 'world' | 'self'
 export type NeedId = 'stop' | 'sleep' | 'sentence' | 'breath'

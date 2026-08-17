@@ -448,7 +448,7 @@ export const meditations: MedPath[] = [
   {
     id: 'first',
     title: 'İlk adım',
-    subtitle: 'Üç seans. Yerleş, nefes, yer.',
+    subtitle: 'İlk seans açık, sonrası Pro.',
     free: true,
     steps: [
       {

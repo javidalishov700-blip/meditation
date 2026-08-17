@@ -17,7 +17,6 @@ export const quotes: Quote[] = [
     kind: 'pd',
     author: 'Epictetus',
     work: 'Enchiridion',
-    free: true,
     text: R('İnsanları rahatsız eden şeyler değil, şeyler hakkındaki yargılarıdır.|People are disturbed not by things, but by the views they take of them.|İnsanları narahat edən şeylər yox, onlar haqqındakı hökmərləridir.|Людей тревожат не вещи, а суждения о вещах.|No inquietan las cosas, sino los juicios sobre ellas.|Non le cose turbano, ma i giudizi su di esse.'),
   },
   {
@@ -25,7 +24,6 @@ export const quotes: Quote[] = [
     kind: 'pd',
     author: 'Seneca',
     work: 'Letters',
-    free: true,
     text: R('Çoğu kez gerçekten değil, hayalde daha çok acı çekeriz.|We suffer more often in imagination than in reality.|Çox vaxt gerçəkdən yox, xəyalda daha çox əziyyət çəkirik.|Чаще страдаем в воображении, чем на деле.|Sufrimos más a menudo en la imaginación que en la realidad.|Soffriamo più spesso nell’immaginazione che nella realtà.'),
   },
   {
@@ -75,7 +73,6 @@ export const quotes: Quote[] = [
     kind: 'essence',
     author: 'CBT',
     work: '',
-    free: true,
     text: R('Bir düşünce yüksek sesli olabilir ve yine de doğru olmayabilir.|A thought can be loud and still be untrue.|Bir fikir ucadan ola bilər və yenə də doğru olmaya bilər.|Мысль может быть громкой и всё же неверной.|Un pensamiento puede ser alto y aun así no ser cierto.|Un pensiero può essere forte e restare falso.'),
   },
   {
@@ -126,7 +123,6 @@ export const quotes: Quote[] = [
     kind: 'essence',
     author: 'Attention',
     work: '',
-    free: true,
     text: R('Bu nefese bir kez daha dön. Dönmek, pratiktir.|Return once more to this breath. Returning is the practice.|Bu nəfəsə bir daha dön. Dönmək, təcrübədir.|Вернись ещё раз к этому дыханию. Возвращение и есть практика.|Vuelve otra vez a este aliento. Volver es la práctica.|Ritorna ancora a questo respiro. Il tornare è la pratica.'),
   },
   {

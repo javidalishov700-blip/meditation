@@ -237,7 +237,9 @@ export function bedLabel(id: string, locale: LocaleId): string {
   return sceneName(id, locale)
 }
 
-export const TIMER_MINUTES = [15, 30, 45, 60] as const
+export const TIMER_MINUTES = [5, 15, 30, 45, 60] as const
+export const FREE_LISTEN_MINUTES = 5
+export const PRO_LISTEN_MINUTES = 15
 
 type StopHandle = () => void
 

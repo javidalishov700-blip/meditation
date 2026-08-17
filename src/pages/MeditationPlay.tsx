@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, Navigate, useSearchParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { audio, bedLabel, isBedId } from '../lib/audio'
 import { locMedPath } from '../lib/copy'
+import { canAccess } from '../lib/entitlement'
 import { formatMmSs } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { markSession } from '../lib/activity'
@@ -10,7 +11,7 @@ import { MED_ALIAS, meditationById, pathMinutes } from '../lib/library'
 import { seekSpeakTo, speak, speechClipId, speechSnap, stopSpeak, togglePause, writeVoiceVolume } from '../lib/speech'
 import { readJson, writeJson } from '../lib/storage'
 import { useWakeLock } from '../lib/wake'
-import { PrimaryButton } from '../components/ui'
+import { PrimaryButton, ProChip } from '../components/ui'
 import { BedPicker } from '../components/BedPicker'
 import { CalmField } from '../components/CalmField'
 import { SessionStage } from '../components/SessionStage'
@@ -41,6 +42,7 @@ export function MeditationSession({ id }: { id: string }) {
 
 function MeditationBody({ path: raw }: { path: MedPath }) {
   const { t, locale, meta } = useI18n()
+  const navigate = useNavigate()
   const path = locMedPath(raw, locale)
   const [params, setParams] = useSearchParams()
   const stepId = params.get('step')
@@ -69,6 +71,9 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
     if (!stepUnlocked(path, idx)) {
       return <Navigate to={`/session/meditation/${path.id}`} replace />
     }
+    if (!canAccess('meditation', path.id, { step: step.id })) {
+      return <Navigate to="/paywall" replace />
+    }
     return (
       <MeditationPlayer
         key={step.id}
@@ -94,15 +99,20 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
       </div>
       <ul className="mt-8 space-y-3">
         {path.steps.map((s, i) => {
-          const open = stepUnlocked(path, i)
+          const progressOpen = stepUnlocked(path, i)
+          const entitled = canAccess('meditation', path.id, { step: s.id })
           const finished = done.includes(s.id)
           return (
             <li key={s.id}>
               <button
                 type="button"
-                disabled={!open}
+                disabled={!progressOpen}
                 onClick={() => {
-                  if (!open) return
+                  if (!progressOpen) return
+                  if (!entitled) {
+                    navigate('/paywall')
+                    return
+                  }
                   const clipId = `med:${s.id}`
                   const fillMs = s.minutes * 60 * 1000
                   const bedId = readBed(s.bed)
@@ -119,7 +129,7 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                   setParams({ step: s.id })
                 }}
                 className={`flex w-full items-center justify-between rounded-2xl border border-white/[0.06] px-4 py-4 text-start ${
-                  open ? 'bg-white/[0.04]' : 'opacity-40'
+                  progressOpen ? 'bg-white/[0.04]' : 'opacity-40'
                 }`}
               >
                 <div>
@@ -130,7 +140,7 @@ function MeditationBody({ path: raw }: { path: MedPath }) {
                   <p className="mt-1 text-xs text-mute">{t('min_n', { n: s.minutes })}</p>
                 </div>
                 <span className="text-xs text-white/45">
-                  {!open ? t('med_locked') : finished ? t('med_done') : ''}
+                  {!progressOpen ? t('med_locked') : !entitled ? <ProChip /> : finished ? t('med_done') : ''}
                 </span>
               </button>
             </li>
@@ -156,6 +166,7 @@ function MeditationPlayer({
   onNext: (stepId: string) => void
 }) {
   const { t, meta, locale } = useI18n()
+  const navigate = useNavigate()
   const snap = useSpeech()
   const total = Math.max(0, (step.minutes || 0) * 60)
   const [elapsed, setElapsed] = useState(0)
@@ -281,6 +292,10 @@ function MeditationPlayer({
             <PrimaryButton
               className="mt-10 max-w-xs"
               onClick={() => {
+                if (!canAccess('meditation', path.id, { step: next.id })) {
+                  navigate('/paywall')
+                  return
+                }
                 const fillMs = next.minutes * 60 * 1000
                 const clipId = `med:${next.id}`
                 audio.unlock()
@@ -297,6 +312,11 @@ function MeditationPlayer({
               }}
             >
               {next.title}
+              {!canAccess('meditation', path.id, { step: next.id }) ? (
+                <span className="ml-2 inline-block align-middle">
+                  <ProChip />
+                </span>
+              ) : null}
             </PrimaryButton>
           ) : null}
           <button type="button" className="mt-4 text-sm text-white/50" onClick={onExit}>
