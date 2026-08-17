@@ -22,7 +22,7 @@ workflows:
     integrations:
       # Must match the Codemagic Team → Integrations → App Store Connect *name*
       # (Apple’s API key label can be anything).
-      app_store_connect: "steady calm and panic"
+      app_store_connect: "Steady - Panic & Calm"
     environment:
       vars:
         XCODE_WORKSPACE: App.xcworkspace
