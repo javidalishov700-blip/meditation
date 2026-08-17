@@ -20,7 +20,9 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: codemagic
+      # Must match the Codemagic Team → Integrations → App Store Connect *name*
+      # (Apple’s API key label can be anything).
+      app_store_connect: "steady calm and panic"
     environment:
       vars:
         XCODE_WORKSPACE: App.xcworkspace
