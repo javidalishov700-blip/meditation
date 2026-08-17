@@ -1,8 +1,9 @@
 import { audio } from './audio'
 import { isNativeApp } from './device'
 import { readJson, writeJson } from './storage'
-import { remoteVoiceRoot, voiceRoots } from './voice-host'
+import { localVoiceRoot, remoteVoiceRoot, voiceRoots } from './voice-host'
 import { VOICE_SAMPLE } from './voice-lines'
+import bundledVoiceManifest from '../../public/voice/manifest.json'
 
 export type ReadMode = 'natural' | 'slow' | 'calm'
 export type TtsVoice = 'nova' | 'shimmer'
@@ -56,6 +57,7 @@ type SliceCtl = {
 }
 
 let sliceCtl: SliceCtl | null = null
+let htmlVoice: HTMLAudioElement | null = null
 
 function liveElapsed() {
   if (!speakingFlag && !loadingFlag) return 0
@@ -229,11 +231,15 @@ function looksLikeHtml(type: string) {
   return t.includes('text/html') || t.includes('application/xhtml')
 }
 
-function looksLikeAudio(type: string) {
+function looksLikeAudio(type: string, url = '') {
   const t = type.toLowerCase()
-  if (!t) return true
+  if (!t) return /\.mp3(?:\?|$)/i.test(url)
   if (looksLikeHtml(t) || t.includes('javascript') || t.includes('json') || t.startsWith('text/')) return false
   return t.includes('audio') || t.includes('mpeg') || t.includes('mp3') || t.includes('octet')
+}
+
+function isVoiceClipUrl(url: string) {
+  return /\.mp3(?:\?|$)/i.test(url)
 }
 
 async function fetchRes(url: string) {
@@ -314,12 +320,14 @@ async function decodeUrl(url: string, ctx: AudioContext) {
   if (hit) return hit
   const tryOnce = async (reload: boolean) => {
     if (reload && !canHitNetwork(url)) return null
-    const res = reload
+    const res = reload && !isNativeApp()
       ? await fetch(url, { cache: 'reload', mode: 'cors', credentials: 'omit' }).catch(() => null)
       : await fetchRes(url)
     if (!res || !res.ok) return null
     const type = res.headers.get('content-type') || ''
-    if (type && (looksLikeHtml(type) || !looksLikeAudio(type))) return null
+    const nativeClip = isNativeApp() && isVoiceClipUrl(url)
+    if (type && looksLikeHtml(type)) return null
+    if (type && !looksLikeAudio(type, url) && !nativeClip) return null
     const data = await res.arrayBuffer()
     if (data.byteLength < 80) return null
     const buf = await decodeBuffer(ctx, data)
@@ -346,6 +354,25 @@ async function decodeUrl(url: string, ctx: AudioContext) {
     } catch {
       return null
     }
+  }
+}
+
+function haltHtmlVoice() {
+  const el = htmlVoice
+  htmlVoice = null
+  if (!el) return
+  el.onended = null
+  el.onerror = null
+  try {
+    el.pause()
+  } catch {
+    /* ignore */
+  }
+  try {
+    el.removeAttribute('src')
+    el.load()
+  } catch {
+    /* ignore */
   }
 }
 
@@ -476,9 +503,16 @@ async function loadManifest() {
   if (!manifestWait) {
     manifestWait = (async () => {
       const merged: Record<string, string[]> = {}
+      const local = localVoiceRoot()
+      if (isNativeApp()) {
+        mergeClips(merged, local, bundledVoiceManifest as VoiceManifest)
+      }
       for (const root of voiceRoots()) {
         const j = await fetchManifestJson(root)
         if (j) mergeClips(merged, root, j)
+      }
+      if (!Object.keys(merged).length) {
+        mergeClips(merged, local, bundledVoiceManifest as VoiceManifest)
       }
       manifestMap = merged
       return merged
@@ -536,6 +570,7 @@ async function finishSpeak(gen: number, opts: SpeakOpts, err?: string) {
 
 /** Play store MP3s through Web Audio. Returns false if files are missing. */
 async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
+  if (isNativeApp()) return runBakedHtml(urls, gen, opts)
   const ctx = await audio.ensure()
   if (cancelled || gen !== speakGen) return true
   const buffers: AudioBuffer[] = []
@@ -588,6 +623,71 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   return true
 }
 
+/** iOS WKWebView often fails decodeAudioData on baked ADTS MP3s; HTMLAudio plays them. */
+async function runBakedHtml(urls: string[], gen: number, opts: SpeakOpts): Promise<boolean> {
+  audio.unlock()
+  if (cancelled || gen !== speakGen) return true
+  const startMs = Math.max(0, opts.startMs ?? 0)
+  clockStartMs = startMs
+  clockOrigin = Date.now()
+  clockPauseTotal = 0
+  clockPausedAt = 0
+  clockDuration = opts.fillMs ?? 0
+  setFlags({ speaking: true, loading: true, paused: false, error: null })
+  armClock()
+  try {
+    for (const url of urls) {
+      if (cancelled || gen !== speakGen) return true
+      await waitWhilePaused()
+      if (cancelled || gen !== speakGen) return true
+      const ok = await playHtmlClip(url, gen)
+      if (!ok) return false
+    }
+    if (opts.fillMs) {
+      audio.duck(false)
+      const rest = Math.max(0, opts.fillMs - liveElapsed())
+      if (rest > 80) await wait(rest, gen)
+    }
+  } catch {
+    if (cancelled || gen !== speakGen) return true
+    return false
+  }
+  if (cancelled || gen !== speakGen) return true
+  await finishSpeak(gen, opts)
+  return true
+}
+
+function playHtmlClip(url: string, gen: number) {
+  return new Promise<boolean>((resolve) => {
+    haltHtmlVoice()
+    if (cancelled || gen !== speakGen) {
+      resolve(true)
+      return
+    }
+    const el = new Audio(url)
+    el.setAttribute('playsinline', 'true')
+    el.setAttribute('webkit-playsinline', 'true')
+    el.preload = 'auto'
+    el.volume = readVoiceVolume()
+    htmlVoice = el
+    let settled = false
+    const finish = (ok: boolean) => {
+      if (settled) return
+      settled = true
+      if (htmlVoice === el) htmlVoice = null
+      resolve(ok)
+    }
+    el.onended = () => finish(true)
+    el.onerror = () => finish(false)
+    audio.hushForVoice()
+    setFlags({ loading: false, speaking: true, paused: false })
+    void el
+      .play()
+      .then(() => undefined)
+      .catch(() => finish(false))
+  })
+}
+
 function haltSynth() {
   try {
     window.speechSynthesis.cancel()
@@ -602,6 +702,7 @@ export function stopSpeak() {
   pausedFlag = false
   pauseWait?.()
   pauseWait = null
+  haltHtmlVoice()
   haltSlice(-1)
   haltSynth()
   audio.hold(false)
@@ -612,6 +713,28 @@ export function stopSpeak() {
 
 export function togglePause() {
   if (!speakingFlag && !loadingFlag) return
+  if (htmlVoice) {
+    if (pausedFlag) {
+      pausedFlag = false
+      if (clockPausedAt) {
+        clockPauseTotal += Date.now() - clockPausedAt
+        clockPausedAt = 0
+      }
+      pauseWait?.()
+      pauseWait = null
+      audio.hold(false)
+      void htmlVoice.play().catch(() => undefined)
+      audio.hushForVoice()
+      setFlags({ paused: false })
+      return
+    }
+    pausedFlag = true
+    clockPausedAt = Date.now()
+    htmlVoice.pause()
+    audio.hold(true)
+    setFlags({ paused: true })
+    return
+  }
   if (pausedFlag) {
     pausedFlag = false
     if (clockPausedAt) {

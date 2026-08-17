@@ -20,14 +20,14 @@ export const PLANS: {
   {
     id: 'week',
     label: 'Haftalık',
-    price: '$2.99',
+    price: '$3.99',
     period: '/ hafta',
     note: 'App Store',
   },
   {
     id: 'month',
     label: 'Aylık',
-    price: '$9.99',
+    price: '$12.99',
     period: '/ ay',
     note: 'App Store',
     featured: true,
@@ -40,6 +40,12 @@ export const PLANS: {
     note: 'App Store',
   },
 ]
+
+/** Vitrin fallback when App Store prices are not loaded yet. */
+export function displayPlanPrice(id: PlanId, bcp47?: string): string {
+  if (id === 'year' && bcp47?.toLowerCase().startsWith('az')) return '$39.99'
+  return PLANS.find((p) => p.id === id)?.price ?? ''
+}
 
 export const FREE_NATURE_IDS = ['rain', 'piano'] as const
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IncludedList, LegalRow, OfferWash, TrialTimeline } from '../components/TrialOffer'
 import { Card, GhostButton, LegalNote, PrimaryButton } from '../components/ui'
-import { FREE_KEYS, PLANS, PRO_KEYS, isDemoPro } from '../lib/entitlement'
+import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice, isDemoPro } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 import { isTrialActive, requestNotify, trialUsed } from '../lib/onboard'
@@ -20,7 +20,7 @@ import type { PlanId } from '../lib/types'
 export function Paywall() {
   const { demo, trial, unlockDemo, startTrial, refresh } = useEntitlement()
   const navigate = useNavigate()
-  const { t } = useI18n()
+  const { t, meta } = useI18n()
   const [remind, setRemind] = useState(() => readRemindTrial())
   const [restored, setRestored] = useState('')
   const [fail, setFail] = useState('')
@@ -121,7 +121,7 @@ export function Paywall() {
                     {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
                   </div>
                   <p className="mt-2 font-display text-3xl tabular-nums">
-                    {priceOf(p.id, p.price)}
+                    {priceOf(p.id, displayPlanPrice(p.id, meta.bcp47))}
                     {native ? null : <span className="text-base text-mute"> {p.period}</span>}
                   </p>
                   <p className="mt-1 text-xs leading-5 text-mute">{planHint[p.id]}</p>
