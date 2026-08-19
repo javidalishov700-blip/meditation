@@ -26,6 +26,11 @@ export function formatClock(ts: number, locale: LocaleId = 'en'): string {
   })
 }
 
+export function formatDate(ts: number, locale: LocaleId = 'en'): string {
+  const bcp = localeMeta(locale).bcp47
+  return new Date(ts).toLocaleDateString(bcp, { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
 export function formatHm(minutes: number, locale: LocaleId = 'en'): string {
   const m = ((minutes % 1440) + 1440) % 1440
   const d = new Date()

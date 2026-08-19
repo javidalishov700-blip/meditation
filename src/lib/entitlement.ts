@@ -36,8 +36,16 @@ export function isPro(): boolean {
   return isDemoPro() || isTrialActive()
 }
 
-export function setPro(value: boolean) {
+export type ProInfo = { productId?: string; expiresAt?: number }
+
+/** What StoreKit last reported for the active entitlement, if any. For display only. */
+export function readProInfo(): ProInfo {
+  return readJson<ProInfo>('pro.info', {})
+}
+
+export function setPro(value: boolean, info?: ProInfo) {
   writeJson('pro', value)
+  writeJson('pro.info', value ? info || {} : {})
   if (typeof window !== 'undefined') window.dispatchEvent(new Event(STEADY_PRO_EVENT))
 }
 

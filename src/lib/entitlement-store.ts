@@ -1,6 +1,6 @@
 import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { onAppResume } from './device'
-import { isDemoPro, setPro as persistPro, STEADY_PRO_EVENT } from './entitlement'
+import { isDemoPro, readProInfo, setPro as persistPro, STEADY_PRO_EVENT } from './entitlement'
 import { clearTrial, isTrialActive, startTrial as beginTrial, trialUntil } from './onboard'
 import { refreshStoreEntitlement } from './purchases'
 
@@ -9,6 +9,8 @@ type EntitlementCtx = {
   demo: boolean
   trial: boolean
   trialEndsAt: number
+  proProductId?: string
+  proExpiresAt?: number
   unlockDemo: () => void
   lockDemo: () => void
   startTrial: () => void
@@ -20,7 +22,15 @@ const Ctx = createContext<EntitlementCtx | null>(null)
 function snap() {
   const demo = isDemoPro()
   const trial = isTrialActive()
-  return { pro: demo || trial, demo, trial: trial && !demo, trialEndsAt: trialUntil() }
+  const info = demo ? readProInfo() : {}
+  return {
+    pro: demo || trial,
+    demo,
+    trial: trial && !demo,
+    trialEndsAt: trialUntil(),
+    proProductId: info.productId,
+    proExpiresAt: info.expiresAt,
+  }
 }
 
 export function EntitlementProvider({ children }: { children: ReactNode }) {

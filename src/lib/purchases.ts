@@ -37,7 +37,7 @@ export function legalUrl(page: 'privacy' | 'terms', lang?: LocaleId): string {
   return `${origin}${path}${q}`
 }
 
-function planIdOf(productId: string): PlanId | null {
+export function planIdOf(productId: string): PlanId | null {
   for (const [id, sku] of Object.entries(STORE_PRODUCTS) as [PlanId, string][]) {
     if (productId === sku) return id
   }
@@ -52,7 +52,7 @@ async function nativePlugin() {
 type NativeEntitlement = { active: boolean; productId?: string; expiresAt?: number }
 
 function applyEntitlement(entitlement: NativeEntitlement): boolean {
-  setPro(entitlement.active)
+  setPro(entitlement.active, { productId: entitlement.productId, expiresAt: entitlement.expiresAt })
   return entitlement.active
 }
 
@@ -91,7 +91,7 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
     const plugin = await nativePlugin()
     const result = await plugin.purchase({ productId: STORE_PRODUCTS[id] })
     if (result.status === 'purchased') {
-      setPro(true)
+      setPro(true, { productId: result.transaction?.productId, expiresAt: result.transaction?.expiresAt })
       return 'ok'
     }
     if (result.status === 'cancelled') return 'cancelled'

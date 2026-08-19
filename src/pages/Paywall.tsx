@@ -4,11 +4,13 @@ import { IncludedList, LegalRow, OfferWash, TrialTimeline } from '../components/
 import { Card, GhostButton, LegalNote, PrimaryButton } from '../components/ui'
 import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice, isDemoPro } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
+import { formatDate } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { isTrialActive, requestNotify, trialUsed } from '../lib/onboard'
 import {
   iapConfigured,
   loadStorePlans,
+  planIdOf,
   purchasePlan,
   refreshStoreEntitlement,
   restoreStorePurchases,
@@ -24,9 +26,9 @@ const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_perio
 }
 
 export function Paywall() {
-  const { demo, trial, unlockDemo, startTrial, refresh } = useEntitlement()
+  const { demo, trial, proProductId, proExpiresAt, unlockDemo, startTrial, refresh } = useEntitlement()
   const navigate = useNavigate()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [remind, setRemind] = useState(() => readRemindTrial())
   const [restored, setRestored] = useState('')
   const [fail, setFail] = useState('')
@@ -120,6 +122,19 @@ export function Paywall() {
 
         <h1 className="mt-5 font-display text-3xl">{paid ? t('pay_on') : t('pay_more')}</h1>
         <p className="mt-3 text-sm leading-7 text-mute">{paid ? t('pay_sub') : t('pay_direct')}</p>
+
+        {paid && native && proProductId ? (
+          <Card className="mt-5">
+            <p className="text-sm text-cream">
+              {t('pay_active_plan', { plan: planLabel[planIdOf(proProductId) ?? 'month'] })}
+            </p>
+            {proExpiresAt ? (
+              <p className="mt-1 text-xs text-mute">
+                {t('pay_active_until', { expires: formatDate(proExpiresAt * 1000, locale) })}
+              </p>
+            ) : null}
+          </Card>
+        ) : null}
 
         {paid ? (
           <>
