@@ -33,11 +33,11 @@ workflows:
         XCODE_SCHEME: App
         BUNDLE_ID: app.steady.calm
         # Codemagic UI encrypted env (never commit values):
-        # VITE_REVENUECAT_IOS_KEY — public appl_… SDK key
         # VITE_LEGAL_ORIGIN — public https origin for /legal/*
         # APPLE_TEAM_ID — optional; signing uses the Apple integration
         # CERTIFICATE_PRIVATE_KEY — PEM from `openssl genrsa 2048` (Codemagic encrypted).
         #   Apple does not give the Distribution cert private key; this one creates it.
+        # In-app purchases need no key: they go straight to Apple's own StoreKit.
       node: 22
       xcode: latest
       cocoapods: default
@@ -50,11 +50,6 @@ workflows:
         script: npm ci
       - name: Store env check
         script: |
-          if [ -z "${VITE_REVENUECAT_IOS_KEY:-}" ]; then
-            echo "VITE_REVENUECAT_IOS_KEY empty — IPA paywall stays a labeled device demo"
-          else
-            echo "VITE_REVENUECAT_IOS_KEY is set (value not printed)"
-          fi
           if [ -z "${VITE_LEGAL_ORIGIN:-}" ]; then
             echo "VITE_LEGAL_ORIGIN empty — in-app legal is bundled; App Store Connect still needs a public https URL"
           fi

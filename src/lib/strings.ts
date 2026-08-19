@@ -115,7 +115,6 @@ const CORE = {
   pay_more: R('Pro ve daha fazla özellik|Pro and more features|Pro və daha çox xüsusiyyət|Pro и больше возможностей|Pro y más funciones|Pro e altre funzioni'),
   pay_sub: R('SOS her zaman açık. Gerisi bu cihazda kalır.|SOS is always open. The rest stays on this device.|SOS həmişə açıqdır. Qalanı bu cihazdadır.|SOS всегда открыт. Остальное на этом устройстве.|SOS siempre está abierto. Lo demás queda en este dispositivo.|SOS è sempre aperto. Il resto resta su questo dispositivo.'),
   pay_open: R('Cihazda Pro’yu aç|Turn on Pro on this device|Cihazda Pro-nu aç|Включить Pro на устройстве|Activar Pro en este dispositivo|Attiva Pro su questo dispositivo'),
-  pay_stripe: R('Tarayıcı demosu. App Store aboneliği TestFlight IPA’sında.|Browser demo. App Store subscriptions ship in the TestFlight IPA.|Brauzer demosu. App Store abunəliyi TestFlight IPA-sındadır.|Демо браузера. Подписка App Store — в TestFlight IPA.|Demo del navegador. La suscripción de App Store va en el IPA de TestFlight.|Demo del browser. L’abbonamento App Store è nell’IPA TestFlight.'),
   pay_week: R('Haftalık|Weekly|Həftəlik|Неделя|Semanal|Settimanale'),
   pay_month: R('Aylık|Monthly|Aylıq|Месяц|Mensual|Mensile'),
   pay_year: R('Yıllık|Yearly|İllik|Год|Anual|Annuale'),

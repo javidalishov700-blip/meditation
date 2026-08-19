@@ -197,7 +197,7 @@ export function Paywall() {
             {native ? (
               <p className="mt-5 text-center text-xs leading-5 text-mute">{t('pay_iap')}</p>
             ) : (
-              <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_stripe')}</p>
+              <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_web_only')}</p>
             )}
 
             {offer || live ? (
