@@ -161,7 +161,7 @@ PRIVACY["en"] = f"""
         <h2>19. Changes</h2>
         <p>We may update this policy. The “Last updated” date will change. Material changes that affect subscription disclosures will also appear on the in-app paywall where Apple requires them.</p>
         <h2>20. Contact</h2>
-        <p>The app does not collect an email address and does not operate an in-app inbox. Open Steady → Settings → Help, copy the support ID, and quote that ID if you reach the developer through the App Store listing or another channel the developer publishes. Do not send health details you want kept off email. Related: <a href="./terms.html?lang=en">Terms of Use</a>.</p>
+        <p>The app does not collect an email address, but you can reach the developer directly. For support, email <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; including the support ID you copy from Steady → Settings → Help helps us respond faster. Do not send health details you want kept off email. Related: <a href="./terms.html?lang=en">Terms of Use</a>.</p>
 """
 
 PRIVACY["tr"] = f"""
@@ -221,7 +221,7 @@ PRIVACY["tr"] = f"""
         <h2>19. Değişiklikler</h2>
         <p>Bu politikayı güncelleyebiliriz. “Son güncelleme” tarihi değişir. Abonelik açıklamalarını etkileyen esaslı değişiklikler Apple’ın istediği yerde uygulama içi ödeme ekranında da görünür.</p>
         <h2>20. İletişim</h2>
-        <p>Uygulama e-posta toplamaz ve uygulama içi gelen kutusu işletmez. Steady → Ayarlar → Yardım’dan destek kimliğini kopyala; geliştiriciye App Store kaydı veya yayımladığı başka bir kanaldan ulaşırsan bu kimliği yaz. E-postada durmasını istemediğin sağlık ayrıntısı gönderme. İlgili: <a href="./terms.html?lang=tr">Kullanım koşulları</a>.</p>
+        <p>Uygulama e-posta toplamaz ve uygulama içi gelen kutusu işletmez. Destek için <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a> adresine yaz; Steady → Ayarlar → Yardım’dan kopyaladığın destek kimliğini de eklersen daha hızlı yardımcı oluruz. E-postada durmasını istemediğin sağlık ayrıntısı gönderme. İlgili: <a href="./terms.html?lang=tr">Kullanım koşulları</a>.</p>
 """
 
 PRIVACY["az"] = f"""
@@ -281,7 +281,7 @@ PRIVACY["az"] = f"""
         <h2>19. Dəyişikliklər</h2>
         <p>Bu siyasəti yeniləyə bilərik. “Son yeniləmə” tarixi dəyişər. Abunəlik açıqlamalarına təsir edən əsaslı dəyişikliklər Apple-ın tələb etdiyi yerdə tətbiq daxili ödəniş ekranında da görünər.</p>
         <h2>20. Əlaqə</h2>
-        <p>Tətbiq e-poçt toplamır və tətbiq daxili gələnlər qutusu işlətmir. Steady → Ayarlar → Kömək-dən dəstək identifikatorunu köçür; tərtibatçıya App Store elanı və ya dərc etdiyi başqa kanalla çatsan, bu identifikatoru yaz. E-poçtda qalmasını istəmədiyin sağlamlıq təfərrüatı göndərmə. Əlaqəli: <a href="./terms.html?lang=az">İstifadə şərtləri</a>.</p>
+        <p>Tətbiq e-poçt toplamır və tətbiq daxili gələnlər qutusu işlətmir. Dəstək üçün <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a> ünvanına yaz; Steady → Ayarlar → Kömək-dən köçürdüyün dəstək identifikatorunu da əlavə etsən daha sürətli kömək edərik. E-poçtda qalmasını istəmədiyin sağlamlıq təfərrüatı göndərmə. Əlaqəli: <a href="./terms.html?lang=az">İstifadə şərtləri</a>.</p>
 """
 
 PRIVACY["ru"] = f"""
@@ -341,7 +341,7 @@ PRIVACY["ru"] = f"""
         <h2>19. Изменения</h2>
         <p>Мы можем обновить эту политику. Дата «Последнее обновление» изменится. Существенные изменения, влияющие на раскрытие подписки, также появятся на экране оплаты в приложении, если этого требует Apple.</p>
         <h2>20. Контакт</h2>
-        <p>Приложение не собирает эл. почту и не ведёт входящие в приложении. Откройте Steady → Настройки → Помощь, скопируйте идентификатор поддержки и укажите его, если свяжетесь с разработчиком через карточку App Store или другой опубликованный канал. Не отправляйте сведения о здоровье, которые не хотите видеть в почте. См. также <a href="./terms.html?lang=ru">Условия использования</a>.</p>
+        <p>Приложение не собирает эл. почту, но с разработчиком можно связаться напрямую. Для поддержки напишите на <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; если добавите идентификатор поддержки, скопированный в Steady → Настройки → Помощь, мы ответим быстрее. Не отправляйте сведения о здоровье, которые не хотите видеть в почте. См. также <a href="./terms.html?lang=ru">Условия использования</a>.</p>
 """
 
 PRIVACY["es"] = f"""
@@ -401,7 +401,7 @@ PRIVACY["es"] = f"""
         <h2>19. Cambios</h2>
         <p>Podemos actualizar esta política. Cambiará la fecha de «Última actualización». Los cambios materiales que afecten a las revelaciones de suscripción también aparecerán en la pantalla de pago de la app cuando Apple lo exija.</p>
         <h2>20. Contacto</h2>
-        <p>La app no recoge correo ni opera una bandeja dentro de la app. Abre Steady → Ajustes → Ayuda, copia el identificador de soporte y cítalo si contactas al desarrollador por la ficha de App Store u otro canal que publique. No envíes detalles de salud que no quieras en el correo. Relacionado: <a href="./terms.html?lang=es">Términos de uso</a>.</p>
+        <p>La app no recoge correo, pero puedes escribir directamente al desarrollador. Para soporte, escribe a <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; si incluyes el identificador de soporte que copias en Steady → Ajustes → Ayuda, respondemos más rápido. No envíes detalles de salud que no quieras en el correo. Relacionado: <a href="./terms.html?lang=es">Términos de uso</a>.</p>
 """
 
 PRIVACY["it"] = f"""
@@ -461,7 +461,7 @@ PRIVACY["it"] = f"""
         <h2>19. Modifiche</h2>
         <p>Possiamo aggiornare questa informativa. Cambierà la data di «Ultimo aggiornamento». Le modifiche sostanziali che riguardano le informative sull’abbonamento compariranno anche nella schermata di pagamento in-app ove richiesto da Apple.</p>
         <h2>20. Contatti</h2>
-        <p>L’app non raccoglie e-mail e non gestisce una casella in-app. Apri Steady → Impostazioni → Aiuto, copia l’identificatore di supporto e citolo se contatti lo sviluppatore tramite la scheda App Store o un altro canale pubblicato. Non inviare dettagli di salute che non vuoi in e-mail. Correlato: <a href="./terms.html?lang=it">Termini d’uso</a>.</p>
+        <p>L’app non raccoglie e-mail, ma puoi scrivere direttamente allo sviluppatore. Per assistenza scrivi a <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; se includi l’identificatore di supporto copiato da Steady → Impostazioni → Aiuto rispondiamo più in fretta. Non inviare dettagli di salute che non vuoi in e-mail. Correlato: <a href="./terms.html?lang=it">Termini d’uso</a>.</p>
 """
 
 TERMS = {}
@@ -516,7 +516,7 @@ TERMS["en"] = f"""
         <h2>19. Changes</h2>
         <p>We may update these Terms. The “Last updated” date will change. Continued use after an update, where permitted, constitutes acceptance. Subscription price changes follow Apple’s rules and in-app notice requirements.</p>
         <h2>20. Contact</h2>
-        <p>The app does not collect email. Open Steady → Settings → Help and copy the support ID. Quote that ID if you contact the developer through the App Store listing or another channel the developer publishes. Related: <a href="./privacy.html?lang=en">Privacy Policy</a> · <a href="{APPLE_EULA}">Apple Standard EULA</a>.</p>
+        <p>The app does not collect email. For support, email <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; including the support ID you copy from Steady → Settings → Help helps us respond faster. Related: <a href="./privacy.html?lang=en">Privacy Policy</a> · <a href="{APPLE_EULA}">Apple Standard EULA</a>.</p>
 """
 
 TERMS["tr"] = f"""
@@ -569,7 +569,7 @@ TERMS["tr"] = f"""
         <h2>19. Değişiklikler</h2>
         <p>Bu Koşulları güncelleyebiliriz. “Son güncelleme” tarihi değişir. İzin verilen yerde güncellemeden sonra kullanıma devam kabul sayılır. Abonelik fiyat değişiklikleri Apple kurallarına ve uygulama içi bildirim gereklerine uyar.</p>
         <h2>20. İletişim</h2>
-        <p>Uygulama e-posta toplamaz. Steady → Ayarlar → Yardım’dan destek kimliğini kopyala. Geliştiriciye App Store kaydı veya yayımladığı kanaldan ulaşırsan bu kimliği yaz. İlgili: <a href="./privacy.html?lang=tr">Gizlilik</a> · <a href="{APPLE_EULA}">Apple Standart EULA</a>.</p>
+        <p>Uygulama e-posta toplamaz. Destek için <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a> adresine yaz; Steady → Ayarlar → Yardım’dan kopyaladığın destek kimliğini eklersen daha hızlı yardımcı oluruz. İlgili: <a href="./privacy.html?lang=tr">Gizlilik</a> · <a href="{APPLE_EULA}">Apple Standart EULA</a>.</p>
 """
 
 TERMS["az"] = f"""
@@ -622,7 +622,7 @@ TERMS["az"] = f"""
         <h2>19. Dəyişikliklər</h2>
         <p>Bu Şərtləri yeniləyə bilərik. “Son yeniləmə” tarixi dəyişər. İcazə verilən yerdə yeniləmədən sonra istifadəni davam etdirmək qəbul sayılır. Abunəlik qiymət dəyişiklikləri Apple qaydalarına və tətbiq daxili bildiriş tələblərinə uyğundur.</p>
         <h2>20. Əlaqə</h2>
-        <p>Tətbiq e-poçt toplamır. Steady → Ayarlar → Kömək-dən dəstək identifikatorunu köçür. Tərtibatçıya App Store elanı və ya dərc etdiyi kanalla çatsan, bu identifikatoru yaz. Əlaqəli: <a href="./privacy.html?lang=az">Məxfilik</a> · <a href="{APPLE_EULA}">Apple Standart EULA</a>.</p>
+        <p>Tətbiq e-poçt toplamır. Dəstək üçün <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a> ünvanına yaz; Steady → Ayarlar → Kömək-dən köçürdüyün dəstək identifikatorunu əlavə etsən daha sürətli kömək edərik. Əlaqəli: <a href="./privacy.html?lang=az">Məxfilik</a> · <a href="{APPLE_EULA}">Apple Standart EULA</a>.</p>
 """
 
 TERMS["ru"] = f"""
@@ -675,7 +675,7 @@ TERMS["ru"] = f"""
         <h2>19. Изменения</h2>
         <p>Мы можем обновить Условия. Дата «Последнее обновление» изменится. Продолжение использования после обновления, где это допускается, означает согласие. Изменение цены подписки следует правилам Apple и требованиям уведомления в приложении.</p>
         <h2>20. Контакт</h2>
-        <p>Приложение не собирает эл. почту. Откройте Steady → Настройки → Помощь и скопируйте идентификатор поддержки. Укажите его, если свяжетесь с разработчиком через карточку App Store или другой опубликованный канал. См. также <a href="./privacy.html?lang=ru">Конфиденциальность</a> · <a href="{APPLE_EULA}">Стандартное EULA Apple</a>.</p>
+        <p>Приложение не собирает эл. почту. Для поддержки напишите на <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; если добавите идентификатор поддержки, скопированный в Steady → Настройки → Помощь, мы ответим быстрее. См. также <a href="./privacy.html?lang=ru">Конфиденциальность</a> · <a href="{APPLE_EULA}">Стандартное EULA Apple</a>.</p>
 """
 
 TERMS["es"] = f"""
@@ -728,7 +728,7 @@ TERMS["es"] = f"""
         <h2>19. Cambios</h2>
         <p>Podemos actualizar estos Términos. Cambiará la fecha de «Última actualización». Seguir usando la app tras una actualización, donde esté permitido, implica aceptación. Los cambios de precio de suscripción siguen las reglas de Apple y los avisos en la app.</p>
         <h2>20. Contacto</h2>
-        <p>La app no recoge correo. Abre Steady → Ajustes → Ayuda y copia el identificador de soporte. Cítalo si contactas al desarrollador por la ficha de App Store u otro canal publicado. Relacionado: <a href="./privacy.html?lang=es">Privacidad</a> · <a href="{APPLE_EULA}">EULA estándar de Apple</a>.</p>
+        <p>La app no recoge correo. Para soporte, escribe a <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; si incluyes el identificador de soporte que copias en Steady → Ajustes → Ayuda, respondemos más rápido. Relacionado: <a href="./privacy.html?lang=es">Privacidad</a> · <a href="{APPLE_EULA}">EULA estándar de Apple</a>.</p>
 """
 
 TERMS["it"] = f"""
@@ -781,7 +781,7 @@ TERMS["it"] = f"""
         <h2>19. Modifiche</h2>
         <p>Possiamo aggiornare questi Termini. Cambierà la data di «Ultimo aggiornamento». L’uso continuato dopo un aggiornamento, ove consentito, vale come accettazione. Le variazioni di prezzo dell’abbonamento seguono le regole Apple e gli avvisi in-app.</p>
         <h2>20. Contatti</h2>
-        <p>L’app non raccoglie e-mail. Apri Steady → Impostazioni → Aiuto e copia l’identificatore di supporto. Citalo se contatti lo sviluppatore tramite la scheda App Store o un altro canale pubblicato. Correlato: <a href="./privacy.html?lang=it">Privacy</a> · <a href="{APPLE_EULA}">EULA standard Apple</a>.</p>
+        <p>L’app non raccoglie e-mail. Per assistenza scrivi a <a href="mailto:javidalishov700@gmail.com">javidalishov700@gmail.com</a>; se includi l’identificatore di supporto copiato da Steady → Impostazioni → Aiuto rispondiamo più in fretta. Correlato: <a href="./privacy.html?lang=it">Privacy</a> · <a href="{APPLE_EULA}">EULA standard Apple</a>.</p>
 """
 
 META = {

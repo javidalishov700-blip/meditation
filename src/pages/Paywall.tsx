@@ -86,6 +86,7 @@ export function Paywall() {
     const result = await purchasePlan(id)
     if (result === 'ok') refresh()
     if (result === 'unavailable') setFail(t('pay_buy_fail'))
+    if (result === 'pending') setFail(t('pay_buy_pending'))
     setBusy(null)
   }
 

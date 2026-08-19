@@ -1,9 +1,11 @@
 import { useState, type ReactNode } from 'react'
 import { CatalogGrid, ChipRow } from '../components/CoverCard'
+import { SleepCheckin } from '../components/SleepCheckin'
 import { SleepClock } from '../components/SleepClock'
 import { CircleIconBtn, SearchSheet } from '../components/Sheets'
 import { SLEEP_TAB_IDS } from '../lib/catalog'
 import { useI18n } from '../lib/i18n'
+import { readSleepPlan } from '../lib/sleep-plan'
 import type { StringKey } from '../lib/strings'
 
 type Tab = keyof typeof SLEEP_TAB_IDS
@@ -133,6 +135,7 @@ export function Sleep() {
       </header>
 
       <SleepClock />
+      <SleepCheckin plan={readSleepPlan()} />
 
       <ChipRow active={tab} onPick={(id) => setTab(id as Tab)} items={TABS.map((c) => ({ id: c.id, label: t(c.label), icon: c.icon }))} />
 

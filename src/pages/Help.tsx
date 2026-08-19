@@ -82,6 +82,14 @@ export function Help() {
         <Header title={t(current.title)} backTo="/me/settings/help" />
         <Card className="mt-6">
           <p className="text-sm leading-6 text-mute">{t(current.body)}</p>
+          {current.id === 'contact' ? (
+            <a
+              href="mailto:javidalishov700@gmail.com"
+              className="mt-4 inline-flex items-center rounded-full bg-white/8 px-3 py-1.5 text-sm text-white/85"
+            >
+              javidalishov700@gmail.com
+            </a>
+          ) : null}
           {current.id === 'tech' || current.id === 'contact' ? (
             <>
               <button

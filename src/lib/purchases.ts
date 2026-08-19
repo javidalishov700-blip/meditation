@@ -16,7 +16,7 @@ export type StorePlan = {
   productId: string
 }
 
-export type PurchaseResult = 'ok' | 'cancelled' | 'unavailable'
+export type PurchaseResult = 'ok' | 'cancelled' | 'pending' | 'unavailable'
 
 const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
 
@@ -94,7 +94,8 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
       setPro(true)
       return 'ok'
     }
-    if (result.status === 'cancelled' || result.status === 'pending') return 'cancelled'
+    if (result.status === 'cancelled') return 'cancelled'
+    if (result.status === 'pending') return 'pending'
     return 'unavailable'
   } catch {
     return 'unavailable'

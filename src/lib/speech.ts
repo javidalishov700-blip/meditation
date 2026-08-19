@@ -623,6 +623,25 @@ async function runBaked(urls: string[], gen: number, opts: SpeakOpts) {
   return true
 }
 
+/** Reads a clip's duration without playing it, so we know whether startMs skips past it entirely. */
+function probeClipDuration(url: string): Promise<number> {
+  return new Promise((resolve) => {
+    const el = new Audio()
+    el.preload = 'metadata'
+    let settled = false
+    const done = (d: number) => {
+      if (settled) return
+      settled = true
+      el.onloadedmetadata = null
+      el.onerror = null
+      resolve(d)
+    }
+    el.onloadedmetadata = () => done(Number.isFinite(el.duration) ? el.duration : 0)
+    el.onerror = () => done(0)
+    el.src = url
+  })
+}
+
 /** iOS WKWebView often fails decodeAudioData on baked ADTS MP3s; HTMLAudio plays them. */
 async function runBakedHtml(urls: string[], gen: number, opts: SpeakOpts): Promise<boolean> {
   audio.unlock()
@@ -635,14 +654,28 @@ async function runBakedHtml(urls: string[], gen: number, opts: SpeakOpts): Promi
   clockDuration = opts.fillMs ?? 0
   setFlags({ speaking: true, loading: true, paused: false, error: null })
   armClock()
+  let played = false
   try {
+    let skip = startMs / 1000
     for (const url of urls) {
       if (cancelled || gen !== speakGen) return true
+      let offset = 0
+      if (skip > 0.02) {
+        const dur = await probeClipDuration(url)
+        if (skip >= Math.max(0, dur - 0.04)) {
+          skip -= dur
+          continue
+        }
+        offset = skip
+        skip = 0
+      }
       await waitWhilePaused()
       if (cancelled || gen !== speakGen) return true
-      const ok = await playHtmlClip(url, gen)
-      if (!ok) return false
+      const ok = await playHtmlClip(url, gen, offset)
+      if (ok) played = true
+      // A single broken/missing segment should not silence the rest of the step.
     }
+    if (!played && urls.length) return false
     if (opts.fillMs) {
       audio.duck(false)
       const rest = Math.max(0, opts.fillMs - liveElapsed())
@@ -657,7 +690,7 @@ async function runBakedHtml(urls: string[], gen: number, opts: SpeakOpts): Promi
   return true
 }
 
-function playHtmlClip(url: string, gen: number) {
+function playHtmlClip(url: string, gen: number, offsetSec = 0) {
   return new Promise<boolean>((resolve) => {
     haltHtmlVoice()
     if (cancelled || gen !== speakGen) {
@@ -679,6 +712,15 @@ function playHtmlClip(url: string, gen: number) {
     }
     el.onended = () => finish(true)
     el.onerror = () => finish(false)
+    if (offsetSec > 0.02) {
+      el.onloadedmetadata = () => {
+        try {
+          el.currentTime = Math.min(offsetSec, Math.max(0, (el.duration || offsetSec) - 0.05))
+        } catch {
+          /* seek not ready yet; play from the start instead of failing */
+        }
+      }
+    }
     audio.hushForVoice()
     setFlags({ loading: false, speaking: true, paused: false })
     void el
