@@ -1,18 +1,17 @@
 import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { onAppResume } from './device'
-import { isDemoPro, readProInfo, setPro as persistPro, STEADY_PRO_EVENT } from './entitlement'
-import { clearTrial, isTrialActive, startTrial as beginTrial, trialUntil } from './onboard'
+import { hasStoreEntitlement, readProInfo, STEADY_PRO_EVENT } from './entitlement'
+import { isTrialActive, startTrial as beginTrial, trialUntil } from './onboard'
 import { refreshStoreEntitlement } from './purchases'
 
 type EntitlementCtx = {
   pro: boolean
-  demo: boolean
+  /** A subscription StoreKit confirmed for this Apple ID. Never granted locally. */
+  store: boolean
   trial: boolean
   trialEndsAt: number
   proProductId?: string
   proExpiresAt?: number
-  unlockDemo: () => void
-  lockDemo: () => void
   startTrial: () => void
   refresh: () => void
 }
@@ -20,13 +19,13 @@ type EntitlementCtx = {
 const Ctx = createContext<EntitlementCtx | null>(null)
 
 function snap() {
-  const demo = isDemoPro()
+  const store = hasStoreEntitlement()
   const trial = isTrialActive()
-  const info = demo ? readProInfo() : {}
+  const info = store ? readProInfo() : {}
   return {
-    pro: demo || trial,
-    demo,
-    trial: trial && !demo,
+    pro: store || trial,
+    store,
+    trial: trial && !store,
     trialEndsAt: trialUntil(),
     proProductId: info.productId,
     proExpiresAt: info.expiresAt,
@@ -54,15 +53,6 @@ export function EntitlementProvider({ children }: { children: ReactNode }) {
     () => ({
       ...state,
       refresh: () => setState(snap()),
-      unlockDemo: () => {
-        persistPro(true)
-        setState(snap())
-      },
-      lockDemo: () => {
-        persistPro(false)
-        clearTrial()
-        setState(snap())
-      },
       startTrial: () => {
         beginTrial()
         setState(snap())

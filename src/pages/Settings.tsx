@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
 import { PinSettings } from '../components/PinLock'
 import { VoicePicker } from '../components/VoicePicker'
-import { Card, GhostButton, LegalNote, Switch } from '../components/ui'
+import { Card, LegalNote, Switch } from '../components/ui'
 import {
   EMERGENCY_CHOICES,
   readOverrideRegion,
@@ -409,7 +409,7 @@ function HistoryPanel() {
 function Index() {
   const { t, meta } = useI18n()
   const navigate = useNavigate()
-  const { pro, demo, trial, trialEndsAt, lockDemo } = useEntitlement()
+  const { pro, store: storePro, trial, trialEndsAt } = useEntitlement()
   const emergency = useEmergencyLine()
   const helpId = supportId()
   const [pinOn, setPinOn] = useState(() => hasPin())
@@ -417,7 +417,7 @@ function Index() {
   const theme = readTheme()
   const remind = readRemindTrial()
   const ms = trialEndsAt - Date.now()
-  const tier = demo
+  const tier = storePro
     ? t('me_pro')
     : trial && ms > 0
       ? ms < 86_400_000
@@ -492,14 +492,6 @@ function Index() {
         <Hairline />
         <Row icon={<HelpIcon />} label={t('pay_privacy')} to={legalPath('privacy')} />
       </Group>
-
-      {demo || trial ? (
-        <div className="mt-3">
-          <GhostButton className="w-full" onClick={lockDemo}>
-            {t('me_demo_off')}
-          </GhostButton>
-        </div>
-      ) : null}
 
       <Group>
         <Row icon={<ReplayIcon />} label={t('me_ob_replay')} onClick={() => resetOnboard()} />

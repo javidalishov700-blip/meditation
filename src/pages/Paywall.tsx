@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IncludedList, LegalRow, OfferWash, TrialTimeline } from '../components/TrialOffer'
 import { Card, GhostButton, LegalNote, PrimaryButton } from '../components/ui'
-import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice, isDemoPro } from '../lib/entitlement'
+import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatDate } from '../lib/format'
 import { useI18n } from '../lib/i18n'
-import { isTrialActive, requestNotify, trialUsed } from '../lib/onboard'
+import { requestNotify, trialUsed } from '../lib/onboard'
 import {
   iapConfigured,
   loadStorePlans,
@@ -26,7 +26,7 @@ const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_perio
 }
 
 export function Paywall() {
-  const { demo, trial, proProductId, proExpiresAt, unlockDemo, startTrial, refresh } = useEntitlement()
+  const { store: storePro, trial, proProductId, proExpiresAt, startTrial, refresh } = useEntitlement()
   const navigate = useNavigate()
   const { t, locale } = useI18n()
   const [remind, setRemind] = useState(() => readRemindTrial())
@@ -36,9 +36,9 @@ export function Paywall() {
   const [picked, setPicked] = useState<PlanId>('month')
   const [busy, setBusy] = useState<PlanId | 'restore' | 'trial' | null>(null)
   const used = trialUsed()
-  const offer = !used && !demo
-  const live = trial && !demo
-  const paid = demo
+  const offer = !used && !storePro
+  const live = trial && !storePro
+  const paid = storePro
   const native = iapConfigured()
   const planLabel = { week: t('pay_week'), month: t('pay_month'), year: t('pay_year') }
   const planHint = { week: t('pay_note'), month: t('pay_note'), year: t('pay_year_note') }
@@ -66,22 +66,24 @@ export function Paywall() {
   async function restore() {
     setBusy('restore')
     setFail('')
-    if (native) {
-      const ok = await restoreStorePurchases()
-      refresh()
-      setRestored(ok ? t('pay_restore_ok') : t('pay_restore_none'))
-    } else {
-      refresh()
-      setRestored(isDemoPro() || isTrialActive() ? t('pay_restore_ok') : t('pay_restore_none'))
+    if (!native) {
+      setRestored(t('pay_restore_none'))
+      setBusy(null)
+      return
     }
+    const ok = await restoreStorePurchases()
+    refresh()
+    setRestored(ok ? t('pay_restore_ok') : t('pay_restore_none'))
     setBusy(null)
   }
 
+  /** Straight to StoreKit. Nothing here can grant Pro on its own. */
   async function buy(id: PlanId) {
     setBusy(id)
     setFail('')
+    setRestored('')
     if (!native) {
-      unlockDemo()
+      setFail(t('pay_web_only'))
       setBusy(null)
       return
     }

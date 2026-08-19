@@ -28,21 +28,52 @@ export const FREE_NATURE_IDS = ['rain', 'piano'] as const
 
 export type AccessExtra = { day?: number; step?: string }
 
-export function isDemoPro(): boolean {
-  return readJson('pro', false)
-}
-
-export function isPro(): boolean {
-  return isDemoPro() || isTrialActive()
-}
-
+/** Which App Store product the cached entitlement came from, and when it lapses. */
 export type ProInfo = { productId?: string; expiresAt?: number }
 
-/** What StoreKit last reported for the active entitlement, if any. For display only. */
+/**
+ * A renewal StoreKit confirmed while the app was closed lands on the next launch
+ * or resume. Trust a just-lapsed cache this long so a paying subscriber is never
+ * locked out over renewal timing or a moment offline.
+ */
+const RENEWAL_GRACE_MS = 48 * 60 * 60 * 1000
+
 export function readProInfo(): ProInfo {
   return readJson<ProInfo>('pro.info', {})
 }
 
+/**
+ * The on-device mirror of StoreKit's answer — never a local grant.
+ *
+ * Only `setPro`, called from lib/purchases.ts with what StoreKit actually
+ * reported, writes it. A cached flag is honoured only when it carries the
+ * product id StoreKit issued it for: a bare `pro: true` with no provenance is a
+ * leftover from a build that unlocked locally, and is dropped on sight.
+ */
+export function hasStoreEntitlement(): boolean {
+  if (!readJson('pro', false)) return false
+  const info = readProInfo()
+  if (!info.productId) {
+    clearStalePro()
+    return false
+  }
+  if (info.expiresAt && info.expiresAt * 1000 + RENEWAL_GRACE_MS < Date.now()) {
+    clearStalePro()
+    return false
+  }
+  return true
+}
+
+function clearStalePro() {
+  writeJson('pro', false)
+  writeJson('pro.info', {})
+}
+
+export function isPro(): boolean {
+  return hasStoreEntitlement() || isTrialActive()
+}
+
+/** StoreKit is the only caller. `info` carries the transaction that granted it. */
 export function setPro(value: boolean, info?: ProInfo) {
   writeJson('pro', value)
   writeJson('pro.info', value ? info || {} : {})
