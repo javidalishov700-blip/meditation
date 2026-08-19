@@ -122,9 +122,24 @@ export function Paywall() {
         <p className="mt-3 text-sm leading-7 text-mute">{paid ? t('pay_sub') : t('pay_direct')}</p>
 
         {paid ? (
-          <GhostButton className="mt-8 w-full" onClick={() => navigate(-1)}>
-            {t('pay_back')}
-          </GhostButton>
+          <>
+            <GhostButton className="mt-8 w-full" onClick={() => navigate(-1)}>
+              {t('pay_back')}
+            </GhostButton>
+            {native ? (
+              <div className="mt-4 text-center">
+                <button
+                  type="button"
+                  disabled={busy != null}
+                  onClick={() => void restore()}
+                  className="text-sm text-cream/70 underline underline-offset-2"
+                >
+                  {busy === 'restore' ? t('pay_loading') : t('pay_recheck')}
+                </button>
+                <p className="mt-2 text-xs leading-5 text-mute">{t('pay_recheck_h')}</p>
+              </div>
+            ) : null}
+          </>
         ) : (
           <>
             <div className="mt-8 space-y-3">

@@ -211,6 +211,8 @@ export const EXTRA = {
   pay_privacy: R('Gizlilik|Privacy|Məxfilik|Конфиденциальность|Privacidad|Privacy'),
   pay_terms: R('Koşullar|Terms|Şərtlər|Условия|Términos|Termini'),
   pay_restore: R('Geri yükle|Restore|Geri yüklə|Восстановить|Restaurar|Ripristina'),
+  pay_recheck: R('Bu hesabı yeniden kontrol et|Recheck this account|Bu hesabı yenidən yoxla|Проверить этот аккаунт заново|Volver a comprobar esta cuenta|Ricontrolla questo account'),
+  pay_recheck_h: R('Farklı bir Apple hesabıyla test ediyorsan veya Pro artık geçerli değilse, App Store’dan tazele.|Testing with a different Apple account, or Pro should no longer be active? Refresh from the App Store.|Fərqli Apple hesabı ilə test edirsənsə və ya Pro artıq etibarlı deyilsə, App Store-dan təzələ.|Тестируешь с другим Apple ID, или Pro больше не должен быть активен? Обнови из App Store.|¿Pruebas con otra cuenta de Apple o Pro ya no debería estar activo? Actualiza desde App Store.|Stai testando con un altro account Apple, o Pro non dovrebbe più essere attivo? Aggiorna da App Store.'),
   pay_restore_ok: R('Bu telefondaki durum yüklendi.|This phone’s status is loaded.|Bu telefondakı vəziyyət yükləndi.|Состояние этого телефона загружено.|Se cargó el estado de este teléfono.|Lo stato di questo telefono è caricato.'),
   pay_restore_none: R('Bu telefonda kayıtlı bir Pro yok.|No Pro is stored on this phone.|Bu telefonda qeydə alınan Pro yoxdur.|На этом телефоне нет сохранённого Pro.|No hay Pro guardado en este teléfono.|Nessun Pro salvato su questo telefono.'),
   pay_buy: R('Satın al|Buy|Al|Купить|Comprar|Acquista'),
