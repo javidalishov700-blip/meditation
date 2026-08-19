@@ -1,0 +1,23 @@
+{
+  "name": "capacitor-storekit-native",
+  "version": "1.0.0",
+  "description": "Local Capacitor plugin: subscriptions via Apple's native StoreKit 2, no third-party purchase SDK.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "ios/",
+    "CapacitorStorekitNative.podspec"
+  ],
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    }
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^7.0.0"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

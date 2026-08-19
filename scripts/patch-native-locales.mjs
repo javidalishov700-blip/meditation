@@ -7,7 +7,7 @@
  * 3. Agreements → Paid Apps + banking/tax before IAP goes live
  * 4. Subscription group "Steady Pro" + product ids in store/app-store-products.json
  * 5. Codemagic → Apple Developer Portal integration (App Store Connect API key)
- * 6. Codemagic encrypted env: VITE_REVENUECAT_IOS_KEY (public appl_… only)
+ * 6. Purchases are native StoreKit 2 (native/capacitor-storekit) — no purchase SDK key needed
  * 7. Public https origin for /legal/privacy.html and /legal/terms.html (repo is private)
  */
 import fs from 'node:fs'
@@ -137,9 +137,20 @@ function patchPbxproj(pbxPath) {
       `PRODUCT_BUNDLE_IDENTIFIER = app.steady.calm;\n\t\t\t\tDEVELOPMENT_TEAM = ${team};`,
     )
   }
+  // StoreKit 2 (native/capacitor-storekit) needs iOS 15+.
+  pbx = pbx.replace(/IPHONEOS_DEPLOYMENT_TARGET = [^;]+;/g, 'IPHONEOS_DEPLOYMENT_TARGET = 15.0;')
   pbx = addResourceFile(pbx, 'PrivacyInfo.xcprivacy')
   pbx = addInfoPlistStrings(pbx)
   fs.writeFileSync(pbxPath, pbx)
+}
+
+function patchPodfile() {
+  const podfilePath = path.join(root, 'ios/App/Podfile')
+  if (!fs.existsSync(podfilePath)) return
+  let podfile = fs.readFileSync(podfilePath, 'utf8')
+  // Match the app-wide deployment target bump in patchPbxproj (StoreKit 2 needs iOS 15+).
+  podfile = podfile.replace(/platform :ios, '[^']+'/, "platform :ios, '15.0'")
+  fs.writeFileSync(podfilePath, podfile)
 }
 
 function patchIos() {
@@ -194,6 +205,7 @@ function patchIos() {
   }
   patchPbxproj(path.join(root, 'ios/App/App.xcodeproj/project.pbxproj'))
   patchAppDelegate()
+  patchPodfile()
 }
 
 function patchAppDelegate() {

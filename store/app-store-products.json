@@ -3,8 +3,6 @@
   "sku": "steady-calm",
   "primaryLocale": "tr",
   "subscriptionGroup": "Steady Pro",
-  "entitlement": "pro",
-  "offering": "default",
   "subscriptions": [
     {
       "productId": "app.steady.calm.weekly",

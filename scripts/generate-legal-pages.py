@@ -7,14 +7,13 @@ APPLE_EULA = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
 APPLE_PRIVACY = "https://www.apple.com/privacy/"
 APPLE_SUBS = "https://apps.apple.com/account/subscriptions"
 APPLE_REFUND = "https://reportaproblem.apple.com/"
-RC_PRIVACY = "https://www.revenuecat.com/privacy"
 DATE = {
-    "tr": "17 Ağustos 2026",
-    "en": "17 August 2026",
-    "az": "17 avqust 2026",
-    "ru": "17 августа 2026 г.",
-    "es": "17 de agosto de 2026",
-    "it": "17 agosto 2026",
+    "tr": "19 Ağustos 2026",
+    "en": "19 August 2026",
+    "az": "19 avqust 2026",
+    "ru": "19 августа 2026 г.",
+    "es": "19 de agosto de 2026",
+    "it": "19 agosto 2026",
 }
 
 
@@ -109,7 +108,7 @@ PRIVACY["en"] = f"""
         <h2>1. Who we are</h2>
         <p>Steady is a personal coping app for panic, anxiety, sleep, and related states. It is published by Javid Alishov, an individual developer. The iOS bundle identifier is <code>app.steady.calm</code>. Steady is not a clinic, hospital, licensed healthcare provider, or emergency service.</p>
         <h2>2. Scope</h2>
-        <p>This policy covers the Steady iOS app (Capacitor WebView), the optional web/PWA build, and these legal pages. Apple, RevenueCat, and other third parties have their own policies. In-app purchase billing is governed by Apple.</p>
+        <p>This policy covers the Steady iOS app (Capacitor WebView), the optional web/PWA build, and these legal pages. Apple and other third parties have their own policies. In-app purchase billing is governed by Apple.</p>
         <h2>3. No account</h2>
         <p>You can use Steady without signing up. We do not ask for your name, email address, phone number, or a Steady password. We do not operate a Steady user database on a server that stores your mood, SOS taps, or onboarding answers.</p>
         <h2>4. Where information lives</h2>
@@ -136,9 +135,9 @@ PRIVACY["en"] = f"""
         <h2>9. Network and audio</h2>
         <p>Guided listening uses audio files bundled with the app. The app does not call OpenAI or another generative API while you listen. Voice files may have been produced during development with a text-to-speech provider; that API key is never shipped in the app. Optional cellular settings only affect whether you allow media on cellular data; they do not upload your sessions.</p>
         <h2>10. Purchases</h2>
-        <p>If you buy Steady Pro, payment is an Apple In-App Purchase charged to your Apple ID. Apple processes the transaction under Apple’s terms. We do not receive your Apple ID password or full card number. StoreKit (and, on iOS, the RevenueCat SDK with an Apple public SDK key) may see an App Store receipt or transaction identifier so the app can unlock Pro and restore purchases on this device.</p>
-        <h2>11. RevenueCat</h2>
-        <p>On iOS, Steady may use RevenueCat to validate App Store receipts. RevenueCat may process anonymous App Store identifiers and an app-user identifier generated on device. We do not send your name or email (we do not have them). See <a href="{RC_PRIVACY}">RevenueCat’s Privacy Policy</a>.</p>
+        <p>If you buy Steady Pro, payment is an Apple In-App Purchase charged to your Apple ID. Apple processes the transaction under Apple’s terms. We do not receive your Apple ID password or full card number. StoreKit may see an App Store receipt or transaction identifier so the app can unlock Pro and restore purchases on this device.</p>
+        <h2>11. Purchase processing</h2>
+        <p>Steady uses only Apple’s own StoreKit for purchases; there is no third-party purchase SDK or server. Receipt validation happens on device, directly with Apple. We do not send your name or email (we do not have them).</p>
         <h2>12. Crash reporting (optional, off by default)</h2>
         <p>If a build includes a Sentry DSN, crash reports may be sent with personally identifiable information turned off. Production intent is that this stays off unless the project owner sets the DSN. Local last-error notes remain on the device either way.</p>
         <h2>13. Tracking, advertising, analytics</h2>
@@ -158,7 +157,7 @@ PRIVACY["en"] = f"""
         </ul>
         <p>We cannot email you a copy of on-device notes because we never received them.</p>
         <h2>18. International transfers</h2>
-        <p>The App Store may be used worldwide. On-device data stays on the device. Apple and, if used, RevenueCat or Sentry may process limited technical data in the United States or other countries under their terms.</p>
+        <p>The App Store may be used worldwide. On-device data stays on the device. Apple and, if used, Sentry may process limited technical data in the United States or other countries under their terms.</p>
         <h2>19. Changes</h2>
         <p>We may update this policy. The “Last updated” date will change. Material changes that affect subscription disclosures will also appear on the in-app paywall where Apple requires them.</p>
         <h2>20. Contact</h2>
@@ -170,7 +169,7 @@ PRIVACY["tr"] = f"""
         <h2>1. Kimiz</h2>
         <p>Steady; panik, kaygı, uyku ve yakın durumlar için kişisel bir başa çıkma uygulamasıdır. Geliştirici: Javid Alishov (bireysel). iOS paket kimliği <code>app.steady.calm</code>. Steady klinik, hastane, ruhsatlı sağlık sunucusu veya acil servis değildir.</p>
         <h2>2. Kapsam</h2>
-        <p>Bu politika Steady iOS uygulamasını (Capacitor WebView), isteğe bağlı web/PWA sürümünü ve bu hukuki sayfaları kapsar. Apple, RevenueCat ve diğer üçüncü tarafların kendi politikaları vardır. Uygulama içi satın alma faturalaması Apple’a aittir.</p>
+        <p>Bu politika Steady iOS uygulamasını (Capacitor WebView), isteğe bağlı web/PWA sürümünü ve bu hukuki sayfaları kapsar. Apple ve diğer üçüncü tarafların kendi politikaları vardır. Uygulama içi satın alma faturalaması Apple’a aittir.</p>
         <h2>3. Hesap yok</h2>
         <p>Steady’yi kayıt olmadan kullanırsın. Ad, e-posta, telefon veya Steady şifresi istemeyiz. Ruh halini, SOS dokunuşlarını veya onboarding cevaplarını tutan bir Steady sunucu veritabanımız yoktur.</p>
         <h2>4. Bilgi nerede durur</h2>
@@ -196,9 +195,9 @@ PRIVACY["tr"] = f"""
         <h2>9. Ağ ve ses</h2>
         <p>Rehberli dinleme uygulamayla gelen ses dosyalarını kullanır. Dinlerken OpenAI veya başka üretici API çağrılmaz. Geliştirmede ses dosyaları metinden-sese ile üretilmiş olabilir; o anahtar uygulamaya konmaz. Hücresel ayar yalnızca hücresel veride medyaya izin verip vermediğini etkiler; oturumunu yüklemez.</p>
         <h2>10. Satın almalar</h2>
-        <p>Steady Pro alırsan ödeme Apple Kimliğine yansıyan uygulama içi satın almadır. İşlemi Apple yürütür. Apple ID şifreni veya tam kart numaranı almayız. StoreKit (iOS’ta Apple genel SDK anahtarıyla RevenueCat) Pro’yu açmak ve satın almaları geri yüklemek için makbuz / işlem kimliği görebilir.</p>
-        <h2>11. RevenueCat</h2>
-        <p>iOS’ta makbuz doğrulaması için RevenueCat kullanılabilir. RevenueCat anonim App Store kimlikleri ve cihazda üretilen uygulama-kullanıcı kimliği işleyebilir. Ad veya e-posta göndermeyiz. <a href="{RC_PRIVACY}">RevenueCat Gizlilik Politikası</a>.</p>
+        <p>Steady Pro alırsan ödeme Apple Kimliğine yansıyan uygulama içi satın almadır. İşlemi Apple yürütür. Apple ID şifreni veya tam kart numaranı almayız. StoreKit, Pro’yu açmak ve satın almaları geri yüklemek için makbuz / işlem kimliği görebilir.</p>
+        <h2>11. Satın alma işleme</h2>
+        <p>Steady, satın almalar için yalnızca Apple’ın kendi StoreKit altyapısını kullanır; üçüncü taraf satın alma SDK’sı veya sunucusu yoktur. Makbuz doğrulaması cihaz üzerinde doğrudan Apple ile yapılır. Ad veya e-posta göndermeyiz; Steady bu bilgileri toplamaz.</p>
         <h2>12. Çökme raporu (isteğe bağlı, varsayılan kapalı)</h2>
         <p>Bir sürümde Sentry DSN varsa, kişisel veri kapalı tutularak çökme raporu gidebilir. Üretim niyeti: proje sahibi DSN yazmadıkça kapalı. Yerel son-hata notu her durumda cihazda kalır.</p>
         <h2>13. İzleme, reklam, analitik</h2>
@@ -218,7 +217,7 @@ PRIVACY["tr"] = f"""
         </ul>
         <p>Cihaz notlarının kopyasını e-posta ile gönderemeyiz; çünkü bize gelmediler.</p>
         <h2>18. Uluslararası aktarım</h2>
-        <p>App Store dünya genelinde kullanılabilir. Cihaz verisi cihazda kalır. Apple ve (kullanılırsa) RevenueCat veya Sentry kendi koşulları altında ABD veya başka ülkelerde sınırlı teknik veri işleyebilir.</p>
+        <p>App Store dünya genelinde kullanılabilir. Cihaz verisi cihazda kalır. Apple ve (kullanılırsa) Sentry kendi koşulları altında ABD veya başka ülkelerde sınırlı teknik veri işleyebilir.</p>
         <h2>19. Değişiklikler</h2>
         <p>Bu politikayı güncelleyebiliriz. “Son güncelleme” tarihi değişir. Abonelik açıklamalarını etkileyen esaslı değişiklikler Apple’ın istediği yerde uygulama içi ödeme ekranında da görünür.</p>
         <h2>20. İletişim</h2>
@@ -230,7 +229,7 @@ PRIVACY["az"] = f"""
         <h2>1. Kimik</h2>
         <p>Steady panik, narahatlıq, yuxu və yaxın vəziyyətlər üçün şəxsi öhdəlik tətbiqidir. Nəşr edən: Javid Alishov (fərdi tərtibatçı). iOS paket identifikatoru <code>app.steady.calm</code>. Steady klinika, xəstəxana, lisenziyalı səhiyyə xidməti və ya təcili yardım deyil.</p>
         <h2>2. Əhatə</h2>
-        <p>Bu siyasət Steady iOS tətbiqini (Capacitor WebView), istəyə bağlı veb/PWA quruluşunu və bu hüquqi səhifələri əhatə edir. Apple, RevenueCat və digər üçüncü tərəflərin öz siyasətləri var. Tətbiq daxili alışın hesablaşması Apple-ındır.</p>
+        <p>Bu siyasət Steady iOS tətbiqini (Capacitor WebView), istəyə bağlı veb/PWA quruluşunu və bu hüquqi səhifələri əhatə edir. Apple və digər üçüncü tərəflərin öz siyasətləri var. Tətbiq daxili alışın hesablaşması Apple-ındır.</p>
         <h2>3. Hesab yoxdur</h2>
         <p>Steady-dən qeydiyyat olmadan istifadə edirsən. Ad, e-poçt, telefon və ya Steady şifrəsi istəmirik. Əhvalını, SOS toxunuşlarını və ya onboarding cavablarını saxlayan Steady server bazamız yoxdur.</p>
         <h2>4. Məlumat harada durur</h2>
@@ -256,9 +255,9 @@ PRIVACY["az"] = f"""
         <h2>9. Şəbəkə və səs</h2>
         <p>Bələdçi dinləmə tətbiqlə gələn səs fayllarını istifadə edir. Dinləyərkən OpenAI və ya başqa generasiya API-si çağırılmır. İnkişaf zamanı səs faylları mətndən-səsə ilə hazırlanmış ola bilər; o açar tətbiqə qoyulmur. Mobil şəbəkə ayarı yalnız hüceyrəvi məlumatda mediaya icazəni təsir edir; seansını yükləmir.</p>
         <h2>10. Alışlar</h2>
-        <p>Steady Pro alsan, ödəniş Apple ID-nə yazılan In-App Purchase-dir. Əməliyyatı Apple aparır. Apple ID şifrəni və ya tam kart nömrəni almırıq. StoreKit (iOS-da Apple ictimai SDK açarı ilə RevenueCat) Pro-nu açmaq və alışları bərpa etmək üçün qəbz / əməliyyat identifikatoru görə bilər.</p>
-        <h2>11. RevenueCat</h2>
-        <p>iOS-da qəbz doğrulaması üçün RevenueCat istifadə oluna bilər. RevenueCat anonim App Store identifikatorları və cihazda yaranan tətbiq-istifadəçi identifikatorunu emal edə bilər. Ad və ya e-poçt göndərmirik. <a href="{RC_PRIVACY}">RevenueCat Məxfilik Siyasəti</a>.</p>
+        <p>Steady Pro alsan, ödəniş Apple ID-nə yazılan In-App Purchase-dir. Əməliyyatı Apple aparır. Apple ID şifrəni və ya tam kart nömrəni almırıq. StoreKit, Pro-nu açmaq və alışları bərpa etmək üçün qəbz / əməliyyat identifikatoru görə bilər.</p>
+        <h2>11. Satınalma işlənməsi</h2>
+        <p>Steady, satınalmalar üçün yalnız Apple-ın öz StoreKit infrastrukturunu istifadə edir; üçüncü tərəf satınalma SDK-sı və ya serveri yoxdur. Qəbz doğrulaması cihazda, birbaşa Apple ilə aparılır. Ad və ya e-poçt göndərmirik; Steady bu məlumatları toplamır.</p>
         <h2>12. Çökmə hesabatı (istəyə bağlı, susmaya görə bağlı)</h2>
         <p>Bir quruluşda Sentry DSN varsa, şəxsi məlumat söndürülmüş şəkildə çökmə hesabatı gedə bilər. İstehsal niyyəti: layihə sahibi DSN yazmayana qədər bağlı. Yerli son-xəta qeydi hər halda cihazda qalır.</p>
         <h2>13. İzləmə, reklam, analitika</h2>
@@ -278,7 +277,7 @@ PRIVACY["az"] = f"""
         </ul>
         <p>Cihaz qeydlərinin surətini e-poçtla göndərə bilmərik; çünki bizə gəlməyiblər.</p>
         <h2>18. Beynəlxalq ötürülmə</h2>
-        <p>App Store dünyada istifadə oluna bilər. Cihaz məlumatı cihazda qalır. Apple və (istifadə olunarsa) RevenueCat və ya Sentry öz şərtləri altında ABŞ və ya başqa ölkələrdə məhdud texniki məlumat emal edə bilər.</p>
+        <p>App Store dünyada istifadə oluna bilər. Cihaz məlumatı cihazda qalır. Apple və (istifadə olunarsa) Sentry öz şərtləri altında ABŞ və ya başqa ölkələrdə məhdud texniki məlumat emal edə bilər.</p>
         <h2>19. Dəyişikliklər</h2>
         <p>Bu siyasəti yeniləyə bilərik. “Son yeniləmə” tarixi dəyişər. Abunəlik açıqlamalarına təsir edən əsaslı dəyişikliklər Apple-ın tələb etdiyi yerdə tətbiq daxili ödəniş ekranında da görünər.</p>
         <h2>20. Əlaqə</h2>
@@ -290,7 +289,7 @@ PRIVACY["ru"] = f"""
         <h2>1. Кто мы</h2>
         <p>Steady — личное приложение для совладания с паникой, тревогой, сном и близкими состояниями. Издатель: Javid Alishov (индивидуальный разработчик). Идентификатор пакета iOS: <code>app.steady.calm</code>. Steady не клиника, не больница, не лицензированный медик и не служба экстренной помощи.</p>
         <h2>2. Область действия</h2>
-        <p>Политика охватывает приложение Steady для iOS (Capacitor WebView), необязательную веб/PWA-сборку и эти юридические страницы. У Apple, RevenueCat и других третьих лиц свои политики. Биллинг покупок в приложении ведёт Apple.</p>
+        <p>Политика охватывает приложение Steady для iOS (Capacitor WebView), необязательную веб/PWA-сборку и эти юридические страницы. У Apple и других третьих лиц свои политики. Биллинг покупок в приложении ведёт Apple.</p>
         <h2>3. Без аккаунта</h2>
         <p>Steady можно использовать без регистрации. Мы не запрашиваем имя, эл. почту, телефон или пароль Steady. У нас нет серверной базы пользователей Steady с вашим настроением, нажатиями SOS или ответами онбординга.</p>
         <h2>4. Где хранятся данные</h2>
@@ -316,9 +315,9 @@ PRIVACY["ru"] = f"""
         <h2>9. Сеть и звук</h2>
         <p>Сеансы прослушивания используют аудиофайлы в комплекте приложения. Во время прослушивания OpenAI и другие генеративные API не вызываются. Голосовые файлы могли быть созданы при разработке через синтез речи; этот ключ в приложение не входит. Сотовая настройка влияет только на разрешение медиа в сотовой сети и не загружает ваши сеансы.</p>
         <h2>10. Покупки</h2>
-        <p>Покупка Steady Pro — это In-App Purchase Apple, списание с Apple ID. Транзакцию обрабатывает Apple. Мы не получаем пароль Apple ID и полный номер карты. StoreKit (на iOS — RevenueCat с публичным ключом Apple SDK) может видеть чек / идентификатор транзакции, чтобы открыть Pro и восстановить покупки.</p>
-        <h2>11. RevenueCat</h2>
-        <p>На iOS для проверки чеков может использоваться RevenueCat. RevenueCat может обрабатывать анонимные идентификаторы App Store и идентификатор пользователя приложения, созданный на устройстве. Имя и почту мы не отправляем. <a href="{RC_PRIVACY}">Политика конфиденциальности RevenueCat</a>.</p>
+        <p>Покупка Steady Pro — это In-App Purchase Apple, списание с Apple ID. Транзакцию обрабатывает Apple. Мы не получаем пароль Apple ID и полный номер карты. StoreKit может видеть чек / идентификатор транзакции, чтобы открыть Pro и восстановить покупки.</p>
+        <h2>11. Обработка покупок</h2>
+        <p>Steady использует для покупок только собственный StoreKit Apple; стороннего SDK или сервера для покупок нет. Проверка чека происходит на устройстве, напрямую с Apple. Имя и почту мы не отправляем — у Steady их просто нет.</p>
         <h2>12. Отчёты о сбоях (необязательно, по умолчанию выкл.)</h2>
         <p>Если в сборке задан Sentry DSN, отчёт о сбое может уйти с отключёнными персональными данными. Намерение для продакшена: выкл., пока владелец проекта не задаст DSN. Локальная запись ошибки остаётся на устройстве в любом случае.</p>
         <h2>13. Трекинг, реклама, аналитика</h2>
@@ -338,7 +337,7 @@ PRIVACY["ru"] = f"""
         </ul>
         <p>Мы не можем выслать копию заметок с устройства по почте: мы их не получали.</p>
         <h2>18. Международная передача</h2>
-        <p>App Store доступен по всему миру. Данные на устройстве остаются на устройстве. Apple и (если используются) RevenueCat или Sentry могут обрабатывать ограниченные технические данные в США или других странах по своим условиям.</p>
+        <p>App Store доступен по всему миру. Данные на устройстве остаются на устройстве. Apple и (если используется) Sentry могут обрабатывать ограниченные технические данные в США или других странах по своим условиям.</p>
         <h2>19. Изменения</h2>
         <p>Мы можем обновить эту политику. Дата «Последнее обновление» изменится. Существенные изменения, влияющие на раскрытие подписки, также появятся на экране оплаты в приложении, если этого требует Apple.</p>
         <h2>20. Контакт</h2>
@@ -350,7 +349,7 @@ PRIVACY["es"] = f"""
         <h2>1. Quiénes somos</h2>
         <p>Steady es una app personal de afrontamiento para pánico, ansiedad, sueño y estados afines. La publica Javid Alishov, desarrollador individual. El identificador del paquete iOS es <code>app.steady.calm</code>. Steady no es una clínica, un hospital, un prestador sanitario colegiado ni un servicio de emergencias.</p>
         <h2>2. Ámbito</h2>
-        <p>Esta política cubre la app iOS de Steady (WebView de Capacitor), la compilación web/PWA opcional y estas páginas legales. Apple, RevenueCat y otros terceros tienen sus propias políticas. La facturación de compras dentro de la app corresponde a Apple.</p>
+        <p>Esta política cubre la app iOS de Steady (WebView de Capacitor), la compilación web/PWA opcional y estas páginas legales. Apple y otros terceros tienen sus propias políticas. La facturación de compras dentro de la app corresponde a Apple.</p>
         <h2>3. Sin cuenta</h2>
         <p>Puedes usar Steady sin registrarte. No pedimos nombre, correo, teléfono ni una contraseña de Steady. No operamos una base de usuarios en un servidor de Steady que guarde tu ánimo, toques de SOS o respuestas del onboarding.</p>
         <h2>4. Dónde vive la información</h2>
@@ -376,9 +375,9 @@ PRIVACY["es"] = f"""
         <h2>9. Red y audio</h2>
         <p>La escucha guiada usa archivos de audio incluidos en la app. Mientras escuchas no se llama a OpenAI ni a otra API generativa. Los archivos de voz pueden haberse generado en desarrollo con un proveedor de texto a voz; esa clave no se incluye en la app. El ajuste móvil solo afecta a si permites medios con datos celulares; no sube tus sesiones.</p>
         <h2>10. Compras</h2>
-        <p>Si compras Steady Pro, el pago es una compra dentro de la app de Apple cargada a tu Apple ID. Apple procesa la transacción. No recibimos tu contraseña de Apple ID ni el número completo de la tarjeta. StoreKit (y, en iOS, el SDK de RevenueCat con una clave pública de Apple) puede ver un recibo o identificador de transacción para desbloquear Pro y restaurar compras.</p>
-        <h2>11. RevenueCat</h2>
-        <p>En iOS, Steady puede usar RevenueCat para validar recibos de App Store. RevenueCat puede tratar identificadores anónimos de App Store y un identificador de usuario de la app generado en el dispositivo. No enviamos tu nombre ni correo. <a href="{RC_PRIVACY}">Política de privacidad de RevenueCat</a>.</p>
+        <p>Si compras Steady Pro, el pago es una compra dentro de la app de Apple cargada a tu Apple ID. Apple procesa la transacción. No recibimos tu contraseña de Apple ID ni el número completo de la tarjeta. StoreKit puede ver un recibo o identificador de transacción para desbloquear Pro y restaurar compras.</p>
+        <h2>11. Procesamiento de compras</h2>
+        <p>Steady usa solo el StoreKit propio de Apple para las compras; no hay SDK ni servidor de compras de terceros. La validación del recibo ocurre en el dispositivo, directamente con Apple. No enviamos tu nombre ni correo; Steady no recopila esos datos.</p>
         <h2>12. Informes de fallos (opcional, desactivado por defecto)</h2>
         <p>Si una compilación incluye un DSN de Sentry, puede enviarse un informe de fallo con la información personal identificable desactivada. La intención de producción es mantenerlo apagado salvo que el responsable del proyecto configure el DSN. Las notas locales del último error permanecen en el dispositivo.</p>
         <h2>13. Seguimiento, publicidad, analítica</h2>
@@ -398,7 +397,7 @@ PRIVACY["es"] = f"""
         </ul>
         <p>No podemos enviarte por correo una copia de las notas del dispositivo porque nunca las recibimos.</p>
         <h2>18. Transferencias internacionales</h2>
-        <p>App Store puede usarse en todo el mundo. Los datos del dispositivo permanecen en el dispositivo. Apple y, si se usan, RevenueCat o Sentry pueden tratar datos técnicos limitados en Estados Unidos u otros países según sus condiciones.</p>
+        <p>App Store puede usarse en todo el mundo. Los datos del dispositivo permanecen en el dispositivo. Apple y, si se usa, Sentry puede tratar datos técnicos limitados en Estados Unidos u otros países según sus condiciones.</p>
         <h2>19. Cambios</h2>
         <p>Podemos actualizar esta política. Cambiará la fecha de «Última actualización». Los cambios materiales que afecten a las revelaciones de suscripción también aparecerán en la pantalla de pago de la app cuando Apple lo exija.</p>
         <h2>20. Contacto</h2>
@@ -410,7 +409,7 @@ PRIVACY["it"] = f"""
         <h2>1. Chi siamo</h2>
         <p>Steady è un’app personale di fronteggiamento per panico, ansia, sonno e stati affini. È pubblicata da Javid Alishov, sviluppatore individuale. L’identificatore del bundle iOS è <code>app.steady.calm</code>. Steady non è una clinica, un ospedale, un prestatore sanitario abilitato né un servizio di emergenza.</p>
         <h2>2. Ambito</h2>
-        <p>Questa informativa copre l’app iOS Steady (WebView Capacitor), l’eventuale build web/PWA e queste pagine legali. Apple, RevenueCat e altri terzi hanno le proprie informative. La fatturazione degli acquisti in-app spetta ad Apple.</p>
+        <p>Questa informativa copre l’app iOS Steady (WebView Capacitor), l’eventuale build web/PWA e queste pagine legali. Apple e altri terzi hanno le proprie informative. La fatturazione degli acquisti in-app spetta ad Apple.</p>
         <h2>3. Nessun account</h2>
         <p>Puoi usare Steady senza registrarti. Non chiediamo nome, e-mail, telefono o una password Steady. Non gestiamo un database utenti Steady su un server che conservi umore, tocchi SOS o risposte dell’onboarding.</p>
         <h2>4. Dove stanno le informazioni</h2>
@@ -436,9 +435,9 @@ PRIVACY["it"] = f"""
         <h2>9. Rete e audio</h2>
         <p>L’ascolto guidato usa file audio in bundle. Durante l’ascolto non si chiama OpenAI né un’altra API generativa. I file vocali possono essere stati prodotti in sviluppo con un motore text-to-speech; quella chiave non è nell’app. L’impostazione cellulare influisce solo sul permesso dei media in rete cellulare e non carica le sessioni.</p>
         <h2>10. Acquisti</h2>
-        <p>Se acquisti Steady Pro, il pagamento è un In-App Purchase Apple addebitato all’Apple ID. Apple elabora la transazione. Non riceviamo la password dell’Apple ID né il numero completo della carta. StoreKit (su iOS, RevenueCat con chiave pubblica Apple SDK) può vedere una ricevuta o un identificatore di transazione per sbloccare Pro e ripristinare gli acquisti.</p>
-        <h2>11. RevenueCat</h2>
-        <p>Su iOS, Steady può usare RevenueCat per convalidare le ricevute App Store. RevenueCat può trattare identificatori anonimi App Store e un identificatore utente dell’app generato sul dispositivo. Non inviamo nome o e-mail. <a href="{RC_PRIVACY}">Informativa sulla privacy di RevenueCat</a>.</p>
+        <p>Se acquisti Steady Pro, il pagamento è un In-App Purchase Apple addebitato all’Apple ID. Apple elabora la transazione. Non riceviamo la password dell’Apple ID né il numero completo della carta. StoreKit può vedere una ricevuta o un identificatore di transazione per sbloccare Pro e ripristinare gli acquisti.</p>
+        <h2>11. Elaborazione degli acquisti</h2>
+        <p>Steady usa solo lo StoreKit nativo di Apple per gli acquisti; non esiste un SDK o un server di terze parti per gli acquisti. La convalida della ricevuta avviene sul dispositivo, direttamente con Apple. Non inviamo nome o e-mail; Steady non raccoglie questi dati.</p>
         <h2>12. Segnalazione crash (opzionale, disattivata di default)</h2>
         <p>Se una build include un DSN Sentry, può partire un report di crash con PII disattivata. L’intento di produzione è tenerla spenta finché il proprietario del progetto non imposta il DSN. Le note locali dell’ultimo errore restano sul dispositivo.</p>
         <h2>13. Tracciamento, pubblicità, analitica</h2>
@@ -458,7 +457,7 @@ PRIVACY["it"] = f"""
         </ul>
         <p>Non possiamo inviarti via e-mail una copia delle note sul dispositivo perché non le abbiamo mai ricevute.</p>
         <h2>18. Trasferimenti internazionali</h2>
-        <p>L’App Store può essere usato in tutto il mondo. I dati sul dispositivo restano sul dispositivo. Apple e, se usati, RevenueCat o Sentry possono trattare dati tecnici limitati negli Stati Uniti o in altri Paesi secondo i propri termini.</p>
+        <p>L’App Store può essere usato in tutto il mondo. I dati sul dispositivo restano sul dispositivo. Apple e, se usato, Sentry può trattare dati tecnici limitati negli Stati Uniti o in altri Paesi secondo i propri termini.</p>
         <h2>19. Modifiche</h2>
         <p>Possiamo aggiornare questa informativa. Cambierà la data di «Ultimo aggiornamento». Le modifiche sostanziali che riguardano le informative sull’abbonamento compariranno anche nella schermata di pagamento in-app ove richiesto da Apple.</p>
         <h2>20. Contatti</h2>
@@ -503,7 +502,7 @@ TERMS["en"] = f"""
         <h2>12. Your content on this phone</h2>
         <p>Notes, PIN hash, and onboarding answers stay on the device. If you delete the app, they go with it. We cannot restore them from a server.</p>
         <h2>13. Intellectual property</h2>
-        <p>The Steady name, UI, bundled audio, and written exercises are licensed to you for personal use, not sold. Third-party marks (Apple, App Store, RevenueCat) belong to their owners.</p>
+        <p>The Steady name, UI, bundled audio, and written exercises are licensed to you for personal use, not sold. Third-party marks (Apple, App Store) belong to their owners.</p>
         <h2>14. Availability</h2>
         <p>We may change, suspend, or discontinue features. Store availability, pricing, and taxes depend on Apple and your storefront. Voice clips exist for some languages; melody remains available when a clip is missing.</p>
         <h2>15. Disclaimer of warranties</h2>
@@ -556,7 +555,7 @@ TERMS["tr"] = f"""
         <h2>12. Bu telefondaki içeriğin</h2>
         <p>Notlar, PIN özeti ve onboarding cevapları cihazda kalır. Uygulamayı silersen gider. Sunucudan geri getiremeyiz.</p>
         <h2>13. Fikri mülkiyet</h2>
-        <p>Steady adı, arayüz, paketlenmiş ses ve yazılı alıştırmalar kişisel kullanım için lisanslanır, satılmaz. Apple, App Store, RevenueCat markaları sahiplerine aittir.</p>
+        <p>Steady adı, arayüz, paketlenmiş ses ve yazılı alıştırmalar kişisel kullanım için lisanslanır, satılmaz. Apple ve App Store markaları sahiplerine aittir.</p>
         <h2>14. Kullanılabilirlik</h2>
         <p>Özellikleri değiştirebilir, durdurabilir veya kaldırabiliriz. Mağaza, fiyat ve vergi Apple’a ve storefront’a bağlıdır. Bazı dillerde ses klipleri vardır; klip yoksa melodi kalır.</p>
         <h2>15. Garanti reddi</h2>
@@ -609,7 +608,7 @@ TERMS["az"] = f"""
         <h2>12. Bu telefondakı məzmunun</h2>
         <p>Qeydlər, PIN xülasəsi və onboarding cavabları cihazda qalır. Tətbiqi silsən, onlar da gedir. Serverdən bərpa edə bilmərik.</p>
         <h2>13. Əqli mülkiyyət</h2>
-        <p>Steady adı, interfeys, paketlənmiş səs və yazılı məşqlər şəxsi istifadə üçün lisenziyalaşdırılır, satılmır. Apple, App Store, RevenueCat nişanları sahiblərinindir.</p>
+        <p>Steady adı, interfeys, paketlənmiş səs və yazılı məşqlər şəxsi istifadə üçün lisenziyalaşdırılır, satılmır. Apple və App Store nişanları sahiblərinindir.</p>
         <h2>14. Əlçatanlıq</h2>
         <p>Xüsusiyyətləri dəyişə, dayandıra və ya silə bilərik. Mağaza, qiymət və vergi Apple-dan və storefront-dan asılıdır. Bəzi dillərdə səs klipləri var; klip yoxdursa melodiya qalır.</p>
         <h2>15. Zəmanətin rəddi</h2>
@@ -662,7 +661,7 @@ TERMS["ru"] = f"""
         <h2>12. Ваш контент на этом телефоне</h2>
         <p>Заметки, хеш PIN и ответы онбординга остаются на устройстве. Если удалить приложение, они исчезнут. Восстановить их с сервера мы не можем.</p>
         <h2>13. Интеллектуальная собственность</h2>
-        <p>Имя Steady, интерфейс, встроенное аудио и письменные упражнения лицензируются для личного использования, а не продаются. Знаки Apple, App Store, RevenueCat принадлежат их владельцам.</p>
+        <p>Имя Steady, интерфейс, встроенное аудио и письменные упражнения лицензируются для личного использования, а не продаются. Знаки Apple и App Store принадлежат их владельцам.</p>
         <h2>14. Доступность</h2>
         <p>Мы можем менять, приостанавливать или прекращать функции. Наличие в магазине, цены и налоги зависят от Apple и storefront. Голосовые клипы есть не для всех языков; если клипа нет, остаётся мелодия.</p>
         <h2>15. Отказ от гарантий</h2>
@@ -715,7 +714,7 @@ TERMS["es"] = f"""
         <h2>12. Tu contenido en este teléfono</h2>
         <p>Notas, hash del PIN y respuestas del onboarding quedan en el dispositivo. Si eliminas la app, desaparecen. No podemos restaurarlas desde un servidor.</p>
         <h2>13. Propiedad intelectual</h2>
-        <p>El nombre Steady, la interfaz, el audio incluido y los ejercicios escritos se licencian para uso personal, no se venden. Las marcas Apple, App Store y RevenueCat pertenecen a sus titulares.</p>
+        <p>El nombre Steady, la interfaz, el audio incluido y los ejercicios escritos se licencian para uso personal, no se venden. Las marcas Apple y App Store pertenecen a sus titulares.</p>
         <h2>14. Disponibilidad</h2>
         <p>Podemos cambiar, suspender o retirar funciones. La disponibilidad en la tienda, precios e impuestos dependen de Apple y del storefront. Hay clips de voz en algunos idiomas; si falta un clip, permanece la melodía.</p>
         <h2>15. Exclusión de garantías</h2>
@@ -768,7 +767,7 @@ TERMS["it"] = f"""
         <h2>12. I tuoi contenuti su questo telefono</h2>
         <p>Note, hash del PIN e risposte dell’onboarding restano sul dispositivo. Se elimini l’app, spariscono. Non possiamo ripristinarli da un server.</p>
         <h2>13. Proprietà intellettuale</h2>
-        <p>Il nome Steady, l’interfaccia, l’audio in bundle e gli esercizi scritti sono concessi in licenza per uso personale, non venduti. I marchi Apple, App Store e RevenueCat appartengono ai rispettivi titolari.</p>
+        <p>Il nome Steady, l’interfaccia, l’audio in bundle e gli esercizi scritti sono concessi in licenza per uso personale, non venduti. I marchi Apple e App Store appartengono ai rispettivi titolari.</p>
         <h2>14. Disponibilità</h2>
         <p>Possiamo modificare, sospendere o interrompere funzioni. Disponibilità nello store, prezzi e tasse dipendono da Apple e dallo storefront. Ci sono clip vocali per alcune lingue; se manca una clip resta la melodia.</p>
         <h2>15. Esclusione di garanzie</h2>
