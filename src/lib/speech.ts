@@ -58,6 +58,8 @@ type SliceCtl = {
 
 let sliceCtl: SliceCtl | null = null
 let htmlVoice: HTMLAudioElement | null = null
+/** Settles the in-flight playHtmlClip promise so a teardown never leaves it hanging. */
+let htmlClipSettle: ((ok: boolean) => void) | null = null
 
 function liveElapsed() {
   if (!speakingFlag && !loadingFlag) return 0
@@ -360,9 +362,15 @@ async function decodeUrl(url: string, ctx: AudioContext) {
 function haltHtmlVoice() {
   const el = htmlVoice
   htmlVoice = null
+  const settle = htmlClipSettle
+  htmlClipSettle = null
+  settle?.(false)
   if (!el) return
   el.onended = null
   el.onerror = null
+  el.onloadedmetadata = null
+  el.onpause = null
+  el.ontimeupdate = null
   try {
     el.pause()
   } catch {
@@ -657,17 +665,25 @@ async function runBakedHtml(urls: string[], gen: number, opts: SpeakOpts): Promi
   let played = false
   try {
     let skip = startMs / 1000
+    let anchored = skip <= 0.02
     for (const url of urls) {
       if (cancelled || gen !== speakGen) return true
       let offset = 0
       if (skip > 0.02) {
         const dur = await probeClipDuration(url)
+        if (cancelled || gen !== speakGen) return true
         if (skip >= Math.max(0, dur - 0.04)) {
           skip -= dur
           continue
         }
         offset = skip
         skip = 0
+      }
+      if (!anchored) {
+        // Re-anchor the wall clock here, not at the top — probing skipped clips takes
+        // real time and must never be counted as elapsed playback.
+        clockOrigin = Date.now()
+        anchored = true
       }
       await waitWhilePaused()
       if (cancelled || gen !== speakGen) return true
@@ -690,6 +706,10 @@ async function runBakedHtml(urls: string[], gen: number, opts: SpeakOpts): Promi
   return true
 }
 
+/** No progress for this long (ms) means the element silently stalled — a stuck decode,
+ * a system audio interruption that never resumed, or a clip that never fires ended/error. */
+const CLIP_STALL_MS = 6000
+
 function playHtmlClip(url: string, gen: number, offsetSec = 0) {
   return new Promise<boolean>((resolve) => {
     haltHtmlVoice()
@@ -704,14 +724,30 @@ function playHtmlClip(url: string, gen: number, offsetSec = 0) {
     el.volume = readVoiceVolume()
     htmlVoice = el
     let settled = false
+    let lastProgressAt = Date.now()
+    const watchdog = window.setInterval(() => {
+      if (settled || pausedFlag) return
+      if (Date.now() - lastProgressAt > CLIP_STALL_MS) finish(false)
+    }, 1000)
     const finish = (ok: boolean) => {
       if (settled) return
       settled = true
+      window.clearInterval(watchdog)
+      if (htmlClipSettle === finish) htmlClipSettle = null
+      el.onended = null
+      el.onerror = null
+      el.onloadedmetadata = null
+      el.onpause = null
+      el.ontimeupdate = null
       if (htmlVoice === el) htmlVoice = null
       resolve(ok)
     }
+    htmlClipSettle = finish
     el.onended = () => finish(true)
     el.onerror = () => finish(false)
+    el.ontimeupdate = () => {
+      lastProgressAt = Date.now()
+    }
     if (offsetSec > 0.02) {
       el.onloadedmetadata = () => {
         try {
@@ -719,6 +755,20 @@ function playHtmlClip(url: string, gen: number, offsetSec = 0) {
         } catch {
           /* seek not ready yet; play from the start instead of failing */
         }
+      }
+    }
+    el.onpause = () => {
+      // A pause we did not ask for — a call, Siri, or a route change. Try to resume once;
+      // if that fails, reflect it as our own paused state instead of hanging silently.
+      if (settled || pausedFlag || el.ended) return
+      const p = el.play()
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => {
+          if (settled) return
+          pausedFlag = true
+          clockPausedAt = Date.now()
+          setFlags({ paused: true })
+        })
       }
     }
     audio.hushForVoice()
