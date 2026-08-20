@@ -32,7 +32,9 @@ function LayoutBody() {
   const room = pathname.startsWith('/session')
   const nested =
     pathname.startsWith('/me/settings') || pathname.startsWith('/me/skills') || pathname.startsWith('/legal')
-  const banner = !room && !listen && !pro && !nested && !bannerOff
+  const paywall = pathname.startsWith('/paywall')
+  // Redundant on the paywall itself: the whole screen is already the upgrade pitch.
+  const banner = !room && !listen && !pro && !nested && !bannerOff && !paywall
   const dock = now.playing && (now.kind === 'nature' || now.kind === 'tone') && !room && !listen
   const pad = listen
     ? 'pb-0'
