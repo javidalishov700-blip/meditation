@@ -34,10 +34,13 @@ workflows:
         BUNDLE_ID: app.steady.calm
         # Codemagic UI encrypted env (never commit values):
         # VITE_LEGAL_ORIGIN — public https origin for /legal/*
+        # VITE_REVENUECAT_API_KEY — RevenueCat public API key (iOS), from RevenueCat
+        #   dashboard → Project Settings → API Keys. Without it the IPA has no purchases.
         # APPLE_TEAM_ID — optional; signing uses the Apple integration
         # CERTIFICATE_PRIVATE_KEY — PEM from `openssl genrsa 2048` (Codemagic encrypted).
         #   Apple does not give the Distribution cert private key; this one creates it.
-        # In-app purchases need no key: they go straight to Apple's own StoreKit.
+        # RevenueCat itself needs a separate App Store Connect key uploaded in its own
+        # dashboard (Integrations → App Store Connect) — that's not a Codemagic var.
       node: 22
       xcode: latest
       cocoapods: default
@@ -52,6 +55,9 @@ workflows:
         script: |
           if [ -z "${VITE_LEGAL_ORIGIN:-}" ]; then
             echo "VITE_LEGAL_ORIGIN empty — in-app legal is bundled; App Store Connect still needs a public https URL"
+          fi
+          if [ -z "${VITE_REVENUECAT_API_KEY:-}" ]; then
+            echo "VITE_REVENUECAT_API_KEY empty — this IPA will have no in-app purchases"
           fi
       - name: Bake store MP3s
         script: |

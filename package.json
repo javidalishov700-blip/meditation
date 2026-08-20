@@ -20,9 +20,9 @@
     "@capacitor/core": "^7.4.3",
     "@capacitor/dialog": "^7.0.4",
     "@capacitor/local-notifications": "^7.0.7",
+    "@revenuecat/purchases-capacitor": "^11.3.2",
     "@sentry/react": "^10.70.0",
     "capacitor-native-settings": "^7.0.2",
-    "capacitor-storekit-native": "file:native/capacitor-storekit",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.0"

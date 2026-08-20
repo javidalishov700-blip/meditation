@@ -58,34 +58,34 @@ def table(headers: list[str], rows: list[list[str]]) -> str:
 
 PRODUCT_ROWS = {
     "tr": [
-        ["Steady Pro Weekly", "app.steady.calm.weekly", "1 hafta", "3,99 USD"],
-        ["Steady Pro Monthly", "app.steady.calm.monthly", "1 ay", "12,99 USD"],
-        ["Steady Pro Yearly", "app.steady.calm.yearly", "1 yıl", "59,99 USD"],
+        ["Steady Pro Weekly", "app.steady.pro.weekly", "1 hafta", "3,99 USD"],
+        ["Steady Pro Monthly", "app.steady.pro.monthly", "1 ay", "12,99 USD"],
+        ["Steady Pro Yearly", "app.steady.pro.yearly", "1 yıl", "59,99 USD"],
     ],
     "en": [
-        ["Steady Pro Weekly", "app.steady.calm.weekly", "1 week", "USD 3.99"],
-        ["Steady Pro Monthly", "app.steady.calm.monthly", "1 month", "USD 12.99"],
-        ["Steady Pro Yearly", "app.steady.calm.yearly", "1 year", "USD 59.99"],
+        ["Steady Pro Weekly", "app.steady.pro.weekly", "1 week", "USD 3.99"],
+        ["Steady Pro Monthly", "app.steady.pro.monthly", "1 month", "USD 12.99"],
+        ["Steady Pro Yearly", "app.steady.pro.yearly", "1 year", "USD 59.99"],
     ],
     "az": [
-        ["Steady Pro Weekly", "app.steady.calm.weekly", "1 həftə", "3,99 USD"],
-        ["Steady Pro Monthly", "app.steady.calm.monthly", "1 ay", "12,99 USD"],
-        ["Steady Pro Yearly", "app.steady.calm.yearly", "1 il", "59,99 USD"],
+        ["Steady Pro Weekly", "app.steady.pro.weekly", "1 həftə", "3,99 USD"],
+        ["Steady Pro Monthly", "app.steady.pro.monthly", "1 ay", "12,99 USD"],
+        ["Steady Pro Yearly", "app.steady.pro.yearly", "1 il", "59,99 USD"],
     ],
     "ru": [
-        ["Steady Pro Weekly", "app.steady.calm.weekly", "1 неделя", "3,99 USD"],
-        ["Steady Pro Monthly", "app.steady.calm.monthly", "1 месяц", "12,99 USD"],
-        ["Steady Pro Yearly", "app.steady.calm.yearly", "1 год", "59,99 USD"],
+        ["Steady Pro Weekly", "app.steady.pro.weekly", "1 неделя", "3,99 USD"],
+        ["Steady Pro Monthly", "app.steady.pro.monthly", "1 месяц", "12,99 USD"],
+        ["Steady Pro Yearly", "app.steady.pro.yearly", "1 год", "59,99 USD"],
     ],
     "es": [
-        ["Steady Pro Weekly", "app.steady.calm.weekly", "1 semana", "3,99 USD"],
-        ["Steady Pro Monthly", "app.steady.calm.monthly", "1 mes", "12,99 USD"],
-        ["Steady Pro Yearly", "app.steady.calm.yearly", "1 año", "59,99 USD"],
+        ["Steady Pro Weekly", "app.steady.pro.weekly", "1 semana", "3,99 USD"],
+        ["Steady Pro Monthly", "app.steady.pro.monthly", "1 mes", "12,99 USD"],
+        ["Steady Pro Yearly", "app.steady.pro.yearly", "1 año", "59,99 USD"],
     ],
     "it": [
-        ["Steady Pro Weekly", "app.steady.calm.weekly", "1 settimana", "3,99 USD"],
-        ["Steady Pro Monthly", "app.steady.calm.monthly", "1 mese", "12,99 USD"],
-        ["Steady Pro Yearly", "app.steady.calm.yearly", "1 anno", "59,99 USD"],
+        ["Steady Pro Weekly", "app.steady.pro.weekly", "1 settimana", "3,99 USD"],
+        ["Steady Pro Monthly", "app.steady.pro.monthly", "1 mese", "12,99 USD"],
+        ["Steady Pro Yearly", "app.steady.pro.yearly", "1 anno", "59,99 USD"],
     ],
 }
 

@@ -7,7 +7,9 @@
  * 3. Agreements → Paid Apps + banking/tax before IAP goes live
  * 4. Subscription group "Steady Pro" + product ids in store/app-store-products.json
  * 5. Codemagic → Apple Developer Portal integration (App Store Connect API key)
- * 6. Purchases are native StoreKit 2 (native/capacitor-storekit) — no purchase SDK key needed
+ * 6. Purchases go through RevenueCat (@revenuecat/purchases-capacitor) on top of StoreKit —
+ *    needs VITE_REVENUECAT_API_KEY at build time and an App Store Connect key in the
+ *    RevenueCat dashboard (Project Settings → Integrations → App Store Connect)
  * 7. Public https origin for /legal/privacy.html and /legal/terms.html (repo is private)
  */
 import fs from 'node:fs'
@@ -137,7 +139,7 @@ function patchPbxproj(pbxPath) {
       `PRODUCT_BUNDLE_IDENTIFIER = app.steady.calm;\n\t\t\t\tDEVELOPMENT_TEAM = ${team};`,
     )
   }
-  // StoreKit 2 (native/capacitor-storekit) needs iOS 15+.
+  // RevenueCat's StoreKit 2 backend needs iOS 15+.
   pbx = pbx.replace(/IPHONEOS_DEPLOYMENT_TARGET = [^;]+;/g, 'IPHONEOS_DEPLOYMENT_TARGET = 15.0;')
   pbx = addResourceFile(pbx, 'PrivacyInfo.xcprivacy')
   pbx = addInfoPlistStrings(pbx)
