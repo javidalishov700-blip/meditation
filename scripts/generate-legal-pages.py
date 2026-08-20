@@ -8,12 +8,12 @@ APPLE_PRIVACY = "https://www.apple.com/privacy/"
 APPLE_SUBS = "https://apps.apple.com/account/subscriptions"
 APPLE_REFUND = "https://reportaproblem.apple.com/"
 DATE = {
-    "tr": "19 Ağustos 2026",
-    "en": "19 August 2026",
-    "az": "19 avqust 2026",
-    "ru": "19 августа 2026 г.",
-    "es": "19 de agosto de 2026",
-    "it": "19 agosto 2026",
+    "tr": "20 Ağustos 2026",
+    "en": "20 August 2026",
+    "az": "20 avqust 2026",
+    "ru": "20 августа 2026 г.",
+    "es": "20 de agosto de 2026",
+    "it": "20 agosto 2026",
 }
 
 
@@ -116,7 +116,7 @@ PRIVACY["en"] = f"""
         <h2>5. Information stored on the device</h2>
         <p>Depending on how you use Steady, the app may store locally:</p>
         <ul>
-          <li>Onboarding answers, reminder switches, and trial timestamps (including a 3-day on-device trial flag)</li>
+          <li>Onboarding answers and reminder switches</li>
           <li>Language, theme, dim mode, voice versus melody preference, and cellular-media preference</li>
           <li>An optional 4-digit lock: only a random salt and a SHA-256 hash are stored — never the PIN in plain text</li>
           <li>SOS / “I passed” notes you choose to save, activity, streaks, and freeze credits</li>
@@ -176,7 +176,7 @@ PRIVACY["tr"] = f"""
         <p>Girdiğin bilgi bu cihazın uygulama sanal alanında durur (WebView yerel depolama ve iOS’ta yerli kabuğun UserDefaults kullanımı). Uygulamayı silersen veya site verisini temizlersen bilgi cihazdan gider. Steady bulutundan geri getiremeyiz; çünkü böyle bir bulut yoktur.</p>
         <h2>5. Cihazda saklanan bilgi</h2>
         <ul>
-          <li>Onboarding cevapları, hatırlatma anahtarları, 3 günlük cihaz içi deneme zaman damgası</li>
+          <li>Onboarding cevapları, hatırlatma anahtarları</li>
           <li>Dil, tema, loş mod, ses/melodi tercihi, hücresel medya tercihi</li>
           <li>İsteğe bağlı 4 haneli kilit: yalnızca rastgele tuz ve SHA-256 özeti — PIN düz metin saklanmaz</li>
           <li>Kaydettiğin SOS / “geçirdim” notları, aktivite, seri, dondurma kredileri</li>
@@ -236,7 +236,7 @@ PRIVACY["az"] = f"""
         <p>Daxil etdiyin məlumat bu cihazın tətbiq qum qutusunda qalır (WebView yerli yaddaş və iOS-da native qabığın UserDefaults istifadəsi). Tətbiqi silsən və ya sayt məlumatını təmizləsən, məlumat cihazdan gedir. Onu Steady buludundan bərpa edə bilmərik — belə bulud yoxdur.</p>
         <h2>5. Cihazda saxlanan məlumat</h2>
         <ul>
-          <li>Onboarding cavabları, xatırlatma açarları, 3 günlük cihazdaxili sınaq vaxt damğası</li>
+          <li>Onboarding cavabları, xatırlatma açarları</li>
           <li>Dil, tema, sönük rejim, səs/melodiya seçimi, mobil şəbəkə medianı</li>
           <li>İstəyə bağlı 4 rəqəmli kilid: yalnız təsadüfi duz və SHA-256 xülasəsi — PIN açıq mətn saxlanılmır</li>
           <li>Saxladığın SOS / “keçdim” qeydləri, aktivlik, seriya, dondurma kreditləri</li>
@@ -296,7 +296,7 @@ PRIVACY["ru"] = f"""
         <p>Введённая информация хранится в песочнице приложения на этом устройстве (локальное хранилище WebView и на iOS — UserDefaults нативной оболочки). Если удалить приложение или очистить данные сайта, информация исчезает с устройства. Восстановить её из облака Steady нельзя: облака нет.</p>
         <h2>5. Данные на устройстве</h2>
         <ul>
-          <li>Ответы онбординга, переключатели напоминаний, метка 3-дневной пробной версии на устройстве</li>
+          <li>Ответы онбординга, переключатели напоминаний</li>
           <li>Язык, тема, приглушённый режим, голос/мелодия, сотовые медиа</li>
           <li>Необязательный 4-значный код: только случайная соль и SHA-256, PIN не хранится открытым текстом</li>
           <li>Заметки SOS / «я справился», активность, серии, кредиты заморозки</li>
@@ -356,7 +356,7 @@ PRIVACY["es"] = f"""
         <p>Lo que introduces se guarda en la zona de pruebas de la app en este dispositivo (almacenamiento local del WebView y, en iOS, UserDefaults del contenedor nativo). Si eliminas la app o borras los datos del sitio, la información desaparece del dispositivo. No podemos restaurarla desde una nube de Steady: no existe.</p>
         <h2>5. Información en el dispositivo</h2>
         <ul>
-          <li>Respuestas del onboarding, recordatorios y marca de prueba de 3 días en el dispositivo</li>
+          <li>Respuestas del onboarding y recordatorios</li>
           <li>Idioma, tema, modo tenue, voz/melodía y preferencia de datos móviles</li>
           <li>Bloqueo opcional de 4 dígitos: solo sal aleatoria y hash SHA-256; el PIN no se guarda en claro</li>
           <li>Notas de SOS / “lo superé”, actividad, rachas y créditos de congelación</li>
@@ -416,7 +416,7 @@ PRIVACY["it"] = f"""
         <p>Ciò che inserisci resta nella sandbox dell’app su questo dispositivo (archivio locale del WebView e, su iOS, UserDefaults del contenitore nativo). Se elimini l’app o cancelli i dati del sito, le informazioni spariscono dal dispositivo. Non possiamo ripristinarle da un cloud Steady: non esiste.</p>
         <h2>5. Informazioni sul dispositivo</h2>
         <ul>
-          <li>Risposte dell’onboarding, promemoria e marcatura della prova di 3 giorni sul dispositivo</li>
+          <li>Risposte dell’onboarding e promemoria</li>
           <li>Lingua, tema, modalità attenuata, voce/melodia, preferenza dati cellulari</li>
           <li>Blocco opzionale a 4 cifre: solo sale casuale e hash SHA-256; il PIN non è in chiaro</li>
           <li>Note SOS / “ce l’ho fatta”, attività, serie, crediti di congelamento</li>
@@ -480,7 +480,7 @@ TERMS["en"] = f"""
         <h2>5. License</h2>
         <p>We grant you a personal, limited, non-exclusive, non-transferable, revocable license to use Steady on devices you own or control, as permitted by Apple’s Standard EULA. You may not reverse-engineer, resell, scrape the content as a competing service, or use the app to provide clinical care to others as if it were a medical product.</p>
         <h2>6. Free layer and Pro</h2>
-        <p>SOS is always free and does not lock. After any on-device trial ends, a thin free layer remains: 174 Hz for 3 minutes, one story, one writing, one breath, panic day 1, today’s one clarity, 5-4-3-2-1, the first meditation session, and 5 minutes of rain or piano. Listening for 15 minutes or more is Pro. Pro unlocks the remaining sessions, longer listening, and related features described on the paywall. Feature lists may change; the paywall in the current version is the description of what you buy.</p>
+        <p>SOS is always free and does not lock. A thin free layer is always available: 174 Hz for 3 minutes, one story, one writing, one breath, panic day 1, today’s one clarity, 5-4-3-2-1, the first meditation session, and 5 minutes of rain or piano. Listening for 15 minutes or more is Pro. Pro unlocks the remaining sessions, longer listening, and related features described on the paywall. Feature lists may change; the paywall in the current version is the description of what you buy.</p>
         <h2>7. Auto-renewable subscriptions (title, length, price)</h2>
         <p>Paid access is an auto-renewable Apple In-App Purchase in the subscription group <strong>Steady Pro</strong>. Only one of these products is active at a time; switching plans follows Apple’s upgrade and downgrade rules for that group.</p>
         {table(COL["en"], PRODUCT_ROWS["en"])}
@@ -493,8 +493,8 @@ TERMS["en"] = f"""
           <li>You manage or cancel in iPhone Settings → Apple ID → Subscriptions, or at <a href="{APPLE_SUBS}">{APPLE_SUBS}</a>. Deleting the app does not cancel the subscription.</li>
           <li>Refunds, if any, are handled by Apple: <a href="{APPLE_REFUND}">{APPLE_REFUND}</a> or Purchase History in your Apple ID. We cannot refund an App Store charge ourselves.</li>
         </ul>
-        <h2>9. On-device 3-day trial (not an Apple Introductory Offer)</h2>
-        <p>Steady may start a <strong>3-day on-device trial</strong> after onboarding. That timer lives on the phone. It is <strong>not</strong> an Apple Introductory Offer. App Store Connect is left without an introductory offer so Apple does not charge a trial through StoreKit. The on-device trial does not bill your Apple ID. When it ends, the free layer above remains; Pro requires a subscription. If Apple ever offered a free trial through StoreKit, unused trial time would be forfeited when you purchase, as stated in the box at the top. Buying a subscription does not convert unused on-device trial days into a cash refund (there was no Apple charge for those days).</p>
+        <h2>9. No free trial</h2>
+        <p>Steady does not currently offer a free trial. If we add one in the future, its terms will appear here and on the paywall before it starts.</p>
         <h2>10. Restore purchases</h2>
         <p>Use Restore on the paywall to re-apply an active Apple subscription to this device. Restoration requires the same Apple ID that purchased the subscription. Family Sharing applies only if Apple and App Store Connect have Family Sharing enabled for these products; otherwise Pro is tied to the purchasing Apple ID.</p>
         <h2>11. Acceptable use</h2>
@@ -533,7 +533,7 @@ TERMS["tr"] = f"""
         <h2>5. Lisans</h2>
         <p>Sana, Apple Standart EULA’nın izin verdiği şekilde, sahip olduğun veya kontrol ettiğin cihazlarda Steady’yi kullanmak için kişisel, sınırlı, münhasır olmayan, devredilemez, geri alınabilir lisans verilir. Tersine mühendislik, yeniden satış, içeriği rakip hizmet olarak kazıma veya uygulamayı tıbbi ürünmüş gibi başkalarına klinik bakım sunmak yasaktır.</p>
         <h2>6. Ücretsiz katman ve Pro</h2>
-        <p>SOS her zaman ücretsizdir ve kilitlenmez. Cihaz içi deneme bitince ince ücretsiz katman kalır: 174 Hz 3 dakika, bir hikâye, bir yazı, bir nefes, panik 1. gün, günün tek netliği, 5-4-3-2-1, ilk meditasyon seansı, yağmur veya piyano 5 dakika. 15 dakika ve üzeri dinleme Pro’dur. Pro, paywall’da anlatılan kalan seansları ve uzun dinlemeyi açar. Özellik listesi değişebilir; satın aldığın şeyin tarifi güncel sürümdeki paywall’dır.</p>
+        <p>SOS her zaman ücretsizdir ve kilitlenmez. İnce bir ücretsiz katman her zaman kullanılabilir: 174 Hz 3 dakika, bir hikâye, bir yazı, bir nefes, panik 1. gün, günün tek netliği, 5-4-3-2-1, ilk meditasyon seansı, yağmur veya piyano 5 dakika. 15 dakika ve üzeri dinleme Pro’dur. Pro, paywall’da anlatılan kalan seansları ve uzun dinlemeyi açar. Özellik listesi değişebilir; satın aldığın şeyin tarifi güncel sürümdeki paywall’dır.</p>
         <h2>7. Otomatik yenilenen abonelikler (başlık, süre, fiyat)</h2>
         <p>Ücretli erişim, <strong>Steady Pro</strong> abonelik grubunda otomatik yenilenen Apple In-App Purchase’dır. Aynı anda bu ürünlerden biri aktiftir; plan değiştirme Apple’ın o grup için yükseltme/düşürme kurallarına uyar.</p>
         {table(COL["tr"], PRODUCT_ROWS["tr"])}
@@ -546,8 +546,8 @@ TERMS["tr"] = f"""
           <li>Yönetim/iptal: iPhone Ayarlar → Apple ID → Abonelikler veya <a href="{APPLE_SUBS}">{APPLE_SUBS}</a>. Uygulamayı silmek aboneliği iptal etmez.</li>
           <li>İade varsa Apple halleder: <a href="{APPLE_REFUND}">{APPLE_REFUND}</a> veya Apple ID Satın Alma Geçmişi. App Store ücretini biz iade edemeyiz.</li>
         </ul>
-        <h2>9. Cihaz içi 3 günlük deneme (Apple Introductory Offer değil)</h2>
-        <p>Onboarding sonrası <strong>3 günlük cihaz içi deneme</strong> başlayabilir. Sayaç telefondadır. Bu, Apple Introductory Offer <strong>değildir</strong>. App Store Connect’te tanıtım teklifi boş bırakılır; StoreKit üzerinden deneme ücreti çekilmez. Cihaz içi deneme Apple ID’ni faturalamaz. Bitince yukarıdaki ücretsiz katman kalır; Pro için abonelik gerekir. Apple StoreKit ile ücretsiz deneme sunsaydı, satın almada kullanılmamış deneme süresi üstteki kutudaki gibi yanardı. Abonelik almak, kullanılmamış cihaz içi deneme günlerini nakit iadeye çevirmez (o günler için Apple ücreti yoktu).</p>
+        <h2>9. Ücretsiz deneme yok</h2>
+        <p>Steady şu anda ücretsiz deneme sunmuyor. İleride bir deneme eklersek, koşulları hem burada hem de paywall’da, başlamadan önce açıkça belirtiriz.</p>
         <h2>10. Satın almaları geri yükle</h2>
         <p>Paywall’daki Geri Yükle, bu cihaza aktif Apple aboneliğini yeniden uygular. Satın alan aynı Apple ID gerekir. Aile Paylaşımı, Apple ve App Store Connect bu ürünler için Aile Paylaşımı’nı açtıysa geçerlidir; aksi halde Pro satın alan Apple ID’ye bağlıdır.</p>
         <h2>11. Kabul edilebilir kullanım</h2>
@@ -586,7 +586,7 @@ TERMS["az"] = f"""
         <h2>5. Lisenziya</h2>
         <p>Sənə Apple Standart EULA-nın icazə verdiyi qaydada, sahib olduğun və ya nəzarət etdiyin cihazlarda Steady-dən istifadə üçün şəxsi, məhdud, müstəsna olmayan, ötürülməz, geri alına bilən lisenziya verilir. Tərsinə mühəndislik, yenidən satış, məzmunu rəqib xidmət kimi sıyırmaq və ya tətbiqi tibbi məhsul kimi başqalarına klinik qayğı göstərmək olmaz.</p>
         <h2>6. Pulsuz təbəqə və Pro</h2>
-        <p>SOS həmişə pulsuzdur və kilidlənmir. Cihazdaxili sınaq bitəndən sonra nazik pulsuz təbəqə qalır: 174 Hz 3 dəqiqə, bir hekayə, bir yazı, bir nəfəs, panik 1-ci gün, günün tək netliyi, 5-4-3-2-1, ilk meditasiya seansı, yağış və ya piano 5 dəqiqə. 15 dəqiqə və daha uzun dinləmə Pro-dur. Pro, ödəniş ekranında təsvir olunan qalan seansları və uzun dinləməni açır. Xüsusiyyət siyahısı dəyişə bilər; aldığın şeyin təsviri cari versiyadakı ödəniş ekranıdır.</p>
+        <p>SOS həmişə pulsuzdur və kilidlənmir. Nazik pulsuz təbəqə həmişə mövcuddur: 174 Hz 3 dəqiqə, bir hekayə, bir yazı, bir nəfəs, panik 1-ci gün, günün tək netliyi, 5-4-3-2-1, ilk meditasiya seansı, yağış və ya piano 5 dəqiqə. 15 dəqiqə və daha uzun dinləmə Pro-dur. Pro, ödəniş ekranında təsvir olunan qalan seansları və uzun dinləməni açır. Xüsusiyyət siyahısı dəyişə bilər; aldığın şeyin təsviri cari versiyadakı ödəniş ekranıdır.</p>
         <h2>7. Avtomatik yenilənən abunəliklər (ad, müddət, qiymət)</h2>
         <p>Ödənişli giriş <strong>Steady Pro</strong> abunəlik qrupunda avtomatik yenilənən Apple In-App Purchase-dir. Eyni anda bu məhsullardan biri aktivdir; plan dəyişməsi Apple-ın həmin qrup üçün yüksəltmə/endirmə qaydalarına uyğundur.</p>
         {table(COL["az"], PRODUCT_ROWS["az"])}
@@ -599,8 +599,8 @@ TERMS["az"] = f"""
           <li>İdarə/ləğv: iPhone Ayarlar → Apple ID → Abunəliklər və ya <a href="{APPLE_SUBS}">{APPLE_SUBS}</a>. Tətbiqi silmək abunəliyi ləğv etmir.</li>
           <li>Geri ödəmə varsa, Apple həll edir: <a href="{APPLE_REFUND}">{APPLE_REFUND}</a> və ya Apple ID Alış Tarixçəsi. App Store tutmasını biz qaytara bilmərik.</li>
         </ul>
-        <h2>9. Cihazdaxili 3 günlük sınaq (Apple Introductory Offer deyil)</h2>
-        <p>Onboarding-dən sonra <strong>3 günlük cihazdaxili sınaq</strong> başlaya bilər. Sayğac telefondadır. Bu, Apple Introductory Offer <strong>deyil</strong>. App Store Connect-də tanıtım təklifi boş saxlanılır; StoreKit vasitəsilə sınaq haqqı tutulmur. Cihazdaxili sınaq Apple ID-ni faturalamır. Bitəndə yuxarıdakı pulsuz təbəqə qalır; Pro üçün abunəlik lazımdır. Apple StoreKit ilə ödənişsiz sınaq təklif etsəydi, alış zamanı istifadə olunmamış sınaq müddəti yuxarıdakı qutudakı kimi itirilərdi. Abunəlik almaq, istifadə olunmamış cihazdaxili sınaq günlərini nağd geri ödəməyə çevirmir (o günlər üçün Apple tutması yox idi).</p>
+        <h2>9. Pulsuz sınaq yoxdur</h2>
+        <p>Steady hazırda pulsuz sınaq təklif etmir. Gələcəkdə əlavə etsək, şərtləri həm burada, həm də paywall-da, başlamazdan əvvəl aydın göstərəcəyik.</p>
         <h2>10. Alışları bərpa et</h2>
         <p>Ödəniş ekranındakı Bərpa, bu cihaza aktiv Apple abunəliyini yenidən tətbiq edir. Alan eyni Apple ID lazımdır. Ailə Paylaşımı yalnız Apple və App Store Connect bu məhsullar üçün Ailə Paylaşımını açıbsa keçərlidir; əks halda Pro alan Apple ID-yə bağlıdır.</p>
         <h2>11. Qəbul edilən istifadə</h2>
@@ -639,7 +639,7 @@ TERMS["ru"] = f"""
         <h2>5. Лицензия</h2>
         <p>Вам предоставляется личная, ограниченная, неисключительная, непередаваемая, отзывная лицензия на использование Steady на устройствах, которыми вы владеете или управляете, в пределах Стандартного EULA Apple. Запрещены реверс-инжиниринг, перепродажа, выгрузка контента как конкурирующего сервиса и использование приложения как медицинского продукта для клинической помощи другим.</p>
         <h2>6. Бесплатный слой и Pro</h2>
-        <p>SOS всегда бесплатен и не блокируется. После окончания пробного периода на устройстве остаётся тонкий бесплатный слой: 174 Гц на 3 минуты, одна история, одно письмо, одно дыхание, день 1 паники, одна ясность дня, 5-4-3-2-1, первая сессия медитации, 5 минут дождя или пианино. Прослушивание на 15 минут и дольше — Pro. Pro открывает остальные сессии и длинное прослушивание, описанные на экране оплаты. Список функций может меняться; описание покупки — экран оплаты текущей версии.</p>
+        <p>SOS всегда бесплатен и не блокируется. Тонкий бесплатный слой доступен всегда: 174 Гц на 3 минуты, одна история, одно письмо, одно дыхание, день 1 паники, одна ясность дня, 5-4-3-2-1, первая сессия медитации, 5 минут дождя или пианино. Прослушивание на 15 минут и дольше — Pro. Pro открывает остальные сессии и длинное прослушивание, описанные на экране оплаты. Список функций может меняться; описание покупки — экран оплаты текущей версии.</p>
         <h2>7. Автопродлеваемые подписки (название, срок, цена)</h2>
         <p>Платный доступ — автопродлеваемая покупка Apple In-App Purchase в группе подписок <strong>Steady Pro</strong>. Одновременно активен один из этих продуктов; смена плана следует правилам Apple для повышения/понижения в этой группе.</p>
         {table(COL["ru"], PRODUCT_ROWS["ru"])}
@@ -652,8 +652,8 @@ TERMS["ru"] = f"""
           <li>Управление/отмена: Настройки iPhone → Apple ID → Подписки или <a href="{APPLE_SUBS}">{APPLE_SUBS}</a>. Удаление приложения подписку не отменяет.</li>
           <li>Возвраты, если они есть, делает Apple: <a href="{APPLE_REFUND}">{APPLE_REFUND}</a> или История покупок Apple ID. Мы сами не возвращаем списание App Store.</li>
         </ul>
-        <h2>9. 3-дневная проба на устройстве (не Introductory Offer Apple)</h2>
-        <p>После онбординга может начаться <strong>3-дневная проба на устройстве</strong>. Таймер на телефоне. Это <strong>не</strong> Introductory Offer Apple. В App Store Connect вступительное предложение оставлено пустым; StoreKit не списывает плату за пробу. Проба на устройстве не выставляет счёт Apple ID. Когда она кончается, остаётся бесплатный слой выше; для Pro нужна подписка. Если бы Apple предлагала бесплатную пробу через StoreKit, неиспользованное время сгорало бы при покупке, как в рамке сверху. Покупка подписки не превращает неиспользованные дни пробы на устройстве в денежный возврат (за эти дни Apple ничего не списывала).</p>
+        <h2>9. Бесплатной пробы нет</h2>
+        <p>Steady сейчас не предлагает бесплатную пробу. Если мы добавим её в будущем, условия появятся здесь и на экране оплаты до её начала.</p>
         <h2>10. Восстановление покупок</h2>
         <p>Кнопка «Восстановить» на экране оплаты снова применяет активную подписку Apple к этому устройству. Нужен тот же Apple ID, с которого покупали. Семейный доступ действует, только если Apple и App Store Connect включили Family Sharing для этих продуктов; иначе Pro привязан к покупающему Apple ID.</p>
         <h2>11. Допустимое использование</h2>
@@ -692,7 +692,7 @@ TERMS["es"] = f"""
         <h2>5. Licencia</h2>
         <p>Te concedemos una licencia personal, limitada, no exclusiva, intransferible y revocable para usar Steady en dispositivos que poseas o controles, según el EULA estándar de Apple. No se permite la ingeniería inversa, la reventa, extraer el contenido como servicio competidor ni usar la app como producto sanitario para atender a terceros.</p>
         <h2>6. Capa gratuita y Pro</h2>
-        <p>El SOS es siempre gratuito y no se bloquea. Tras la prueba en el dispositivo queda una capa gratuita reducida: 174 Hz 3 minutos, un relato, una escritura, una respiración, pánico día 1, la claridad de hoy, 5-4-3-2-1, la primera sesión de meditación y 5 minutos de lluvia o piano. Escuchar 15 minutos o más es Pro. Pro desbloquea el resto de sesiones y la escucha larga descritas en la pantalla de pago. La lista de funciones puede cambiar; la descripción de lo que compras es la pantalla de pago de la versión actual.</p>
+        <p>El SOS es siempre gratuito y no se bloquea. Una capa gratuita reducida está siempre disponible: 174 Hz 3 minutos, un relato, una escritura, una respiración, pánico día 1, la claridad de hoy, 5-4-3-2-1, la primera sesión de meditación y 5 minutos de lluvia o piano. Escuchar 15 minutos o más es Pro. Pro desbloquea el resto de sesiones y la escucha larga descritas en la pantalla de pago. La lista de funciones puede cambiar; la descripción de lo que compras es la pantalla de pago de la versión actual.</p>
         <h2>7. Suscripciones de renovación automática (título, duración, precio)</h2>
         <p>El acceso de pago es una compra dentro de la app de Apple de renovación automática en el grupo <strong>Steady Pro</strong>. Solo uno de estos productos está activo a la vez; el cambio de plan sigue las reglas de Apple de subida y bajada de ese grupo.</p>
         {table(COL["es"], PRODUCT_ROWS["es"])}
@@ -705,8 +705,8 @@ TERMS["es"] = f"""
           <li>Gestiona o cancela en Ajustes del iPhone → Apple ID → Suscripciones o en <a href="{APPLE_SUBS}">{APPLE_SUBS}</a>. Borrar la app no cancela la suscripción.</li>
           <li>Los reembolsos, si los hay, los gestiona Apple: <a href="{APPLE_REFUND}">{APPLE_REFUND}</a> o Historial de compras del Apple ID. Nosotros no podemos devolver un cargo de App Store.</li>
         </ul>
-        <h2>9. Prueba de 3 días en el dispositivo (no es Introductory Offer de Apple)</h2>
-        <p>Tras el onboarding puede empezar una <strong>prueba de 3 días en el dispositivo</strong>. El temporizador está en el teléfono. <strong>No</strong> es una Introductory Offer de Apple. En App Store Connect la oferta introductoria se deja vacía; StoreKit no cobra un periodo de prueba. La prueba en el dispositivo no factura tu Apple ID. Al terminar, permanece la capa gratuita anterior; Pro exige una suscripción. Si Apple ofreciera una prueba gratuita por StoreKit, el tiempo no usado se perdería al comprar, como indica el recuadro. Comprar una suscripción no convierte los días de prueba en el dispositivo no usados en un reembolso en efectivo (Apple no cobró esos días).</p>
+        <h2>9. Sin prueba gratuita</h2>
+        <p>Steady no ofrece actualmente una prueba gratuita. Si añadimos una en el futuro, sus condiciones aparecerán aquí y en la pantalla de pago antes de que empiece.</p>
         <h2>10. Restaurar compras</h2>
         <p>Restaurar en la pantalla de pago vuelve a aplicar una suscripción Apple activa a este dispositivo. Hace falta el mismo Apple ID que compró. En familia solo aplica si Apple y App Store Connect tienen En familia activado para estos productos; si no, Pro queda ligado al Apple ID comprador.</p>
         <h2>11. Uso aceptable</h2>
@@ -745,7 +745,7 @@ TERMS["it"] = f"""
         <h2>5. Licenza</h2>
         <p>Ti concediamo una licenza personale, limitata, non esclusiva, non trasferibile e revocabile per usare Steady sui dispositivi che possiedi o controlli, nei limiti dell’EULA standard Apple. Vietati reverse engineering, rivendita, estrazione dei contenuti come servizio concorrente e uso dell’app come prodotto medico per assistere terzi.</p>
         <h2>6. Livello gratuito e Pro</h2>
-        <p>SOS è sempre gratuito e non si blocca. Dopo la prova sul dispositivo resta un livello gratuito sottile: 174 Hz per 3 minuti, una storia, una scrittura, un respiro, panico giorno 1, la chiarezza di oggi, 5-4-3-2-1, la prima sessione di meditazione e 5 minuti di pioggia o pianoforte. L’ascolto di 15 minuti o più è Pro. Pro sblocca le altre sessioni e l’ascolto lungo descritti nella schermata di pagamento. L’elenco delle funzioni può cambiare; la descrizione di ciò che acquisti è la schermata di pagamento della versione attuale.</p>
+        <p>SOS è sempre gratuito e non si blocca. Un livello gratuito sottile è sempre disponibile: 174 Hz per 3 minuti, una storia, una scrittura, un respiro, panico giorno 1, la chiarezza di oggi, 5-4-3-2-1, la prima sessione di meditazione e 5 minuti di pioggia o pianoforte. L’ascolto di 15 minuti o più è Pro. Pro sblocca le altre sessioni e l’ascolto lungo descritti nella schermata di pagamento. L’elenco delle funzioni può cambiare; la descrizione di ciò che acquisti è la schermata di pagamento della versione attuale.</p>
         <h2>7. Abbonamenti a rinnovo automatico (titolo, durata, prezzo)</h2>
         <p>L’accesso a pagamento è un In-App Purchase Apple a rinnovo automatico nel gruppo <strong>Steady Pro</strong>. È attivo un solo prodotto alla volta; il cambio piano segue le regole Apple di upgrade/downgrade di quel gruppo.</p>
         {table(COL["it"], PRODUCT_ROWS["it"])}
@@ -758,8 +758,8 @@ TERMS["it"] = f"""
           <li>Gestisci o annulla in Impostazioni iPhone → Apple ID → Abbonamenti oppure su <a href="{APPLE_SUBS}">{APPLE_SUBS}</a>. Eliminare l’app non annulla l’abbonamento.</li>
           <li>I rimborsi, se previsti, li gestisce Apple: <a href="{APPLE_REFUND}">{APPLE_REFUND}</a> o Cronologia acquisti dell’Apple ID. Non possiamo rimborsare noi un addebito App Store.</li>
         </ul>
-        <h2>9. Prova di 3 giorni sul dispositivo (non è Introductory Offer Apple)</h2>
-        <p>Dopo l’onboarding può partire una <strong>prova di 3 giorni sul dispositivo</strong>. Il timer è sul telefono. <strong>Non</strong> è un Introductory Offer Apple. In App Store Connect l’offerta introduttiva resta vuota; StoreKit non addebita una prova. La prova sul dispositivo non fattura l’Apple ID. Al termine resta il livello gratuito sopra; per Pro serve un abbonamento. Se Apple offrisse una prova gratuita via StoreKit, il tempo non usato decadrebbe all’acquisto, come nel riquadro. Acquistare un abbonamento non converte i giorni di prova sul dispositivo non usati in un rimborso in denaro (Apple non ha addebitato quei giorni).</p>
+        <h2>9. Nessuna prova gratuita</h2>
+        <p>Steady al momento non offre una prova gratuita. Se ne aggiungeremo una in futuro, le condizioni appariranno qui e nella schermata di pagamento prima dell’inizio.</p>
         <h2>10. Ripristina acquisti</h2>
         <p>Ripristina nella schermata di pagamento riapplica un abbonamento Apple attivo a questo dispositivo. Serve lo stesso Apple ID che ha acquistato. In famiglia vale solo se Apple e App Store Connect hanno attivato In famiglia per questi prodotti; altrimenti Pro è legato all’Apple ID acquirente.</p>
         <h2>11. Uso consentito</h2>
