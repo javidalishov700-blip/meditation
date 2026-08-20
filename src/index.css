@@ -123,7 +123,10 @@ html.dim .aurora {
 }
 
 .app-scroll {
-  -webkit-overflow-scrolling: touch;
+  /* No -webkit-overflow-scrolling: touch — that's what turns on WKWebView's
+     elastic rubber-band bounce past the content edges, which on a short
+     screen (paywall, settings) reads as a big blank gap. overscroll-behavior
+     alone still gets native inertial scrolling on iOS 13+. */
   overscroll-behavior: none;
   overflow-anchor: none;
 }
