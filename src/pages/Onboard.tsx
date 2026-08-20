@@ -1,13 +1,13 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
-import { TrialTimeline } from '../components/TrialOffer'
 import { PrimaryButton, Switch } from '../components/ui'
 import { audio } from '../lib/audio'
 import { useEntitlement } from '../lib/entitlement-store'
 import { useEmergencyLine } from '../lib/emergency'
 import { useI18n } from '../lib/i18n'
 import { writeRemindTrial } from '../lib/remind'
+import { PLANS, displayPlanPrice } from '../lib/entitlement'
 import {
   completeOnboard,
   onboardHighLoad,
@@ -23,6 +23,13 @@ import {
   type WakeId,
 } from '../lib/onboard'
 import type { StringKey } from '../lib/strings'
+import type { PlanId } from '../lib/types'
+
+const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_period_year'> = {
+  week: 'pay_period_week',
+  month: 'pay_period_month',
+  year: 'pay_period_year',
+}
 
 const STEPS = [
   'lang',
@@ -141,6 +148,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
     remindTrial: true,
   })
   const [planN, setPlanN] = useState(0)
+  const [picked, setPicked] = useState<PlanId>('month')
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => () => audio.stop(0.8), [])
@@ -529,15 +537,51 @@ export function Onboard({ onDone }: { onDone: () => void }) {
         ) : null}
 
         {step === 'trial' ? (
-          <Screen title={t('ob_trial')} sub={t('ob_trial_sub')}>
-            <div className="mt-8">
-              <TrialTimeline
-                remind={answers.remindTrial}
-                onRemind={(v) => {
-                  setAnswers((a) => ({ ...a, remindTrial: v }))
-                  if (v) void requestNotify()
-                }}
-              />
+          <Screen title={t('pay_more')} sub={t('pay_direct')}>
+            {/* The plans are the point of this screen, same as the paywall itself:
+                large, compact rows. The free trial is a small link below, not a button. */}
+            <div className="mt-7 space-y-2.5">
+              {PLANS.map((p) => {
+                const on = picked === p.id
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setPicked(p.id)}
+                    className={`flex w-full items-center gap-3 rounded-[1.2rem] px-4 py-3.5 text-left transition ${
+                      on ? 'bg-white/[0.10] ring-2 ring-[#7B61FF]' : 'surface'
+                    }`}
+                  >
+                    <span
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
+                        on ? 'border-[#7B61FF] bg-[#7B61FF]' : 'border-white/25'
+                      }`}
+                    >
+                      {on ? (
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 text-white" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M5 12.5 10 17l9-9" />
+                        </svg>
+                      ) : null}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-baseline gap-2">
+                        <span className="font-display text-lg leading-none">{t(p.id === 'week' ? 'pay_week' : p.id === 'month' ? 'pay_month' : 'pay_year')}</span>
+                        {p.featured ? (
+                          <span className="rounded-full bg-[#7B61FF]/25 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[#C4B5FD]">
+                            {t('pay_featured')}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="mt-1 block text-[11px] leading-4 text-mute">{t(p.id === 'year' ? 'pay_year_note' : 'pay_note')}</span>
+                    </span>
+                    <span className="shrink-0 text-right">
+                      <span className="block font-display text-xl leading-none tabular-nums text-white">{displayPlanPrice(p.id)}</span>
+                      <span className="mt-1 block text-[11px] text-mute">{t(PERIOD[p.id])}</span>
+                    </span>
+                  </button>
+                )
+              })}
             </div>
           </Screen>
         ) : null}
@@ -550,16 +594,26 @@ export function Onboard({ onDone }: { onDone: () => void }) {
               <PrimaryButton
                 onClick={() => {
                   warm()
-                  finish(true)
+                  finish(false, true)
                 }}
               >
-                {t('ob_cta')}
+                {t('ob_continue')}
               </PrimaryButton>
-              <p className="mt-3 text-center text-[11px] leading-5 text-mute">{t('ob_price')}</p>
-              <button type="button" className="mt-3 w-full text-center text-sm text-white/85" onClick={() => finish(false, true)}>
-                {t('ob_buy')}
-              </button>
-              <button type="button" className="mt-3 w-full text-center text-sm text-mute" onClick={() => finish(false)}>
+              {/* Secondary, on purpose: the trial is an alternative, not the offer. */}
+              <div className="mt-4 text-center">
+                <button
+                  type="button"
+                  className="text-xs text-mute underline underline-offset-4"
+                  onClick={() => {
+                    warm()
+                    finish(true)
+                  }}
+                >
+                  {t('ob_cta')}
+                </button>
+                <p className="mt-2 text-[11px] leading-5 text-mute">{t('ob_price')}</p>
+              </div>
+              <button type="button" className="mt-4 w-full text-center text-sm text-mute" onClick={() => finish(false)}>
                 {t('ob_skip')}
               </button>
             </>
