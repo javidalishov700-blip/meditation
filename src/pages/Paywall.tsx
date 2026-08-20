@@ -15,6 +15,8 @@ import {
   purchasePlan,
   refreshStoreEntitlement,
   restoreStorePurchases,
+  storeStatus,
+  subscribeStoreStatus,
   type StorePlan,
 } from '../lib/purchases'
 import { readRemindTrial } from '../lib/remind'
@@ -36,6 +38,7 @@ export function Paywall() {
   const [store, setStore] = useState<StorePlan[] | null>(null)
   const [picked, setPicked] = useState<PlanId>('month')
   const [busy, setBusy] = useState<PlanId | 'restore' | 'trial' | null>(null)
+  const [status, setStatus] = useState(storeStatus)
   const used = trialUsed()
   const offer = !used && !storePro
   const live = trial && !storePro
@@ -46,6 +49,9 @@ export function Paywall() {
 
   useEffect(() => {
     let alive = true
+    const offStatus = subscribeStoreStatus(() => {
+      if (alive) setStatus(storeStatus())
+    })
     void loadStorePlans().then((plans) => {
       if (alive) setStore(plans)
     })
@@ -54,6 +60,7 @@ export function Paywall() {
     })
     return () => {
       alive = false
+      offStatus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -78,6 +85,11 @@ export function Paywall() {
    * Straight to StoreKit. Nothing here can grant Pro on its own, and the button
    * always comes back — the finally runs even if the store call throws, and
    * purchasePlan itself gives up rather than hanging.
+   *
+   * Every branch ends in something on screen. A tap that produces neither a
+   * sheet nor a message is indistinguishable from a broken build, so even the
+   * "nothing went wrong" outcomes (cancelled, already-on) say so, and failures
+   * carry StoreKit's own words rather than a generic line.
    */
   async function buy(id: PlanId) {
     setBusy(id)
@@ -88,16 +100,34 @@ export function Paywall() {
         setFail(t('pay_web_only'))
         return
       }
-      const result = await purchasePlan(id)
-      if (result === 'ok') refresh()
-      if (result === 'pending') setFail(t('pay_buy_pending'))
-      if (result === 'timeout') setFail(t('pay_buy_timeout'))
-      if (result === 'unavailable') {
-        const why = lastStoreError()
-        setFail(why ? `${t('pay_buy_fail')} (${why})` : t('pay_buy_fail'))
+      // The catalogue never loaded, so this purchase cannot succeed. Say so now
+      // rather than parking the user in front of a spinner for the whole
+      // StoreKit timeout — a long silence is what makes a failure look like a
+      // dead button.
+      const before = storeStatus()
+      if (before.stage === 'products-empty') {
+        const why = before.error
+        setFail(why ? `${t('pay_store_unreachable')} — ${why}` : t('pay_store_unreachable'))
+        return
       }
-    } catch {
-      setFail(t('pay_buy_fail'))
+      const result = await purchasePlan(id)
+      const why = lastStoreError()
+      const withWhy = (line: string) => (why ? `${line} — ${why}` : line)
+      if (result === 'ok') {
+        refresh()
+        setRestored(t('pay_restore_ok'))
+      } else if (result === 'cancelled') {
+        setFail(t('pay_buy_cancelled'))
+      } else if (result === 'pending') {
+        setFail(t('pay_buy_pending'))
+      } else if (result === 'timeout') {
+        setFail(withWhy(t('pay_buy_timeout')))
+      } else {
+        setFail(withWhy(t('pay_buy_fail')))
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err ?? '')
+      setFail(message ? `${t('pay_buy_fail')} — ${message}` : t('pay_buy_fail'))
     } finally {
       setBusy(null)
     }
@@ -231,7 +261,50 @@ export function Paywall() {
                 : t('pay_continue', { n: `${planLabel[picked]} · ${priceOf(picked)}` })}
             </PrimaryButton>
 
-            {fail ? <p className="mt-3 text-center text-sm text-amber-100">{fail}</p> : null}
+            {/* Said before the user taps, not after. If the catalogue never
+                loaded the fallback prices above are cosmetic and no purchase
+                can succeed, so the screen has to admit that up front — and
+                carry StoreKit's own words, so a failure is diagnosable from a
+                screenshot alone. */}
+            {native && (status.stage === 'loading-products' || status.stage === 'purchasing') ? (
+              <p className="mt-3 text-center text-xs text-mute">
+                {status.stage === 'purchasing' ? t('pay_buy_waiting') : t('pay_store_checking')}
+              </p>
+            ) : null}
+
+            {/* One problem panel, never two. A tap while the catalogue is empty
+                would otherwise print the same sentence a second time. */}
+            {(() => {
+              const catalogueDown = native && status.stage === 'products-empty'
+              if (!fail && !catalogueDown) return null
+              const headline = fail || t('pay_store_unreachable')
+              const detail = status.error && !headline.includes(status.error) ? status.error : ''
+              return (
+                <div className="mt-3 rounded-[1rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3">
+                  <p className="text-sm leading-6 text-amber-100">{headline}</p>
+                  {detail ? (
+                    <p className="mt-2 break-words font-mono text-[11px] leading-4 text-amber-200/80">{detail}</p>
+                  ) : null}
+                  {status.lastResult ? (
+                    <p className="mt-2 font-mono text-[11px] leading-4 text-amber-200/70">
+                      StoreKit: {status.lastResult} · {status.productCount} product(s)
+                    </p>
+                  ) : null}
+                  {catalogueDown ? (
+                    <button
+                      type="button"
+                      className="mt-3 text-sm text-amber-100 underline underline-offset-4"
+                      onClick={() => {
+                        setFail('')
+                        void loadStorePlans().then(setStore)
+                      }}
+                    >
+                      {t('pay_retry')}
+                    </button>
+                  ) : null}
+                </div>
+              )
+            })()}
 
             {/* Secondary, on purpose: the trial is an alternative, not the offer. */}
             {offer || live ? (
