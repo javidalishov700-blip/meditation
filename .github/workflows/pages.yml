@@ -1,0 +1,48 @@
+name: Deploy public site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'public/legal/**'
+      - 'public/icon-1024.png'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble static site
+        run: |
+          mkdir -p _site/legal
+          cp site/index.html _site/index.html
+          cp public/icon-1024.png _site/icon-1024.png
+          cp public/legal/privacy.html public/legal/terms.html public/legal/support.html public/legal/legal.css public/legal/legal.js _site/legal/
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
