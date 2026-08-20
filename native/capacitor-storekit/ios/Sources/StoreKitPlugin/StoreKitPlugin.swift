@@ -18,7 +18,8 @@ public class StoreKitPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getProducts", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "purchase", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "restorePurchases", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getEntitlement", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "getEntitlement", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getStorefront", returnType: CAPPluginReturnPromise)
     ]
 
     private var updateListenerTask: Task<Void, Never>?
@@ -49,6 +50,25 @@ public class StoreKitPlugin: CAPPlugin, CAPBridgedPlugin {
             } catch {
                 call.reject("Failed to load products: \(error.localizedDescription)", nil, error)
             }
+        }
+    }
+
+    /// Which App Store this device is actually talking to. Asked separately from the
+    /// catalogue because the two fail differently: a product lookup that never answers
+    /// looks the same whether Apple has no such product or StoreKit cannot resolve a
+    /// store at all. `Storefront.current` needs no product ids and no App Store Connect
+    /// state — it only needs a signed-in Media & Purchases account and a route to Apple.
+    /// A country code back means the pipe is open and the catalogue is the problem;
+    /// nothing back means the device never reached the store in the first place.
+    @objc func getStorefront(_ call: CAPPluginCall) {
+        Task {
+            let storefront = await Storefront.current
+            var data: [String: Any] = ["available": storefront != nil]
+            if let storefront {
+                data["countryCode"] = storefront.countryCode
+                data["id"] = storefront.id
+            }
+            call.resolve(data)
         }
     }
 

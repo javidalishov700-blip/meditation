@@ -56,6 +56,8 @@ const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
  */
 const PURCHASE_TIMEOUT_MS = 25_000
 const QUERY_TIMEOUT_MS = 30_000
+/** Short on purpose: this one runs after a failure, so it must not add a long wait. */
+const STOREFRONT_TIMEOUT_MS = 6_000
 
 let listening = false
 let lastError: string | null = null
@@ -206,12 +208,27 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
   if (!plans && !lastError) {
     lastError = `No answer from the App Store in ${QUERY_TIMEOUT_MS / 1000}s for ${Object.values(STORE_PRODUCTS).join(', ')}`
   }
+  // Only when something went wrong, and only then: a failed catalogue says nothing
+  // about whether the device can reach a store at all, and that is the difference
+  // between a problem in App Store Connect and a problem on this phone.
+  if (!plans) lastError = `${lastError} · ${await describeStorefront()}`
   setStatus({
     stage: plans ? 'products-ok' : 'products-empty',
     productCount: plans?.length ?? 0,
   })
   if (!plans) void alertStoreError('StoreKit: getProducts failed', lastError ?? 'Unknown error')
   return plans
+}
+
+/** One short phrase for the failure panel: which store this device is signed in to. */
+async function describeStorefront(): Promise<string> {
+  const probe = async () => {
+    const plugin = await nativePlugin()
+    const front = await plugin.getStorefront()
+    if (!front.available) return 'storefront: none (no App Store account on this device)'
+    return `storefront: ${front.countryCode ?? 'unknown'}`
+  }
+  return settleWithin(probe(), STOREFRONT_TIMEOUT_MS, 'storefront: no answer (StoreKit cannot reach the App Store)')
 }
 
 export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
@@ -239,6 +256,11 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
   const outcome = await settleWithin(run(), PURCHASE_TIMEOUT_MS, 'timeout')
   if (outcome === 'timeout' && !lastError) {
     lastError = `No answer from StoreKit within ${PURCHASE_TIMEOUT_MS / 1000}s`
+  }
+  // A purchase and a product lookup fail at the same place, so the same question
+  // applies here: can this device reach a store at all?
+  if (outcome === 'timeout' || outcome === 'unavailable') {
+    lastError = `${lastError} · ${await describeStorefront()}`
   }
   setStatus({ stage: 'done', lastResult: outcome })
   // cancelled/pending are expected outcomes, not failures — no alert for those.

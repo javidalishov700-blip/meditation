@@ -29,11 +29,19 @@ export type NativePurchaseResult = {
   }
 }
 
+/** Which App Store the device is signed in to. `available: false` means none. */
+export type NativeStorefront = {
+  available: boolean
+  countryCode?: string
+  id?: string
+}
+
 export interface StoreKitNativePlugin {
   getProducts(options: { productIds: string[] }): Promise<{ products: NativeProduct[]; requested?: number }>
   purchase(options: { productId: string }): Promise<NativePurchaseResult>
   restorePurchases(): Promise<NativeEntitlement>
   getEntitlement(): Promise<NativeEntitlement>
+  getStorefront(): Promise<NativeStorefront>
   addListener(
     eventName: 'entitlementUpdate',
     listenerFunc: (entitlement: NativeEntitlement) => void,
