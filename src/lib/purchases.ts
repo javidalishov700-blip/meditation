@@ -1,3 +1,4 @@
+import { Purchases, PURCHASES_ERROR_CODE } from '@revenuecat/purchases-capacitor'
 import type { CustomerInfo, PurchasesPackage } from '@revenuecat/purchases-capacitor'
 import { isNativeApp } from './device'
 import { setPro } from './entitlement'
@@ -9,7 +10,7 @@ import type { PlanId } from './types'
  * panel can be missed if it renders below the fold or the user looks away
  * mid-tap; a blocking native dialog with the store's exact words cannot be.
  * Only fires on genuine failures (never cancel/pending), and only in the
- * native app — the web preview has no purchase SDK to report on.
+ * native app — the web preview has no StoreKit to report on.
  */
 export async function alertStoreError(title: string, message: string) {
   if (!isNativeApp()) return
@@ -21,12 +22,22 @@ export async function alertStoreError(title: string, message: string) {
   }
 }
 
-/** App Store Connect product ids. Mirror of store/app-store-products.json */
+/**
+ * App Store Connect product ids, referenced from the RevenueCat "Steady Pro"
+ * offering. Mirror of store/app-store-products.json.
+ */
 export const STORE_PRODUCTS: Record<PlanId, string> = {
   week: 'app.steady.pro.weekly',
   month: 'app.steady.pro.monthly',
   year: 'app.steady.pro.yearly',
 }
+
+/**
+ * RevenueCat entitlement identifier, exactly as created in the RevenueCat
+ * dashboard (Product catalog → Entitlements). Not a code choice — RevenueCat
+ * project entitlement identifiers are fixed once created.
+ */
+const ENTITLEMENT_ID = 'Steady - Panic & Calm Pro'
 
 export type StorePlan = {
   id: PlanId
@@ -38,24 +49,25 @@ export type PurchaseResult = 'ok' | 'cancelled' | 'pending' | 'unavailable' | 't
 
 const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
 
-/** The entitlement identifier configured in the RevenueCat dashboard. */
-const ENTITLEMENT_ID = 'pro'
-
 /**
- * If RevenueCat never answers, the caller must still get a result — a button
- * that waits forever is worse than one that reports a problem. Nothing is
- * lost by giving up early: a purchase that lands later still arrives through
- * the customer-info listener and unlocks Pro on its own.
+ * If RevenueCat never answers, the caller must still get a result — a button that
+ * waits forever is worse than one that reports a problem. Nothing is lost by
+ * giving up early: a purchase that lands later still arrives through the
+ * customer-info listener and unlocks Pro on its own.
  *
- * The purchase budget covers presenting the App Store sheet, not the user
- * reading it: once the sheet is up the store has already answered. Keep it
- * short enough that a sheet which never appears reports itself in seconds
- * rather than minutes.
+ * The purchase budget covers presenting the store's sheet, not the user reading it:
+ * once the sheet is up the store has already answered. Keep it short enough that
+ * a sheet which never appears reports itself in seconds rather than minutes.
  */
 const PURCHASE_TIMEOUT_MS = 25_000
 const QUERY_TIMEOUT_MS = 8_000
 
+let configured = false
+let listening = false
 let lastError: string | null = null
+
+/** The package backing each plan in the last successfully loaded offering. */
+const packageCache = new Map<PlanId, PurchasesPackage>()
 
 /** Why the last store call failed, for the paywall to show instead of a dead end. */
 export function lastStoreError(): string | null {
@@ -70,10 +82,10 @@ export function lastStoreError(): string | null {
 export type StoreStage = 'idle' | 'loading-products' | 'products-ok' | 'products-empty' | 'purchasing' | 'done'
 
 export type StoreStatus = {
-  /** False in a browser: the store SDK cannot be reached at all. */
+  /** False in a browser: the store cannot be reached at all. */
   native: boolean
   stage: StoreStage
-  /** How many of the three products the current offering actually returned. */
+  /** How many of the three products the offering actually returned. */
   productCount: number
   /** Verbatim message from the last failed store call. */
   error: string | null
@@ -147,66 +159,32 @@ export function planIdOf(productId: string): PlanId | null {
   return null
 }
 
-async function rc() {
-  const mod = await import('@revenuecat/purchases-capacitor')
-  return mod
+/** Configures the RevenueCat SDK exactly once, lazily, on first native use. */
+async function ensureConfigured() {
+  if (configured || !iapConfigured()) return
+  const apiKey = import.meta.env.VITE_REVENUECAT_API_KEY as string | undefined
+  if (!apiKey) throw new Error('VITE_REVENUECAT_API_KEY is not set at build time')
+  await Purchases.configure({ apiKey })
+  configured = true
 }
 
-let configuring: Promise<boolean> | null = null
-
-/**
- * Configure is one-time and must happen before any other call. Concurrent
- * callers (loadStorePlans and refreshStoreEntitlement both fire from the
- * paywall's mount effect) share one in-flight promise instead of racing two
- * `configure()` calls.
- */
-async function ensureConfigured(): Promise<boolean> {
-  if (!iapConfigured()) return false
-  if (!configuring) {
-    configuring = (async () => {
-      const apiKey = (import.meta.env.VITE_REVENUECAT_API_KEY as string | undefined) ?? ''
-      if (!apiKey) {
-        lastError = 'VITE_REVENUECAT_API_KEY is not set — RevenueCat cannot start'
-        return false
-      }
-      const { Purchases } = await rc()
-      await Purchases.configure({ apiKey })
-      void Purchases.addCustomerInfoUpdateListener((info) => applyCustomerInfo(info))
-      return true
-    })()
-  }
-  return configuring
-}
-
+/** Mirrors RevenueCat's verdict onto the on-device entitlement cache. */
 function applyCustomerInfo(info: CustomerInfo): boolean {
   const ent = info.entitlements.active[ENTITLEMENT_ID]
-  const active = Boolean(ent)
-  setPro(
-    active,
-    ent
-      ? {
-          productId: ent.productIdentifier,
-          expiresAt: ent.expirationDateMillis != null ? ent.expirationDateMillis / 1000 : undefined,
-        }
-      : undefined,
-  )
-  return active
+  setPro(Boolean(ent), {
+    productId: ent?.productIdentifier,
+    expiresAt: ent?.expirationDateMillis != null ? ent.expirationDateMillis / 1000 : undefined,
+  })
+  return Boolean(ent)
 }
 
-let cachedPackages = new Map<PlanId, PurchasesPackage>()
-
-async function fetchPackages(): Promise<Map<PlanId, PurchasesPackage> | null> {
-  const ready = await ensureConfigured()
-  if (!ready) return null
-  const { Purchases } = await rc()
-  const offerings = await Purchases.getOfferings()
-  const packages = offerings.current?.availablePackages ?? []
-  const found = new Map<PlanId, PurchasesPackage>()
-  for (const pkg of packages) {
-    const id = planIdOf(pkg.product.identifier)
-    if (id) found.set(id, pkg)
-  }
-  return found
+async function ensureListener() {
+  if (listening || !iapConfigured()) return
+  listening = true
+  await ensureConfigured()
+  await Purchases.addCustomerInfoUpdateListener((info) => {
+    applyCustomerInfo(info)
+  })
 }
 
 export async function loadStorePlans(): Promise<StorePlan[] | null> {
@@ -215,17 +193,27 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
     setStatus({ stage: 'products-empty', productCount: 0 })
     return null
   }
+  void ensureListener()
   lastError = null
   setStatus({ stage: 'loading-products', productCount: 0 })
   const read = async () => {
-    const found = await fetchPackages()
-    if (!found) return null
-    cachedPackages = found
-    const out = PLAN_ORDER.map((id) => {
-      const pkg = found.get(id)
-      return pkg ? { id, price: pkg.product.priceString, productId: pkg.product.identifier } : undefined
-    }).filter((p): p is StorePlan => Boolean(p))
-    if (!out.length) lastError = 'RevenueCat returned 0 packages for the current offering'
+    await ensureConfigured()
+    const offerings = await Purchases.getOfferings()
+    const offering = offerings.current ?? Object.values(offerings.all)[0]
+    if (!offering) {
+      lastError = 'RevenueCat returned no offerings'
+      return null
+    }
+    packageCache.clear()
+    const found = new Map<PlanId, StorePlan>()
+    for (const pkg of offering.availablePackages) {
+      const id = planIdOf(pkg.product.identifier)
+      if (!id) continue
+      packageCache.set(id, pkg)
+      found.set(id, { id, price: pkg.product.priceString, productId: pkg.product.identifier })
+    }
+    const out = PLAN_ORDER.map((id) => found.get(id)).filter((p): p is StorePlan => Boolean(p))
+    if (!out.length) lastError = 'RevenueCat offering has 0 matching products'
     return out.length ? out : null
   }
   const plans = await settleWithin(read(), QUERY_TIMEOUT_MS, null)
@@ -234,7 +222,7 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
     stage: plans ? 'products-ok' : 'products-empty',
     productCount: plans?.length ?? 0,
   })
-  if (!plans) void alertStoreError('RevenueCat: getOfferings failed', lastError ?? 'Unknown error')
+  if (!plans) void alertStoreError('Store: getOfferings failed', lastError ?? 'Unknown error')
   return plans
 }
 
@@ -244,30 +232,25 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
     setStatus({ stage: 'done', lastResult: 'unavailable' })
     return 'unavailable'
   }
+  void ensureListener()
   lastError = null
   setStatus({ stage: 'purchasing', lastResult: null })
   const run = async (): Promise<PurchaseResult> => {
-    let pkg = cachedPackages.get(id)
+    await ensureConfigured()
+    const pkg = packageCache.get(id)
     if (!pkg) {
-      const found = await fetchPackages()
-      if (found) cachedPackages = found
-      pkg = found?.get(id) ?? cachedPackages.get(id)
-    }
-    if (!pkg) {
-      lastError = `${STORE_PRODUCTS[id]}: package not found in the current offering`
+      lastError = `${STORE_PRODUCTS[id]}: package not found in the loaded offering`
       return 'unavailable'
     }
-    const { Purchases, PURCHASES_ERROR_CODE } = await rc()
     try {
       const result = await Purchases.purchasePackage({ aPackage: pkg })
       applyCustomerInfo(result.customerInfo)
       return 'ok'
     } catch (err) {
-      const code = (err as { code?: string } | undefined)?.code
-      if (code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) return 'cancelled'
-      if (code === PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR) return 'pending'
-      const message = (err as { message?: string } | undefined)?.message
-      lastError = message ? `${STORE_PRODUCTS[id]}: ${message}` : `${STORE_PRODUCTS[id]}: purchase failed`
+      const e = err as { code?: PURCHASES_ERROR_CODE; message?: string; userCancelled?: boolean | null }
+      if (e.userCancelled || e.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) return 'cancelled'
+      if (e.code === PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR) return 'pending'
+      lastError = `${STORE_PRODUCTS[id]}: ${e.message ?? 'purchase failed'}`
       return 'unavailable'
     }
   }
@@ -278,18 +261,17 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
   setStatus({ stage: 'done', lastResult: outcome })
   // cancelled/pending are expected outcomes, not failures — no alert for those.
   if (outcome === 'timeout' || outcome === 'unavailable') {
-    void alertStoreError('Purchase failed', lastError ?? `result: ${outcome}`)
+    void alertStoreError('Store: purchase failed', lastError ?? `result: ${outcome}`)
   }
   return outcome
 }
 
 export async function restoreStorePurchases(): Promise<boolean> {
   if (!iapConfigured()) return false
+  void ensureListener()
   lastError = null
   const run = async () => {
-    const ready = await ensureConfigured()
-    if (!ready) return false
-    const { Purchases } = await rc()
+    await ensureConfigured()
     const { customerInfo } = await Purchases.restorePurchases()
     return applyCustomerInfo(customerInfo)
   }
@@ -298,10 +280,9 @@ export async function restoreStorePurchases(): Promise<boolean> {
 
 export async function refreshStoreEntitlement(): Promise<boolean> {
   if (!iapConfigured()) return false
+  void ensureListener()
   const run = async () => {
-    const ready = await ensureConfigured()
-    if (!ready) return false
-    const { Purchases } = await rc()
+    await ensureConfigured()
     const { customerInfo } = await Purchases.getCustomerInfo()
     return applyCustomerInfo(customerInfo)
   }

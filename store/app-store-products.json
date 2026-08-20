@@ -2,7 +2,7 @@
   "bundleId": "app.steady.calm",
   "sku": "steady-calm",
   "primaryLocale": "tr",
-  "subscriptionGroup": "Steady Pro",
+  "subscriptionGroup": "Steady - Panic & Calm pro",
   "subscriptions": [
     {
       "productId": "app.steady.pro.weekly",

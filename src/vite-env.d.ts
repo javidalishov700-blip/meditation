@@ -5,4 +5,5 @@ interface ImportMetaEnv {
   readonly VITE_VOICE_URL?: string
   readonly VITE_SENTRY_DSN?: string
   readonly VITE_LEGAL_ORIGIN?: string
+  readonly VITE_REVENUECAT_API_KEY?: string
 }
