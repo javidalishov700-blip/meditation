@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
 import { TrialTimeline } from '../components/TrialOffer'
@@ -141,8 +141,15 @@ export function Onboard({ onDone }: { onDone: () => void }) {
     remindTrial: true,
   })
   const [planN, setPlanN] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => () => audio.stop(0.8), [])
+
+  // The shell div isn't recreated between steps, only its child, so it keeps
+  // whatever scrollTop the previous step was left at unless reset here.
+  useEffect(() => {
+    scrollRef.current?.scrollTo(0, 0)
+  }, [step])
 
   useEffect(() => {
     if (step !== 'part') return
@@ -218,6 +225,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
   return (
     <div
+      ref={scrollRef}
       className="app-scroll ob-shell relative z-10 mx-auto flex h-full max-w-lg flex-col overflow-y-auto overscroll-none px-5 pb-[max(1.35rem,env(safe-area-inset-bottom))] pt-[max(0.7rem,env(safe-area-inset-top))]"
       onPointerDown={warm}
     >

@@ -474,6 +474,13 @@ export class AudioEngine {
   /** Soften the bed under speech; never mute it. */
   private ducked = false
   private listeners = new Set<() => void>()
+  /**
+   * Claimed synchronously before the first await in playOnboard(), since `playing`
+   * only flips true after one. Onboarding taps fire both onPointerDown and onClick
+   * for the same gesture, so two calls can otherwise both pass the `playing` check
+   * and race — the second's stop() cutting off the first's freshly started nodes.
+   */
+  private startingLabel = ''
 
   constructor() {
     try {
@@ -971,9 +978,12 @@ export class AudioEngine {
   async playOnboard() {
     this.unlock()
     if (this.playing && this.label === 'Onboard') return
+    if (this.startingLabel === 'Onboard') return
+    this.startingLabel = 'Onboard'
     const ctx = await this.ensure()
     this.stop(0.08)
     await this.ensure()
+    this.startingLabel = ''
     this.beginPlay('Onboard', 0.4, 3.2, { kind: 'onboard' })
     this.startSpace(ctx, 0.58)
     this.warmPad(ctx, [98, 146.83, 196, 246.94], 0.038)

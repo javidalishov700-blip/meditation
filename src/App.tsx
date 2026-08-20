@@ -136,6 +136,9 @@ function VoiceWarm() {
     const trial = () => ({ title: t('ob_rem_trial'), text: t('ob_rem_trial_t') })
     void armNativeNotificationTap()
     const fire = () => {
+      // Reminders and the sleep chime call audio.playBed()/native permission prompts,
+      // both of which would cut into the onboarding ambience or its first user gesture.
+      if (!isOnboarded()) return
       void syncAllReminders(locale, trial())
       void maybeSleepChime(locale)
     }

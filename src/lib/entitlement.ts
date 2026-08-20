@@ -2,7 +2,6 @@ import { breaths, extras, meditations, sleepLab, stories, todaysClarity, writing
 import { quotes } from './quotes'
 import { programs } from './content'
 import { PRO_LISTEN_MINUTES, TONES } from './audio'
-import { isTrialActive } from './onboard'
 import { readJson, writeJson } from './storage'
 import type { StringKey } from './strings'
 import type { PlanId, SessionKind } from './types'
@@ -69,8 +68,14 @@ function clearStalePro() {
   writeJson('pro.info', {})
 }
 
+/**
+ * Content gating, full stop. The on-device trial is a countdown a user can
+ * start from the paywall, not a purchase — it must never unlock anything
+ * past the free tier, so it plays no part here. Only a StoreKit-confirmed
+ * entitlement does.
+ */
 export function isPro(): boolean {
-  return hasStoreEntitlement() || isTrialActive()
+  return hasStoreEntitlement()
 }
 
 /** StoreKit is the only caller. `info` carries the transaction that granted it. */

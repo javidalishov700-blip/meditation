@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { BottomNav } from './BottomNav'
 import { NowPlayingBar, useNowPlaying } from './NowPlaying'
@@ -18,6 +19,13 @@ function LayoutBody() {
   const { pro } = useEntitlement()
   const now = useNowPlaying()
   const listen = useSessionListen()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  // This div is the Outlet's scroll container and it persists across route changes
+  // (only its children swap), so without this every new screen would open at
+  // whatever scrollTop the previous one was left at instead of the top.
+  useEffect(() => {
+    scrollRef.current?.scrollTo(0, 0)
+  }, [pathname])
   const room = pathname.startsWith('/session')
   const nested =
     pathname.startsWith('/me/settings') || pathname.startsWith('/me/skills') || pathname.startsWith('/legal')
@@ -39,7 +47,7 @@ function LayoutBody() {
     : `app-scroll relative z-10 safe-top mx-auto h-full min-h-0 max-w-lg flex-1 overflow-y-auto overscroll-none px-5 ${pad}`
   return (
     <>
-      <div className={shell}>
+      <div ref={scrollRef} className={shell}>
         <Outlet />
       </div>
       {room || listen || nested ? null : (

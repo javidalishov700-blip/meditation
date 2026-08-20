@@ -5,9 +5,12 @@ import { isTrialActive, startTrial as beginTrial, trialUntil } from './onboard'
 import { refreshStoreEntitlement } from './purchases'
 
 type EntitlementCtx = {
+  /** Content-gating flag. A StoreKit entitlement only — the trial never sets this. */
   pro: boolean
-  /** A subscription StoreKit confirmed for this Apple ID. Never granted locally. */
+  /** A subscription StoreKit confirmed for this Apple ID. Same value as `pro`; kept as
+   * its own name for call sites that mean "paid", not "unlocked". */
   store: boolean
+  /** Countdown state for paywall/reminder copy only. Grants no access. */
   trial: boolean
   trialEndsAt: number
   proProductId?: string
@@ -23,7 +26,7 @@ function snap() {
   const trial = isTrialActive()
   const info = store ? readProInfo() : {}
   return {
-    pro: store || trial,
+    pro: store,
     store,
     trial: trial && !store,
     trialEndsAt: trialUntil(),
