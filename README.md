@@ -30,7 +30,7 @@ npm run preview
 
 Kilitli: diğer tonlar, DP / DR / anksiyete programları, uyku laboratuvarı, diğer sahneler, meditasyonun sonraki seansları, çoğu yazı, Geçti geçmişi.
 
-Vitrin fallback: $3.99 / hafta, $12.99 / ay, $59.99 / yıl. Canlı fiyat App Store ülkesinden (dil değil). Native IPA: RevenueCat (`@revenuecat/purchases-capacitor`) üstünden Apple StoreKit (`app.steady.pro.weekly|monthly|yearly`, entitlement id `Steady - Panic & Calm Pro`). 3 gün deneme isteğe bağlı, bu telefonda (Apple intro yok). Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
+Vitrin fallback: $3.99 / hafta, $12.99 / ay, $59.99 / yıl. Canlı fiyat App Store ülkesinden (dil değil). Native IPA: doğrudan Apple StoreKit 2 (`native/capacitor-storekit`, ürünler `app.steady.pro.weekly|monthly|yearly`) — 3. parti satın alma SDK'sı yok. Ücretsiz deneme yok. Tarayıcı: yerel vitrin demosu. Product ids: `store/app-store-products.json`.
 
 ## Kod
 
