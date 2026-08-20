@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
 import { TrialTimeline } from '../components/TrialOffer'
@@ -146,8 +146,10 @@ export function Onboard({ onDone }: { onDone: () => void }) {
   useEffect(() => () => audio.stop(0.8), [])
 
   // The shell div isn't recreated between steps, only its child, so it keeps
-  // whatever scrollTop the previous step was left at unless reset here.
-  useEffect(() => {
+  // whatever scrollTop the previous step was left at unless reset here. Layout
+  // effect, not a regular one: it must land before paint or the old scroll
+  // position flashes for a frame and then snaps to 0, reading as a jump.
+  useLayoutEffect(() => {
     scrollRef.current?.scrollTo(0, 0)
   }, [step])
 

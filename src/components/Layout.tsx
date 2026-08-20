@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { BottomNav } from './BottomNav'
 import { NowPlayingBar, useNowPlaying } from './NowPlaying'
@@ -22,8 +22,10 @@ function LayoutBody() {
   const scrollRef = useRef<HTMLDivElement>(null)
   // This div is the Outlet's scroll container and it persists across route changes
   // (only its children swap), so without this every new screen would open at
-  // whatever scrollTop the previous one was left at instead of the top.
-  useEffect(() => {
+  // whatever scrollTop the previous one was left at instead of the top. Layout
+  // effect, not a regular one: it must land before paint or the old scroll
+  // position flashes for a frame and then snaps to 0, reading as a jump.
+  useLayoutEffect(() => {
     scrollRef.current?.scrollTo(0, 0)
   }, [pathname])
   const room = pathname.startsWith('/session')
