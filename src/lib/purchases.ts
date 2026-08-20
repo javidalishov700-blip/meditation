@@ -46,9 +46,16 @@ const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
  * The purchase budget covers presenting Apple's sheet, not the user reading it:
  * once the sheet is up StoreKit has already answered. Keep it short enough that
  * a sheet which never appears reports itself in seconds rather than minutes.
+ *
+ * The catalogue budget is the opposite problem: a first `Product.products(for:)`
+ * in the sandbox routinely takes far longer than a warm production one — it may
+ * have to settle the storefront and the sandbox account before it answers. An
+ * 8s budget gave up while Apple was still working and reported it as a failure,
+ * which reads exactly like a broken catalogue. Wait long enough that a timeout
+ * here means something is genuinely wrong.
  */
 const PURCHASE_TIMEOUT_MS = 25_000
-const QUERY_TIMEOUT_MS = 8_000
+const QUERY_TIMEOUT_MS = 30_000
 
 let listening = false
 let lastError: string | null = null
@@ -173,6 +180,12 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
   void ensureListener()
   lastError = null
   setStatus({ stage: 'loading-products', productCount: 0 })
+  // An empty catalogue and an unanswered request look identical on screen unless
+  // the panel says which happened: Apple answers "no such product" in a second or
+  // two, so a slow empty result means the request never landed, not that the ids
+  // are wrong. Carry the elapsed time and the ids asked for, so one screenshot of
+  // the failure is enough to tell the two apart.
+  const started = Date.now()
   const read = async () => {
     const plugin = await nativePlugin()
     const { products } = await plugin.getProducts({ productIds: Object.values(STORE_PRODUCTS) })
@@ -183,11 +196,16 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
       found.set(id, { id, price: product.priceString, productId: product.id })
     }
     const out = PLAN_ORDER.map((id) => found.get(id)).filter((p): p is StorePlan => Boolean(p))
-    if (!out.length) lastError = 'App Store returned 0 products for these ids'
+    if (!out.length) {
+      const secs = ((Date.now() - started) / 1000).toFixed(1)
+      lastError = `App Store answered in ${secs}s with 0 of 3 products for ${Object.values(STORE_PRODUCTS).join(', ')}`
+    }
     return out.length ? out : null
   }
   const plans = await settleWithin(read(), QUERY_TIMEOUT_MS, null)
-  if (!plans && !lastError) lastError = `Product lookup gave up after ${QUERY_TIMEOUT_MS / 1000}s`
+  if (!plans && !lastError) {
+    lastError = `No answer from the App Store in ${QUERY_TIMEOUT_MS / 1000}s for ${Object.values(STORE_PRODUCTS).join(', ')}`
+  }
   setStatus({
     stage: plans ? 'products-ok' : 'products-empty',
     productCount: plans?.length ?? 0,
