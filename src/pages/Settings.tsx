@@ -17,7 +17,6 @@ import { patchOnboard, readOnboard, requestNotify, resetOnboard } from '../lib/o
 import { bedMins, readSleepPlan } from '../lib/sleep-plan'
 import { readPassed } from '../lib/passed'
 import { hasPin, subscribePin, supportId } from '../lib/pin'
-import { readRemindTrial, writeRemindTrial } from '../lib/remind'
 import { readDim, readTheme, writeDim, writeTheme, type ThemeId } from '../lib/theme'
 import { readCellularMedia, writeCellularMedia } from '../lib/media'
 import { legalPath } from '../lib/purchases'
@@ -270,22 +269,11 @@ function SettingsHeader({ title, backTo }: { title: string; backTo: string }) {
 function NotifyPanel() {
   const { t, locale } = useI18n()
   const onboard = readOnboard()
-  const [trial, setTrial] = useState(() => readRemindTrial())
   const [quote, setQuote] = useState(onboard.remindQuote)
   const [sleep, setSleep] = useState(onboard.remindSleep)
   const bed = formatHm(bedMins(readSleepPlan()), locale)
   return (
     <div className="mt-6 space-y-3">
-      <Switch
-        on={trial}
-        label={t('ob_rem_trial')}
-        hint={t('ob_rem_trial_h')}
-        onChange={(v) => {
-          setTrial(v)
-          writeRemindTrial(v)
-          if (v) void requestNotify()
-        }}
-      />
       <Switch
         on={quote}
         label={t('ob_rem_quote')}
@@ -409,28 +397,21 @@ function HistoryPanel() {
 function Index() {
   const { t, meta } = useI18n()
   const navigate = useNavigate()
-  const { store: storePro, trial, trialEndsAt } = useEntitlement()
-  const trialDaysLeft = Math.max(0, Math.ceil((trialEndsAt - Date.now()) / 86_400_000))
+  const { store: storePro } = useEntitlement()
   const emergency = useEmergencyLine()
   const helpId = supportId()
   const [pinOn, setPinOn] = useState(() => hasPin())
   const [cellular, setCellular] = useState(() => readCellularMedia())
   const theme = readTheme()
-  const remind = readRemindTrial()
-  const ms = trialEndsAt - Date.now()
-  const tier = storePro
-    ? t('me_pro')
-    : trial && ms > 0
-      ? ms < 86_400_000
-        ? t('me_trial_today')
-        : t('me_trial', { n: Math.ceil(ms / 86_400_000) })
-      : t('me_free')
+  const onboard = readOnboard()
+  const remind = onboard.remindQuote || onboard.remindSleep
+  const tier = storePro ? t('me_pro') : t('me_free')
 
   useEffect(() => subscribePin(() => setPinOn(hasPin())), [])
 
   return (
     <>
-      {/* Anyone without a real subscription — free or on trial — keeps a way in. */}
+      {/* Anyone without a real subscription keeps a way in. */}
       {!storePro ? (
         <Link
           to="/paywall"
@@ -439,9 +420,7 @@ function Index() {
           <span className="rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">
             {t('me_set_go')}
           </span>
-          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">
-            {trial ? (trialDaysLeft <= 1 ? t('me_trial_banner_last') : t('me_trial_banner', { n: trialDaysLeft })) : t('premium_banner')}
-          </span>
+          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">{t('premium_banner')}</span>
         </Link>
       ) : null}
 

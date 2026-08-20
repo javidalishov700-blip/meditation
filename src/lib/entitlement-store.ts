@@ -1,21 +1,16 @@
 import { createContext, createElement, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { onAppResume } from './device'
 import { hasStoreEntitlement, readProInfo, STEADY_PRO_EVENT } from './entitlement'
-import { isTrialActive, startTrial as beginTrial, trialUntil } from './onboard'
 import { refreshStoreEntitlement } from './purchases'
 
 type EntitlementCtx = {
-  /** Content-gating flag. A StoreKit entitlement only — the trial never sets this. */
+  /** Content-gating flag. A StoreKit entitlement only. */
   pro: boolean
   /** A subscription StoreKit confirmed for this Apple ID. Same value as `pro`; kept as
    * its own name for call sites that mean "paid", not "unlocked". */
   store: boolean
-  /** Countdown state for paywall/reminder copy only. Grants no access. */
-  trial: boolean
-  trialEndsAt: number
   proProductId?: string
   proExpiresAt?: number
-  startTrial: () => void
   refresh: () => void
 }
 
@@ -23,13 +18,10 @@ const Ctx = createContext<EntitlementCtx | null>(null)
 
 function snap() {
   const store = hasStoreEntitlement()
-  const trial = isTrialActive()
   const info = store ? readProInfo() : {}
   return {
     pro: store,
     store,
-    trial: trial && !store,
-    trialEndsAt: trialUntil(),
     proProductId: info.productId,
     proExpiresAt: info.expiresAt,
   }
@@ -56,10 +48,6 @@ export function EntitlementProvider({ children }: { children: ReactNode }) {
     () => ({
       ...state,
       refresh: () => setState(snap()),
-      startTrial: () => {
-        beginTrial()
-        setState(snap())
-      },
     }),
     [state],
   )

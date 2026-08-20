@@ -6,7 +6,6 @@ import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice } from '../lib/entitlement
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatDate } from '../lib/format'
 import { useI18n } from '../lib/i18n'
-import { requestNotify, trialUsed } from '../lib/onboard'
 import {
   alertStoreError,
   iapConfigured,
@@ -20,7 +19,6 @@ import {
   subscribeStoreStatus,
   type StorePlan,
 } from '../lib/purchases'
-import { readRemindTrial } from '../lib/remind'
 import type { PlanId } from '../lib/types'
 
 const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_period_year'> = {
@@ -30,19 +28,15 @@ const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_perio
 }
 
 export function Paywall() {
-  const { store: storePro, trial, proProductId, proExpiresAt, startTrial, refresh } = useEntitlement()
+  const { store: storePro, proProductId, proExpiresAt, refresh } = useEntitlement()
   const navigate = useNavigate()
   const { t, locale } = useI18n()
-  const [remind] = useState(() => readRemindTrial())
   const [restored, setRestored] = useState('')
   const [fail, setFail] = useState('')
   const [store, setStore] = useState<StorePlan[] | null>(null)
   const [picked, setPicked] = useState<PlanId>('month')
-  const [busy, setBusy] = useState<PlanId | 'restore' | 'trial' | null>(null)
+  const [busy, setBusy] = useState<PlanId | 'restore' | null>(null)
   const [status, setStatus] = useState(storeStatus)
-  const used = trialUsed()
-  const offer = !used && !storePro
-  const live = trial && !storePro
   const paid = storePro
   const native = iapConfigured()
   const planLabel = { week: t('pay_week'), month: t('pay_month'), year: t('pay_year') }
@@ -146,17 +140,6 @@ export function Paywall() {
   function leave() {
     if (window.history.length > 1) navigate(-1)
     else navigate('/', { replace: true })
-  }
-
-  function beginTrialDay() {
-    setBusy('trial')
-    try {
-      startTrial()
-      if (remind) void requestNotify()
-    } finally {
-      setBusy(null)
-    }
-    leave()
   }
 
   return (
@@ -308,24 +291,6 @@ export function Paywall() {
                 </div>
               )
             })()}
-
-            {/* Secondary, on purpose: the trial is an alternative, not the offer. */}
-            {offer || live ? (
-              <div className="mt-4 text-center">
-                {live ? (
-                  <p className="text-xs text-mute">{t('me_trial_today')}</p>
-                ) : (
-                  <button
-                    type="button"
-                    disabled={busy != null}
-                    onClick={beginTrialDay}
-                    className="text-xs text-mute underline underline-offset-4"
-                  >
-                    {t('pay_or_trial')}
-                  </button>
-                )}
-              </div>
-            ) : null}
 
             {native ? (
               <p className="mt-4 text-center text-[11px] leading-5 text-mute">{t('pay_iap')}</p>

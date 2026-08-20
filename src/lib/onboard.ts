@@ -2,16 +2,6 @@ import { isNativeApp } from './device'
 import type { StringKey } from './strings'
 import { readJson, writeJson } from './storage'
 
-export const STEADY_TRIAL_EVENT = 'steady-trial'
-
-export function emitTrialChange() {
-  if (typeof window === 'undefined') return
-  window.dispatchEvent(new Event(STEADY_TRIAL_EVENT))
-}
-
-export const TRIAL_DAYS = 3
-export const TRIAL_MS = TRIAL_DAYS * 24 * 60 * 60 * 1000
-
 export type BringId = 'wave' | 'worry' | 'sleep' | 'world' | 'self'
 export type NeedId = 'stop' | 'sleep' | 'sentence' | 'breath'
 export type FreqId = 'rarely' | 'sometimes' | 'often' | 'always'
@@ -34,14 +24,12 @@ export type OnboardAnswers = {
   agree2?: AgreeId
   remindQuote: boolean
   remindSleep: boolean
-  remindTrial: boolean
 }
 
 const EMPTY: OnboardAnswers = {
   fall: [],
   remindQuote: false,
   remindSleep: false,
-  remindTrial: true,
 }
 
 const listeners = new Set<() => void>()
@@ -85,29 +73,6 @@ export function onboardHighLoad(a: OnboardAnswers): boolean {
 export function resetOnboard() {
   writeJson('onboarded', false)
   emit()
-}
-
-export function trialUntil(): number {
-  return readJson('trialUntil', 0)
-}
-
-export function isTrialActive(): boolean {
-  return trialUntil() > Date.now()
-}
-
-export function trialUsed(): boolean {
-  return trialUntil() !== 0
-}
-
-export function startTrial() {
-  if (trialUsed()) return
-  writeJson('trialUntil', Date.now() + TRIAL_MS)
-  emitTrialChange()
-}
-
-export function clearTrial() {
-  writeJson('trialUntil', 0)
-  emitTrialChange()
 }
 
 export type SuggestedPath = {

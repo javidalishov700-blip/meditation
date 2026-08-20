@@ -68,12 +68,7 @@ function clearStalePro() {
   writeJson('pro.info', {})
 }
 
-/**
- * Content gating, full stop. The on-device trial is a countdown a user can
- * start from the paywall, not a purchase — it must never unlock anything
- * past the free tier, so it plays no part here. Only a StoreKit-confirmed
- * entitlement does.
- */
+/** Content gating, full stop. Only a StoreKit-confirmed entitlement unlocks Pro. */
 export function isPro(): boolean {
   return hasStoreEntitlement()
 }

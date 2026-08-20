@@ -1,58 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Switch } from './ui'
 import { useI18n } from '../lib/i18n'
 import { legalPath } from '../lib/purchases'
 import type { StringKey } from '../lib/strings'
-
-const STEPS: { title: StringKey; sub?: StringKey; tone: 'done' | 'now' | 'soon' | 'end'; mark: string }[] = [
-  { title: 'ob_tl1', tone: 'done', mark: '✓' },
-  { title: 'ob_tl2', sub: 'ob_tl2s', tone: 'now', mark: '○' },
-  { title: 'ob_tl3', sub: 'ob_tl3s', tone: 'soon', mark: '○' },
-  { title: 'ob_tl4', sub: 'ob_tl4s', tone: 'end', mark: '★' },
-]
-
-const TONE: Record<(typeof STEPS)[number]['tone'], string> = {
-  done: 'bg-emerald-400/20 text-emerald-200',
-  now: 'bg-[#7B61FF]/30 text-[#E9D5FF]',
-  soon: 'bg-sky-400/15 text-sky-200',
-  end: 'bg-amber-400/15 text-amber-100',
-}
-
-export function TrialTimeline({
-  remind,
-  onRemind,
-}: {
-  remind: boolean
-  onRemind: (value: boolean) => void
-}) {
-  const { t } = useI18n()
-  return (
-    <div>
-      <ol className="mt-2">
-        {STEPS.map((step, i) => (
-          <li key={step.title} className="relative flex gap-3 pb-5 last:pb-0">
-            {i < STEPS.length - 1 ? (
-              <span className="absolute left-[15px] top-8 bottom-0 w-px bg-white/10" aria-hidden />
-            ) : null}
-            <span
-              className={`relative z-10 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.7rem] text-sm ${TONE[step.tone]}`}
-            >
-              {step.mark}
-            </span>
-            <span className="min-w-0 pt-0.5">
-              <span className="block text-sm font-medium text-cream">{t(step.title)}</span>
-              {step.sub ? <span className="mt-1 block text-xs leading-5 text-mute">{t(step.sub)}</span> : null}
-            </span>
-          </li>
-        ))}
-      </ol>
-      <div className="mt-2">
-        <Switch on={remind} label={t('ob_rem_trial')} hint={t('ob_rem_trial_h')} onChange={onRemind} />
-      </div>
-    </div>
-  )
-}
 
 const INC: { key: StringKey; bg: string; path: string }[] = [
   { key: 'pay_inc_sos', bg: 'bg-[#7B61FF]/25', path: 'M12 8v5M12 16h.01M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z' },

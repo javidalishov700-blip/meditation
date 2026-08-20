@@ -9,7 +9,6 @@ import { locLibrary } from '../lib/copy'
 import { todaysClarity } from '../lib/library'
 import { activityStats, canApplyFreeze } from '../lib/activity'
 import { isPro, quoteFree } from '../lib/entitlement'
-import { useEntitlement } from '../lib/entitlement-store'
 import { useI18n } from '../lib/i18n'
 import { MOOD_KEYS, readMood, type MoodId } from '../lib/mood'
 import { quotes } from '../lib/quotes'
@@ -19,7 +18,6 @@ import { readDim, writeDim } from '../lib/theme'
 export function Home() {
   const { t, locale, meta } = useI18n()
   const navigate = useNavigate()
-  const { trial, trialEndsAt } = useEntitlement()
   const pro = isPro()
   const [slide, setSlide] = useState(0)
   const [search, setSearch] = useState(false)
@@ -41,14 +39,6 @@ export function Home() {
   }, [slides.length])
 
   useEffect(() => subscribeSpeak(() => setReading(isSpeaking() || isLoading())), [])
-
-  const ms = trialEndsAt - Date.now()
-  const trialLine =
-    trial && ms > 0
-      ? ms < 86_400_000
-        ? t('me_trial_today')
-        : t('me_trial', { n: Math.ceil(ms / 86_400_000) })
-      : null
 
   const now = itemsById(nowIds(mood, new Date().getHours()))
   const sounds = itemsById([...SOUND_RAIL_IDS])
@@ -92,7 +82,6 @@ export function Home() {
             >
               {meta.native}
             </button>
-            {trialLine ? <p className="mt-1 text-[11px] text-[#C4B5FD]">{trialLine}</p> : null}
           </div>
           <div className="flex items-center gap-2 pt-1">
             <CircleIconBtn

@@ -9,8 +9,7 @@ import { useI18n } from '../lib/i18n'
 
 export function Me() {
   const { t, locale } = useI18n()
-  const { store, trial, trialEndsAt } = useEntitlement()
-  const trialDaysLeft = Math.max(0, Math.ceil((trialEndsAt - Date.now()) / 86_400_000))
+  const { store } = useEntitlement()
   const [left, setLeft] = useState(() => freezeLeft())
   const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
   const [froze, setFroze] = useState<'ok' | 'used' | 'none' | null>(null)
@@ -57,9 +56,7 @@ export function Me() {
           <span className="rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">
             {t('me_upgrade')}
           </span>
-          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">
-            {trial ? (trialDaysLeft <= 1 ? t('me_trial_banner_last') : t('me_trial_banner', { n: trialDaysLeft })) : t('premium_banner')}
-          </span>
+          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">{t('premium_banner')}</span>
         </Link>
       ) : null}
 

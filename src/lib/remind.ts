@@ -1,16 +1,12 @@
 import { audio } from './audio'
 import { isNativeApp } from './device'
 import type { LocaleId } from './locales'
-import { emitTrialChange, readOnboard, requestNotify, trialUntil } from './onboard'
+import { readOnboard, requestNotify } from './onboard'
 import { bedMins, nightId, readSleepPlan, sleepTone } from './sleep-plan'
 import { readJson, writeJson } from './storage'
 import { translate, type StringKey } from './strings'
 
-const TRIAL_KEY = 'remind.trial'
-const SENT_KEY = 'remind.trial.sent'
 const CHIME_KEY = 'sleep.chime'
-const DAY_MS = 86_400_000
-const NATIVE_ID = 41001
 const SLEEP_ID = 41021
 
 const DAILY: { id: number; hour: number; minute: number; body: StringKey; route: string }[] = [
@@ -18,18 +14,6 @@ const DAILY: { id: number; hour: number; minute: number; body: StringKey; route:
   { id: 41012, hour: 14, minute: 0, body: 'nudge_2_b', route: '/breath' },
   { id: 41013, hour: 19, minute: 0, body: 'nudge_3_b', route: '/sleep' },
 ]
-
-export function readRemindTrial(): boolean {
-  const stored = readJson<boolean | null>(TRIAL_KEY, null)
-  if (stored != null) return stored
-  return readOnboard().remindTrial
-}
-
-export function writeRemindTrial(on: boolean) {
-  writeJson(TRIAL_KEY, on)
-  writeJson('onboard', { ...readOnboard(), remindTrial: on })
-  emitTrialChange()
-}
 
 async function nativePlugin() {
   if (!isNativeApp()) return null
@@ -46,73 +30,6 @@ async function cancelIds(ids: number[]) {
   if (!LN || !ids.length) return
   try {
     await LN.cancel({ notifications: ids.map((id) => ({ id })) })
-  } catch {
-    /* ignore */
-  }
-}
-
-export async function cancelNativeTrialReminder() {
-  await cancelIds([NATIVE_ID])
-}
-
-/** Last trial day, or a few seconds from now if that day has already started. */
-export function nativeFireAt(until: number, now = Date.now()): number | null {
-  if (until <= now) return null
-  const lastDay = until - DAY_MS
-  const at = now >= lastDay ? now + 8_000 : lastDay
-  if (at >= until) {
-    const soon = now + 2_000
-    return soon < until ? soon : null
-  }
-  return at
-}
-
-export async function tickTrialReminder(body: { title: string; text: string }): Promise<boolean> {
-  if (!readRemindTrial()) return false
-  const until = trialUntil()
-  if (until <= Date.now()) return false
-  if (until - Date.now() > DAY_MS) return false
-  if (readJson(SENT_KEY, 0) === until) return false
-  const ok = await requestNotify()
-  if (ok) {
-    try {
-      new Notification(body.title, { body: body.text, tag: 'steady-trial' })
-    } catch {
-      /* ignore */
-    }
-  }
-  writeJson(SENT_KEY, until)
-  return true
-}
-
-export async function syncTrialReminder(copy: { title: string; text: string }): Promise<void> {
-  const until = trialUntil()
-  if (!readRemindTrial() || until <= Date.now()) {
-    await cancelNativeTrialReminder()
-    return
-  }
-  const LN = await nativePlugin()
-  if (!LN) {
-    await tickTrialReminder(copy)
-    return
-  }
-  try {
-    const perm = await LN.requestPermissions()
-    if (perm.display !== 'granted') return
-    await LN.cancel({ notifications: [{ id: NATIVE_ID }] })
-    const fireAt = nativeFireAt(until)
-    if (fireAt == null) return
-    await LN.schedule({
-      notifications: [
-        {
-          id: NATIVE_ID,
-          title: copy.title,
-          body: copy.text,
-          schedule: { at: new Date(fireAt), allowWhileIdle: true },
-          extra: { route: '/paywall' },
-        },
-      ],
-    })
   } catch {
     /* ignore */
   }
@@ -178,11 +95,7 @@ export async function syncSleepReminder(locale: LocaleId): Promise<void> {
   }
 }
 
-export async function syncAllReminders(
-  locale: LocaleId,
-  trialCopy: { title: string; text: string },
-): Promise<void> {
-  await syncTrialReminder(trialCopy)
+export async function syncAllReminders(locale: LocaleId): Promise<void> {
   await syncDailyReminders(locale)
   await syncSleepReminder(locale)
 }

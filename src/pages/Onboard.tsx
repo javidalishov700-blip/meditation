@@ -3,10 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { LangPicker } from '../components/LangPicker'
 import { PrimaryButton, Switch } from '../components/ui'
 import { audio } from '../lib/audio'
-import { useEntitlement } from '../lib/entitlement-store'
 import { useEmergencyLine } from '../lib/emergency'
 import { useI18n } from '../lib/i18n'
-import { writeRemindTrial } from '../lib/remind'
 import { PLANS, displayPlanPrice } from '../lib/entitlement'
 import {
   completeOnboard,
@@ -136,7 +134,6 @@ const FOOTLESS: Step[] = ['part', 'agree1', 'agree2']
 
 export function Onboard({ onDone }: { onDone: () => void }) {
   const { t, locale } = useI18n()
-  const { startTrial } = useEntitlement()
   const emergency = useEmergencyLine()
   const navigate = useNavigate()
   const [step, setStep] = useState<Step>('lang')
@@ -145,7 +142,6 @@ export function Onboard({ onDone }: { onDone: () => void }) {
     fall: [],
     remindQuote: false,
     remindSleep: false,
-    remindTrial: true,
   })
   const [planN, setPlanN] = useState(0)
   const [picked, setPicked] = useState<PlanId>('month')
@@ -199,9 +195,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
     if (n) go(n, 1)
   }
 
-  function finish(withTrial: boolean, toPaywall = false) {
-    if (withTrial) startTrial()
-    writeRemindTrial(answers.remindTrial)
+  function finish(toPaywall = false) {
     void requestNotify()
     completeOnboard(answers)
     audio.stop(0.8)
@@ -538,8 +532,7 @@ export function Onboard({ onDone }: { onDone: () => void }) {
 
         {step === 'trial' ? (
           <Screen title={t('pay_more')} sub={t('pay_direct')}>
-            {/* The plans are the point of this screen, same as the paywall itself:
-                large, compact rows. The free trial is a small link below, not a button. */}
+            {/* The plans are the point of this screen, same as the paywall itself: large, compact rows. */}
             <div className="mt-7 space-y-2.5">
               {PLANS.map((p) => {
                 const on = picked === p.id
@@ -594,26 +587,12 @@ export function Onboard({ onDone }: { onDone: () => void }) {
               <PrimaryButton
                 onClick={() => {
                   warm()
-                  finish(false, true)
+                  finish(true)
                 }}
               >
                 {t('ob_continue')}
               </PrimaryButton>
-              {/* Secondary, on purpose: the trial is an alternative, not the offer. */}
-              <div className="mt-4 text-center">
-                <button
-                  type="button"
-                  className="text-xs text-mute underline underline-offset-4"
-                  onClick={() => {
-                    warm()
-                    finish(true)
-                  }}
-                >
-                  {t('ob_cta')}
-                </button>
-                <p className="mt-2 text-[11px] leading-5 text-mute">{t('ob_price')}</p>
-              </div>
-              <button type="button" className="mt-4 w-full text-center text-sm text-mute" onClick={() => finish(false)}>
+              <button type="button" className="mt-4 w-full text-center text-sm text-mute" onClick={() => finish()}>
                 {t('ob_skip')}
               </button>
             </>

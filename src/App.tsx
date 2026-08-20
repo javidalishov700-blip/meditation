@@ -11,7 +11,7 @@ import { armNoBounce } from './lib/no-bounce'
 import { audio } from './lib/audio'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider, useI18n } from './lib/i18n'
-import { isOnboarded, STEADY_TRIAL_EVENT, subscribeOnboard } from './lib/onboard'
+import { isOnboarded, subscribeOnboard } from './lib/onboard'
 import { Discover } from './pages/Discover'
 import { More } from './pages/More'
 import { Quotes } from './pages/Quotes'
@@ -135,13 +135,12 @@ function VoiceWarm() {
     return () => setUnlockCopy(null)
   }, [t])
   useEffect(() => {
-    const trial = () => ({ title: t('ob_rem_trial'), text: t('ob_rem_trial_t') })
     void armNativeNotificationTap()
     const fire = () => {
       // Reminders and the sleep chime call audio.playBed()/native permission prompts,
       // both of which would cut into the onboarding ambience or its first user gesture.
       if (!isOnboarded()) return
-      void syncAllReminders(locale, trial())
+      void syncAllReminders(locale)
       void maybeSleepChime(locale)
     }
     fire()
@@ -149,7 +148,6 @@ function VoiceWarm() {
       if (document.visibilityState === 'visible') fire()
     }
     document.addEventListener('visibilitychange', onVis)
-    window.addEventListener(STEADY_TRIAL_EVENT, fire)
     window.addEventListener(STEADY_SLEEP_EVENT, fire)
     const unsub = subscribeOnboard(fire)
     const tick = window.setInterval(() => {
@@ -164,7 +162,6 @@ function VoiceWarm() {
     })
     return () => {
       document.removeEventListener('visibilitychange', onVis)
-      window.removeEventListener(STEADY_TRIAL_EVENT, fire)
       window.removeEventListener(STEADY_SLEEP_EVENT, fire)
       unsub()
       window.clearInterval(tick)
