@@ -205,10 +205,23 @@ export function FavSheet({ open, onClose }: { open: boolean; onClose: () => void
   )
 }
 
-export function PremiumBanner() {
+/** Whether the user has closed the upgrade banner for good. */
+export function premiumBannerHidden(): boolean {
+  try {
+    return localStorage.getItem('steady.bannerOff') === '1'
+  } catch {
+    return false
+  }
+}
+
+/**
+ * The banner is fixed, so the scroll container has to reserve room for it —
+ * which means Layout, not this component, owns the dismissed flag. Keeping the
+ * state here would leave the reserved strip behind after a dismiss, as a band
+ * of empty space under the content.
+ */
+export function PremiumBanner({ onDismiss }: { onDismiss: () => void }) {
   const { t } = useI18n()
-  const [hidden, setHidden] = useState(() => localStorage.getItem('steady.bannerOff') === '1')
-  if (hidden) return null
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-[calc(4.6rem+env(safe-area-inset-bottom))] z-[42] flex justify-center px-4">
       <Link
@@ -226,8 +239,12 @@ export function PremiumBanner() {
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
-            localStorage.setItem('steady.bannerOff', '1')
-            setHidden(true)
+            try {
+              localStorage.setItem('steady.bannerOff', '1')
+            } catch {
+              /* private mode */
+            }
+            onDismiss()
           }}
         >
           <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">

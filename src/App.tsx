@@ -7,6 +7,7 @@ import { needsIntro, Splash } from './components/Splash'
 import { CrisisChip } from './components/ui'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { onAppResume } from './lib/device'
+import { armNoBounce } from './lib/no-bounce'
 import { audio } from './lib/audio'
 import { EntitlementProvider } from './lib/entitlement-store'
 import { I18nProvider, useI18n } from './lib/i18n'
@@ -101,6 +102,7 @@ export default function App() {
       /* ignore */
     }
     applyTheme(readTheme())
+    return armNoBounce()
   }, [])
   return (
     <I18nProvider>
