@@ -220,15 +220,33 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
   return plans
 }
 
-/** One short phrase for the failure panel: which store this device is signed in to. */
+/**
+ * One short phrase for the failure panel: which store this device is signed in to.
+ *
+ * The probe answers for itself rather than letting `settleWithin` swallow a
+ * rejection into the give-up value: a bridge that rejects — an old binary
+ * without this method, a plugin that never registered — would otherwise read as
+ * "StoreKit cannot reach the App Store" and send the diagnosis after the network
+ * when the real answer is that the call never left the app. Only a genuine
+ * silence reaches the timeout text.
+ */
 async function describeStorefront(): Promise<string> {
-  const probe = async () => {
-    const plugin = await nativePlugin()
-    const front = await plugin.getStorefront()
-    if (!front.available) return 'storefront: none (no App Store account on this device)'
-    return `storefront: ${front.countryCode ?? 'unknown'}`
+  const probe = async (): Promise<string> => {
+    try {
+      const plugin = await nativePlugin()
+      const front = await plugin.getStorefront()
+      if (!front.available) return 'storefront: none (no App Store account on this device)'
+      return `storefront: ${front.countryCode ?? 'unknown'}`
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err ?? '')
+      return `storefront: bridge error (${message || 'unknown'})`
+    }
   }
-  return settleWithin(probe(), STOREFRONT_TIMEOUT_MS, 'storefront: no answer (StoreKit cannot reach the App Store)')
+  return settleWithin(
+    probe(),
+    STOREFRONT_TIMEOUT_MS,
+    `storefront: silent for ${STOREFRONT_TIMEOUT_MS / 1000}s (StoreKit never answered)`,
+  )
 }
 
 export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
