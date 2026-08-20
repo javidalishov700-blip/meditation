@@ -223,6 +223,16 @@ export function Home() {
             </svg>
           }
         />
+        <QuickTile
+          to="/treat"
+          label={t('treat_title')}
+          icon={
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <rect x="6" y="3.5" width="12" height="17" rx="1.4" />
+              <path d="M14.5 12h.01" />
+            </svg>
+          }
+        />
       </div>
 
       <section className="mt-8">
