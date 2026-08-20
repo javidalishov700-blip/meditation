@@ -8,6 +8,7 @@ import { formatDate } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import { requestNotify, trialUsed } from '../lib/onboard'
 import {
+  alertStoreError,
   iapConfigured,
   lastStoreError,
   loadStorePlans,
@@ -108,6 +109,7 @@ export function Paywall() {
       if (before.stage === 'products-empty') {
         const why = before.error
         setFail(why ? `${t('pay_store_unreachable')} — ${why}` : t('pay_store_unreachable'))
+        void alertStoreError('StoreKit: no products loaded', why ?? 'Unknown error')
         return
       }
       const result = await purchasePlan(id)
@@ -128,6 +130,7 @@ export function Paywall() {
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err ?? '')
       setFail(message ? `${t('pay_buy_fail')} — ${message}` : t('pay_buy_fail'))
+      void alertStoreError('StoreKit: unexpected error', message || 'Unknown error')
     } finally {
       setBusy(null)
     }

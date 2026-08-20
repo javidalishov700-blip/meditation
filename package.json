@@ -18,6 +18,7 @@
   "dependencies": {
     "@capacitor/app": "^7.1.2",
     "@capacitor/core": "^7.4.3",
+    "@capacitor/dialog": "^7.0.4",
     "@capacitor/local-notifications": "^7.0.7",
     "@sentry/react": "^10.70.0",
     "capacitor-native-settings": "^7.0.2",

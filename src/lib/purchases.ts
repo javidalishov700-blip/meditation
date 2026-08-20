@@ -3,6 +3,23 @@ import { setPro } from './entitlement'
 import type { LocaleId } from './locales'
 import type { PlanId } from './types'
 
+/**
+ * A system alert on top of the on-screen panel — belt and suspenders. The
+ * panel can be missed if it renders below the fold or the user looks away
+ * mid-tap; a blocking native dialog with StoreKit's exact words cannot be.
+ * Only fires on genuine failures (never cancel/pending), and only in the
+ * native app — the web preview has no StoreKit to report on.
+ */
+export async function alertStoreError(title: string, message: string) {
+  if (!isNativeApp()) return
+  try {
+    const { Dialog } = await import('@capacitor/dialog')
+    await Dialog.alert({ title, message })
+  } catch {
+    /* Dialog plugin unavailable — the on-screen panel still has the message. */
+  }
+}
+
 /** App Store Connect product ids. Mirror of store/app-store-products.json */
 export const STORE_PRODUCTS: Record<PlanId, string> = {
   week: 'app.steady.calm.weekly',
@@ -175,6 +192,7 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
     stage: plans ? 'products-ok' : 'products-empty',
     productCount: plans?.length ?? 0,
   })
+  if (!plans) void alertStoreError('StoreKit: getProducts failed', lastError ?? 'Unknown error')
   return plans
 }
 
@@ -205,6 +223,10 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
     lastError = `No answer from StoreKit within ${PURCHASE_TIMEOUT_MS / 1000}s`
   }
   setStatus({ stage: 'done', lastResult: outcome })
+  // cancelled/pending are expected outcomes, not failures — no alert for those.
+  if (outcome === 'timeout' || outcome === 'unavailable') {
+    void alertStoreError('StoreKit: purchase failed', lastError ?? `result: ${outcome}`)
+  }
   return outcome
 }
 
