@@ -16,11 +16,43 @@ export type StorePlan = {
   productId: string
 }
 
-export type PurchaseResult = 'ok' | 'cancelled' | 'pending' | 'unavailable'
+export type PurchaseResult = 'ok' | 'cancelled' | 'pending' | 'unavailable' | 'timeout'
 
 const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
 
+/**
+ * If StoreKit never answers, the caller must still get a result — a button that
+ * waits forever is worse than one that reports a problem. Nothing is lost by
+ * giving up early: a purchase that lands later still arrives through the
+ * Transaction.updates listener and unlocks Pro on its own.
+ */
+const PURCHASE_TIMEOUT_MS = 90_000
+const QUERY_TIMEOUT_MS = 20_000
+
 let listening = false
+let lastError: string | null = null
+
+/** Why the last store call failed, for the paywall to show instead of a dead end. */
+export function lastStoreError(): string | null {
+  return lastError
+}
+
+function settleWithin<T>(work: Promise<T>, ms: number, onGiveUp: T): Promise<T> {
+  return new Promise<T>((resolve) => {
+    let settled = false
+    const finish = (value: T) => {
+      if (settled) return
+      settled = true
+      window.clearTimeout(timer)
+      resolve(value)
+    }
+    const timer = window.setTimeout(() => finish(onGiveUp), ms)
+    work.then(finish, (err: unknown) => {
+      lastError = err instanceof Error ? err.message : String(err ?? '')
+      finish(onGiveUp)
+    })
+  })
+}
 
 export function iapConfigured(): boolean {
   return isNativeApp()
@@ -68,7 +100,8 @@ async function ensureListener() {
 export async function loadStorePlans(): Promise<StorePlan[] | null> {
   if (!iapConfigured()) return null
   void ensureListener()
-  try {
+  lastError = null
+  const read = async () => {
     const plugin = await nativePlugin()
     const { products } = await plugin.getProducts({ productIds: Object.values(STORE_PRODUCTS) })
     const found = new Map<PlanId, StorePlan>()
@@ -78,16 +111,17 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
       found.set(id, { id, price: product.priceString, productId: product.id })
     }
     const out = PLAN_ORDER.map((id) => found.get(id)).filter((p): p is StorePlan => Boolean(p))
+    if (!out.length) lastError = 'App Store returned no products for these ids'
     return out.length ? out : null
-  } catch {
-    return null
   }
+  return settleWithin(read(), QUERY_TIMEOUT_MS, null)
 }
 
 export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
   if (!iapConfigured()) return 'unavailable'
   void ensureListener()
-  try {
+  lastError = null
+  const run = async (): Promise<PurchaseResult> => {
     const plugin = await nativePlugin()
     const result = await plugin.purchase({ productId: STORE_PRODUCTS[id] })
     if (result.status === 'purchased') {
@@ -97,29 +131,27 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
     if (result.status === 'cancelled') return 'cancelled'
     if (result.status === 'pending') return 'pending'
     return 'unavailable'
-  } catch {
-    return 'unavailable'
   }
+  return settleWithin(run(), PURCHASE_TIMEOUT_MS, 'timeout')
 }
 
 export async function restoreStorePurchases(): Promise<boolean> {
   if (!iapConfigured()) return false
   void ensureListener()
-  try {
+  lastError = null
+  const run = async () => {
     const plugin = await nativePlugin()
     return applyEntitlement(await plugin.restorePurchases())
-  } catch {
-    return false
   }
+  return settleWithin(run(), PURCHASE_TIMEOUT_MS, false)
 }
 
 export async function refreshStoreEntitlement(): Promise<boolean> {
   if (!iapConfigured()) return false
   void ensureListener()
-  try {
+  const run = async () => {
     const plugin = await nativePlugin()
     return applyEntitlement(await plugin.getEntitlement())
-  } catch {
-    return false
   }
+  return settleWithin(run(), QUERY_TIMEOUT_MS, false)
 }

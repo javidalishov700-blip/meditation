@@ -1,6 +1,7 @@
 import Foundation
 import Capacitor
 import StoreKit
+import UIKit
 
 enum StoreKitPluginError: Error {
     case failedVerification
@@ -38,27 +39,37 @@ public class StoreKitPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 let products = try await Product.products(for: ids)
-                call.resolve(["products": products.map(Self.serialize)])
+                call.resolve([
+                    "products": products.map(Self.serialize),
+                    // Zero products with no error means App Store Connect has not made
+                    // these ids available yet — worth telling the caller apart from a
+                    // network failure.
+                    "requested": ids.count
+                ])
             } catch {
-                call.reject("Failed to load products", nil, error)
+                call.reject("Failed to load products: \(error.localizedDescription)", nil, error)
             }
         }
     }
 
+    /// Capacitor hands plugin calls to a background queue. StoreKit's purchase sheet
+    /// is UI: asked for from off the main actor it can never find a window scene to
+    /// present in, so the call would hang and the JS promise would never settle —
+    /// leaving the buy button spinning forever. Everything here runs on the main actor,
+    /// and every path ends in exactly one resolve or reject.
     @objc func purchase(_ call: CAPPluginCall) {
         guard let productId = call.getString("productId") else {
             call.reject("productId is required")
             return
         }
-        Task {
+        Task { @MainActor in
             do {
                 let products = try await Product.products(for: [productId])
                 guard let product = products.first else {
-                    call.resolve(["status": "unavailable"])
+                    call.resolve(["status": "unavailable", "reason": "product_not_found"])
                     return
                 }
-                let result = try await product.purchase()
-                switch result {
+                switch try await Self.presentPurchase(product) {
                 case .success(let verification):
                     let transaction = try Self.checkVerified(verification)
                     await transaction.finish()
@@ -71,21 +82,39 @@ public class StoreKitPlugin: CAPPlugin, CAPBridgedPlugin {
                 case .pending:
                     call.resolve(["status": "pending"])
                 @unknown default:
-                    call.resolve(["status": "unavailable"])
+                    call.resolve(["status": "unavailable", "reason": "unknown_result"])
                 }
             } catch {
-                call.reject("Purchase failed", nil, error)
+                call.reject("Purchase failed: \(error.localizedDescription)", nil, error)
             }
         }
     }
 
+    /// iOS 17 wants the scene to confirm in; older systems infer the key window.
+    @MainActor
+    private static func presentPurchase(_ product: Product) async throws -> Product.PurchaseResult {
+        if #available(iOS 17.0, *), let scene = activeWindowScene() {
+            return try await product.purchase(confirmIn: scene)
+        }
+        return try await product.purchase()
+    }
+
+    @MainActor
+    private static func activeWindowScene() -> UIWindowScene? {
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        return scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+    }
+
+    /// AppStore.sync() can put up a sign-in sheet, so it needs the main actor too.
     @objc func restorePurchases(_ call: CAPPluginCall) {
-        Task {
+        Task { @MainActor in
             do {
                 try await AppStore.sync()
                 call.resolve(await Self.currentEntitlement())
             } catch {
-                call.reject("Restore failed", nil, error)
+                // A cancelled sign-in is not a failure: report what is on file instead
+                // of rejecting, so the caller still gets a usable answer.
+                call.resolve(await Self.currentEntitlement())
             }
         }
     }

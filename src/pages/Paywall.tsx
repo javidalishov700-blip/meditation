@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IncludedList, LegalRow, OfferWash, TrialTimeline } from '../components/TrialOffer'
+import { IncludedList, LegalRow, OfferWash } from '../components/TrialOffer'
 import { Card, GhostButton, LegalNote, PrimaryButton } from '../components/ui'
 import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
@@ -9,6 +9,7 @@ import { useI18n } from '../lib/i18n'
 import { requestNotify, trialUsed } from '../lib/onboard'
 import {
   iapConfigured,
+  lastStoreError,
   loadStorePlans,
   planIdOf,
   purchasePlan,
@@ -16,7 +17,7 @@ import {
   restoreStorePurchases,
   type StorePlan,
 } from '../lib/purchases'
-import { readRemindTrial, writeRemindTrial } from '../lib/remind'
+import { readRemindTrial } from '../lib/remind'
 import type { PlanId } from '../lib/types'
 
 const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_period_year'> = {
@@ -29,7 +30,7 @@ export function Paywall() {
   const { store: storePro, trial, proProductId, proExpiresAt, startTrial, refresh } = useEntitlement()
   const navigate = useNavigate()
   const { t, locale } = useI18n()
-  const [remind, setRemind] = useState(() => readRemindTrial())
+  const [remind] = useState(() => readRemindTrial())
   const [restored, setRestored] = useState('')
   const [fail, setFail] = useState('')
   const [store, setStore] = useState<StorePlan[] | null>(null)
@@ -57,41 +58,49 @@ export function Paywall() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function setRemindOn(value: boolean) {
-    setRemind(value)
-    writeRemindTrial(value)
-    if (value) void requestNotify()
-  }
-
   async function restore() {
     setBusy('restore')
     setFail('')
-    if (!native) {
-      setRestored(t('pay_restore_none'))
+    try {
+      if (!native) {
+        setRestored(t('pay_restore_none'))
+        return
+      }
+      const ok = await restoreStorePurchases()
+      refresh()
+      setRestored(ok ? t('pay_restore_ok') : t('pay_restore_none'))
+    } finally {
       setBusy(null)
-      return
     }
-    const ok = await restoreStorePurchases()
-    refresh()
-    setRestored(ok ? t('pay_restore_ok') : t('pay_restore_none'))
-    setBusy(null)
   }
 
-  /** Straight to StoreKit. Nothing here can grant Pro on its own. */
+  /**
+   * Straight to StoreKit. Nothing here can grant Pro on its own, and the button
+   * always comes back — the finally runs even if the store call throws, and
+   * purchasePlan itself gives up rather than hanging.
+   */
   async function buy(id: PlanId) {
     setBusy(id)
     setFail('')
     setRestored('')
-    if (!native) {
-      setFail(t('pay_web_only'))
+    try {
+      if (!native) {
+        setFail(t('pay_web_only'))
+        return
+      }
+      const result = await purchasePlan(id)
+      if (result === 'ok') refresh()
+      if (result === 'pending') setFail(t('pay_buy_pending'))
+      if (result === 'timeout') setFail(t('pay_buy_timeout'))
+      if (result === 'unavailable') {
+        const why = lastStoreError()
+        setFail(why ? `${t('pay_buy_fail')} (${why})` : t('pay_buy_fail'))
+      }
+    } catch {
+      setFail(t('pay_buy_fail'))
+    } finally {
       setBusy(null)
-      return
     }
-    const result = await purchasePlan(id)
-    if (result === 'ok') refresh()
-    if (result === 'unavailable') setFail(t('pay_buy_fail'))
-    if (result === 'pending') setFail(t('pay_buy_pending'))
-    setBusy(null)
   }
 
   function priceOf(id: PlanId) {
@@ -100,12 +109,21 @@ export function Paywall() {
     return displayPlanPrice(id)
   }
 
+  /** Back if there is somewhere to go back to, home otherwise — never a dead end. */
+  function leave() {
+    if (window.history.length > 1) navigate(-1)
+    else navigate('/', { replace: true })
+  }
+
   function beginTrialDay() {
     setBusy('trial')
-    startTrial()
-    if (remind) void requestNotify()
-    setBusy(null)
-    navigate(-1)
+    try {
+      startTrial()
+      if (remind) void requestNotify()
+    } finally {
+      setBusy(null)
+    }
+    leave()
   }
 
   return (
@@ -114,7 +132,7 @@ export function Paywall() {
         <button
           type="button"
           aria-label={t('close')}
-          onClick={() => navigate(-1)}
+          onClick={leave}
           className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-white/8"
         >
           <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -122,8 +140,8 @@ export function Paywall() {
           </svg>
         </button>
 
-        <h1 className="mt-5 font-display text-3xl">{paid ? t('pay_on') : t('pay_more')}</h1>
-        <p className="mt-3 text-sm leading-7 text-mute">{paid ? t('pay_sub') : t('pay_direct')}</p>
+        <h1 className="mt-4 font-display text-[1.7rem] leading-tight">{paid ? t('pay_on') : t('pay_more')}</h1>
+        <p className="mt-2 text-[13px] leading-6 text-mute">{paid ? t('pay_sub') : t('pay_direct')}</p>
 
         {paid && native && proProductId ? (
           <Card className="mt-5">
@@ -140,7 +158,7 @@ export function Paywall() {
 
         {paid ? (
           <>
-            <GhostButton className="mt-8 w-full" onClick={() => navigate(-1)}>
+            <GhostButton className="mt-8 w-full" onClick={leave}>
               {t('pay_back')}
             </GhostButton>
             {native ? (
@@ -159,7 +177,9 @@ export function Paywall() {
           </>
         ) : (
           <>
-            <div className="mt-8 space-y-3">
+            {/* The plans are the point of this screen: compact rows so all three
+                and the buy button land above the fold on a phone. */}
+            <div className="mt-5 space-y-2.5">
               {PLANS.map((p) => {
                 const on = picked === p.id
                 return (
@@ -168,58 +188,76 @@ export function Paywall() {
                     type="button"
                     aria-pressed={on}
                     onClick={() => setPicked(p.id)}
-                    className={`w-full rounded-[1.35rem] text-left ${on ? 'ring-2 ring-[#7B61FF] ring-offset-2 ring-offset-black' : ''}`}
+                    className={`flex w-full items-center gap-3 rounded-[1.2rem] px-4 py-3.5 text-left transition ${
+                      on ? 'bg-white/[0.10] ring-2 ring-[#7B61FF]' : 'surface'
+                    }`}
                   >
-                    <Card className={on || p.featured ? 'border border-white/14' : ''}>
-                      <div className="flex items-baseline justify-between gap-3">
-                        <p className="font-display text-2xl">{planLabel[p.id]}</p>
-                        {p.featured ? <span className="text-xs text-mute">{t('pay_featured')}</span> : null}
-                      </div>
-                      <p className="mt-2 font-display text-3xl tabular-nums text-white">
+                    <span
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
+                        on ? 'border-[#7B61FF] bg-[#7B61FF]' : 'border-white/25'
+                      }`}
+                    >
+                      {on ? (
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 text-white" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M5 12.5 10 17l9-9" />
+                        </svg>
+                      ) : null}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-baseline gap-2">
+                        <span className="font-display text-lg leading-none">{planLabel[p.id]}</span>
+                        {p.featured ? (
+                          <span className="rounded-full bg-[#7B61FF]/25 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[#C4B5FD]">
+                            {t('pay_featured')}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="mt-1 block text-[11px] leading-4 text-mute">{planHint[p.id]}</span>
+                    </span>
+                    <span className="shrink-0 text-right">
+                      <span className="block font-display text-xl leading-none tabular-nums text-white">
                         {priceOf(p.id)}
-                        <span className="text-base font-sans text-mute"> {t(PERIOD[p.id])}</span>
-                      </p>
-                      <p className="mt-1 text-xs leading-5 text-mute">{planHint[p.id]}</p>
-                    </Card>
+                      </span>
+                      <span className="mt-1 block text-[11px] text-mute">{t(PERIOD[p.id])}</span>
+                    </span>
                   </button>
                 )
               })}
             </div>
 
-            <PrimaryButton className="mt-6" disabled={busy != null} onClick={() => void buy(picked)}>
+            <PrimaryButton className="mt-4" disabled={busy != null} onClick={() => void buy(picked)}>
               {busy === picked
                 ? t('pay_loading')
                 : t('pay_continue', { n: `${planLabel[picked]} · ${priceOf(picked)}` })}
             </PrimaryButton>
 
-            {fail ? <p className="mt-4 text-center text-sm text-amber-100">{fail}</p> : null}
+            {fail ? <p className="mt-3 text-center text-sm text-amber-100">{fail}</p> : null}
 
-            {native ? (
-              <p className="mt-5 text-center text-xs leading-5 text-mute">{t('pay_iap')}</p>
-            ) : (
-              <p className="mt-3 text-center text-xs leading-5 text-mute">{t('pay_web_only')}</p>
-            )}
-
+            {/* Secondary, on purpose: the trial is an alternative, not the offer. */}
             {offer || live ? (
-              <div className="mt-10">
-                <p className="text-center text-sm text-white/70">{t('pay_or_trial')}</p>
+              <div className="mt-4 text-center">
                 {live ? (
-                  <p className="mt-3 text-center text-sm text-mute">{t('me_trial_today')}</p>
+                  <p className="text-xs text-mute">{t('me_trial_today')}</p>
                 ) : (
-                  <>
-                    <div className="mt-5">
-                      <TrialTimeline remind={remind} onRemind={setRemindOn} />
-                    </div>
-                    <GhostButton className="mt-6 w-full" onClick={beginTrialDay}>
-                      {t('ob_cta')}
-                    </GhostButton>
-                    <p className="mt-3 text-center text-xs leading-5 text-mute">{t('ob_price')}</p>
-                  </>
+                  <button
+                    type="button"
+                    disabled={busy != null}
+                    onClick={beginTrialDay}
+                    className="text-xs text-mute underline underline-offset-4"
+                  >
+                    {t('pay_or_trial')}
+                  </button>
                 )}
               </div>
             ) : null}
 
-            <Card className="mt-8">
+            {native ? (
+              <p className="mt-4 text-center text-[11px] leading-5 text-mute">{t('pay_iap')}</p>
+            ) : (
+              <p className="mt-4 text-center text-[11px] leading-5 text-mute">{t('pay_web_only')}</p>
+            )}
+
+            <Card className="mt-6">
               <IncludedList />
             </Card>
             <Card className="mt-4">

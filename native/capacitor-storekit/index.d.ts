@@ -20,6 +20,8 @@ export type NativePurchaseStatus = 'purchased' | 'cancelled' | 'pending' | 'unav
 
 export type NativePurchaseResult = {
   status: NativePurchaseStatus
+  /** Set when status is 'unavailable': product_not_found | unknown_result */
+  reason?: string
   transaction?: {
     productId: string
     purchaseDate: number
@@ -28,7 +30,7 @@ export type NativePurchaseResult = {
 }
 
 export interface StoreKitNativePlugin {
-  getProducts(options: { productIds: string[] }): Promise<{ products: NativeProduct[] }>
+  getProducts(options: { productIds: string[] }): Promise<{ products: NativeProduct[]; requested?: number }>
   purchase(options: { productId: string }): Promise<NativePurchaseResult>
   restorePurchases(): Promise<NativeEntitlement>
   getEntitlement(): Promise<NativeEntitlement>

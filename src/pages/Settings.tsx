@@ -409,7 +409,8 @@ function HistoryPanel() {
 function Index() {
   const { t, meta } = useI18n()
   const navigate = useNavigate()
-  const { pro, store: storePro, trial, trialEndsAt } = useEntitlement()
+  const { store: storePro, trial, trialEndsAt } = useEntitlement()
+  const trialDaysLeft = Math.max(0, Math.ceil((trialEndsAt - Date.now()) / 86_400_000))
   const emergency = useEmergencyLine()
   const helpId = supportId()
   const [pinOn, setPinOn] = useState(() => hasPin())
@@ -429,7 +430,8 @@ function Index() {
 
   return (
     <>
-      {!pro ? (
+      {/* Anyone without a real subscription — free or on trial — keeps a way in. */}
+      {!storePro ? (
         <Link
           to="/paywall"
           className="mt-5 flex items-center gap-3 overflow-hidden rounded-[1.2rem] bg-gradient-to-r from-[#5B3FD6] to-[#4F7DD4] px-4 py-3.5"
@@ -437,7 +439,9 @@ function Index() {
           <span className="rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">
             {t('me_set_go')}
           </span>
-          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">{t('premium_banner')}</span>
+          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">
+            {trial ? (trialDaysLeft <= 1 ? t('me_trial_banner_last') : t('me_trial_banner', { n: trialDaysLeft })) : t('premium_banner')}
+          </span>
         </Link>
       ) : null}
 
@@ -484,6 +488,12 @@ function Index() {
       <Group>
         <Row icon={<StarIcon />} label={t('me_tier')} value={tier} to="/paywall" />
         <Hairline />
+        {!storePro ? (
+          <>
+            <Row icon={<StarIcon />} label={t('me_upgrade')} to="/paywall" />
+            <Hairline />
+          </>
+        ) : null}
         <Row icon={<ClockIcon />} label={t('me_history')} to="/me/settings/history" />
       </Group>
 
