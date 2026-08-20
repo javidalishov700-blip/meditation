@@ -69,6 +69,7 @@ workflows:
           fi
           npx cap sync ios
           node scripts/patch-native-locales.mjs
+          node scripts/patch-ios-target.mjs
       - name: CocoaPods
         script: cd ios/App && pod install
       # Don't use environment.ios_signing — it fails if no App Store profile
