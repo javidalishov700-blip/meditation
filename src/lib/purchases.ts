@@ -1,3 +1,5 @@
+// Never await or async-return this Proxy: its `then` never settles and no call reaches Swift.
+import { StoreKitNative } from 'capacitor-storekit-native'
 import { isNativeApp } from './device'
 import { setPro } from './entitlement'
 import type { LocaleId } from './locales'
@@ -48,11 +50,9 @@ const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
  * a sheet which never appears reports itself in seconds rather than minutes.
  *
  * The catalogue budget is the opposite problem: a first `Product.products(for:)`
- * in the sandbox routinely takes far longer than a warm production one — it may
- * have to settle the storefront and the sandbox account before it answers. An
- * 8s budget gave up while Apple was still working and reported it as a failure,
- * which reads exactly like a broken catalogue. Wait long enough that a timeout
- * here means something is genuinely wrong.
+ * in the sandbox can take far longer than a warm production one — it may have to
+ * settle the storefront and the sandbox account before it answers. Wait long
+ * enough that a timeout here means something is genuinely wrong.
  */
 const PURCHASE_TIMEOUT_MS = 25_000
 const QUERY_TIMEOUT_MS = 30_000
@@ -152,11 +152,6 @@ export function planIdOf(productId: string): PlanId | null {
   return null
 }
 
-async function nativePlugin() {
-  const { StoreKitNative } = await import('capacitor-storekit-native')
-  return StoreKitNative
-}
-
 type NativeEntitlement = { active: boolean; productId?: string; expiresAt?: number }
 
 function applyEntitlement(entitlement: NativeEntitlement): boolean {
@@ -164,11 +159,10 @@ function applyEntitlement(entitlement: NativeEntitlement): boolean {
   return entitlement.active
 }
 
-async function ensureListener() {
+function ensureListener() {
   if (listening || !iapConfigured()) return
   listening = true
-  const plugin = await nativePlugin()
-  void plugin.addListener('entitlementUpdate', (entitlement: NativeEntitlement) => {
+  void StoreKitNative.addListener('entitlementUpdate', (entitlement: NativeEntitlement) => {
     applyEntitlement(entitlement)
   })
 }
@@ -189,8 +183,7 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
   // the failure is enough to tell the two apart.
   const started = Date.now()
   const read = async () => {
-    const plugin = await nativePlugin()
-    const { products } = await plugin.getProducts({ productIds: Object.values(STORE_PRODUCTS) })
+    const { products } = await StoreKitNative.getProducts({ productIds: Object.values(STORE_PRODUCTS) })
     const found = new Map<PlanId, StorePlan>()
     for (const product of products || []) {
       const id = planIdOf(product.id)
@@ -233,8 +226,7 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
 async function describeStorefront(): Promise<string> {
   const probe = async (): Promise<string> => {
     try {
-      const plugin = await nativePlugin()
-      const front = await plugin.getStorefront()
+      const front = await StoreKitNative.getStorefront()
       if (!front.available) return 'storefront: none (no App Store account on this device)'
       return `storefront: ${front.countryCode ?? 'unknown'}`
     } catch (err) {
@@ -259,8 +251,7 @@ export async function purchasePlan(id: PlanId): Promise<PurchaseResult> {
   lastError = null
   setStatus({ stage: 'purchasing', lastResult: null })
   const run = async (): Promise<PurchaseResult> => {
-    const plugin = await nativePlugin()
-    const result = await plugin.purchase({ productId: STORE_PRODUCTS[id] })
+    const result = await StoreKitNative.purchase({ productId: STORE_PRODUCTS[id] })
     if (result.status === 'purchased') {
       setPro(true, { productId: result.transaction?.productId, expiresAt: result.transaction?.expiresAt })
       return 'ok'
@@ -292,19 +283,13 @@ export async function restoreStorePurchases(): Promise<boolean> {
   if (!iapConfigured()) return false
   void ensureListener()
   lastError = null
-  const run = async () => {
-    const plugin = await nativePlugin()
-    return applyEntitlement(await plugin.restorePurchases())
-  }
+  const run = async () => applyEntitlement(await StoreKitNative.restorePurchases())
   return settleWithin(run(), PURCHASE_TIMEOUT_MS, false)
 }
 
 export async function refreshStoreEntitlement(): Promise<boolean> {
   if (!iapConfigured()) return false
   void ensureListener()
-  const run = async () => {
-    const plugin = await nativePlugin()
-    return applyEntitlement(await plugin.getEntitlement())
-  }
+  const run = async () => applyEntitlement(await StoreKitNative.getEntitlement())
   return settleWithin(run(), QUERY_TIMEOUT_MS, false)
 }

@@ -1,3 +1,5 @@
+// Never await or async-return this Proxy: its `then` never settles and no call reaches Swift.
+import { LocalNotifications } from '@capacitor/local-notifications'
 import { audio } from './audio'
 import { isNativeApp } from './device'
 import type { LocaleId } from './locales'
@@ -15,18 +17,12 @@ const DAILY: { id: number; hour: number; minute: number; body: StringKey; route:
   { id: 41013, hour: 19, minute: 0, body: 'nudge_3_b', route: '/sleep' },
 ]
 
-async function nativePlugin() {
-  if (!isNativeApp()) return null
-  try {
-    const m = await import('@capacitor/local-notifications')
-    return m.LocalNotifications
-  } catch {
-    return null
-  }
+function nativePlugin() {
+  return isNativeApp() ? LocalNotifications : null
 }
 
 async function cancelIds(ids: number[]) {
-  const LN = await nativePlugin()
+  const LN = nativePlugin()
   if (!LN || !ids.length) return
   try {
     await LN.cancel({ notifications: ids.map((id) => ({ id })) })
@@ -41,7 +37,7 @@ export async function syncDailyReminders(locale: LocaleId): Promise<void> {
     await cancelIds(ids)
     return
   }
-  const LN = await nativePlugin()
+  const LN = nativePlugin()
   if (!LN) return
   try {
     const perm = await LN.requestPermissions()
@@ -67,7 +63,7 @@ export async function syncSleepReminder(locale: LocaleId): Promise<void> {
     await cancelIds([SLEEP_ID])
     return
   }
-  const LN = await nativePlugin()
+  const LN = nativePlugin()
   if (!LN) return
   try {
     const perm = await LN.requestPermissions()
@@ -132,7 +128,7 @@ let tapArmed = false
 
 export async function armNativeNotificationTap(): Promise<void> {
   if (tapArmed) return
-  const LN = await nativePlugin()
+  const LN = nativePlugin()
   if (!LN) return
   try {
     await LN.addListener('localNotificationActionPerformed', (e) => {
