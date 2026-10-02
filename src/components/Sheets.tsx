@@ -226,12 +226,14 @@ export function PremiumBanner({ onDismiss }: { onDismiss: () => void }) {
     <div className="pointer-events-none fixed inset-x-0 bottom-[calc(4.6rem+env(safe-area-inset-bottom))] z-[42] flex justify-center px-4">
       <Link
         to="/paywall"
-        className="pointer-events-auto flex w-full max-w-lg items-center gap-2 rounded-full bg-[#7B61FF] px-4 py-2.5 text-[13px] font-medium text-white shadow-[0_8px_28px_rgba(123,97,255,0.35)]"
+        className="keep-dark pointer-events-auto flex w-full max-w-lg items-center gap-2.5 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#8B5CF6] to-[#DB2777] py-2 pl-2 pr-3 text-[13px] font-medium text-white shadow-[0_10px_30px_rgba(124,58,237,0.4)]"
       >
-        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="currentColor">
-          <path d="M12 2.4 13.7 8h5.8l-4.7 3.4 1.8 5.6L12 13.8 7.4 17l1.8-5.6L4.5 8h5.8L12 2.4Z" />
-        </svg>
-        <span className="min-w-0 flex-1 leading-snug">{t('premium_banner')}</span>
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/20">
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+            <path d="M12 2.8 13.9 9l6.3 1.9-6.3 1.9L12 19l-1.9-6.2-6.3-1.9L10.1 9 12 2.8Z" />
+          </svg>
+        </span>
+        <span className="min-w-0 flex-1 truncate leading-snug">{t('premium_banner')}</span>
         <button
           type="button"
           aria-label={t('close')}
@@ -288,18 +290,25 @@ export function QuickTile({
   label,
   onClick,
   to,
+  tone = 'from-[#A1A1AA] to-[#52525B]',
 }: {
   icon: ReactNode
   label: string
   onClick?: () => void
   to?: string
+  /** Tailwind gradient stops for the icon chip. */
+  tone?: string
 }) {
   const className =
-    'flex h-[4.6rem] w-[6.6rem] shrink-0 flex-col items-start justify-between rounded-[1.15rem] bg-[#1C1C1E] p-3 text-left'
+    'surface flex h-[5.4rem] w-[6.4rem] shrink-0 flex-col items-start justify-between rounded-[1.25rem] border border-white/[0.07] p-3 text-left transition-transform active:scale-[0.97]'
   const inner = (
     <>
-      <span className="text-white/80">{icon}</span>
-      <span className="text-[12px] font-medium text-white/90">{label}</span>
+      <span
+        className={`keep-dark flex h-9 w-9 items-center justify-center rounded-[0.8rem] bg-gradient-to-br ${tone} text-white shadow-[0_6px_14px_rgba(0,0,0,0.3)]`}
+      >
+        {icon}
+      </span>
+      <span className="text-[13px] font-medium text-cream">{label}</span>
     </>
   )
   if (to) {

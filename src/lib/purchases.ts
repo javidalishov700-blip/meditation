@@ -33,6 +33,9 @@ export type StorePlan = {
   id: PlanId
   price: string
   productId: string
+  /** Numeric price and ISO currency, for per-month and savings lines. */
+  amount?: number
+  currency?: string
 }
 
 export type PurchaseResult = 'ok' | 'cancelled' | 'pending' | 'unavailable' | 'timeout'
@@ -188,7 +191,13 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
     for (const product of products || []) {
       const id = planIdOf(product.id)
       if (!id) continue
-      found.set(id, { id, price: product.priceString, productId: product.id })
+      found.set(id, {
+        id,
+        price: product.priceString,
+        productId: product.id,
+        amount: typeof product.price === 'number' ? product.price : undefined,
+        currency: product.currencyCode || undefined,
+      })
     }
     const out = PLAN_ORDER.map((id) => found.get(id)).filter((p): p is StorePlan => Boolean(p))
     if (!out.length) {

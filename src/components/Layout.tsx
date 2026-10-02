@@ -6,6 +6,8 @@ import { PremiumBanner, premiumBannerHidden } from './Sheets'
 import { SessionOverlay, useSessionListen } from './SessionStage'
 import { useEntitlement } from '../lib/entitlement-store'
 
+const BANNER_ROUTES = new Set(['/', '/discover', '/sleep', '/sounds'])
+
 export function Layout() {
   return (
     <SessionOverlay>
@@ -32,13 +34,16 @@ function LayoutBody() {
   const room = pathname.startsWith('/session')
   const nested =
     pathname.startsWith('/me/settings') || pathname.startsWith('/me/skills') || pathname.startsWith('/legal')
+  // The paywall is a full-screen sheet with its own anchored buy button: a tab
+  // bar under it would cover the plans and read as a second, competing footer.
   const paywall = pathname.startsWith('/paywall')
-  // Redundant on the paywall itself: the whole screen is already the upgrade pitch.
-  const banner = !room && !listen && !pro && !nested && !bannerOff && !paywall
+  // Only on the four content tabs. On every screen it covered the last row of
+  // content and repeated the pitch the locked items already make.
+  const banner = !room && !listen && !pro && !bannerOff && BANNER_ROUTES.has(pathname)
   const dock = now.playing && (now.kind === 'nature' || now.kind === 'tone') && !room && !listen
   const pad = listen
     ? 'pb-0'
-    : room || nested
+    : room || nested || paywall
       ? 'pb-[calc(1.25rem+env(safe-area-inset-bottom))]'
       : dock && banner
         ? 'safe-bottom-banner-now'
@@ -55,7 +60,7 @@ function LayoutBody() {
       <div ref={scrollRef} className={shell}>
         <Outlet />
       </div>
-      {room || listen || nested ? null : (
+      {room || listen || nested || paywall ? null : (
         <>
           {banner ? <PremiumBanner onDismiss={() => setBannerOff(true)} /> : null}
           <NowPlayingBar lift={Boolean(banner)} />

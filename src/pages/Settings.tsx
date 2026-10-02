@@ -16,7 +16,7 @@ import { useI18n } from '../lib/i18n'
 import { patchOnboard, readOnboard, requestNotify, resetOnboard } from '../lib/onboard'
 import { bedMins, readSleepPlan } from '../lib/sleep-plan'
 import { readPassed } from '../lib/passed'
-import { hasPin, subscribePin, supportId } from '../lib/pin'
+import { hasPin, subscribePin } from '../lib/pin'
 import { readDim, readTheme, writeDim, writeTheme, type ThemeId } from '../lib/theme'
 import { readCellularMedia, writeCellularMedia } from '../lib/media'
 import { legalPath } from '../lib/purchases'
@@ -47,9 +47,28 @@ function Chevron() {
   )
 }
 
-function IconWrap({ children }: { children: ReactNode }) {
+/** One colour per row, iOS-style: the icon is found by colour before it is read. */
+const TONES = {
+  violet: 'from-[#A78BFA] to-[#7C3AED]',
+  blue: 'from-[#60A5FA] to-[#2563EB]',
+  red: 'from-[#FB7185] to-[#E11D48]',
+  slate: 'from-[#94A3B8] to-[#475569]',
+  pink: 'from-[#F472B6] to-[#DB2777]',
+  green: 'from-[#4ADE80] to-[#16A34A]',
+  orange: 'from-[#FDBA74] to-[#EA580C]',
+  indigo: 'from-[#818CF8] to-[#4338CA]',
+  amber: 'from-[#FCD34D] to-[#D97706]',
+  teal: 'from-[#5EEAD4] to-[#0D9488]',
+  gray: 'from-[#A1A1AA] to-[#52525B]',
+} as const
+
+type Tone = keyof typeof TONES
+
+function IconWrap({ children, tone }: { children: ReactNode; tone: Tone }) {
   return (
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.7rem] bg-white/8 text-white/80">
+    <span
+      className={`keep-dark flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.6rem] bg-gradient-to-br ${TONES[tone]} text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]`}
+    >
       {children}
     </span>
   )
@@ -60,38 +79,35 @@ function Group({ children }: { children: ReactNode }) {
 }
 
 function Hairline() {
-  return <div className="mx-4 h-px bg-white/[0.07]" />
+  return <div className="ml-[3.75rem] mr-4 h-px bg-white/[0.07]" />
 }
 
 function Row({
   icon,
+  tone,
   label,
   value,
-  badge,
   to,
   href,
   onClick,
 }: {
   icon: ReactNode
+  tone: Tone
   label: string
   value?: string
-  badge?: string
   to?: string
   href?: string
   onClick?: () => void
 }) {
   const inner = (
     <>
-      <IconWrap>{icon}</IconWrap>
-      <span className="min-w-0 flex-1 text-sm text-cream">{label}</span>
-      {badge ? (
-        <span className="rounded-full bg-white/10 px-2 py-0.5 font-mono text-[11px] text-white/70">{badge}</span>
-      ) : null}
-      {value ? <span className="max-w-[40%] truncate text-xs text-white/40">{value}</span> : null}
+      <IconWrap tone={tone}>{icon}</IconWrap>
+      <span className="min-w-0 flex-1 text-[15px] text-cream">{label}</span>
+      {value ? <span className="max-w-[40%] truncate text-[13px] text-white/45">{value}</span> : null}
       <Chevron />
     </>
   )
-  const cls = 'flex w-full items-center gap-3 px-4 py-3.5 text-left'
+  const cls = 'flex w-full items-center gap-3 px-4 py-3 text-left active:bg-white/[0.04]'
   if (to) {
     return (
       <Link to={to} className={cls}>
@@ -115,12 +131,14 @@ function Row({
 
 function RowSwitch({
   icon,
+  tone,
   label,
   hint,
   on,
   onChange,
 }: {
   icon: ReactNode
+  tone: Tone
   label: string
   hint?: string
   on: boolean
@@ -132,11 +150,11 @@ function RowSwitch({
       role="switch"
       aria-checked={on}
       onClick={onChange}
-      className="flex w-full items-center gap-3 px-4 py-3.5 text-left"
+      className="flex w-full items-center gap-3 px-4 py-3 text-left"
     >
-      <IconWrap>{icon}</IconWrap>
+      <IconWrap tone={tone}>{icon}</IconWrap>
       <span className="min-w-0 flex-1">
-        <span className="block text-sm text-cream">{label}</span>
+        <span className="block text-[15px] text-cream">{label}</span>
         {hint ? <span className="mt-0.5 block text-[11px] leading-4 text-white/35">{hint}</span> : null}
       </span>
       <span className={`relative h-7 w-12 shrink-0 rounded-full ${on ? 'bg-[#7B61FF]' : 'bg-white/15'}`}>
@@ -150,101 +168,142 @@ function RowSwitch({
   )
 }
 
+const ICON = 'h-[18px] w-[18px]'
+
+function Glyph({ children, fill = false }: { children: ReactNode; fill?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={ICON}
+      fill={fill ? 'currentColor' : 'none'}
+      stroke={fill ? 'none' : 'currentColor'}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {children}
+    </svg>
+  )
+}
+
 function HelpIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <circle cx="12" cy="12" r="8" />
+    <Glyph>
+      <circle cx="12" cy="12" r="8.5" />
       <path d="M9.6 9.4a2.4 2.4 0 1 1 3.2 2.2c-.7.3-1.3.8-1.3 1.6V14" />
-      <path d="M12 17h.01" />
-    </svg>
+      <path d="M12 17.2h.01" />
+    </Glyph>
   )
 }
 
 function GlobeIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <circle cx="12" cy="12" r="8" />
-      <path d="M4 12h16M12 4c2.8 2.8 2.8 13.2 0 16M12 4c-2.8 2.8-2.8 13.2 0 16" />
-    </svg>
+    <Glyph>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.8 2.8 2.8 14.2 0 17M12 3.5c-2.8 2.8-2.8 14.2 0 17" />
+    </Glyph>
   )
 }
 
 function BellIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M6 10a6 6 0 1 1 12 0c0 4 1.2 5.5 1.2 5.5H4.8S6 14 6 10Z" />
-      <path d="M10 18.5a2 2 0 0 0 4 0" />
-    </svg>
+    <Glyph fill>
+      <path d="M12 3a6 6 0 0 0-6 6v3.4c0 1.3-.5 2.5-1.3 3.4-.4.5-.1 1.2.6 1.2h13.4c.7 0 1-.7.6-1.2-.8-.9-1.3-2.1-1.3-3.4V9a6 6 0 0 0-6-6Z" />
+      <path d="M9.8 18.5a2.3 2.3 0 0 0 4.4 0Z" />
+    </Glyph>
   )
 }
 
 function LockIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <rect x="6" y="11" width="12" height="9" rx="1.6" />
-      <path d="M9 11V8a3 3 0 0 1 6 0v3" />
-    </svg>
+    <Glyph fill>
+      <path d="M8 10V8a4 4 0 1 1 8 0v2h.5A1.5 1.5 0 0 1 18 11.5v7a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 18.5v-7A1.5 1.5 0 0 1 7.5 10H8Zm2 0h4V8a2 2 0 1 0-4 0v2Z" />
+    </Glyph>
   )
 }
 
 function VoiceIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M8 10v4M12 7v10M16 10v4" />
-    </svg>
+    <Glyph>
+      <rect x="9" y="3.5" width="6" height="10" rx="3" />
+      <path d="M6 11a6 6 0 0 0 12 0M12 17v3.5" />
+    </Glyph>
   )
 }
 
 function PhoneIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M6.6 4.2h2.8l1.2 3.6-2 1.2a13 13 0 0 0 6.4 6.4l1.2-2 3.6 1.2v2.8A15.5 15.5 0 0 1 6.6 4.2Z" />
-    </svg>
+    <Glyph fill>
+      <path d="M6.6 3.5h2.6c.5 0 .9.3 1 .8l.9 3.1c.1.4 0 .9-.4 1.1l-1.7 1.2a12.5 12.5 0 0 0 5.3 5.3l1.2-1.7c.3-.4.7-.5 1.1-.4l3.1.9c.5.1.8.5.8 1v2.6c0 1-.8 1.7-1.8 1.7A15.6 15.6 0 0 1 4.9 5.3c0-1 .7-1.8 1.7-1.8Z" />
+    </Glyph>
   )
 }
 
 function ThemeIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <circle cx="12" cy="12" r="8" />
-      <path d="M12 4v16" />
-      <path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor" stroke="none" opacity="0.35" />
-    </svg>
+    <Glyph>
+      <path d="M19 14.5A7.5 7.5 0 1 1 9.5 5a6 6 0 0 0 9.5 9.5Z" />
+    </Glyph>
   )
 }
 
-function StarIcon() {
+function CrownIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="m12 4 2.1 5.4H20l-4.6 3.4 1.8 5.5L12 15.2 6.8 18.3 8.6 12.8 4 9.4h5.9L12 4Z" />
-    </svg>
+    <Glyph fill>
+      <path d="M4 8.5 8 12l4-6 4 6 4-3.5-1.6 9.1c-.1.5-.5.9-1 .9H6.6c-.5 0-.9-.4-1-.9L4 8.5Z" />
+    </Glyph>
+  )
+}
+
+function SparkIcon() {
+  return (
+    <Glyph fill>
+      <path d="M12 2.8 13.9 9l6.3 1.9-6.3 1.9L12 19l-1.9-6.2-6.3-1.9L10.1 9 12 2.8ZM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" />
+    </Glyph>
   )
 }
 
 function ClockIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <circle cx="12" cy="12" r="8" />
-      <path d="M12 8v4.5l3 2" />
-    </svg>
+    <Glyph>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </Glyph>
   )
 }
 
 function DataIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <rect x="7" y="3.5" width="10" height="17" rx="2" />
-      <path d="M11 17.5h2" />
-    </svg>
+    <Glyph>
+      <path d="M5 18.5V15M10 18.5v-6M15 18.5V9M20 18.5V5.5" />
+    </Glyph>
+  )
+}
+
+function DocIcon() {
+  return (
+    <Glyph>
+      <path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1-1.5Z" />
+      <path d="M13.5 3.5V8H18M9 12.5h6M9 16h4" />
+    </Glyph>
+  )
+}
+
+function ShieldIcon() {
+  return (
+    <Glyph>
+      <path d="M12 3.5 5 6.2v5.3c0 4.3 3 7.6 7 9 4-1.4 7-4.7 7-9V6.2l-7-2.7Z" />
+      <path d="m9 12 2.2 2.2L15.5 10" />
+    </Glyph>
   )
 }
 
 function ReplayIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <path d="M7 8.5A6 6 0 1 1 6 12" />
-      <path d="M7 4.5v4h4" />
-    </svg>
+    <Glyph>
+      <path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" />
+      <path d="M4.5 4.5v4h4" />
+    </Glyph>
   )
 }
 
@@ -399,7 +458,6 @@ function Index() {
   const navigate = useNavigate()
   const { store: storePro } = useEntitlement()
   const emergency = useEmergencyLine()
-  const helpId = supportId()
   const [pinOn, setPinOn] = useState(() => hasPin())
   const [cellular, setCellular] = useState(() => readCellularMedia())
   const theme = readTheme()
@@ -415,35 +473,55 @@ function Index() {
       {!storePro ? (
         <Link
           to="/paywall"
-          className="mt-5 flex items-center gap-3 overflow-hidden rounded-[1.2rem] bg-gradient-to-r from-[#5B3FD6] to-[#4F7DD4] px-4 py-3.5"
+          className="keep-dark relative mt-5 flex items-center gap-3.5 overflow-hidden rounded-[1.35rem] bg-gradient-to-br from-[#7C3AED] via-[#8B5CF6] to-[#DB2777] px-4 py-4 shadow-[0_12px_32px_rgba(124,58,237,0.35)]"
         >
-          <span className="rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">
-            {t('me_set_go')}
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.9rem] bg-white/20 text-white">
+            <SparkIcon />
           </span>
-          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">{t('premium_banner')}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[15px] font-semibold leading-5 text-white">Steady Pro</span>
+            <span className="mt-0.5 block text-[12px] leading-4 text-white/85">{t('premium_banner')}</span>
+          </span>
+          <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/90" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="M9 6l6 6-6 6" />
+          </svg>
         </Link>
       ) : null}
 
       <Group>
-        <Row icon={<HelpIcon />} label={t('me_help')} badge={`#${helpId}`} to="/me/settings/help" />
-        <Hairline />
-        <Row icon={<GlobeIcon />} label={t('me_set_lang')} value={meta.native} to="/me/settings/lang" />
+        <Row icon={<GlobeIcon />} tone="blue" label={t('me_set_lang')} value={meta.native} to="/me/settings/lang" />
         <Hairline />
         <Row
           icon={<BellIcon />}
+          tone="red"
           label={t('me_set_notify')}
           value={remind ? t('me_set_on') : t('me_set_off')}
           to="/me/settings/notify"
         />
         <Hairline />
-        <RowSwitch icon={<LockIcon />} label={t('me_pin')} on={pinOn} onChange={() => navigate('/me/settings/lock')} />
+        <Row
+          icon={<ThemeIcon />}
+          tone="indigo"
+          label={t('theme')}
+          value={theme === 'dark' ? t('theme_dark') : t('theme_light')}
+          to="/me/settings/theme"
+        />
+        <Hairline />
+        <Row icon={<VoiceIcon />} tone="pink" label={t('voice')} to="/me/settings/voice" />
       </Group>
 
       <Group>
-        <Row icon={<VoiceIcon />} label={t('voice')} to="/me/settings/voice" />
+        <RowSwitch
+          icon={<LockIcon />}
+          tone="slate"
+          label={t('me_pin')}
+          on={pinOn}
+          onChange={() => navigate('/me/settings/lock')}
+        />
         <Hairline />
         <RowSwitch
           icon={<DataIcon />}
+          tone="green"
           label={t('me_mobile_data')}
           hint={t('me_mobile_data_h')}
           on={cellular}
@@ -454,36 +532,23 @@ function Index() {
           }}
         />
         <Hairline />
-        <Row icon={<PhoneIcon />} label={t('me_emergency')} value={emergency.tel} to="/me/settings/emergency" />
-        <Hairline />
-        <Row
-          icon={<ThemeIcon />}
-          label={t('theme')}
-          value={theme === 'dark' ? t('theme_dark') : t('theme_light')}
-          to="/me/settings/theme"
-        />
+        <Row icon={<PhoneIcon />} tone="orange" label={t('me_emergency')} value={emergency.tel} to="/me/settings/emergency" />
       </Group>
 
       <Group>
-        <Row icon={<StarIcon />} label={t('me_tier')} value={tier} to="/paywall" />
+        <Row icon={<CrownIcon />} tone="amber" label={t('me_tier')} value={tier} to="/paywall" />
         <Hairline />
-        {!storePro ? (
-          <>
-            <Row icon={<StarIcon />} label={t('me_upgrade')} to="/paywall" />
-            <Hairline />
-          </>
-        ) : null}
-        <Row icon={<ClockIcon />} label={t('me_history')} to="/me/settings/history" />
+        <Row icon={<ClockIcon />} tone="teal" label={t('me_history')} to="/me/settings/history" />
       </Group>
 
       <Group>
-        <Row icon={<HelpIcon />} label={t('pay_terms')} to={legalPath('terms')} />
+        <Row icon={<HelpIcon />} tone="violet" label={t('me_help')} to="/me/settings/help" />
         <Hairline />
-        <Row icon={<HelpIcon />} label={t('pay_privacy')} to={legalPath('privacy')} />
-      </Group>
-
-      <Group>
-        <Row icon={<ReplayIcon />} label={t('me_ob_replay')} onClick={() => resetOnboard()} />
+        <Row icon={<DocIcon />} tone="gray" label={t('pay_terms')} to={legalPath('terms')} />
+        <Hairline />
+        <Row icon={<ShieldIcon />} tone="gray" label={t('pay_privacy')} to={legalPath('privacy')} />
+        <Hairline />
+        <Row icon={<ReplayIcon />} tone="gray" label={t('me_ob_replay')} onClick={() => resetOnboard()} />
       </Group>
 
       <div className="mt-10">

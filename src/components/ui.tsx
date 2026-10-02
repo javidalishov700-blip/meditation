@@ -1,11 +1,11 @@
 import { Fragment, useState, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useEmergencyLine } from '../lib/emergency'
 import { useI18n } from '../lib/i18n'
 
 export function Kicker({ children }: { children: ReactNode }) {
   return (
-    <p className="text-[11px] font-medium tracking-[0.14em] text-rose-200/45">{children}</p>
+    <p className="kicker text-[11px] font-semibold uppercase tracking-[0.16em] text-[#C4B5FD]/85">{children}</p>
   )
 }
 
@@ -36,10 +36,13 @@ export function FoldList<T>({
       {items.length > preview ? (
         <button
           type="button"
-          className="mt-3 text-sm text-mute/80"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-[13px] font-medium text-cream/90"
           onClick={() => setAll((v) => !v)}
         >
           {all ? t('see_less') : t('see_all')}
+          <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 transition-transform ${all ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m7 10 5 5 5-5" />
+          </svg>
         </button>
       ) : null}
     </div>
@@ -71,9 +74,18 @@ export function LegalNote({ compact = false }: { compact?: boolean }) {
   )
 }
 
+/**
+ * Only where someone in the middle of an attack lands. Floating over every
+ * screen it collided with headers and close buttons, and the number is still
+ * one tap away in Settings and in the footnote on each page.
+ */
+const CRISIS_ROUTES = ['/sos', '/treat']
+
 export function CrisisChip() {
   const { t } = useI18n()
   const line = useEmergencyLine()
+  const { pathname } = useLocation()
+  if (!CRISIS_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`))) return null
   return (
     <a
       href={`tel:${line.tel}`}

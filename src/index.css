@@ -1154,3 +1154,426 @@ html.session-listen {
     animation: none !important;
   }
 }
+
+/* ── Paywall ─────────────────────────────────────────────────────────── */
+
+.pay-sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 55% at 50% -8%, rgba(139, 92, 246, 0.6), transparent 62%),
+    radial-gradient(70% 38% at 92% 18%, rgba(236, 72, 153, 0.26), transparent 62%),
+    radial-gradient(60% 40% at 4% 36%, rgba(56, 189, 248, 0.16), transparent 62%),
+    linear-gradient(180deg, #1b1035 0%, #0e0a1d 42%, #07060c 100%);
+}
+
+.pay-sky::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 45% 0;
+  opacity: 0.7;
+  background-image:
+    radial-gradient(1.2px 1.2px at 14% 14%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 32% 30%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1.4px 1.4px at 78% 9%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 88% 34%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.2px 1.2px at 58% 22%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 6% 46%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1.3px 1.3px at 66% 48%, rgba(255, 255, 255, 0.35), transparent);
+  animation: twinkle 9s ease-in-out infinite;
+}
+
+.pro-hero {
+  position: relative;
+  display: flex;
+  width: 5.6rem;
+  height: 5.6rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.pro-halo {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 181, 253, 0.55) 0%, rgba(139, 92, 246, 0.25) 38%, transparent 70%);
+  animation: calm-breathe 6.4s ease-in-out infinite;
+}
+
+.pro-ring {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(236, 72, 153, 0.9), rgba(139, 92, 246, 0.1), rgba(56, 189, 248, 0.8), rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.9));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  animation: breath-spin 14s linear infinite;
+}
+
+.pro-mark {
+  position: relative;
+  width: 3.7rem;
+  height: 3.7rem;
+  border-radius: 1rem;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 14px 36px rgba(139, 92, 246, 0.55);
+}
+
+.plan-on {
+  background:
+    linear-gradient(135deg, rgba(139, 92, 246, 0.42), rgba(236, 72, 153, 0.22)) padding-box,
+    linear-gradient(135deg, #a78bfa, #f472b6) border-box;
+  border: 1.5px solid transparent;
+  box-shadow: 0 10px 32px rgba(139, 92, 246, 0.32);
+}
+
+.pay-dock {
+  background: linear-gradient(180deg, rgba(7, 6, 12, 0) 0%, rgba(7, 6, 12, 0.92) 24%, #07060c 44%);
+}
+
+.pay-cta {
+  background: linear-gradient(100deg, #7c3aed 0%, #8b5cf6 40%, #db2777 100%);
+  box-shadow:
+    0 12px 32px rgba(139, 92, 246, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.pay-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 48%, transparent 66%);
+  transform: translateX(-120%);
+  animation: cta-shine 3.6s ease-in-out infinite;
+}
+
+@keyframes cta-shine {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+html.light .kicker {
+  color: #6d4fd8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pay-sky::after,
+  .pro-halo,
+  .pro-ring,
+  .pay-cta::after {
+    animation: none !important;
+  }
+}
+
+/* ── Doors ───────────────────────────────────────────────────────────── */
+
+.door-on {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
+    linear-gradient(140deg, var(--door-a), var(--door-b));
+  box-shadow:
+    0 14px 34px color-mix(in srgb, var(--door-b) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.door-promise {
+  border-color: color-mix(in srgb, var(--door-a) 35%, transparent);
+  background:
+    radial-gradient(110% 120% at 100% 0%, color-mix(in srgb, var(--door-a) 26%, transparent), transparent 60%),
+    radial-gradient(90% 90% at 0% 100%, color-mix(in srgb, var(--door-b) 18%, transparent), transparent 60%),
+    #17151c;
+}
+
+html.light .door-promise {
+  background:
+    radial-gradient(110% 120% at 100% 0%, color-mix(in srgb, var(--door-a) 22%, transparent), transparent 60%),
+    #fff;
+}
+
+html.light .door-promise .text-white\/70 {
+  color: rgba(26, 22, 18, 0.6);
+}
+
+/* ── Living sky (Home hero) ──────────────────────────────────────────── */
+
+.sky {
+  --sky-a: #0b0b2b;
+  --sky-b: #1d1450;
+  --sky-c: #3b1f63;
+  --aur-a: rgba(94, 234, 212, 0.38);
+  --aur-b: rgba(167, 139, 250, 0.45);
+  --orb: radial-gradient(circle at 40% 38%, #fffdf5 0%, #f1ead7 46%, #cfc6b4 100%);
+  --orb-glow: rgba(241, 234, 215, 0.45);
+  --ridge-3: #2a2160;
+  --ridge-2: #1a1442;
+  --ridge-1: #0d0a24;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--sky-a) 0%, var(--sky-b) 46%, var(--sky-c) 100%);
+}
+
+.sky-dawn {
+  --sky-a: #1e1b4b;
+  --sky-b: #7c3aed;
+  --sky-c: #fb923c;
+  --aur-a: rgba(244, 114, 182, 0.4);
+  --aur-b: rgba(253, 186, 116, 0.4);
+  --orb: radial-gradient(circle at 50% 45%, #fffbeb 0%, #fde68a 40%, #fb923c 100%);
+  --orb-glow: rgba(253, 186, 116, 0.7);
+  --ridge-3: #6d3a8c;
+  --ridge-2: #3f2266;
+  --ridge-1: #1c1033;
+}
+
+.sky-day {
+  --sky-a: #1e3a8a;
+  --sky-b: #4f46e5;
+  --sky-c: #a5b4fc;
+  --aur-a: rgba(125, 211, 252, 0.4);
+  --aur-b: rgba(216, 180, 254, 0.42);
+  --orb: radial-gradient(circle at 50% 45%, #ffffff 0%, #fef9c3 45%, #fde68a 100%);
+  --orb-glow: rgba(254, 240, 138, 0.6);
+  --ridge-3: #5b5bb8;
+  --ridge-2: #36348a;
+  --ridge-1: #17153f;
+}
+
+.sky-dusk {
+  --sky-a: #1e1b4b;
+  --sky-b: #6d28d9;
+  --sky-c: #db2777;
+  --aur-a: rgba(251, 146, 60, 0.42);
+  --aur-b: rgba(236, 72, 153, 0.45);
+  --orb: radial-gradient(circle at 50% 45%, #fff7ed 0%, #fdba74 45%, #f43f5e 100%);
+  --orb-glow: rgba(251, 113, 133, 0.6);
+  --ridge-3: #5b2179;
+  --ridge-2: #36154f;
+  --ridge-1: #170a26;
+}
+
+.sky-aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(38px);
+  opacity: 0.9;
+  will-change: transform;
+}
+
+.sky-aurora-a {
+  width: 120%;
+  height: 46%;
+  left: -30%;
+  top: 6%;
+  background: radial-gradient(closest-side, var(--aur-a), transparent);
+  transform: rotate(-14deg);
+  animation: sky-drift 22s ease-in-out infinite;
+}
+
+.sky-aurora-b {
+  width: 110%;
+  height: 42%;
+  right: -36%;
+  top: 22%;
+  background: radial-gradient(closest-side, var(--aur-b), transparent);
+  transform: rotate(12deg);
+  animation: sky-drift 28s ease-in-out infinite reverse;
+}
+
+@keyframes sky-drift {
+  0%,
+  100% {
+    translate: 0 0;
+    scale: 1;
+  }
+  50% {
+    translate: 9% 5%;
+    scale: 1.12;
+  }
+}
+
+.sky-stars {
+  position: absolute;
+  inset: 0 0 40% 0;
+  background-image:
+    radial-gradient(1.3px 1.3px at 8% 22%, #fff, transparent),
+    radial-gradient(1px 1px at 18% 48%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 27% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 39% 36%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.2px 1.2px at 52% 20%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 61% 52%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1.4px 1.4px at 72% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 84% 12%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1.2px 1.2px at 93% 44%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 46% 60%, rgba(255, 255, 255, 0.45), transparent);
+  animation: twinkle 7s ease-in-out infinite;
+}
+
+.sky-orb {
+  position: absolute;
+  right: 11%;
+  top: 31%;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--orb);
+  box-shadow:
+    0 0 40px 12px var(--orb-glow),
+    0 0 120px 40px color-mix(in srgb, var(--orb-glow) 45%, transparent);
+  animation: pulse-orb 7s ease-in-out infinite;
+}
+
+.sky-night .sky-orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 60%, rgba(150, 140, 120, 0.35) 0 12%, transparent 13%),
+    radial-gradient(circle at 62% 30%, rgba(150, 140, 120, 0.3) 0 9%, transparent 10%),
+    radial-gradient(circle at 68% 68%, rgba(150, 140, 120, 0.25) 0 7%, transparent 8%);
+}
+
+.sky-cloud {
+  position: absolute;
+  height: 2.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  filter: blur(14px);
+  animation: sky-cloud 46s linear infinite;
+}
+
+.sky-cloud-a {
+  width: 60%;
+  top: 42%;
+  left: -60%;
+}
+
+.sky-cloud-b {
+  width: 42%;
+  top: 26%;
+  left: -42%;
+  animation-duration: 64s;
+  animation-delay: -30s;
+  opacity: 0.7;
+}
+
+@keyframes sky-cloud {
+  to {
+    transform: translateX(260%);
+  }
+}
+
+.sky-ridges {
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: 40%;
+}
+
+.sky-ridge-3 {
+  fill: var(--ridge-3);
+  opacity: 0.85;
+}
+
+.sky-ridge-2 {
+  fill: var(--ridge-2);
+}
+
+.sky-ridge-1 {
+  fill: var(--ridge-1);
+}
+
+.sky-mist {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.82) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-aurora,
+  .sky-stars,
+  .sky-orb,
+  .sky-cloud {
+    animation: none !important;
+  }
+}
+
+/* ── Daily ritual ────────────────────────────────────────────────────── */
+
+.ritual {
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(139, 92, 246, 0.22), transparent 55%),
+    radial-gradient(90% 120% at 100% 100%, rgba(56, 189, 248, 0.12), transparent 60%),
+    #17151d;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.ritual-all {
+  box-shadow: 0 0 0 1px rgba(134, 239, 172, 0.25), 0 14px 36px rgba(34, 197, 94, 0.16);
+}
+
+.ritual-arc {
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.light .ritual {
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(139, 92, 246, 0.14), transparent 55%),
+    #fff;
+  border-color: rgba(26, 22, 18, 0.06);
+}
+
+/* ── Streak medals ───────────────────────────────────────────────────── */
+
+.medal-on {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.medal-0 {
+  background: linear-gradient(140deg, #fdba74, #c2410c);
+}
+
+.medal-1 {
+  background: linear-gradient(140deg, #e5e7eb, #6b7280);
+}
+
+.medal-2 {
+  background: linear-gradient(140deg, #fde68a, #d97706);
+}
+
+.medal-3 {
+  background: linear-gradient(140deg, #67e8f9, #0e7490);
+}
+
+.medal-4 {
+  background: linear-gradient(140deg, #c4b5fd, #6d28d9);
+}
+
+.medal-5 {
+  background: linear-gradient(140deg, #f9a8d4, #be185d);
+}
+
+html.light .ritual .bg-white\/\[0\.05\],
+html.light .medal.bg-white\/\[0\.04\] {
+  background: rgba(26, 22, 18, 0.05);
+}
+
+html.light .text-mute {
+  color: rgba(26, 22, 18, 0.56);
+}
+
+html.light .keep-dark .text-mute {
+  color: var(--color-mute);
+}

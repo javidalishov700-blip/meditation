@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, LegalNote } from '../components/ui'
 import { MoodHistory } from '../components/MoodHistory'
@@ -11,7 +11,8 @@ export function Me() {
   const { t, locale } = useI18n()
   const { store } = useEntitlement()
   const [left, setLeft] = useState(() => freezeLeft())
-  const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze())
+  // Nothing to save for someone who has not started yet — don't light up the restore button.
+  const [canFreeze, setCanFreeze] = useState(() => canApplyFreeze() && activityStats().activeDays > 0)
   const [froze, setFroze] = useState<'ok' | 'used' | 'none' | null>(null)
   const [stats, setStats] = useState(() => activityStats())
   const now = new Date()
@@ -51,74 +52,79 @@ export function Me() {
       {!store ? (
         <Link
           to="/paywall"
-          className="mt-3 flex items-center gap-3 overflow-hidden rounded-[1.35rem] bg-gradient-to-r from-[#5B3FD6] to-[#4F7DD4] px-5 py-4"
+          className="keep-dark mt-4 flex items-center gap-3.5 overflow-hidden rounded-[1.35rem] bg-gradient-to-br from-[#7C3AED] via-[#8B5CF6] to-[#DB2777] px-4 py-4 shadow-[0_12px_32px_rgba(124,58,237,0.35)]"
         >
-          <span className="rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-white">
-            {t('me_upgrade')}
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.9rem] bg-white/20 text-white">
+            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
+              <path d="M12 2.8 13.9 9l6.3 1.9-6.3 1.9L12 19l-1.9-6.2-6.3-1.9L10.1 9 12 2.8ZM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" />
+            </svg>
           </span>
-          <span className="min-w-0 flex-1 text-sm font-medium leading-5 text-white">{t('premium_banner')}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[15px] font-semibold leading-5 text-white">{t('me_upgrade')}</span>
+            <span className="mt-0.5 block text-[12px] leading-4 text-white/85">{t('premium_banner')}</span>
+          </span>
+          <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/90" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="M9 6l6 6-6 6" />
+          </svg>
         </Link>
       ) : null}
 
-      <Card className="mt-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="font-semibold">{t('personal_stats')}</p>
-            <p className="mt-1 text-xs text-white/40">{t('last_30')}</p>
-          </div>
-        </div>
-        <div className="mt-5 grid grid-cols-2 gap-4">
-          <div>
-            <p className="flex items-center gap-1.5 text-2xl font-semibold">
-              <span className="text-[#9B87FF]">◷</span>
-              {stats.totalMinutes}
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('total_min')}</p>
-          </div>
-          <div>
-            <p className="flex items-center gap-1.5 text-2xl font-semibold">
-              <span className="text-[#9B87FF]">▣</span>
-              {stats.activeDays}
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('active_days')}</p>
-          </div>
-        </div>
-      </Card>
+      <div className="mt-6 flex items-end justify-between">
+        <p className="text-[1.15rem] font-semibold tracking-tight">{t('personal_stats')}</p>
+        <p className="text-xs text-white/45">{t('last_30')}</p>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <StatTile
+          value={stats.totalMinutes}
+          label={t('total_min')}
+          tone="from-[#A78BFA] to-[#6D28D9]"
+          icon={
+            <>
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M12 7.5V12l3 2" />
+            </>
+          }
+        />
+        <StatTile
+          value={stats.activeDays}
+          label={t('active_days')}
+          tone="from-[#38BDF8] to-[#2563EB]"
+          icon={
+            <>
+              <rect x="4" y="5" width="16" height="15" rx="2.5" />
+              <path d="M4 10h16M8.5 3v4M15.5 3v4" />
+            </>
+          }
+        />
+        <StatTile
+          value={stats.currentStreak}
+          label={t('current_streak')}
+          tone="from-[#FBBF24] to-[#F97316]"
+          icon={<path d="M13 3 6 13h6l-1 8 8-12h-6l0-6Z" />}
+        />
+        <StatTile
+          value={stats.longestStreak}
+          label={t('longest_streak')}
+          tone="from-[#F472B6] to-[#DB2777]"
+          icon={<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4.5a2.5 2.5 0 0 0 2.6 3.4M17 6h2.5a2.5 2.5 0 0 1-2.6 3.4" />}
+        />
+      </div>
 
       <Card className="mt-3">
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <p className="text-2xl font-semibold">
-              <span className="mr-1 text-[#9B87FF]">⚡</span>
-              {stats.currentStreak}
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('current_streak')}</p>
-          </div>
-          <div>
-            <p className="text-2xl font-semibold">
-              <span className="mr-1 text-amber-300">⚡</span>
-              {stats.longestStreak}
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('longest_streak')}</p>
-          </div>
-        </div>
-
-        <p className="mt-5 text-[10px] uppercase tracking-[0.12em] text-white/40">{t('streak_badges')}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">{t('streak_badges')}</p>
         <div className="mt-3 grid grid-cols-6 gap-1.5">
-          {STREAK_BADGES.map((b) => {
+          {STREAK_BADGES.map((b, i) => {
             const on = stats.longestStreak >= b.days
             return (
-              <div key={b.days} className={`text-center ${on ? '' : 'opacity-40'}`}>
+              <div key={b.days} className="text-center">
                 <span
-                  className={`mx-auto flex h-11 w-11 items-center justify-center rounded-full border text-[11px] font-semibold tabular-nums ${
-                    on
-                      ? 'border-amber-200/50 bg-amber-300/20 text-amber-100 shadow-[0_0_12px_rgba(251,191,36,0.25)]'
-                      : 'border-white/12 bg-white/[0.04] text-white/45'
+                  className={`medal mx-auto flex h-11 w-11 items-center justify-center rounded-full text-[12px] font-bold tabular-nums ${
+                    on ? `medal-on medal-${i} keep-dark text-white` : 'border border-dashed border-white/20 bg-white/[0.04] text-white/55'
                   }`}
                 >
                   {b.days}
                 </span>
-                <p className="mt-1 text-[9px] leading-tight text-mute">{t(b.key)}</p>
+                <p className={`mt-1.5 text-[9px] leading-tight ${on ? 'text-cream' : 'text-white/45'}`}>{t(b.key)}</p>
               </div>
             )
           })}
@@ -225,6 +231,22 @@ export function Me() {
       <div className="mt-10">
         <LegalNote />
       </div>
+    </div>
+  )
+}
+
+function StatTile({ value, label, tone, icon }: { value: number; label: string; tone: string; icon: ReactNode }) {
+  return (
+    <div className="surface flex items-center gap-3 rounded-[1.2rem] border border-white/[0.06] px-3.5 py-3">
+      <span className={`keep-dark flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.85rem] bg-gradient-to-br ${tone} text-white`}>
+        <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {icon}
+        </svg>
+      </span>
+      <span className="min-w-0">
+        <span className="block font-display text-[1.45rem] font-semibold leading-none tabular-nums">{value}</span>
+        <span className="mt-1 block truncate text-[9.5px] font-medium uppercase tracking-[0.1em] text-white/50">{label}</span>
+      </span>
     </div>
   )
 }

@@ -40,10 +40,21 @@ export function readSessionIds(): string[] {
   return readStringList('sessionIds')
 }
 
+/** Kinds of session finished today, for the daily ritual. Empty again on a new day. */
+export function todayKinds(now = Date.now()): string[] {
+  const v = readJson<unknown>('todayKinds', null)
+  if (!v || typeof v !== 'object') return []
+  const o = v as Record<string, unknown>
+  if (o.day !== dayKey(now) || !Array.isArray(o.kinds)) return []
+  return o.kinds.filter((x): x is string => typeof x === 'string')
+}
+
 export function markSession(kind: string, id?: string, now = Date.now()) {
   const key = dayKey(now)
   const days = readSessionDays()
   if (!days.includes(key)) writeJson('sessionDays', [key, ...days].slice(0, 400))
+  const today = todayKinds(now)
+  if (!today.includes(kind)) writeJson('todayKinds', { day: key, kinds: [...today, kind] })
   const kinds = readSessionKinds()
   if (!kinds.includes(kind)) writeJson('sessionKinds', [...kinds, kind])
   if (id) {
