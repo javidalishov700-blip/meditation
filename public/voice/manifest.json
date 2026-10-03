@@ -1,7 +1,7 @@
 {
   "voice": "coral",
   "speed": 0.94,
-  "updated": "2026-10-03T11:43:47.291114+00:00",
+  "updated": "2026-10-03T11:45:18.410268+00:00",
   "clips": {
     "tr:sample": "clips/ed2458abe72c82b4.mp3",
     "tr:ui:sos_in": "clips/508b627d1f234213.mp3",
@@ -640,9 +640,9 @@
     "tr:med:shore-edge": "clips/5eafb21342bc2984.mp3",
     "tr:med:shore-stone": "clips/0638430571bb1726.mp3",
     "tr:med:shore-seed": "clips/855d8dca15e56e01.mp3",
-    "az:med:first-settle": "clips/378e00994a7f53c3.mp3",
+    "az:med:first-settle": "clips/b1ff9c5987b8404d.mp3",
     "az:med:first-breath": "clips/1009395d929872e0.mp3",
-    "az:med:first-ground": "clips/991330d866fbd793.mp3",
+    "az:med:first-ground": "clips/5c6413a337d615c2.mp3",
     "az:med:room-door": "clips/40095aceb05d5f58.mp3",
     "az:med:room-light": "clips/1937d64f8f54e986.mp3",
     "az:med:room-hands": "clips/fdc5cf2b70e71c16.mp3",
