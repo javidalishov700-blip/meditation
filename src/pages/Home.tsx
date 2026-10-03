@@ -5,7 +5,6 @@ import { DailyRitual } from '../components/DailyRitual'
 import { SkyScene, skyPhase, type SkyPhase } from '../components/SkyScene'
 import { CircleIconBtn, FavSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
 import { MoodHistory } from '../components/MoodHistory'
-import { Presence } from '../components/Presence'
 import { BREATH_RAIL_IDS, CLARITY_COVER, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
 import { locLibrary } from '../lib/copy'
 import { todaysClarity } from '../lib/library'
@@ -307,8 +306,6 @@ export function Home() {
           />
         ))}
       </Rail>
-
-      <Presence />
 
       <SearchSheet open={search} onClose={() => setSearch(false)} />
       <MoodSheet open={moodOpen} onClose={() => setMoodOpen(false)} onPick={setMood} />

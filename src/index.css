@@ -682,21 +682,6 @@ html:lang(fa) {
   transform-origin: 50% 100%;
 }
 
-.face-breathe {
-  animation: face-breathe 4.4s ease-in-out infinite;
-  transform-origin: 50% 50%;
-}
-
-@keyframes face-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.07);
-  }
-}
-
 .live-ping {
   animation: live-ping 1.7s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
@@ -1196,7 +1181,6 @@ html.session-listen {
 
 @media (prefers-reduced-motion: reduce) {
   .sit-fig,
-  .face-breathe,
   .live-ping,
   .splash-glow,
   .splash-mark,
