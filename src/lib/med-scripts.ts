@@ -19,25 +19,25 @@ function pack(
  */
 export const MED_SCRIPTS: Record<string, Record<LocaleId, string>> = {
   'first-settle': pack(
-    `Hoş geldin. Önümüzdeki birkaç dakika boyunca hiçbir şeyi iyi yapmak zorunda değilsin. Sadece gel ve otur.
+    `Hoş geldin. Şimdi birkaç dakikayı yalnızca kendine ayırıyorsun. Hiçbir şeyi başarman gerekmiyor.
 
-Oturarak ya da uzanarak rahat bir pozisyon bul. Altındaki şey — sandalye, yatak ya da zemin — ağırlığını taşısın. Zaten başından beri seni taşıyordu. Buna izin verebilirsin.
+Rahatça otur ya da uzan. Ağırlığını altındaki yere bırak. Sandalye, yatak ya da zemin… seni taşıyor. Bir yere tutunmana gerek yok.
 
-İstersen gözlerini kapat ya da bakışını önündeki bir noktaya yumuşakça bırak.
+İstersen gözlerini kapat. İstemezsen bakışını önünde bir noktaya bırak, gözlerin dinlensin.
 
-Alnını fark et. Biraz yumuşayabilir mi, bir bak. Kaşların gevşesin. Çenen hafifçe gevşesin, dişlerin birbirinden biraz ayrılsın. Dilin de dinlenebilir.
+Yüzünden başlayalım. Alnındaki gerginlik yavaşça çözülsün. Kaşlarının arası açılsın. Çeneni gevşet, dişlerin birbirinden hafifçe ayrılsın.
 
-Şimdi omuzların. Çoğumuz onları fark etmeden yukarıda taşırız. Kulaklarından uzaklaşacak şekilde aşağı bırak. Kolların ağırlaşsın, ellerin olduğu yerde dinlensin.
+Şimdi omuzlarını kulaklarından uzaklaştır, aşağı doğru bırak. Kolların ağırlaşsın. Ellerin olduğu yerde dinlensin.
 
-Nefesini fark et, değiştirmeye çalışmadan. Hava giriyor, hava çıkıyor. Şu an doğru bir nefes alma şekli yok. Sadece olmasına izin ver.
+Dikkatini nefesine ver. Onu değiştirmeye çalışma. Nefes kendiliğinden geliyor… ve kendiliğinden gidiyor.
 
-Zihnin planlara ya da endişelere kayarsa bu tamamen normal. Zihin böyle çalışır. Her fark ettiğinde, nazikçe bedeninin taşındığı hissine geri dön.
+Aklına başka şeyler gelebilir. Yapılacak işler, kaygılar… Bu çok doğal. Fark ettiğinde kendine kızma. Sadece yavaşça yeniden bedenine dön.
 
-Sırtını hisset. Bacaklarını hisset. Ayaklarını hisset. Bütün bedenin dinleniyor, taşınıyor.
+Sırtının desteklendiğini hisset. Bacaklarının ağırlığını… ayaklarını. Bütün bedenin şu anda dinleniyor.
 
-Birkaç nefes boyunca burada kal. Düzeltecek bir şey yok. Çözecek bir şey yok. Sadece bu an ve içindeki sen.
+Birkaç nefes böyle kal. Düzeltmen gereken bir şey yok. Şu an sadece buradasın, o kadar.
 
-Hazır olduğunda biraz daha derin bir nefes al ve yavaşça bırak. Geldin.`,
+Hazır olduğunda biraz daha derin bir nefes al… ve yavaşça bırak. İyi ki buradasın.`,
     `Welcome. For the next few minutes there is nothing you need to do well. Just arrive.
 
 Find a comfortable position, sitting or lying down. Let whatever is under you — a chair, a bed, the floor — take your weight. It has been holding you all along. You can let it.
@@ -95,69 +95,69 @@ Senti la schiena. Senti le gambe. Senti i piedi. Tutto il corpo riposa, sostenut
 Resta così per qualche respiro. Niente da aggiustare. Niente da risolvere. Solo questo momento, e tu dentro.
 
 Quando vuoi, fai un respiro un po’ più profondo e lascialo andare piano. Sei qui.`,
-    `Xoş gəldin. Növbəti bir neçə dəqiqə ərzində heç nəyi yaxşı etmək məcburiyyətində deyilsən. Sadəcə gəl və otur.
+    `Xoş gəldin. İndi bir neçə dəqiqəni yalnız özünə ayırırsan. Heç nəyi bacarmağa məcbur deyilsən.
 
-Oturaraq və ya uzanaraq rahat bir vəziyyət tap. Altındakı şey — stul, yataq və ya döşəmə — ağırlığını daşısın. O, əvvəldən bəri səni onsuz da daşıyırdı. Buna icazə verə bilərsən.
+Rahat otur, ya da uzan. Ağırlığını altındakı yerə burax. Stul, yataq, ya da döşəmə… səni saxlayır. Nədənsə bərk yapışmağa ehtiyac yoxdur.
 
-İstəsən gözlərini yum, ya da baxışını qarşındakı bir nöqtəyə yumşaqca burax.
+İstəsən gözlərini yum. İstəmirsənsə, baxışını qarşında bir nöqtəyə burax, gözlərin dincəlsin.
 
-Alnını hiss et. Bir az yumşala bilərmi, bax. Qaşların boşalsın. Çənən yüngülcə boşalsın, dişlərin bir-birindən bir az aralansın. Dilin də dincələ bilər.
+Üzündən başlayaq. Alnındakı gərginlik yavaş-yavaş açılsın. Qaşlarının arası rahatlasın. Çənəni boşalt, dişlərin bir-birindən azca aralansın.
 
-İndi çiyinlərin. Çoxumuz onları fərqinə varmadan yuxarıda saxlayırıq. Qulaqlarından uzaqlaşsın deyə onları aşağı burax. Qolların ağırlaşsın, əllərin olduğu yerdə dincəlsin.
+İndi çiyinlərini qulaqlarından uzaqlaşdır, aşağı burax. Qolların ağırlaşsın. Əllərin olduğu yerdə dincəlsin.
 
-Nəfəsini hiss et, onu dəyişməyə çalışmadan. Hava daxil olur, hava çıxır. İndi nəfəs almağın düzgün bir yolu yoxdur. Sadəcə olmasına icazə ver.
+Diqqətini nəfəsinə ver. Onu dəyişməyə çalışma. Nəfəs öz-özünə gəlir… və öz-özünə gedir.
 
-Zehnin planlara və ya narahatlıqlara keçərsə, bu tamamilə normaldır. Zehin belə işləyir. Hər dəfə fərqinə varanda, yumşaqca bədəninin daşındığı hissə qayıt.
+Ağlına başqa şeylər gələ bilər. Görüləcək işlər, narahatlıqlar… Bu çox təbiidir. Fikrin dağılanda özünə acıqlanma. Sadəcə yavaşca yenidən bədəninə qayıt.
 
-Kürəyini hiss et. Ayaqlarını hiss et — dizlərdən barmaqların ucuna qədər. Bütün bədənin dincəlir, daşınır.
+Kürəyinin dayaq tapdığını hiss et. Ayaqlarının ağırlığını… dabanlarını. Bütün bədənin indi dincəlir.
 
-Bir neçə nəfəs burada qal. Düzəltməli heç nə yoxdur. Həll etməli heç nə yoxdur. Sadəcə bu an və onun içində sən.
+Bir neçə nəfəs belə qal. Düzəltməli heç nə yoxdur. İndi sadəcə buradasan, bu qədər.
 
-Hazır olanda bir az daha dərin nəfəs al və yavaşca burax. Gəlib çatdın.`,
-    `Добро пожаловать. Следующие несколько минут тебе не нужно ничего делать хорошо. Просто побудь здесь.
+Hazır olanda bir az dərin nəfəs al… və yavaşca burax. Yaxşı ki, buradasan.`,
+    `Здравствуй. Следующие несколько минут — только для тебя. Ничего не нужно делать правильно.
 
-Найди удобное положение — сидя или лёжа. Пусть то, что под тобой, — стул, кровать или пол — примет твой вес. Оно и так держало тебя всё это время. Ты можешь ему это позволить.
+Сядь или ляг так, как тебе удобно. Отдай свой вес тому, что под тобой: стулу, кровати или полу. Оно держит тебя. Можно ни за что не держаться.
 
-Если хочется, закрой глаза или мягко останови взгляд на одной точке перед собой.
+Если хочется, закрой глаза. Или просто опусти взгляд и дай глазам отдохнуть.
 
-Заметь свой лоб. Посмотри, может ли он немного смягчиться. Пусть расслабятся брови. Пусть разожмётся челюсть, и зубы чуть разомкнутся. Язык тоже может отдохнуть.
+Начнём с лица. Пусть разгладится лоб. Расслабится место между бровями. Разожми челюсть, пусть зубы чуть разомкнутся.
 
-Теперь плечи. Многие из нас носят их приподнятыми и не замечают этого. Опусти их, подальше от ушей. Пусть руки станут тяжёлыми, а ладони отдыхают там, где они есть.
+Теперь опусти плечи, подальше от ушей. Руки становятся тяжёлыми. Ладони спокойно лежат там, где лежат.
 
-Заметь дыхание, не меняя его. Воздух входит, воздух выходит. Сейчас нет правильного способа дышать. Просто позволь этому происходить.
+Обрати внимание на дыхание. Не меняй его. Вдох приходит сам… и сам уходит.
 
-Если мысли уходят к планам или тревогам, это совершенно нормально. Так устроен ум. Каждый раз, когда ты это замечаешь, мягко возвращайся к ощущению опоры под телом.
+Могут приходить мысли: дела, тревоги… Это нормально. Когда замечаешь, что мысли унесли тебя, не ругай себя. Просто мягко вернись к телу.
 
-Почувствуй спину. Почувствуй ноги. Почувствуй стопы. Всё твоё тело отдыхает, его держат.
+Почувствуй, как спина находит опору. Тяжесть ног… стопы. Всё тело сейчас отдыхает.
 
-Побудь так несколько вдохов. Нечего исправлять. Нечего решать. Только этот момент и ты в нём.
+Побудь так несколько вдохов. Ничего не нужно исправлять. Ты просто здесь, и этого достаточно.
 
-Когда почувствуешь готовность, сделай чуть более глубокий вдох и медленно выдохни. Ты здесь.`,
+Когда почувствуешь готовность, сделай вдох чуть глубже… и медленно выдохни. Хорошо, что ты здесь.`,
   ),
   'first-breath': pack(
-    `Birkaç dakikayı nefesle geçirelim.
+    `Şimdi birkaç dakika nefesinle birlikte olalım.
 
-Yerine yerleş, omuzlarını aşağı bırak. Henüz özel bir şekilde nefes almana gerek yok. Sadece nefesi en net nerede hissettiğini fark et: burnunda mı, göğsünde mi, karnında mı?
+Rahatça yerleş, omuzlarını gevşet. Bir süre nefesini olduğu gibi izle. En çok nerede hissediyorsun? Burnunda mı, göğsünde mi, karnında mı?
 
-Şimdi nefesi nazikçe yavaşlatalım. Burnundan dörde kadar sayarak nefes al… bir, iki, üç, dört.
+Şimdi nefesini biraz yavaşlatalım. Burnundan nefes al… bir, iki, üç, dört.
 
-Ve ağzından altıya kadar sayarak yavaşça ver… bir, iki, üç, dört, beş, altı.
+Ağzından yavaşça ver… bir, iki, üç, dört, beş, altı.
 
-Uzun bir nefes veriş, bedenine yavaşlamanın güvenli olduğunu söyler. Bir kez daha: dörde kadar al… altıya kadar ver.
+Nefesi uzun uzun vermek bedeni sakinleştirir. Bir kez daha… dörde kadar al… altıya kadar ver.
 
-Saymak sana zor geliyorsa bırak. Sadece her nefes verişini, alışından biraz daha uzun tut.
+Saymak seni zorluyorsa saymayı bırak. Nefes verişini, alışından biraz daha uzun tutman yeterli.
 
-Nefes alırken karnının yükseldiğini, verirken yumuşadığını hisset. Omuzların aşağıda kalsın. Çenen gevşek kalsın.
+Nefes alırken karnın hafifçe şişsin, verirken yumuşasın. Omuzların aşağıda, çenen gevşek kalsın.
 
-Kalbin hızlı atıyorsa sorun değil. Onu durdurmak zorunda değilsin. Sadece nefes verişini uzun ve rahat tut; bedenin kendi zamanında sana uyacak.
-
-Nefes al… ve bırak.
+Kalbin hızlı atıyorsa onu durdurmaya çalışma. Sen sadece nefesini yavaş ve uzun vermeye devam et. Bedenin kendi zamanında sakinleşecek.
 
 Nefes al… ve bırak.
 
-Birkaç nefes daha kendi hızında burada kal.
+Nefes al… ve bırak.
 
-Şimdi nefesin doğal ritmine dönsün. Bedeninin birkaç dakika öncesine göre nasıl hissettiğini fark et. Küçük bir değişiklik bile yeterli.`,
+Birkaç nefes daha kendi hızında devam et.
+
+Şimdi nefesini serbest bırak, kendi ritmine dönsün. Biraz öncesine göre bedeninin nasıl olduğuna bak. Küçük bir rahatlama bile yeter.`,
     `Let us spend a few minutes with the breath.
 
 Settle into your seat and let your shoulders drop. You do not need to breathe in any special way yet. Just notice where you feel the breath most clearly: at the nose, in the chest, or in the belly.
@@ -227,73 +227,73 @@ Inspira… e lascia andare.
 Resta qui ancora qualche respiro, al tuo ritmo.
 
 Ora lascia che il respiro torni al suo ritmo naturale. Nota come si sente il corpo rispetto a qualche minuto fa. Anche un piccolo cambiamento basta.`,
-    `Bir neçə dəqiqəni nəfəslə keçirək.
+    `İndi bir neçə dəqiqə nəfəsinlə birlikdə olaq.
 
-Yerinə rahat otur, çiyinlərini aşağı burax. Hələ xüsusi bir şəkildə nəfəs almağa ehtiyac yoxdur. Sadəcə nəfəsi ən aydın harada hiss etdiyinə diqqət et: burnunda, sinəndə, yoxsa qarnında?
+Rahat yerləş, çiyinlərini boşalt. Bir az nəfəsini olduğu kimi izlə. Onu ən çox harada hiss edirsən? Burnunda, sinəndə, yoxsa qarnında?
 
-İndi nəfəsi yumşaqca yavaşladaq. Burnundan dördə qədər sayaraq nəfəs al… bir, iki, üç, dörd.
+İndi nəfəsi bir az yavaşladaq. Burnundan nəfəs al… bir, iki, üç, dörd.
 
-Və ağzından altıya qədər sayaraq yavaşca ver… bir, iki, üç, dörd, beş, altı.
+Ağzından yavaşca ver… bir, iki, üç, dörd, beş, altı.
 
-Uzun nəfəs vermək bədəninə yavaşlamağın təhlükəsiz olduğunu deyir. Bir daha: dördə qədər al… altıya qədər ver.
+Nəfəsi uzun-uzun vermək bədəni sakitləşdirir. Bir dəfə də… dördə qədər al… altıya qədər ver.
 
-Saymaq sənə çətin gəlirsə, burax. Sadəcə hər nəfəs verməni nəfəs almadan bir az uzun et.
+Saymaq səni yorursa, saymağı burax. Nəfəs verməyi almaqdan bir az uzun tutmağın kifayətdir.
 
-Nəfəs alanda qarnının qalxdığını, verəndə yumşaldığını hiss et. Çiyinlərin aşağıda qalsın. Çənən boş qalsın.
+Nəfəs alanda qarnın yüngülcə qalxsın, verəndə yumşalsın. Çiyinlərin aşağıda, çənən boş qalsın.
 
-Ürəyin sürətlə döyünürsə, problem deyil. Onu dayandırmalı deyilsən. Sadəcə nəfəs verməni uzun və rahat saxla; bədənin öz vaxtında sənə uyğunlaşacaq.
-
-Nəfəs al… və burax.
+Ürəyin tez döyünürsə, onu dayandırmağa çalışma. Sadəcə nəfəsini yavaş və uzun verməyə davam et. Bədənin öz vaxtında sakitləşəcək.
 
 Nəfəs al… və burax.
 
-Öz tempində bir neçə nəfəs daha burada qal.
+Nəfəs al… və burax.
 
-İndi nəfəsin təbii ritminə qayıtsın. Bədəninin bir neçə dəqiqə əvvəlkinə nisbətən necə hiss etdiyinə diqqət et. Kiçik bir dəyişiklik belə kifayətdir.`,
-    `Давай проведём несколько минут с дыханием.
+Bir neçə nəfəs də öz sürətinlə davam et.
 
-Устройся поудобнее и опусти плечи. Пока не нужно дышать как-то особенно. Просто заметь, где ты яснее всего чувствуешь дыхание: в носу, в груди или в животе.
+İndi nəfəsini sərbəst burax, öz ritminə qayıtsın. Bir az əvvələ nisbətən bədəninin necə olduğuna bax. Kiçik bir rahatlıq belə kifayətdir.`,
+    `Давай проведём несколько минут вместе с дыханием.
 
-Теперь мягко замедлим его. Вдохни через нос на четыре счёта… раз, два, три, четыре.
+Устройся поудобнее, опусти плечи. Понаблюдай за дыханием, какое оно есть. Где ты чувствуешь его сильнее всего? В носу, в груди или в животе?
 
-И медленно выдохни через рот на шесть счётов… раз, два, три, четыре, пять, шесть.
+Теперь немного замедлим дыхание. Вдох через нос… раз, два, три, четыре.
 
-Долгий выдох говорит телу, что замедлиться безопасно. Ещё раз: вдох на четыре… выдох на шесть.
+И медленный выдох через рот… раз, два, три, четыре, пять, шесть.
 
-Если считать тяжело, не считай. Просто делай каждый выдох чуть длиннее вдоха.
+Долгий выдох помогает телу успокоиться. Ещё раз… вдох на четыре… выдох на шесть.
 
-Почувствуй, как живот поднимается на вдохе и мягко опускается на выдохе. Плечи остаются внизу. Челюсть остаётся свободной.
+Если считать трудно, не считай. Просто делай выдох чуть длиннее вдоха.
 
-Если сердце бьётся быстро, ничего страшного. Не нужно его останавливать. Просто держи выдох долгим и лёгким, и тело в своё время последует за ним.
+На вдохе живот мягко поднимается, на выдохе опускается. Плечи внизу, челюсть расслаблена.
 
-Вдох… и отпусти.
+Если сердце бьётся быстро, не пытайся его остановить. Просто продолжай медленно и долго выдыхать. Тело успокоится в своё время.
 
-Вдох… и отпусти.
+Вдох… и выдох.
 
-Побудь так ещё несколько вдохов, в своём темпе.
+Вдох… и выдох.
 
-Теперь пусть дыхание вернётся к естественному ритму. Заметь, как чувствует себя тело по сравнению с тем, что было несколько минут назад. Даже небольшой перемены достаточно.`,
+Ещё несколько вдохов в своём темпе.
+
+Теперь отпусти дыхание, пусть оно вернётся к своему ритму. Заметь, как чувствует себя тело сейчас, по сравнению с началом. Даже небольшого облегчения достаточно.`,
   ),
   'first-ground': pack(
-    `Bu çalışma, düşüncelerin hızlandığında seni şimdiye geri getirir.
+    `Düşüncelerin hızlandığında bu çalışma seni yeniden şu ana getirir.
 
-Ayaklarınla başla. Onları nazikçe yere bastır. Topuklarını, tabanlarını, parmaklarını hisset. Altındaki zemin sağlam ve seni taşıyor.
+Ayaklarından başla. Onları yere hafifçe bastır. Topuklarını, tabanlarını, parmaklarını hisset. Yer sağlam… seni taşıyor.
 
-Şimdi etrafına bak ve görebildiğin beş şeyin adını söyle. İçinden sessizce söyleyebilirsin: bir lamba, bir pencere, bir bardak… orada ne varsa.
+Şimdi etrafına bak ve gördüğün beş şeyi içinden say. Bir lamba, bir pencere, bir bardak… ne varsa.
 
-Sonra hissedebildiğin dört şeyi fark et. Kıyafetinin kumaşı. Tenindeki hava. Ellerinin ağırlığı. Oturduğun yüzey.
+Sonra dokunduğun dört şeyi hisset. Üzerindeki kıyafet. Tenine değen hava. Ellerinin ağırlığı. Oturduğun yer.
 
-Şimdi üç sese kulak ver. Belki uzaktan bir trafik sesi, odadaki bir uğultu, kendi nefesin.
+Şimdi duyduğun üç sese kulak ver. Uzaktan geçen bir araba, odadaki hafif bir uğultu… ya da kendi nefesin.
 
-Koklayabildiğin iki şeyi fark et, ya da sadece havanın kokusunu.
+Kokusunu alabildiğin iki şey bul. Hiçbir koku gelmiyorsa havanın kendisini kokla.
 
-Ve tadabildiğin bir şeyi, ağzındaki tat bile olsa.
+Ve ağzındaki tadı hisset. Tek bir tat, o kadar.
 
-Buradasın, bu odada, bu anda. Zihnin yarına atlayabilir ya da geçmişe dönebilir. Sorun değil. Bedenin her zaman burada, şimdide.
+Şu an buradasın. Bu odada, bu anda. Aklın yarına ya da düne gidebilir. Bedenin ise hep burada, şimdide.
 
 Yavaşça nefes al… ve uzun uzun ver. Ayaklarını bir kez daha yerde hisset.
 
-Bugün ne zaman düşüncelerin içinde kaybolsan, buna geri dönebilirsin: beş, dört, üç, iki, bir. Ve ayakların yerde.`,
+Gün içinde düşüncelerin seni yeniden sürüklerse bunu hatırla: beş, dört, üç, iki, bir… ve ayakların yerde.`,
     `This practice brings you back to the present when your thoughts are racing.
 
 Start with your feet. Press them gently into the floor. Feel your heels, the soles, your toes. The ground is solid beneath you, and it is holding you up.
@@ -351,65 +351,65 @@ Sei qui, in questa stanza, in questo momento. La mente può saltare a domani o t
 Inspira piano… ed espira a lungo. Senti ancora una volta i piedi sul pavimento.
 
 Oggi, ogni volta che i pensieri ti portano via, puoi tornare qui: cinque, quattro, tre, due, uno. E i piedi a terra.`,
-    `Bu məşq fikirlərin sürətlənəndə səni indiki ana qaytarır.
+    `Fikirlərin sürətlənəndə bu məşq səni yenidən bu ana qaytarır.
 
-Ayaqlarından başla. Onları yumşaqca yerə bas. Dabanlarını, ayaqaltını, barmaqlarını hiss et. Altındakı yer möhkəmdir və səni saxlayır.
+Ayaqlarından başla. Onları yüngülcə yerə bas. Dabanlarını, altlarını, barmaqlarını hiss et. Yer möhkəmdir… səni saxlayır.
 
-İndi ətrafına bax və gördüyün beş şeyin adını çək. İçində səssizcə deyə bilərsən: lampa, pəncərə, stəkan… orada nə varsa.
+İndi ətrafına bax və gördüyün beş şeyi içində say. Bir lampa, bir pəncərə, bir stəkan… nə varsa.
 
-Sonra hiss etdiyin dörd şeyə diqqət et. Paltarının parçası. Dərindəki hava. Əllərinin ağırlığı. Oturduğun səth.
+Sonra toxunduğun dörd şeyi hiss et. Əynindəki paltar. Dərinə dəyən hava. Əllərinin ağırlığı. Oturduğun yer.
 
-İndi üç səsə qulaq as. Bəlkə uzaqdan maşın səsi, otaqda bir uğultu, öz nəfəsin.
+İndi eşitdiyin üç səsə qulaq as. Uzaqdan keçən bir maşın, otaqdakı zəif bir uğultu… ya da öz nəfəsin.
 
-İyini hiss etdiyin iki şeyə diqqət et, ya da sadəcə havanın iyinə.
+Qoxusunu duya bildiyin iki şey tap. Heç bir qoxu gəlmirsə, havanın özünü içinə çək.
 
-Və dadını hiss etdiyin bir şeyə, ağzındakı dad olsa belə.
+Və ağzındakı dadı hiss et. Tək bir dad, bu qədər.
 
-Buradasan, bu otaqda, bu anda. Zehnin sabaha tullana və ya keçmişə qayıda bilər. Problem deyil. Bədənin həmişə buradadır, indidədir.
+İndi buradasan. Bu otaqda, bu anda. Fikrin sabaha, ya da dünənə qaça bilər. Bədənin isə həmişə burada, indidədir.
 
-Yavaşca nəfəs al… və uzun-uzun ver. Ayaqlarını bir daha yerdə hiss et.
+Yavaşca nəfəs al… və uzun-uzun ver. Ayaqlarını bir dəfə də yerdə hiss et.
 
-Bu gün nə vaxt fikirlərin içində itsən, buna qayıda bilərsən: beş, dörd, üç, iki, bir. Və ayaqların yerdə.`,
-    `Эта практика возвращает тебя в настоящее, когда мысли несутся вперёд.
+Gün ərzində fikirlər səni yenə aparsa, bunu xatırla: beş, dörd, üç, iki, bir… və ayaqların yerdədir.`,
+    `Это упражнение помогает вернуться в настоящий момент, когда мысли несутся слишком быстро.
 
-Начни со стоп. Мягко прижми их к полу. Почувствуй пятки, ступни, пальцы. Пол под тобой твёрдый, и он тебя держит.
+Начни со стоп. Слегка прижми их к полу. Почувствуй пятки, подошвы, пальцы. Пол твёрдый… он держит тебя.
 
-Теперь оглянись и назови пять вещей, которые видишь. Можно про себя: лампа, окно, чашка… всё, что есть вокруг.
+Теперь оглянись и про себя назови пять вещей, которые видишь. Лампа, окно, чашка… всё, что есть рядом.
 
-Затем заметь четыре вещи, которые ощущаешь телом. Ткань одежды. Воздух на коже. Тяжесть рук. Поверхность, на которой сидишь.
+Потом почувствуй четыре прикосновения. Одежда на теле. Воздух на коже. Тяжесть рук. То, на чём ты сидишь.
 
-Теперь прислушайся к трём звукам. Может быть, далёкий шум машин, гул в комнате, твоё собственное дыхание.
+Прислушайся к трём звукам. Машина вдалеке, тихий гул в комнате… или твоё собственное дыхание.
 
-Заметь два запаха — или просто запах воздуха.
+Найди два запаха. Если ничего не чувствуешь, просто вдохни запах воздуха.
 
-И один вкус, пусть даже это просто вкус во рту.
+И заметь вкус во рту. Один вкус, этого достаточно.
 
-Ты здесь, в этой комнате, в этот момент. Ум может прыгнуть в завтра или вернуться в прошлое. Это нормально. Тело всегда здесь, сейчас.
+Ты здесь. В этой комнате, в этом моменте. Мысли могут убегать в завтра или во вчера. А тело всегда здесь, сейчас.
 
 Медленно вдохни… и долго выдохни. Ещё раз почувствуй стопы на полу.
 
-Сегодня, когда бы мысли ни унесли тебя, ты можешь вернуться к этому: пять, четыре, три, два, один. И стопы на полу.`,
+Если днём мысли снова тебя унесут, вспомни: пять, четыре, три, два, один… и стопы на полу.`,
   ),
   'room-door': pack(
     `Bu meditasyonda kendini güvende hissettiğin bir odada dinleneceksin.
 
-İstersen gözlerini kapat ve yavaş bir nefes al. Şimdi çok iyi bildiğin bir odayı aklına getir. Kendi yatak odan, büyükannenin oturma odası ya da bir zamanlar huzur bulduğun herhangi bir yer olabilir.
+İstersen gözlerini kapat ve yavaşça nefes al. Şimdi iyi tanıdığın bir odayı düşün. Kendi odan, büyükannenin evi ya da bir zamanlar huzur bulduğun herhangi bir yer olabilir.
 
-O odanın kapısını gözünün önüne getir. Rengini, kolunu fark et. Kapı kapalı ve bu tarafında güvendesin. Şu an içeri hiçbir şeyin girmesi gerekmiyor.
+Önce kapıyı gözünün önüne getir. Rengi nasıl? Kolu nerede? Kapı kapalı ve sen içeride güvendesin. Şu an kimsenin içeri girmesi gerekmiyor.
 
-Zihninde odanın etrafına bak. Pencere nerede? Işık nasıl? Bir sandalye, bir yatak, bir halı var mı?
+Şimdi odaya şöyle bir bak. Pencere nerede? Işık nereden geliyor? Bir koltuk, bir yatak, yerde bir halı var mı?
 
-Odada rahat bir yer bul ve oraya yerleş. Bedeninin, nerede olduğunu bildiğinde nasıl gevşediğini hisset.
+Kendine rahat bir köşe seç ve oraya yerleş. Nerede olduğunu bilmek bedenini gevşetiyor.
 
-Bazen bir düşünce kapıyı çalabilir: bir endişe, bir iş, bir anı. Kapıyı açmak zorunda değilsin. Sadece çalındığını fark edip öylece bırakabilirsin. Kapı yerinde duruyor.
+Bazen bir düşünce kapıyı çalabilir. Bir kaygı, bir iş, bir anı… Kapıyı açmak zorunda değilsin. Çaldığını duy ve bırak. Kapı kapalı kalıyor.
 
-Yavaşça nefes al… ve ver. Her nefes verişte omuzların biraz daha aşağı insin.
+Yavaşça nefes al… ve ver. Her nefes verişinde omuzların biraz daha aşağı insin.
 
-Bu oda her zaman senin için burada. Dünya fazla gürültülü geldiğinde buraya dönebilir, kapıyı kapatıp dinlenebilirsin.
+Bu oda hep burada, seni bekliyor. Dünya fazla gürültülü geldiğinde buraya gelebilir, kapıyı kapatıp dinlenebilirsin.
 
-Biraz daha kal. Sessizliği fark et. Şu anda güvende olduğunu fark et.
+Biraz daha kal. Odadaki sessizliği dinle. Şu an güvendesin.
 
-Hazır olduğunda daha derin bir nefes al ve bu sakinliğin bir kısmını yanına alarak yavaşça geri dön.`,
+Hazır olduğunda derin bir nefes al. Bu sakinliği yanına alarak yavaşça geri dön.`,
     `In this meditation you will rest in a room where you feel safe.
 
 Close your eyes if you like, and take a slow breath. Now bring to mind a room you know well. It could be your bedroom, a grandparent’s living room, any place where you once felt at ease.
@@ -469,67 +469,67 @@ Resta ancora un po’. Nota il silenzio. Nota che, in questo momento, sei al sic
 Quando vuoi, fai un respiro più profondo e torna piano, portando con te un po’ di questa calma.`,
     `Bu meditasiyada özünü təhlükəsiz hiss etdiyin bir otaqda dincələcəksən.
 
-İstəsən gözlərini yum və yavaş bir nəfəs al. İndi çox yaxşı tanıdığın bir otağı xatırla. Öz yataq otağın, nənənin qonaq otağı və ya bir vaxtlar rahatlıq tapdığın hər hansı bir yer ola bilər.
+İstəsən gözlərini yum və yavaşca nəfəs al. İndi yaxşı tanıdığın bir otağı düşün. Öz otağın, nənənin evi, ya da nə vaxtsa rahatlıq tapdığın hər hansı bir yer ola bilər.
 
-O otağın qapısını gözünün önünə gətir. Rənginə, dəstəyinə diqqət et. Qapı bağlıdır və onun bu tərəfində təhlükəsizsən. İndi içəri heç nəyin girməsinə ehtiyac yoxdur.
+Əvvəlcə qapını gözünün önünə gətir. Rəngi necədir? Dəstəyi haradadır? Qapı bağlıdır və sən içəridə təhlükəsizsən. İndi heç kimin içəri girməsinə ehtiyac yoxdur.
 
-Zehnində otağın ətrafına bax. Pəncərə haradadır? İşıq necədir? Stul, yataq, xalça varmı?
+İndi otağa bir göz gəzdir. Pəncərə haradadır? İşıq haradan gəlir? Bir kreslo, bir çarpayı, yerdə bir xalça varmı?
 
-Otaqda rahat bir yer tap və ora yerləş. Bədəninin harada olduğunu bildikdə necə rahatlaşdığını hiss et.
+Özünə rahat bir künc seç və ora yerləş. Harada olduğunu bilmək bədənini rahatladır.
 
-Bəzən bir fikir qapını döyə bilər: bir narahatlıq, bir iş, bir xatirə. Qapını açmalı deyilsən. Sadəcə döyüldüyünü hiss edib olduğu kimi buraxa bilərsən. Qapı yerindədir.
+Bəzən bir fikir qapını döyə bilər. Bir narahatlıq, bir iş, bir xatirə… Qapını açmağa məcbur deyilsən. Döyüldüyünü eşit və burax. Qapı bağlı qalır.
 
 Yavaşca nəfəs al… və ver. Hər nəfəs verəndə çiyinlərin bir az da aşağı ensin.
 
-Bu otaq həmişə sənin üçün buradadır. Dünya çox səs-küylü gələndə bura qayıda, qapını bağlayıb dincələ bilərsən.
+Bu otaq həmişə buradadır, səni gözləyir. Dünya çox səs-küylü gələndə bura gələ, qapını bağlayıb dincələ bilərsən.
 
-Bir az da qal. Sükutu hiss et. Bu anda təhlükəsiz olduğunu hiss et.
+Bir az da qal. Otaqdakı sükutu dinlə. İndi təhlükəsizsən.
 
-Hazır olanda daha dərin bir nəfəs al və bu sakitliyin bir hissəsini özünlə götürərək yavaşca geri qayıt.`,
-    `В этой медитации ты отдохнёшь в комнате, где чувствуешь себя в безопасности.
+Hazır olanda dərin nəfəs al. Bu sakitliyi özünlə götür və yavaşca geri qayıt.`,
+    `В этой медитации ты отдохнёшь в комнате, где тебе спокойно и безопасно.
 
-Если хочешь, закрой глаза и сделай медленный вдох. Теперь вспомни комнату, которую хорошо знаешь. Это может быть твоя спальня, гостиная у бабушки — любое место, где тебе когда-то было спокойно.
+Если хочется, закрой глаза и медленно вдохни. Представь комнату, которую хорошо знаешь. Твоя спальня, бабушкин дом или любое место, где тебе когда-то было спокойно.
 
-Представь дверь этой комнаты. Заметь её цвет, её ручку. Дверь закрыта, и по эту сторону ты в безопасности. Сейчас ничему не нужно входить.
+Сначала представь дверь. Какого она цвета? Где ручка? Дверь закрыта, и ты внутри, в безопасности. Сейчас никому не нужно входить.
 
-Мысленно оглядись. Где окно? Какой свет? Есть ли кресло, кровать, ковёр?
+Теперь оглядись. Где окно? Откуда идёт свет? Есть ли кресло, кровать, ковёр на полу?
 
-Найди в комнате удобное место и устройся там. Почувствуй, как расслабляется тело, когда знает, где оно.
+Выбери уютное место и устройся там. Когда знаешь, где находишься, телу легче расслабиться.
 
-Иногда в дверь может постучать мысль: тревога, дело, воспоминание. Открывать не обязательно. Можно просто заметить стук и оставить всё как есть. Дверь держит.
+Иногда в дверь может постучать мысль. Тревога, дело, воспоминание… Открывать не обязательно. Просто услышь стук и отпусти. Дверь остаётся закрытой.
 
 Медленно вдохни… и выдохни. С каждым выдохом плечи опускаются чуть ниже.
 
-Эта комната всегда доступна тебе. Когда мир кажется слишком громким, можно вернуться сюда, закрыть дверь и отдохнуть.
+Эта комната всегда здесь и ждёт тебя. Когда мир покажется слишком шумным, можно прийти сюда, закрыть дверь и отдохнуть.
 
-Побудь здесь ещё немного. Заметь тишину. Заметь, что в этот момент ты в безопасности.
+Побудь здесь ещё немного. Послушай тишину. Сейчас ты в безопасности.
 
-Когда почувствуешь готовность, сделай вдох поглубже и медленно возвращайся, взяв с собой немного этого покоя.`,
+Когда почувствуешь готовность, глубоко вдохни. Возьми это спокойствие с собой и медленно возвращайся.`,
   ),
   'room-light': pack(
-    `Sessiz odana geri dönelim ve ışığı fark edelim.
+    `Sessiz odana yeniden dönelim. Bu kez ışığa bakacağız.
 
-Yavaşça nefes alıp ver ve odayı yeniden gözünün önüne getir. Şimdi ışığın nereden geldiğine bak. Belki yumuşak gün ışığı süzülen bir pencere, belki sıcak, altın renkli bir lamba.
+Yavaşça nefes al, ver ve odayı yeniden gözünün önüne getir. Işık nereden geliyor? Belki pencereden süzülen yumuşak bir güneş, belki sarı, sıcak bir lamba.
 
-O ışığın biraz daha sıcak, biraz daha yumuşak olduğunu hayal et. Odanın üzerine, yere ve senin üzerine nazikçe düşsün.
+Bu ışığın biraz daha ısındığını, biraz daha yumuşadığını hayal et. Yavaşça odaya, yere ve sana doğru yayılıyor.
 
-Önce yüzünde hisset. Alnın yumuşuyor. Gözlerin dinleniyor. Çenen gevşiyor.
+Önce yüzünü ısıtıyor. Alnın gevşiyor. Gözlerin dinleniyor. Çenen yumuşuyor.
 
-Sıcak ışık boynuna ve omuzlarına insin. Dokunduğu her yerde gerginlik biraz eriyor, güneşteki kar gibi.
+Işık boynuna ve omuzlarına iniyor. Dokunduğu her yerde gerginlik, güneşte eriyen kar gibi azalıyor.
 
-Şimdi göğsüne ulaşıyor. Nefesin yavaş ve rahat oluyor. Sonra karnına, yumuşak ve sakin.
+Şimdi göğsüne ulaşıyor. Nefesin yavaşlıyor, rahatlıyor. Sonra karnına… yumuşak ve sakin.
 
-Işık kollarından ellerine iniyor. Ellerin ısınıyor ve ağırlaşıyor.
+Işık kollarından ellerine doğru akıyor. Ellerin ısınıyor, ağırlaşıyor.
 
-Bacaklarından aşağı, ta ayaklarına kadar akıyor. Bütün bedenin sıcak, yumuşak bir ışığın içinde dinleniyor.
+Bacaklarından aşağı, ta ayak parmaklarına kadar iniyor. Bütün bedenin sıcak, yumuşak bir ışıkla sarılı.
 
-Bir yerin hâlâ gergin hissediyorsa onunla savaşma. Işığın bir süre orada durmasına izin ver. Acele yok.
+Hâlâ gergin kalan bir yer varsa onunla uğraşma. Işık bir süre orada beklesin. Acelen yok.
 
-Sıcaklığı içine çek… ve şu an ihtiyacın olmayan her şeyi nefesle dışarı bırak.
+Nefes alırken bu sıcaklığı içine çek… verirken artık sana gerekmeyen ne varsa bırak.
 
-Birkaç nefes boyunca bu ışıkta kal. Güvendesin, sıcaktasın ve buradasın.
+Birkaç nefes bu ışığın içinde kal. Burada güvendesin, sıcacık ve rahat.
 
-Hazır olduğunda görüntünün yavaşça solmasına izin ver ve sıcaklığı yanında tut.`,
+Hazır olduğunda görüntü yavaşça solsun. Sıcaklık seninle kalsın.`,
     `Let us return to your quiet room, and notice the light.
 
 Breathe in and out slowly, and picture the room again. Now notice where the light is coming from. Perhaps a window with soft daylight, or a lamp with a warm, golden glow.
@@ -599,75 +599,75 @@ Inspira il calore… ed espira tutto ciò che adesso non ti serve.
 Resta in questa luce per qualche respiro. Sei al sicuro, sei al caldo, e sei qui.
 
 Quando vuoi, lascia che l’immagine sfumi piano e tieni con te il calore.`,
-    `Sakit otağına qayıdaq və işığa diqqət edək.
+    `Sakit otağına yenidən qayıdaq. Bu dəfə işığa baxacağıq.
 
-Yavaşca nəfəs al və ver, otağı yenidən gözünün önünə gətir. İndi işığın haradan gəldiyinə bax. Bəlkə yumşaq gün işığı süzülən bir pəncərə, bəlkə isti, qızılı rəngli bir lampa.
+Yavaşca nəfəs al, ver və otağı yenidən gözünün önünə gətir. İşıq haradan gəlir? Bəlkə pəncərədən süzülən yumşaq günəş, bəlkə sarı, isti bir lampa.
 
-O işığın bir az daha isti, bir az daha yumşaq olduğunu təsəvvür et. Qoy otağın üstünə, döşəməyə və sənin üstünə yumşaqca düşsün.
+Təsəvvür et ki, bu işıq bir az da isinir, bir az da yumşalır. Yavaşca otağa, yerə və sənə tərəf yayılır.
 
-Əvvəlcə üzündə hiss et. Alnın yumşalır. Gözlərin dincəlir. Çənən boşalır.
+Əvvəlcə üzünü isidir. Alnın boşalır. Gözlərin dincəlir. Çənən yumşalır.
 
-İsti işıq boynuna və çiyinlərinə ensin. Toxunduğu hər yerdə gərginlik bir az əriyir, günəşdəki qar kimi.
+İşıq boynuna və çiyinlərinə enir. Toxunduğu hər yerdə gərginlik, günəşdə əriyən qar kimi azalır.
 
-İndi sinənə çatır. Nəfəsin yavaş və rahat olur. Sonra qarnına, yumşaq və sakit.
+İndi sinənə çatır. Nəfəsin yavaşlayır, rahatlaşır. Sonra qarnına… yumşaq və sakit.
 
-İşıq qollarından əllərinə enir. Əllərin istiləşir və ağırlaşır.
+İşıq qollarından əllərinə doğru axır. Əllərin isinir, ağırlaşır.
 
-Ayaqlarından aşağı, ta barmaqlarının ucuna qədər axır. Bütün bədənin isti, yumşaq bir işığın içində dincəlir.
+Ayaqlarından aşağı, lap barmaqlarının ucuna qədər enir. Bütün bədənin isti, yumşaq bir işığa bürünüb.
 
-Bir yerin hələ gərgin hiss edirsə, onunla mübarizə aparma. Qoy işıq bir müddət orada qalsın. Tələsməyə ehtiyac yoxdur.
+Hələ də gərgin qalan bir yer varsa, onunla əlləşmə. Qoy işıq bir az orada qalsın. Tələsməyə ehtiyac yoxdur.
 
-İstiliyi içinə çək… və indi ehtiyacın olmayan hər şeyi nəfəslə çölə burax.
+Nəfəs alanda bu istiliyi içinə çək… verəndə artıq sənə lazım olmayan nə varsa, burax.
 
-Bir neçə nəfəs bu işıqda qal. Təhlükəsizsən, isti bir yerdəsən və buradasan.
+Bir neçə nəfəs bu işığın içində qal. Burada təhlükəsizsən, isti və rahatsan.
 
-Hazır olanda təsvirin yavaşca solmasına icazə ver və istiliyi özünlə saxla.`,
-    `Давай вернёмся в твою тихую комнату и заметим свет.
+Hazır olanda qoy görüntü yavaşca solsun. İstilik isə səninlə qalsın.`,
+    `Вернёмся в твою тихую комнату. На этот раз посмотрим на свет.
 
-Медленно вдохни и выдохни, снова представь комнату. Теперь заметь, откуда идёт свет. Может быть, это окно с мягким дневным светом или лампа с тёплым золотистым сиянием.
+Медленно вдохни, выдохни и снова представь комнату. Откуда идёт свет? Может быть, мягкое солнце из окна, а может, тёплая жёлтая лампа.
 
-Представь, что этот свет становится чуть теплее, чуть мягче. Пусть он мягко ложится на комнату, на пол и на тебя.
+Представь, что свет становится чуть теплее и мягче. Он медленно разливается по комнате, по полу и по тебе.
 
-Сначала почувствуй его на лице. Лоб смягчается. Глаза отдыхают. Челюсть отпускает.
+Сначала он согревает лицо. Лоб разглаживается. Глаза отдыхают. Челюсть становится мягкой.
 
-Пусть тёплый свет опустится на шею и плечи. Где он касается, напряжение немного тает, как снег на солнце.
+Свет опускается на шею и плечи. Там, где он касается, напряжение тает, как снег на солнце.
 
-Теперь он доходит до груди. Дыхание становится медленным и лёгким. Потом живот — мягкий и спокойный.
+Теперь он доходит до груди. Дыхание становится медленным и спокойным. Потом до живота… мягко и тихо.
 
-Свет спускается по рукам к ладоням. Ладони теплеют и тяжелеют.
+Свет течёт по рукам до самых ладоней. Руки теплеют и тяжелеют.
 
-Он течёт вниз по ногам, до самых стоп. Всё твоё тело отдыхает в тёплом мягком свете.
+Он спускается по ногам до кончиков пальцев. Всё тело окутано тёплым мягким светом.
 
-Если какая-то часть ещё напряжена, не борись с ней. Просто позволь свету побыть там немного. Спешить некуда.
+Если где-то ещё остаётся напряжение, не борись с ним. Пусть свет побудет там подольше. Спешить некуда.
 
-Вдохни тепло… и выдохни всё, что сейчас не нужно.
+На вдохе впусти это тепло… на выдохе отпусти всё, что тебе сейчас не нужно.
 
-Побудь в этом свете несколько вдохов. Тебе безопасно, тебе тепло, и ты здесь.
+Побудь в этом свете несколько вдохов. Здесь безопасно, тепло и спокойно.
 
-Когда почувствуешь готовность, позволь образу медленно растаять, а тепло оставь с собой.`,
+Когда почувствуешь готовность, пусть картинка медленно растает. А тепло останется с тобой.`,
   ),
   'room-hands': pack(
-    `Bu son bölümde kendine teselli vermek için kendi ellerini kullanacaksın.
+    `Bu bölümde kendi ellerinle kendini rahatlatacaksın.
 
-Odana yerleş ve yavaşça nefes al. Dikkatini ellerine getir. Şu an nasıl hissettiklerini fark et: sıcak mı serin mi, hareketsiz mi, karıncalanıyor mu?
+Odana yerleş ve yavaşça nefes al. Dikkatini ellerine ver. Şu an nasıllar? Sıcak mı, serin mi? Hafif mi, ağır mı?
 
-Avuçlarını birkaç saniye nazikçe birbirine sürt ve oluşturduğun sıcaklığı hisset.
+Avuçlarını birkaç saniye birbirine sürt. Oluşan sıcaklığı hisset.
 
-Şimdi bir elini göğsüne, kalbinin üstüne, diğerini karnına koy. Nefes alıp verirken ellerinin altındaki yükselip alçalmayı hisset.
+Şimdi bir elini göğsüne, kalbinin üstüne koy. Diğerini karnına. Nefes aldıkça ellerinin hafifçe kalkıp indiğini hisset.
 
-İçeriden şefkat böyle hissettirir. Bir arkadaşını nasıl teselli edersen, kendini de öyle teselli edebilirsin.
+Üzgün bir arkadaşına nasıl sarılırsan, kendine de öyle sarılabilirsin. Bu eller şu an sana şefkat gösteriyor.
 
 İçinden kendine söyle: Buradayım. Şu an güvendeyim. Bu his geçecek.
 
-Yavaşça nefes al… ve ellerinin yükseldiğini hisset. Nefes ver… ve yerine oturduklarını hisset.
+Nefes al… ellerin yükseliyor. Nefes ver… ellerin yerine dönüyor.
 
-Duygular gelirse gelsinler. Ellerin seni olduğun gibi tutuyor.
+Bir duygu gelirse gelsin. Onu itmene gerek yok. Ellerin seni olduğun gibi tutuyor.
 
-Uzun zamandır çok şey taşıyorsun. Bu birkaç an boyunca hiçbir şey taşımak zorunda değilsin. Sadece tutulabilirsin.
+Uzun zamandır çok şey taşıyorsun. Bu birkaç dakika boyunca hiçbir yük taşımana gerek yok. Sadece dinlen.
 
-Birkaç nefes daha ellerinin sıcaklığıyla kal.
+Birkaç nefes daha ellerinin sıcaklığında kal.
 
-Bitirmeden önce bu zamanı kendine ayırdığın için kendine teşekkür et. Hazır olduğunda ellerini kucağına bırak, derin bir nefes al ve gözlerini yavaşça aç.`,
+Bitirmeden önce kendine bu zamanı ayırdığın için teşekkür et. Hazır olduğunda ellerini kucağına bırak, derin bir nefes al ve gözlerini yavaşça aç.`,
     `In this last part, you will use your own hands to bring comfort.
 
 Settle into your room, and breathe slowly. Bring your attention to your hands. Notice how they feel right now: warm or cool, still or tingling.
@@ -731,73 +731,73 @@ Hai portato tanto. In questi momenti non devi portare niente. Puoi solo lasciart
 Resta ancora qualche respiro con il calore delle mani.
 
 Prima di finire, ringraziati per questo tempo. Quando vuoi, appoggia le mani in grembo, fai un respiro profondo e apri piano gli occhi.`,
-    `Bu son hissədə özünə təsəlli vermək üçün öz əllərindən istifadə edəcəksən.
+    `Bu hissədə öz əllərinlə özünə təskinlik verəcəksən.
 
-Otağına yerləş və yavaşca nəfəs al. Diqqətini əllərinə gətir. İndi necə hiss etdiklərinə bax: istidirlər, yoxsa sərin, hərəkətsizdirlər, yoxsa göynəyirlər?
+Otağına yerləş və yavaşca nəfəs al. Diqqətini əllərinə ver. İndi necədirlər? İsti, yoxsa sərin? Yüngül, yoxsa ağır?
 
-Ovuclarını bir neçə saniyə yumşaqca bir-birinə sürt və yaratdığın istiliyi hiss et.
+Ovuclarını bir neçə saniyə bir-birinə sürt. Yaranan istiliyi hiss et.
 
-İndi bir əlini sinənə, ürəyinin üstünə, digərini qarnına qoy. Nəfəs aldıqca əllərinin altında qalxıb enməni hiss et.
+İndi bir əlini sinənə, ürəyinin üstünə qoy. O biri əlini qarnına. Nəfəs aldıqca əllərinin yavaşca qalxıb endiyini hiss et.
 
-İçəridən şəfqət belə hiss olunur. Bir dostuna necə təsəlli verirsənsə, özünə də elə təsəlli verə bilərsən.
+Kədərli bir dostunu necə qucaqlayırsansa, özünü də elə qucaqlaya bilərsən. Bu əllər indi sənə qayğı göstərir.
 
-İçində özünə de: Buradayam. Bu an təhlükəsizəm. Bu hiss keçib gedəcək.
+İçində özünə de: Buradayam. İndi təhlükəsizəm. Bu hiss keçib gedəcək.
 
-Yavaşca nəfəs al… və əllərinin qalxdığını hiss et. Nəfəs ver… və yerinə oturduqlarını hiss et.
+Nəfəs al… əllərin qalxır. Nəfəs ver… əllərin yerinə qayıdır.
 
-Hisslər gəlsə, qoy gəlsinlər. Əllərin səni olduğun kimi saxlayır.
+Bir hiss gəlsə, qoy gəlsin. Onu itələməyə ehtiyac yoxdur. Əllərin səni olduğun kimi tutur.
 
-Uzun müddətdir çox şey daşıyırsan. Bu bir neçə an ərzində heç nə daşımalı deyilsən. Sadəcə özünü əllərinə tapşıra bilərsən.
+Çoxdandır çox şey daşıyırsan. Bu bir neçə dəqiqədə heç bir yük daşımağa ehtiyac yoxdur. Sadəcə dincəl.
 
-Bir neçə nəfəs də əllərinin istiliyi ilə qal.
+Bir neçə nəfəs də əllərinin istiliyində qal.
 
 Bitirməzdən əvvəl bu vaxtı özünə ayırdığın üçün özünə təşəkkür et. Hazır olanda əllərini dizlərinin üstünə qoy, dərin nəfəs al və gözlərini yavaşca aç.`,
-    `В этой последней части ты используешь собственные руки, чтобы утешить себя.
+    `В этой части ты успокоишь себя собственными руками.
 
-Устройся в своей комнате и дыши медленно. Перенеси внимание на руки. Заметь, какие они сейчас: тёплые или прохладные, спокойные или покалывают.
+Устройся в своей комнате и медленно вдохни. Переведи внимание на руки. Какие они сейчас? Тёплые или прохладные? Лёгкие или тяжёлые?
 
-Мягко потри ладони друг о друга несколько секунд и почувствуй тепло, которое ты создаёшь.
+Потри ладони друг о друга несколько секунд. Почувствуй тепло.
 
-Теперь положи одну руку на грудь, на сердце, а другую — на живот. Почувствуй, как под ладонями поднимается и опускается дыхание.
+Теперь положи одну руку на грудь, на сердце. Другую на живот. Почувствуй, как с каждым вдохом руки чуть поднимаются и опускаются.
 
-Так ощущается доброта изнутри. Так же, как утешают друга, можно утешить и себя.
+Так, как обнимают грустного друга, можно обнять и себя. Эти руки сейчас заботятся о тебе.
 
-Мысленно скажи себе: Я здесь. Сейчас я в безопасности. Это чувство пройдёт.
+Скажи себе мысленно: Я здесь. Сейчас я в безопасности. Это чувство пройдёт.
 
-Медленно вдохни… и почувствуй, как руки поднимаются. Выдохни… и почувствуй, как они опускаются.
+Вдох… руки поднимаются. Выдох… руки опускаются.
 
-Если поднимаются эмоции, позволь им быть. Твои руки рядом и держат тебя.
+Если приходит какое-то чувство, пусть приходит. Не нужно его прогонять. Твои руки бережно держат тебя.
 
-На тебе было так много. В эти несколько мгновений ничего не нужно нести. Можно просто позволить себя поддержать.
+Ты давно несёшь очень многое. В эти несколько минут ничего нести не нужно. Просто отдохни.
 
-Побудь ещё несколько вдохов с теплом своих рук.
+Побудь ещё несколько вдохов в тепле своих рук.
 
-Прежде чем закончить, поблагодари себя за это время. Когда почувствуешь готовность, опусти руки на колени, сделай глубокий вдох и мягко открой глаза.`,
+Прежде чем закончить, поблагодари себя за это время. Когда почувствуешь готовность, опусти руки на колени, глубоко вдохни и медленно открой глаза.`,
   ),
   'shore-edge': pack(
-    `Kendini sessiz bir kıyıda, denizin kenarında otururken hayal et.
+    `Sessiz bir sahilde, denizin kıyısında oturduğunu hayal et.
 
-Yavaş bir nefes al. Altındaki kumu ya da düz bir kayayı hisset; sağlam ve sabit. Önünde su ufka kadar uzanıyor.
+Yavaşça nefes al. Altındaki kumu ya da düz bir kayayı hisset. Sağlam, sabit. Önünde deniz ufka kadar uzanıyor.
 
-Dalgaları izle. Biri yükseliyor, büyüyor, sonra kıyıya yumuşakça vuruyor ve geri çekiliyor. Sonra bir başkası geliyor.
+Dalgaları izle. Biri yavaşça yükseliyor, büyüyor, sonra kıyıya usulca vurup geri çekiliyor. Ardından yenisi geliyor.
 
-Duyguların da böyle hareket edebilir. Kaygı bir dalga gibi yükselebilir, güçlenebilir, zirveye ulaşabilir — ve sonra her zaman geri çekilir. Her dalga çekilir.
+Duygular da böyledir. Kaygı bir dalga gibi kabarabilir, güçlenebilir, en yükseğe çıkabilir… ama sonunda hep geri çekilir. Her dalga geri çekilir.
 
-Dalgaları durdurmak zorunda değilsin. Sen kıyısın. Dalgalar gelir ve gider, kıyı kalır.
+Dalgaları durdurman gerekmiyor. Sen kıyısın. Dalgalar gelir, gider. Kıyı yerinde kalır.
 
-Bir dalga gelirken nefes al… çekilirken nefes ver.
+Dalga gelirken nefes al… çekilirken ver.
 
 Al… ve ver.
 
-Suyun sesini fark et, düzenli ve ritmik. Yüzündeki temiz havayı hisset.
+Suyun sesini dinle. Düzenli, sakin. Yüzüne değen serin havayı hisset.
 
-Büyük bir dalga gelirse — güçlü bir duygu, hızlanan bir düşünce — sadece izle. Ne kadar büyük olduğunu fark et, sonra küçülmeye başlayışını izle. Zaten denize geri dönüyor.
+Büyük bir dalga gelirse, güçlü bir duygu ya da hızlanan bir düşünce, sadece izle. Ne kadar büyüdüğünü gör… sonra küçülmeye başladığını. Zaten denize geri dönüyor.
 
-Kıyıda güvendesin. Deniz hareket ediyor, sen kalıyorsun.
+Kıyıda güvendesin. Deniz hareket ediyor, sen yerindesin.
 
-Dalgalarla birlikte nefes alarak biraz daha kal.
+Bir süre daha dalgalarla birlikte nefes al.
 
-Hazır olduğunda daha derin bir nefes al, oturduğun yerde bedenini hisset ve yavaşça geri dön.`,
+Hazır olduğunda derin bir nefes al. Oturduğun yeri hisset ve yavaşça buraya dön.`,
     `Imagine yourself sitting by the sea, on a quiet shore.
 
 Take a slow breath. Feel the sand or a smooth rock beneath you, solid and steady. In front of you, the water stretches out to the horizon.
@@ -867,75 +867,75 @@ Sulla riva sei al sicuro. Il mare si muove, e tu resti.
 Resta ancora un po’, respirando con le onde.
 
 Quando vuoi, fai un respiro più profondo, senti il corpo dove sei e torna piano.`,
-    `Özünü sakit bir sahildə, dənizin kənarında oturmuş təsəvvür et.
+    `Sakit bir sahildə, dənizin kənarında oturduğunu təsəvvür et.
 
-Yavaş bir nəfəs al. Altındakı qumu və ya hamar bir qayanı hiss et; möhkəm və sabit. Qarşında su üfüqə qədər uzanır.
+Yavaşca nəfəs al. Altındakı qumu, ya da hamar bir qayanı hiss et. Möhkəm, sabit. Qarşında dəniz üfüqə qədər uzanır.
 
-Dalğalara bax. Biri qalxır, böyüyür, sonra sahilə yumşaqca çırpılır və geri çəkilir. Sonra başqası gəlir.
+Dalğalara bax. Biri yavaşca qalxır, böyüyür, sonra sahilə yumşaqca dəyib geri çəkilir. Ardınca yenisi gəlir.
 
-Hisslərin də belə hərəkət edə bilər. Narahatlıq dalğa kimi qalxa, güclənə, zirvəyə çata bilər — və sonra həmişə geri çəkilir. Hər dalğa çəkilir.
+Hisslər də belədir. Narahatlıq dalğa kimi qabara, güclənə, ən yüksək nöqtəyə çata bilər… amma sonunda həmişə geri çəkilir. Hər dalğa geri çəkilir.
 
-Dalğaları dayandırmalı deyilsən. Sən sahilsən. Dalğalar gəlir və gedir, sahil qalır.
+Dalğaları dayandırmağa ehtiyac yoxdur. Sən sahilsən. Dalğalar gəlir, gedir. Sahil yerində qalır.
 
-Dalğa gələndə nəfəs al… çəkiləndə nəfəs ver.
+Dalğa gələndə nəfəs al… çəkiləndə ver.
 
 Al… və ver.
 
-Suyun səsinə diqqət et, ahəngdar və ritmik. Üzündə təmiz havanı hiss et.
+Suyun səsini dinlə. Ahəngdar, sakit. Üzünə toxunan sərin havanı hiss et.
 
-Böyük bir dalğa gəlsə — güclü bir hiss, sürətlənən bir fikir — sadəcə bax. Nə qədər böyük olduğunu gör, sonra kiçilməyə başladığını izlə. O artıq dənizə qayıdır.
+Böyük bir dalğa gəlsə, güclü bir hiss, ya da sürətlənən bir fikir, sadəcə izlə. Necə böyüdüyünü gör… sonra necə kiçildiyini. O artıq dənizə qayıdır.
 
-Sahildə təhlükəsizsən. Dəniz hərəkət edir, sən qalırsan.
+Sahildə təhlükəsizsən. Dəniz hərəkət edir, sən yerindəsən.
 
-Dalğalarla birlikdə nəfəs alaraq bir az da qal.
+Bir az da dalğalarla birlikdə nəfəs al.
 
-Hazır olanda daha dərin nəfəs al, oturduğun yerdə bədənini hiss et və yavaşca geri qayıt.`,
-    `Представь, что сидишь у моря, на тихом берегу.
+Hazır olanda dərin nəfəs al. Oturduğun yeri hiss et və yavaşca bura qayıt.`,
+    `Представь, что ты сидишь на тихом берегу у самого моря.
 
-Сделай медленный вдох. Почувствуй под собой песок или гладкий камень — твёрдый и надёжный. Перед тобой вода тянется до самого горизонта.
+Медленно вдохни. Почувствуй под собой песок или гладкий камень. Твёрдый, надёжный. Перед тобой море до самого горизонта.
 
-Смотри на волны. Одна поднимается, растёт, мягко накатывает на берег и отступает. Потом приходит следующая.
+Посмотри на волны. Одна медленно поднимается, растёт, мягко касается берега и отступает. За ней приходит следующая.
 
-Чувства могут двигаться так же. Тревога может подняться, как волна, стать сильнее, достичь пика — и потом она всегда отступает. Каждая волна отступает.
+С чувствами бывает так же. Тревога может нарастать, как волна, усиливаться, подниматься до самого гребня… но потом всегда отступает. Каждая волна отступает.
 
-Тебе не нужно останавливать волны. Ты — берег. Волны приходят и уходят, а берег остаётся.
+Не нужно останавливать волны. Ты берег. Волны приходят и уходят. Берег остаётся.
 
-Вдыхай, когда волна накатывает… выдыхай, когда она отступает.
+Волна набегает — вдох… отступает — выдох.
 
 Вдох… и выдох.
 
-Заметь шум воды, ровный и ритмичный. Почувствуй свежий воздух на лице.
+Послушай шум воды. Ровный, спокойный. Почувствуй свежий воздух на лице.
 
-Если приходит большая волна — сильное чувство, бегущая мысль, — просто наблюдай. Заметь, какая она большая, а потом смотри, как она начинает уменьшаться. Она уже возвращается в море.
+Если придёт большая волна, сильное чувство или быстрая мысль, просто наблюдай. Посмотри, как она растёт… и как начинает спадать. Она уже возвращается в море.
 
-На берегу ты в безопасности. Море движется, а ты остаёшься.
+На берегу ты в безопасности. Море движется, а ты на месте.
 
-Побудь ещё немного, дыша вместе с волнами.
+Подыши ещё немного вместе с волнами.
 
-Когда почувствуешь готовность, сделай вдох поглубже, почувствуй тело там, где сидишь, и медленно возвращайся.`,
+Когда почувствуешь готовность, глубоко вдохни. Почувствуй, на чём ты сидишь, и медленно возвращайся.`,
   ),
   'shore-stone': pack(
-    `Sessiz kıyında kal ve yanındaki kuma bak.
+    `Sessiz sahilinde kal. Yanındaki kuma bir bak.
 
-Deniz kabuklarının arasında pürüzsüz, yuvarlak bir taş görüyorsun. Onu al ve avucunda tut.
+Deniz kabuklarının arasında yuvarlak, pürüzsüz bir taş var. Onu al ve avucunun içine yerleştir.
 
-Ağırlığını hisset. Göründüğünden daha ağır, sağlam ve sakin. Yüzeyini hisset: yıllarca dalgaların cilaladığı pürüzsüz bir yüzey.
+Ağırlığını hisset. Göründüğünden ağır… sağlam ve sakin. Yüzeyi pürüzsüz; yıllarca dalgalar onu yavaş yavaş parlatmış.
 
-Bu taş binlerce fırtına atlattı. Dalgalar onu itti, çevirdi, ama işte burada; bütün ve sağlam. Fırtınalar onu sadece daha pürüzsüz yaptı.
+Bu taş sayısız fırtına görmüş. Dalgalar onu itmiş, çevirmiş… ama hâlâ burada, bütün ve sağlam. Fırtınalar onu sadece daha da yumuşatmış.
 
-Yavaşça nefes al… ve verirken bedeninin bu taş kadar sağlam hissetmesine izin ver.
+Yavaşça nefes al… verirken bedenin de bu taş gibi ağırlaşsın, sağlamlaşsın.
 
-Taşın sıcaklığını fark et. Belki hâlâ güneşten ılık. Bu sıcaklık avucuna, sonra koluna yayılsın.
+Taşın sıcaklığını hisset. Belki hâlâ güneşten ılık. Bu sıcaklık avucundan koluna doğru yayılsın.
 
-Düşünceler gelirse onları taşın üzerinden akıp giden su gibi düşün. Geçip giderler, taş olduğu gibi kalır.
+Aklına düşünceler gelirse onları taşın üstünden akıp giden su gibi düşün. Su akar gider, taş yerinde kalır.
 
-Taşı tut ve kendine söyle: Ben de sağlam olabilirim. Daha önce de zor günler atlattım ve hâlâ buradayım.
+Taşı avucunda tut ve kendine söyle: Ben de sağlamım. Daha önce de zor günler atlattım ve hâlâ buradayım.
 
 Nefes al… ve ver.
 
-Birkaç nefes boyunca taşın ağırlığı ve sıcaklığıyla kal.
+Birkaç nefes daha taşın ağırlığı ve sıcaklığıyla kal.
 
-Kendini sağlam bir zeminde hissetmeye ihtiyaç duyduğunda bu taşa geri dönebilirsin. Elindeki gerçek bir taş, bir anahtar ya da bir fincan bile sana hatırlatabilir: buradasın ve sağlamsın.`,
+Kendini sarsılmış hissettiğin her an bu taşı hatırlayabilirsin. Elindeki gerçek bir taş, bir anahtar, sıcak bir fincan bile sana bunu hatırlatır: Buradasın ve sağlamsın.`,
     `Stay on your quiet shore, and look down at the sand beside you.
 
 Among the shells you see a smooth, round stone. Pick it up and hold it in your palm.
@@ -999,67 +999,67 @@ Inspira… ed espira.
 Resta qualche respiro con il peso e il calore del sasso.
 
 Puoi tornare a questo sasso ogni volta che hai bisogno di sentirti con i piedi per terra. Anche un sasso vero, una chiave o una tazza in mano possono ricordarti: sei qui, e hai una base solida.`,
-    `Sakit sahilində qal və yanındakı quma bax.
+    `Sakit sahilində qal. Yanındakı quma bir bax.
 
-Balıqqulaqlarının arasında hamar, yumru bir daş görürsən. Onu götür və ovucunda saxla.
+Balıqqulaqlarının arasında yumru, hamar bir daş var. Onu götür və ovucunun içinə qoy.
 
-Ağırlığını hiss et. Göründüyündən ağırdır, möhkəm və sakit. Səthini hiss et: illərlə dalğaların cilaladığı hamar bir səth.
+Ağırlığını hiss et. Göründüyündən ağırdır… möhkəm və sakit. Səthi hamardır; illərlə dalğalar onu yavaş-yavaş cilalayıb.
 
-Bu daş minlərlə fırtınadan keçib. Dalğalar onu itələyib, fırladıb, amma budur, buradadır; bütöv və möhkəm. Fırtınalar onu sadəcə daha da hamarlaşdırıb.
+Bu daş saysız fırtınalar görüb. Dalğalar onu itələyib, fırladıb… amma hələ də buradadır, bütöv və möhkəm. Fırtınalar onu sadəcə daha da hamarlayıb.
 
-Yavaşca nəfəs al… və verəndə bədəninin bu daş kimi möhkəm hiss etməsinə icazə ver.
+Yavaşca nəfəs al… verəndə qoy bədənin də bu daş kimi ağırlaşsın, möhkəmlənsin.
 
-Daşın istiliyinə diqqət et. Bəlkə hələ günəşdən ılıqdır. Qoy bu istilik ovucuna, sonra qoluna yayılsın.
+Daşın istiliyini hiss et. Bəlkə hələ də günəşdən ilıqdır. Bu istilik ovucundan qoluna doğru yayılsın.
 
-Fikirlər gəlsə, onları daşın üstündən axıb gedən su kimi düşün. Keçib gedirlər, daş isə olduğu kimi qalır.
+Ağlına fikirlər gəlsə, onları daşın üstündən axıb gedən su kimi düşün. Su axıb gedir, daş yerində qalır.
 
-Daşı tut və özünə de: Mən də möhkəm ola bilərəm. Əvvəl də çətin günlərdən keçmişəm və hələ də buradayam.
+Daşı ovucunda saxla və özünə de: Mən də möhkəməm. Əvvəl də çətin günlər keçirmişəm və hələ də buradayam.
 
 Nəfəs al… və ver.
 
-Bir neçə nəfəs daşın ağırlığı və istiliyi ilə qal.
+Bir neçə nəfəs də daşın ağırlığı və istiliyi ilə qal.
 
-Özünü möhkəm bir zəmində hiss etməyə ehtiyacın olanda bu daşa qayıda bilərsən. Əlindəki əsl daş, açar və ya fincan belə sənə xatırlada bilər: buradasan və möhkəmsən.`,
-    `Оставайся на своём тихом берегу и посмотри на песок рядом.
+Özünü sarsılmış hiss etdiyin hər an bu daşı xatırlaya bilərsən. Əlindəki əsl bir daş, bir açar, isti bir fincan belə bunu sənə xatırladar: Buradasan və möhkəmsən.`,
+    `Побудь ещё на своём тихом берегу. Посмотри на песок рядом.
 
-Среди ракушек ты видишь гладкий круглый камень. Возьми его и положи на ладонь.
+Среди ракушек лежит круглый гладкий камень. Возьми его и положи на ладонь.
 
-Почувствуй его вес. Он тяжелее, чем кажется, — плотный и спокойный. Почувствуй поверхность: гладкую, отполированную годами волн.
+Почувствуй его вес. Он тяжелее, чем кажется… надёжный и спокойный. Поверхность гладкая: волны годами медленно шлифовали его.
 
-Этот камень пережил тысячи штормов. Волны толкали и переворачивали его, но вот он здесь — целый и устойчивый. Штормы сделали его только глаже.
+Этот камень пережил множество штормов. Волны толкали его, переворачивали… но он здесь, целый и крепкий. Штормы только сделали его глаже.
 
-Медленно вдохни… и на выдохе позволь телу почувствовать себя таким же устойчивым, как камень.
+Медленно вдохни… и на выдохе пусть тело тоже станет тяжёлым и устойчивым, как этот камень.
 
-Заметь, какой камень на ощупь. Может быть, он ещё тёплый от солнца. Пусть это тепло растечётся по ладони, а потом по руке.
+Почувствуй тепло камня. Может быть, он ещё хранит солнце. Пусть это тепло растекается от ладони по руке.
 
-Если приходят мысли, представь их водой, которая омывает камень. Они проходят, а камень остаётся прежним.
+Если приходят мысли, представь, что это вода, которая течёт по камню. Вода утекает, камень остаётся.
 
-Держи камень и скажи себе: во мне тоже есть устойчивость. Трудные дни уже бывали, и я всё ещё здесь.
+Держи камень и скажи себе: Во мне тоже есть опора. Трудные дни уже бывали, и я всё ещё здесь.
 
 Вдох… и выдох.
 
-Побудь несколько вдохов с весом и теплом камня.
+Побудь ещё несколько вдохов с тяжестью и теплом камня.
 
-Ты можешь вернуться к этому камню, когда нужно почувствовать опору. Даже настоящий камень, ключ или чашка в руке могут напомнить: ты здесь, и у тебя есть опора.`,
+Когда почувствуешь, что теряешь опору, вспомни этот камень. Настоящий камешек в руке, ключ или тёплая чашка тоже напомнят: ты здесь, и у тебя есть опора.`,
   ),
   'shore-seed': pack(
-    `Sessiz kıyında gün bitiyor. Gökyüzü yumuşak turuncu ve mor tonlara dönüyor.
+    `Sessiz sahilinde gün bitiyor. Gökyüzü yavaş yavaş turuncuya, sonra mora dönüyor.
 
-Yavaş bir nefes al ve bedeninin ağırlaşıp rahatlamasına izin ver.
+Yavaşça nefes al. Bedenin ağırlaşsın, gevşesin.
 
-Şimdi geceye yanında götüreceğin sakin bir görüntü seç. Gün batımında deniz, bir penceredeki sıcak bir lamba ya da avucundaki pürüzsüz taş olabilir. Sadece bir görüntü, sade ve huzurlu.
+Şimdi geceye yanında götüreceğin sakin bir görüntü seç. Gün batımında deniz, bir pencerede yanan sıcak bir lamba ya da avucundaki o pürüzsüz taş olabilir. Tek bir görüntü, sade ve huzurlu.
 
-Onu zihninde nazikçe tut; yumuşak toprağa bir tohum eker gibi. Onunla bir şey yapmana gerek yok. Sadece orada dinlensin.
+Onu zihninde usulca tut. Yumuşak toprağa bir tohum bırakır gibi. Bir şey yapmana gerek yok. Sadece orada dursun.
 
-Nefes al… ve verirken günü bırak. Bugün ne olduysa oldu. Yarın kendi zamanında gelecek.
+Nefes al… ve verirken bugünü bırak. Bugün ne olduysa oldu. Yarın, zamanı gelince gelecek.
 
-Bugün minnettar olduğun küçük bir şeyi düşün. Çok küçük olabilir: sıcak bir içecek, nazik bir söz, ya da sadece şu an nefes alıyor olman.
+Bugün sana iyi gelen küçük bir şeyi düşün. Çok küçük olabilir. Sıcak bir çay, güzel bir söz… ya da şu an rahatça nefes alıyor olman.
 
-Bu minnettarlık göğsüne yerleşsin, sıcak ve sessiz.
+Bu şükran göğsüne yerleşsin. Sıcak ve sessiz.
 
-Dalgalar artık yavaş. Işık soluyor. Her şey sessizleşiyor, sen de.
+Dalgalar artık yavaş. Işık soluyor. Her şey sessizleşiyor… sen de.
 
-Uyumaya gidiyorsan nefesin yavaş ve rahat kalsın, seçtiğin görüntü uykuya dalarken seninle olsun.
+Uyumaya hazırlanıyorsan nefesin yavaş ve rahat kalsın. Seçtiğin görüntü uykuya dalarken seninle olsun.
 
 Bugün yeterince yaptın. Artık dinlenebilirsin.
 
@@ -1127,46 +1127,46 @@ Se stai andando a dormire, lascia che il respiro resti lento e morbido, e che l�
 Oggi hai fatto abbastanza. Ora puoi riposare.
 
 Buonanotte.`,
-    `Sakit sahilində gün bitir. Səma yumşaq narıncı və bənövşəyi rənglərə boyanır.
+    `Sakit sahilində gün bitir. Səma yavaş-yavaş narıncı, sonra bənövşəyi rəngə çalır.
 
-Yavaş bir nəfəs al və bədəninin ağırlaşıb rahatlamasına icazə ver.
+Yavaşca nəfəs al. Qoy bədənin ağırlaşsın, boşalsın.
 
-İndi gecəyə özünlə aparacağın sakit bir təsvir seç. Gün batımında dəniz, pəncərədə isti bir lampa və ya ovucundakı hamar daş ola bilər. Sadəcə bir təsvir, sadə və dinc.
+İndi gecəyə özünlə aparacağın sakit bir görüntü seç. Gün batanda dəniz, bir pəncərədə yanan isti lampa, ya da ovucundakı o hamar daş ola bilər. Tək bir görüntü, sadə və dinc.
 
-Onu zehnində yumşaqca saxla; yumşaq torpağa toxum əkən kimi. Onunla nəsə etməyə ehtiyac yoxdur. Qoy sadəcə orada dincəlsin.
+Onu zehnində yumşaqca saxla. Yumşaq torpağa toxum əkən kimi. Heç nə etməyə ehtiyac yoxdur. Qoy sadəcə orada qalsın.
 
-Nəfəs al… və verəndə günü burax. Bu gün nə olubsa, olub. Sabah öz vaxtında gələcək.
+Nəfəs al… və verəndə bu günü burax. Bu gün nə olubsa, olub. Sabah vaxtı çatanda gələcək.
 
-Bu gün minnətdar olduğun kiçik bir şeyi düşün. Çox kiçik ola bilər: isti bir içki, xoş bir söz, ya da sadəcə indi nəfəs alman.
+Bu gün sənə xoş gələn kiçik bir şeyi düşün. Çox kiçik ola bilər. İsti bir çay, xoş bir söz… ya da indi rahat nəfəs alman.
 
-Qoy bu minnətdarlıq sinənə yerləşsin, isti və sakit.
+Qoy bu minnətdarlıq sinənə yerləşsin. İsti və sakit.
 
-Dalğalar artıq yavaşdır. İşıq solur. Hər şey sakitləşir, sən də.
+Dalğalar artıq yavaşdır. İşıq solur. Hər şey sakitləşir… sən də.
 
-Yatmağa gedirsənsə, nəfəsin yavaş və rahat qalsın, seçdiyin təsvir yuxuya gedəndə səninlə olsun.
+Yatmağa hazırlaşırsansa, nəfəsin yavaş və rahat qalsın. Seçdiyin görüntü yuxuya gedərkən səninlə olsun.
 
 Bu gün kifayət qədər etdin. İndi dincələ bilərsən.
 
 Gecən xeyrə qalsın.`,
-    `На твоём тихом берегу заканчивается день. Небо окрашивается в мягкие оранжевые и лиловые тона.
+    `На твоём тихом берегу заканчивается день. Небо медленно становится оранжевым, а потом сиреневым.
 
-Сделай медленный вдох и позволь телу стать тяжёлым и удобным.
+Медленно вдохни. Пусть тело тяжелеет и расслабляется.
 
-Теперь выбери один спокойный образ, который возьмёшь с собой в ночь. Это может быть море на закате, тёплая лампа в окне или гладкий камень в ладони. Только один образ, простой и мирный.
+Теперь выбери спокойную картинку, которую возьмёшь с собой в ночь. Море на закате, тёплая лампа в окне или тот гладкий камень на ладони. Одна картинка, простая и тихая.
 
-Мягко удерживай его в уме, словно сажаешь семя в мягкую землю. С ним ничего не нужно делать. Пусть он просто отдыхает там.
+Мягко держи её в мыслях. Как семечко, которое опускают в мягкую землю. Ничего не нужно с ней делать. Пусть просто будет.
 
-Вдохни… и на выдохе отпусти день. Что бы ни случилось сегодня, это уже позади. Завтра придёт в своё время.
+Вдохни… и на выдохе отпусти этот день. Что было сегодня, то было. Завтра придёт в своё время.
 
-Вспомни одну маленькую вещь, за которую сегодня хочется сказать спасибо. Она может быть совсем маленькой: тёплый напиток, доброе слово или просто то, что ты сейчас дышишь.
+Вспомни одну маленькую хорошую вещь за сегодня. Совсем маленькую. Тёплый чай, доброе слово… или то, что сейчас ты спокойно дышишь.
 
-Пусть эта благодарность устроится в груди — тёплая и тихая.
+Пусть эта благодарность поселится в груди. Тёплая и тихая.
 
-Волны теперь медленные. Свет гаснет. Всё становится тише, и ты тоже.
+Волны теперь медленные. Свет гаснет. Всё затихает… и ты тоже.
 
-Если ты ложишься спать, пусть дыхание остаётся медленным и лёгким, а выбранный образ будет с тобой, пока ты засыпаешь.
+Если ты ложишься спать, пусть дыхание остаётся медленным и мягким. Пусть выбранная картинка будет с тобой, пока ты засыпаешь.
 
-На сегодня сделано достаточно. Теперь можно отдохнуть.
+На сегодня сделано достаточно. Теперь можно отдыхать.
 
 Спокойной ночи.`,
   ),
