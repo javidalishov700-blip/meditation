@@ -328,4 +328,5 @@ export const EXTRA = {
   mood_today: R('Bugünkü ruh hâlin|Your mood today|Bugünkü əhvalın|Твоё настроение сегодня|Tu ánimo de hoy|Il tuo umore di oggi'),
   mood_ask: R('Nasıl hissediyorsun?|How are you feeling?|Özünü necə hiss edirsən?|Как ты себя чувствуешь?|¿Cómo te sientes?|Come ti senti?'),
   hello_name: R('Merhaba, {n}|Hello, {n}|Salam, {n}|Привет, {n}|Hola, {n}|Ciao, {n}'),
+  pay_details: R('Teknik ayrıntı|Technical details|Texniki təfərrüat|Технические подробности|Detalles técnicos|Dettagli tecnici'),
 } as const

@@ -8,20 +8,11 @@ import type { PlanId, SessionKind } from './types'
 
 export const STEADY_PRO_EVENT = 'steady-pro'
 
+/** The three plans, in display order. Prices come only from the App Store. */
 export const PLANS: {
   id: PlanId
-  price: string
   featured?: boolean
-}[] = [
-  { id: 'week', price: '$3.99' },
-  { id: 'month', price: '$12.99', featured: true },
-  { id: 'year', price: '$59.99' },
-]
-
-/** Fallback only when App Store prices have not loaded. Never tied to UI language. */
-export function displayPlanPrice(id: PlanId): string {
-  return PLANS.find((p) => p.id === id)?.price ?? ''
-}
+}[] = [{ id: 'week' }, { id: 'month', featured: true }, { id: 'year' }]
 
 export const FREE_NATURE_IDS = ['rain', 'piano'] as const
 

@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IncludedList, LegalRow, OfferWash } from '../components/TrialOffer'
 import { LegalNote, PrimaryButton } from '../components/ui'
-import { FREE_KEYS, PLANS, PRO_KEYS, displayPlanPrice } from '../lib/entitlement'
+import { FREE_KEYS, PLANS, PRO_KEYS } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { formatDate } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import {
-  alertStoreError,
   iapConfigured,
-  lastStoreError,
   loadStorePlans,
   planIdOf,
   purchasePlan,
@@ -33,6 +31,8 @@ export function Paywall() {
   const { t, locale, meta } = useI18n()
   const [restored, setRestored] = useState('')
   const [fail, setFail] = useState('')
+  const [failDetail, setFailDetail] = useState('')
+  const [showDetail, setShowDetail] = useState(false)
   const [store, setStore] = useState<StorePlan[] | null>(null)
   const [picked, setPicked] = useState<PlanId>('month')
   const [busy, setBusy] = useState<PlanId | 'restore' | null>(null)
@@ -88,6 +88,7 @@ export function Paywall() {
   async function buy(id: PlanId) {
     setBusy(id)
     setFail('')
+    setFailDetail('')
     setRestored('')
     try {
       if (!native) {
@@ -100,14 +101,10 @@ export function Paywall() {
       // dead button.
       const before = storeStatus()
       if (before.stage === 'products-empty') {
-        const why = before.error
-        setFail(why ? `${t('pay_store_unreachable')} — ${why}` : t('pay_store_unreachable'))
-        void alertStoreError('StoreKit: no products loaded', why ?? 'Unknown error')
+        setFail(t('pay_store_unreachable'))
         return
       }
       const result = await purchasePlan(id)
-      const why = lastStoreError()
-      const withWhy = (line: string) => (why ? `${line} — ${why}` : line)
       if (result === 'ok') {
         refresh()
         setRestored(t('pay_restore_ok'))
@@ -116,23 +113,26 @@ export function Paywall() {
       } else if (result === 'pending') {
         setFail(t('pay_buy_pending'))
       } else if (result === 'timeout') {
-        setFail(withWhy(t('pay_buy_timeout')))
+        setFail(t('pay_buy_timeout'))
       } else {
-        setFail(withWhy(t('pay_buy_fail')))
+        setFail(t('pay_buy_fail'))
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err ?? '')
-      setFail(message ? `${t('pay_buy_fail')} — ${message}` : t('pay_buy_fail'))
-      void alertStoreError('StoreKit: unexpected error', message || 'Unknown error')
+      setFailDetail(err instanceof Error ? err.message : String(err ?? ''))
+      setFail(t('pay_buy_fail'))
     } finally {
       setBusy(null)
     }
   }
 
-  function priceOf(id: PlanId) {
+  /**
+   * Only the App Store's own price, never a made-up one: until it arrives the
+   * row shows a dash, so nobody (a reviewer included) sees a figure the
+   * purchase sheet would then contradict.
+   */
+  function priceOf(id: PlanId): string | null {
     const live = store?.find((p) => p.id === id)?.price?.trim()
-    if (live && /\d/.test(live)) return live
-    return displayPlanPrice(id)
+    return live && /\d/.test(live) ? live : null
   }
 
   /** Back if there is somewhere to go back to, home otherwise — never a dead end. */
@@ -289,7 +289,7 @@ export function Paywall() {
                     </span>
                     <span className="shrink-0 text-right">
                       <span className="block font-display text-[19px] font-semibold leading-none tabular-nums text-white">
-                        {priceOf(p.id)}
+                        {priceOf(p.id) ?? '—'}
                       </span>
                       <span className="mt-1 block text-[11px] text-white/60">{t(PERIOD[p.id])}</span>
                     </span>
@@ -314,30 +314,35 @@ export function Paywall() {
             {(() => {
               const catalogueDown = native && status.stage === 'products-empty'
               if (!fail && !catalogueDown) return null
-              const headline = fail || t('pay_store_unreachable')
-              const detail = status.error && !headline.includes(status.error) ? status.error : ''
+              // Plain words on screen; StoreKit's own message only behind a tap, for support.
+              const detail = [status.error, failDetail, status.lastResult ? `StoreKit: ${status.lastResult} · ${status.productCount} product(s)` : '']
+                .filter(Boolean)
+                .join('\n')
               return (
                 <div className="mt-3 rounded-[1rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3">
-                  <p className="text-sm leading-6 text-amber-100">{headline}</p>
-                  {detail ? (
-                    <p className="mt-2 break-words font-mono text-[11px] leading-4 text-amber-200/80">{detail}</p>
-                  ) : null}
-                  {status.lastResult ? (
-                    <p className="mt-2 font-mono text-[11px] leading-4 text-amber-200/70">
-                      StoreKit: {status.lastResult} · {status.productCount} product(s)
-                    </p>
-                  ) : null}
-                  {catalogueDown ? (
-                    <button
-                      type="button"
-                      className="mt-3 text-sm text-amber-100 underline underline-offset-4"
-                      onClick={() => {
-                        setFail('')
-                        void loadStorePlans().then(setStore)
-                      }}
-                    >
-                      {t('pay_retry')}
-                    </button>
+                  <p className="text-sm leading-6 text-amber-100">{fail || t('pay_store_unreachable')}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+                    {catalogueDown ? (
+                      <button
+                        type="button"
+                        className="text-sm font-medium text-amber-100 underline underline-offset-4"
+                        onClick={() => {
+                          setFail('')
+                          setFailDetail('')
+                          void loadStorePlans().then(setStore)
+                        }}
+                      >
+                        {t('pay_retry')}
+                      </button>
+                    ) : null}
+                    {detail ? (
+                      <button type="button" className="text-xs text-amber-200/70" onClick={() => setShowDetail((v) => !v)}>
+                        {t('pay_details')}
+                      </button>
+                    ) : null}
+                  </div>
+                  {showDetail && detail ? (
+                    <p className="mt-2 whitespace-pre-wrap break-words font-mono text-[11px] leading-4 text-amber-200/80">{detail}</p>
                   ) : null}
                 </div>
               )
@@ -403,7 +408,7 @@ export function Paywall() {
               <span className="relative z-10">
                 {busy === picked
                   ? t('pay_loading')
-                  : t('pay_continue', { n: `${planLabel[picked]} · ${priceOf(picked)}` })}
+                  : t('pay_continue', { n: priceOf(picked) ? `${planLabel[picked]} · ${priceOf(picked)}` : planLabel[picked] })}
               </span>
             </button>
             <p className="mt-2 text-center text-[11px] text-white/55">{t('pay_cancel_any')}</p>

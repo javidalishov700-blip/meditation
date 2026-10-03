@@ -204,7 +204,8 @@ export function Onboard({ onDone }: { onDone: () => void }) {
   }
 
   function finish(to: string) {
-    void requestNotify()
+    // Only for someone who asked for reminders: a permission prompt with no reason behind it reads as spam.
+    if (answers.remindQuote || answers.remindSleep) void requestNotify()
     completeOnboard({ ...answers, name: answers.name?.trim() || undefined })
     audio.stop(0.8)
     onDone()
