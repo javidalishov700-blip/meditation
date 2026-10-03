@@ -116,7 +116,7 @@ async def worker(q: asyncio.Queue, made: list[int], skipped: list[int], failed: 
 async def main() -> int:
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     flags = [a for a in sys.argv[1:] if a.startswith("--")]
-    prune_med = "--prune=none" not in flags
+    prune = "--prune=none" not in flags
     lang_flag = next((a for a in flags if a.startswith("--langs=")), "")
     only_langs = [s.strip() for s in lang_flag[len("--langs=") :].split(",") if s.strip()] if lang_flag else []
     src = Path(args[0] if args else "/tmp/steady-med-clips.json")
@@ -137,10 +137,6 @@ async def main() -> int:
     ]
     q: asyncio.Queue = asyncio.Queue()
     planned: list[tuple[str, str]] = []
-    old_med: set[str] = set()
-    for key, rel in (manifest.get("clips") or {}).items():
-        if ":med:" in key:
-            old_med.add(rel)
     for c in clips:
         locale = c["locale"]
         clip_id = c["id"]
@@ -161,7 +157,6 @@ async def main() -> int:
     await q.join()
     await asyncio.gather(*workers)
 
-    kept: set[str] = set()
     replaced: set[str] = set()
     for key, rel in planned:
         path = ROOT / "public" / "voice" / rel
@@ -170,22 +165,15 @@ async def main() -> int:
             if previous and previous != rel:
                 replaced.add(previous)
             manifest["clips"][key] = rel
-            kept.add(rel)
 
-    # A re-baked clip leaves its old file behind; drop it unless another key still points at it.
+    # A re-baked clip leaves its old file behind; drop it unless another key
+    # still points at it. Only files of clips baked in this run are touched.
     still_used = set(manifest["clips"].values())
-    for rel in replaced - still_used:
+    for rel in (replaced - still_used) if prune else set():
         stale = ROOT / "public" / "voice" / rel
         if stale.exists():
             stale.unlink()
             print(f"drop {rel}", flush=True)
-
-    if prune_med:
-        for rel in old_med - kept:
-            stale = ROOT / "public" / "voice" / rel
-            if stale.exists():
-                stale.unlink()
-                print(f"drop {rel}", flush=True)
 
     manifest["updated"] = datetime.now(timezone.utc).isoformat()
     manifest["medVoice"] = "edge-plain"
