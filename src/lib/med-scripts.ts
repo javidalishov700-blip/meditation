@@ -97,7 +97,7 @@ Resta così per qualche respiro. Niente da aggiustare. Niente da risolvere. Solo
 Quando vuoi, fai un respiro un po’ più profondo e lascialo andare piano. Sei qui.`,
     `Xoş gəldin. İndi bir neçə dəqiqəni yalnız özünə ayırırsan. Heç nəyi bacarmağa məcbur deyilsən.
 
-Rahat otur, ya da uzan. Ağırlığını altındakı yerə burax. Stul, yataq, ya da döşəmə… səni saxlayır. Nədənsə bərk yapışmağa ehtiyac yoxdur.
+Rahat otur, ya da uzan. Ağırlığını altındakı yerə burax. Stul, yataq, ya da döşəmə… səni saxlayır. Heç nəyə bərk tutunmağa ehtiyac yoxdur.
 
 İstəsən gözlərini yum. İstəmirsənsə, baxışını qarşında bir nöqtəyə burax, gözlərin dincəlsin.
 
@@ -353,7 +353,7 @@ Inspira piano… ed espira a lungo. Senti ancora una volta i piedi sul pavimento
 Oggi, ogni volta che i pensieri ti portano via, puoi tornare qui: cinque, quattro, tre, due, uno. E i piedi a terra.`,
     `Fikirlərin sürətlənəndə bu məşq səni yenidən bu ana qaytarır.
 
-Ayaqlarından başla. Onları yüngülcə yerə bas. Dabanlarını, altlarını, barmaqlarını hiss et. Yer möhkəmdir… səni saxlayır.
+Ayaqlarından başla. Onları yüngülcə yerə bas. Dabanlarını, pəncələrini, barmaqlarını hiss et. Yer möhkəmdir… səni saxlayır.
 
 İndi ətrafına bax və gördüyün beş şeyi içində say. Bir lampa, bir pəncərə, bir stəkan… nə varsa.
 
@@ -365,7 +365,7 @@ Qoxusunu duya bildiyin iki şey tap. Heç bir qoxu gəlmirsə, havanın özünü
 
 Və ağzındakı dadı hiss et. Tək bir dad, bu qədər.
 
-İndi buradasan. Bu otaqda, bu anda. Fikrin sabaha, ya da dünənə qaça bilər. Bədənin isə həmişə burada, indidədir.
+İndi buradasan. Bu otaqda, bu anda. Fikrin sabaha, ya da dünənə qaça bilər. Bədənin isə həmişə burada, bu andadır.
 
 Yavaşca nəfəs al… və uzun-uzun ver. Ayaqlarını bir dəfə də yerdə hiss et.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read the opening of the first meditation with several Edge voices, so the
+"""Read the opening of the first meditation ('first-settle') with several Edge voices, so the
 narrator can be chosen by ear. Every sample gets the same calm finish as the
 real clips. Output: store/voice-audition/<lang>-<n>-<name>.mp3 (not shipped).
 
