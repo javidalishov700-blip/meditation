@@ -451,15 +451,15 @@ PACK.first = {
   ),
 }
 PACK['first-settle'] = {
-  title: L('Yerleş', 'Arrive', 'Llegar', 'Arriver', 'Ankommen', 'Arrivare', 'Yerləş', 'Приход'),
+  title: L('Yerleş', 'Arrive', 'Llegar', '', '', 'Arrivare', 'Yerləş', 'Устройся'),
   body: MED_SCRIPTS['first-settle'],
 }
 PACK['first-breath'] = {
-  title: L('Nefesini izle', 'Watch the breath', 'Mira la respiración', 'Regarde le souffle', 'Den Atem ansehen', 'Guarda il respiro', 'Nəfəsini izlə', 'Смотри на дыхание'),
+  title: L('Nefesi yavaşlat', 'Slow the breath', 'Respira más despacio', '', '', 'Rallenta il respiro', 'Nəfəsi yavaşlat', 'Замедли дыхание'),
   body: MED_SCRIPTS['first-breath'],
 }
 PACK['first-ground'] = {
-  title: L('Yer tutuyor', 'The ground holds', 'El suelo sostiene', 'Le sol tient', 'Der Boden hält', 'Il suolo tiene', 'Yer tutur', 'Земля держит'),
+  title: L('Şimdiye dön', 'Back to now', 'Vuelve al presente', '', '', 'Torna al presente', 'İndiyə qayıt', 'Вернись в настоящее'),
   body: MED_SCRIPTS['first-ground'],
 }
 PACK.room = {
@@ -467,15 +467,15 @@ PACK.room = {
   subtitle: L('Üç seans. Kapı, ışık, eller.', 'Three sessions. Door, light, hands.', 'Tres sesiones. Puerta, luz, manos.', 'Trois séances. Porte, lumière, mains.', 'Drei Sitzungen. Tür, Licht, Hände.', 'Tre sessioni. Porta, luce, mani.'),
 }
 PACK['room-door'] = {
-  title: L('Kapı yerinde', 'The door is there', 'La puerta está', 'La porte est là', 'Die Tür ist da', 'La porta c’è', 'Qapı yerindədir', 'Дверь на месте'),
+  title: L('Güvenli oda', 'The safe room', 'La habitación segura', '', '', 'La stanza sicura', 'Təhlükəsiz otaq', 'Безопасная комната'),
   body: MED_SCRIPTS['room-door'],
 }
 PACK['room-light'] = {
-  title: L('Pencere ışığı', 'Window light', 'Luz de la ventana', 'Lumière de fenêtre', 'Fensterlicht', 'Luce della finestra', 'Pəncərə işığı', 'Свет из окна'),
+  title: L('Sıcak ışık', 'Warm light', 'Luz cálida', '', '', 'Luce calda', 'İsti işıq', 'Тёплый свет'),
   body: MED_SCRIPTS['room-light'],
 }
 PACK['room-hands'] = {
-  title: L('El ve nabız', 'Hand and pulse', 'Mano y pulso', 'Main et pouls', 'Hand und Puls', 'Mano e polso', 'Əl və nəbz', 'Рука и пульс'),
+  title: L('Teselli eden eller', 'Hands of comfort', 'Manos que consuelan', '', '', 'Mani che consolano', 'Təsəlli verən əllər', 'Руки, которые утешают'),
   body: MED_SCRIPTS['room-hands'],
 }
 PACK.shore = {
@@ -483,15 +483,15 @@ PACK.shore = {
   subtitle: L('Üç seans. Kenar, taş, tohum.', 'Three sessions. Edge, stone, seed.', 'Tres sesiones. Orilla, piedra, semilla.', 'Trois séances. Bord, pierre, graine.', 'Drei Sitzungen. Rand, Stein, Samen.', 'Tre sessioni. Orlo, pietra, seme.'),
 }
 PACK['shore-edge'] = {
-  title: L('Kenarda otur', 'Sit at the edge', 'Siéntate al borde', 'Assieds-toi au bord', 'Am Rand sitzen', 'Siediti sul bordo', 'Kənarda otur', 'Сядь на краю'),
+  title: L('Dalgaları izle', 'Watch the waves', 'Mira las olas', '', '', 'Guarda le onde', 'Dalğalara bax', 'Смотри на волны'),
   body: MED_SCRIPTS['shore-edge'],
 }
 PACK['shore-stone'] = {
-  title: L('Avuçta ağırlık', 'Weight in the palm', 'Peso en la palma', 'Poids dans la paume', 'Gewicht in der Hand', 'Peso nel palmo', 'Ovucda ağırlıq', 'Вес на ладони'),
+  title: L('Avuçtaki taş', 'The stone in your palm', 'La piedra en tu mano', '', '', 'Il sasso nel palmo', 'Ovucdakı daş', 'Камень на ладони'),
   body: MED_SCRIPTS['shore-stone'],
 }
 PACK['shore-seed'] = {
-  title: L('Tek kare', 'One frame', 'Un fotograma', 'Un cadre', 'Ein Bild', 'Un fotogramma', 'Tək kadr', 'Один кадр'),
+  title: L('Geceye bir görüntü', 'An image for the night', 'Una imagen para la noche', '', '', 'Un’immagine per la notte', 'Gecəyə bir təsvir', 'Образ на ночь'),
   body: MED_SCRIPTS['shore-seed'],
 }
 

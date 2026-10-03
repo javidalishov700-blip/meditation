@@ -12,746 +12,1163 @@ function pack(
 }
 
 /**
- * Spoken meditations. One scene each, told as a short story in the present.
- * Not a treatment. No “relax now” orders. No diagnosis. No numbered drills.
+ * Spoken meditations: plain, warm guidance a listener can follow with eyes
+ * closed — one clear instruction per paragraph, a pause between paragraphs.
+ * Not a treatment and no diagnosis. Each paragraph break is a pause in the
+ * baked audio, so keep them.
  */
 export const MED_SCRIPTS: Record<string, Record<LocaleId, string>> = {
   'first-settle': pack(
-    `Bu birkaç dakika bir tedavi değil. Sadece bildiğin bir odada duruyorsun; sandalye ya da yatak seni zaten tutuyor ve omurganın bir sütun gibi doğrulmasına gerek yok. Kumaşın dokunuşu var, ısı ya da serinlik var, ve bu duyumlar seni bir yere götürmek zorunda değil — burada kalıyorlar.
+    `Hoş geldin. Önümüzdeki birkaç dakika boyunca hiçbir şeyi iyi yapmak zorunda değilsin. Sadece gel ve otur.
 
-Gözlerin kapanabilir ya da yarı açık kalabilir. Odadaki ışık aynı ışık, pencere aynı pencere. Dışarıda bir motor, bir adım, bir boru varsa onlar da bu odanın parçası; onları kapatmana gerek yok, oda onları da tutuyor.
+Oturarak ya da uzanarak rahat bir pozisyon bul. Altındaki şey — sandalye, yatak ya da zemin — ağırlığını taşısın. Zaten başından beri seni taşıyordu. Buna izin verebilirsin.
 
-Alnını fark ediyorsun. Kaşların gerilmek zorunda değil. Kapaklar ağırsa ağır kalabilirler. Çene yumuşak durabilir, dişler birbirine kenetlenmek zorunda değil, dil üst dişlerin arkasında küçük bir yerde durabilir. Orası güvenli bir yer, bir görev değil.
+İstersen gözlerini kapat ya da bakışını önündeki bir noktaya yumuşakça bırak.
 
-Hava burundan giriyor, biraz serin olabilir, çıkarken biraz daha ılık. Bunu bir teknik haline getirmiyorsun. Sadece bu nefesin geldiğini ve gittiğini izliyorsun, hakem gibi değil, odada oturan biri gibi.
+Alnını fark et. Biraz yumuşayabilir mi, bir bak. Kaşların gevşesin. Çenen hafifçe gevşesin, dişlerin birbirinden biraz ayrılsın. Dilin de dinlenebilir.
 
-Boynun iki yanı ve kulaklar orada. Omuzlar kulaklara yapışmak zorunda değil; aralarında bir milim boşluk olsa da o boşluk yeter. Avuçlar uylukta ya da yanlarda duruyor, parmaklar kıvrılmak zorunda değil. Karın nefesle hafifçe hareket edebilir ve bunu büyütmene gerek yok.
+Şimdi omuzların. Çoğumuz onları fark etmeden yukarıda taşırız. Kulaklarından uzaklaşacak şekilde aşağı bırak. Kolların ağırlaşsın, ellerin olduğu yerde dinlensin.
 
-Ayakların yerdeyse yer seni tutuyor: topuk, kemer, parmak uçları aynı anda, bir liste gibi değil, tek bir basınç gibi. Yatıyorsan yatak aynı işi yapıyor. Ağırlık aşağıda durabilir. Yarış yok.
+Nefesini fark et, değiştirmeye çalışmadan. Hava giriyor, hava çıkıyor. Şu an doğru bir nefes alma şekli yok. Sadece olmasına izin ver.
 
-Zihin bir listeye dönerse bu bir hata değil; listeler böyle yapar. Listeyi kovalamıyorsun. Çeneye, bir avuca ya da tabana dönüyorsun, sonra yine bu nefese. İçinden, yavaşça, buradayım diyebilirsin. Kanıt arama. Cümle duyumun yanında duruyor. Oda senin için çalışmıyor; sen odadasın.
+Zihnin planlara ya da endişelere kayarsa bu tamamen normal. Zihin böyle çalışır. Her fark ettiğinde, nazikçe bedeninin taşındığı hissine geri dön.
 
-Omuzların ağırlığı ve göğsün önü orada. Nefes göğüste daha netse orada kal, burunda daha netse orada. Birkaç nefes daha geçiyor, acele etmeden, sayıyı bir skora çevirmeden. Sesler varsa sesler. Uzak bir kuş, bir kapı, bir adım. Oda onları da tutuyor ve sen de tutuluyorsun.
+Sırtını hisset. Bacaklarını hisset. Ayaklarını hisset. Bütün bedenin dinleniyor, taşınıyor.
 
-Zihin yine giderse bir avuca dön: ısı, kenar, kumaş. Sonra alın, çene, avuçlar, tabanlar — hepsi aynı odada, aynı anda. Bunu bir performans haline getirmeyeceksin. Oturduğun yer duruyor. Sen de duruyorsun. Bu birkaç dakika yeter.`,
+Birkaç nefes boyunca burada kal. Düzeltecek bir şey yok. Çözecek bir şey yok. Sadece bu an ve içindeki sen.
 
-    `These few minutes are not a treatment. You are simply in a room you know. The chair or the bed is already holding you, and the spine does not have to stand like a column. There is cloth against the skin, heat or cool, and none of this has to take you anywhere. It stays here.
+Hazır olduğunda biraz daha derin bir nefes al ve yavaşça bırak. Geldin.`,
+    `Welcome. For the next few minutes there is nothing you need to do well. Just arrive.
 
-The eyes may close, or stay half open. The light in the room is the same light. The window is the same window. If a motor, a footstep, or a pipe sounds outside, that sound belongs to the room as well. You do not have to shut it out. The room holds it.
+Find a comfortable position, sitting or lying down. Let whatever is under you — a chair, a bed, the floor — take your weight. It has been holding you all along. You can let it.
 
-You notice the forehead. The brows do not have to tighten. If the lids are heavy, they can stay heavy. The jaw can stay soft. The teeth do not have to lock. The tongue can rest behind the upper teeth, in a small place that does not ask for work.
+If it feels right, close your eyes, or let your gaze rest softly on one spot in front of you.
 
-Air comes in at the nose, a little cool perhaps, and leaves a little warmer. You are not turning this into a technique. You are only watching this breath arrive and leave, not as a referee, but as someone sitting in the room.
+Notice your forehead. See if it can soften, just a little. Let your eyebrows relax. Let your jaw loosen, so your teeth part slightly. Your tongue can rest.
 
-The sides of the neck and the ears are there. The shoulders do not have to climb toward the ears; a millimetre of space between them is already enough. The palms rest on the thighs or at the sides, and the fingers do not have to curl. The belly may move a little with the breath. You do not have to make that movement larger.
+Now your shoulders. Many of us carry them high without noticing. Let them drop, away from your ears. Let your arms feel heavy, and your hands rest wherever they are.
 
-If the feet are on the floor, the floor is holding you — heel, arch, and toes as one pressure, not as a list. If you are lying down, the bed is doing the same work. Weight can rest low. There is no race.
+Notice your breath, without changing it. The air comes in, the air goes out. There is no right way to breathe right now. Simply let it happen.
 
-If the mind returns to a list, that is not a mistake. Lists do that. You do not chase the list. You come back to the jaw, or to one palm, or to the sole, and then to this breath again. Quietly, inside, you may say I am here. Do not look for proof. The sentence stands next to the sensation. The room is not working for you. You are in the room.
+If your mind wanders to plans or worries, that is completely normal. That is what minds do. Each time you notice it, gently come back to the feeling of your body being supported.
 
-The weight of the shoulders and the front of the chest are there. If the breath is clearer in the chest, stay there. If it is clearer at the nose, stay there. A few more breaths pass, without hurry, without turning a count into a score. If there are sounds, there are sounds. A distant bird, a door, a step. The room holds them too, and you are being held as well.
+Feel your back. Feel your legs. Feel your feet. Your whole body, resting, held.
 
-If the mind leaves again, return to one palm: heat, edge, cloth. Then the forehead, the jaw, the palms, the soles — all in the same room, at the same time. You will not turn this into a performance. The place you sit stays. You stay. These few minutes are enough.`,
+Stay with this for a few breaths. Nothing to fix. Nothing to solve. Just this moment, and you in it.
 
-    `Estos minutos no son un tratamiento. Estás simplemente en una habitación que conoces. La silla o la cama ya te sostiene, y la espalda no tiene que erguirse como una columna. Hay tela contra la piel, calor o fresco, y nada de esto tiene que llevarte a ningún sitio. Se queda aquí.
+When you are ready, take one slightly deeper breath, and let it go slowly. You have arrived.`,
+    `Te doy la bienvenida. Durante los próximos minutos no tienes que hacer nada bien. Solo llegar.
 
-Los ojos pueden cerrarse o quedar entornados. La luz de la habitación es la misma. La ventana es la misma. Si afuera suena un motor, un paso o una tubería, ese sonido también pertenece a la habitación. No tienes que apagarlo. La habitación lo sostiene.
+Busca una postura cómoda para sentarte o tumbarte. Deja que lo que tienes debajo —una silla, la cama, el suelo— sostenga tu peso. Te ha estado sosteniendo todo este tiempo. Puedes permitírselo.
 
-Notas la frente. Las cejas no tienen que tensarse. Si los párpados están pesados, pueden quedarse pesados. La mandíbula puede quedar suave. Los dientes no tienen que cerrarse con fuerza. La lengua puede descansar detrás de los dientes de arriba, en un sitio pequeño que no pide trabajo.
+Si te apetece, cierra los ojos o deja que la mirada descanse suavemente en un punto frente a ti.
 
-El aire entra por la nariz, quizá un poco fresco, y sale un poco más tibio. No conviertes esto en una técnica. Solo miras cómo este aliento llega y se va, no como un árbitro, sino como alguien sentado en la habitación.
+Nota tu frente. Mira si puede suavizarse un poco. Deja que se relajen las cejas. Afloja la mandíbula, de modo que los dientes se separen ligeramente. La lengua también puede descansar.
 
-Los lados del cuello y las orejas están ahí. Los hombros no tienen que subir hacia las orejas; un milímetro de espacio entre ellos ya basta. Las palmas descansan en los muslos o a los lados, y los dedos no tienen que cerrarse. El vientre puede moverse un poco con el aliento. No tienes que agrandar ese movimiento.
+Ahora los hombros. Muchas veces los llevamos altos sin darnos cuenta. Déjalos caer, lejos de las orejas. Deja que los brazos pesen y que las manos descansen donde están.
 
-Si los pies están en el suelo, el suelo te sostiene: talón, arco y dedos como una sola presión, no como una lista. Si estás tumbada, la cama hace el mismo trabajo. El peso puede quedar abajo. No hay carrera.
+Observa tu respiración, sin cambiarla. El aire entra, el aire sale. Ahora no hay una forma correcta de respirar. Simplemente deja que suceda.
 
-Si la mente vuelve a una lista, no es un error. Las listas hacen eso. No persigues la lista. Vuelves a la mandíbula, o a una palma, o a la planta, y luego otra vez a este aliento. Por dentro, despacio, puedes decir estoy aquí. No busques una prueba. La frase está junto a la sensación. La habitación no trabaja para ti. Tú estás en la habitación.
+Si la mente se va a planes o preocupaciones, es completamente normal. Así funciona la mente. Cada vez que lo notes, vuelve con suavidad a la sensación de tu cuerpo sostenido.
 
-El peso de los hombros y el pecho por delante están ahí. Si el aliento se nota más en el pecho, quédate ahí. Si se nota más en la nariz, quédate ahí. Pasan unos alientos más, sin prisa, sin convertir una cuenta en un marcador. Si hay sonidos, hay sonidos. Un pájaro lejano, una puerta, un paso. La habitación también los sostiene, y a ti también te sostienen.
+Siente la espalda. Siente las piernas. Siente los pies. Todo tu cuerpo descansa, sostenido.
 
-Si la mente se va otra vez, vuelve a una palma: calor, borde, tela. Luego la frente, la mandíbula, las palmas, las plantas — todo en la misma habitación, al mismo tiempo. No vas a convertir esto en una actuación. El sitio donde estás sigue. Tú sigues. Estos minutos bastan.`,
+Quédate así unas cuantas respiraciones. Nada que arreglar. Nada que resolver. Solo este momento, y tú en él.
 
-    `Questi minuti non sono una cura. Sei semplicemente in una stanza che conosci. La sedia o il letto ti tiene già, e la schiena non deve raddrizzarsi come una colonna. C’è stoffa sulla pelle, caldo o fresco, e niente di questo deve portarti da qualche parte. Resta qui.
+Cuando quieras, toma una respiración un poco más profunda y suéltala despacio. Ya estás aquí.`,
+    `Ti do il benvenuto. Per i prossimi minuti non devi fare niente di speciale. Solo arrivare.
 
-Gli occhi possono chiudersi o restare socchiusi. La luce della stanza è la stessa. La finestra è la stessa. Se fuori c’è un motore, un passo, un tubo, quel suono appartiene anche alla stanza. Non devi spegnerlo. La stanza lo tiene.
+Trova una posizione comoda, su una sedia o sdraiandoti. Lascia che ciò che hai sotto di te — una sedia, il letto, il pavimento — sostenga il tuo peso. Ti ha sostenuto per tutto questo tempo. Puoi permetterglielo.
 
-Noti la fronte. Le sopracciglia non devono stringersi. Se le palpebre sono pesanti, possono restare pesanti. La mascella può restare morbida. I denti non devono chiudersi a forza. La lingua può stare dietro i denti di sopra, in un posto piccolo che non chiede lavoro.
+Se ti va, chiudi gli occhi o lascia che lo sguardo si posi morbido su un punto davanti a te.
 
-L’aria entra dal naso, forse un poco fresca, e esce un poco più tiepida. Non fai di questo una tecnica. Guardi soltanto questo respiro che arriva e se ne va, non come un arbitro, ma come qualcuno seduto nella stanza.
+Nota la fronte. Guarda se può ammorbidirsi un po’. Lascia andare le sopracciglia. Rilassa la mascella, così che i denti si separino appena. Anche la lingua può riposare.
 
-I lati del collo e le orecchie sono lì. Le spalle non devono salire verso le orecchie; un millimetro di spazio tra loro basta già. I palmi restano sulle cosce o ai lati, e le dita non devono chiudersi. La pancia può muoversi un poco con il respiro. Non devi ingrandire quel movimento.
+Ora le spalle. Spesso le portiamo alte senza accorgercene. Lasciale scendere, lontano dalle orecchie. Lascia che le braccia diventino pesanti e che le mani riposino dove sono.
 
-Se i piedi sono a terra, la terra ti tiene: tallone, arco e dita come una sola pressione, non come una lista. Se sei sdraiata, il letto fa lo stesso lavoro. Il peso può stare in basso. Non c’è una gara.
+Osserva il respiro, senza cambiarlo. L’aria entra, l’aria esce. Adesso non c’è un modo giusto di respirare. Lascia semplicemente che accada.
 
-Se la mente torna a una lista, non è un errore. Le liste fanno così. Non insegui la lista. Torni alla mascella, o a un palmo, o alla pianta, e poi di nuovo a questo respiro. Dentro, piano, puoi dire sono qui. Non cercare una prova. La frase sta accanto alla sensazione. La stanza non lavora per te. Tu sei nella stanza.
+Se la mente scivola verso piani o preoccupazioni, è del tutto normale. La mente funziona così. Ogni volta che te ne accorgi, torna con gentilezza alla sensazione del corpo sostenuto.
 
-Il peso delle spalle e il petto davanti sono lì. Se il respiro è più chiaro nel petto, resta lì. Se è più chiaro al naso, resta lì. Passano ancora alcuni respiri, senza fretta, senza fare del conto un punteggio. Se ci sono suoni, ci sono suoni. Un uccello lontano, una porta, un passo. La stanza li tiene anche, e anche tu sei tenuta.
+Senti la schiena. Senti le gambe. Senti i piedi. Tutto il corpo riposa, sostenuto.
 
-Se la mente parte di nuovo, torna a un palmo: calore, bordo, stoffa. Poi la fronte, la mascella, i palmi, le piante — tutti nella stessa stanza, nello stesso momento. Non farai di questo una recita. Il posto dove sei resta. Tu resti. Questi minuti bastano.`,
+Resta così per qualche respiro. Niente da aggiustare. Niente da risolvere. Solo questo momento, e tu dentro.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Sadəcə tanıdığın bir otaqdasan; stul və ya çarpayı səni artıq tutur və onurğanın sütun kimi dik durmasına ehtiyac yoxdur. Dərinin üzərində parça var, istilik və ya sərinlik var, və bunların heç biri səni bir yerə aparmaq məcburiyyətində deyil — burada qalırlar.
+Quando vuoi, fai un respiro un po’ più profondo e lascialo andare piano. Sei qui.`,
+    `Xoş gəldin. Növbəti bir neçə dəqiqə ərzində heç nəyi yaxşı etmək məcburiyyətində deyilsən. Sadəcə gəl və otur.
 
-Gözlər bağlana bilər, yarıaçıq da qala bilər. Otaqdakı işıq eyni işıqdır, pəncərə eyni pəncərədir. Çöldə motor, addım, boru varsa o səs də bu otağın parçasıdır; onları bağlamağa ehtiyac yoxdur, otaq onları da tutur.
+Oturaraq və ya uzanaraq rahat bir vəziyyət tap. Altındakı şey — stul, yataq və ya döşəmə — ağırlığını daşısın. O, əvvəldən bəri səni onsuz da daşıyırdı. Buna icazə verə bilərsən.
 
-Alnını duyursan. Qaşlar gərilmək məcburiyyətində deyil. Qapaqlar ağırdırsa ağır qala bilər. Çənə yumşaq dura bilər, dişlər sıxılmaq məcburiyyətində deyil, dil üst dişlərin arxasında kiçik bir yerdə dura bilər. Orası təhlükəsiz bir yerdir, vəzifə deyil.
+İstəsən gözlərini yum, ya da baxışını qarşındakı bir nöqtəyə yumşaqca burax.
 
-Hava burundan girir, bir az sərin ola bilər, çıxanda bir az ilıq. Bunu texnikaya çevirmirsən. Yalnız bu nəfəsin gəldiyini və getdiyini izləyirsən, hakim kimi yox, otaqda oturan biri kimi.
+Alnını hiss et. Bir az yumşala bilərmi, bax. Qaşların boşalsın. Çənən yüngülcə boşalsın, dişlərin bir-birindən bir az aralansın. Dilin də dincələ bilər.
 
-Boyunun iki yanı və qulaqlar oradadır. Çiyinlər qulaqlara yapışmaq məcburiyyətində deyil; aralarında bir milim boşluq olsa da o boşluq bəsdir. Ovuc budda və ya yanlarda durur, barmaqlar bükülmək məcburiyyətində deyil. Qarın nəfəslə bir az hərəkət edə bilər və bunu böyütməyə ehtiyac yoxdur.
+İndi çiyinlərin. Çoxumuz onları fərqinə varmadan yuxarıda saxlayırıq. Qulaqlarından uzaqlaşsın deyə onları aşağı burax. Qolların ağırlaşsın, əllərin olduğu yerdə dincəlsin.
 
-Ayaqlar yerdədirsə yer səni tutur: daban, tağ, barmaq ucları bir siyahı kimi yox, tək bir təzyiq kimi. Uzanırsansa çarpayı eyni işi görür. Ağırlıq aşağıda dura bilər. Yarış yoxdur.
+Nəfəsini hiss et, onu dəyişməyə çalışmadan. Hava daxil olur, hava çıxır. İndi nəfəs almağın düzgün bir yolu yoxdur. Sadəcə olmasına icazə ver.
 
-Ağıl siyahıya qayıdarsa bu səhv deyil; siyahılar belə edir. Siyahını qovmursan. Çənəyə, bir ovuca və ya ayaq altına qayıdırsan, sonra yenə bu nəfəsə. İçindən, yavaşca, buradayam deyə bilərsən. Sübut axtarma. Cümlə duyumun yanında durur. Otaq sənin üçün işləmir; sən otaqdasan.
+Zehnin planlara və ya narahatlıqlara keçərsə, bu tamamilə normaldır. Zehin belə işləyir. Hər dəfə fərqinə varanda, yumşaqca bədəninin daşındığı hissə qayıt.
 
-Çiyinlərin ağırlığı və sinənin önü oradadır. Nəfəs sinədə daha aydındırsa orada qal, burunda daha aydındırsa orada. Daha bir neçə nəfəs keçir, tələsmədən, sayımı xala çevirmədən. Səs varsa səs. Uzaq quş, qapı, addım. Otaq onları da tutur və sən də tutulursan.
+Kürəyini hiss et. Ayaqlarını hiss et — dizlərdən barmaqların ucuna qədər. Bütün bədənin dincəlir, daşınır.
 
-Ağıl yenə getsə bir ovuca qayıt: istilik, kənar, parça. Sonra alın, çənə, ovuc, ayaq altı — hamısı eyni otaqda, eyni anda. Bunu tamaşa etməyəcəksən. Oturduğun yer durur. Sən də durursan. Bu dəqiqələr bəsdir.`,
+Bir neçə nəfəs burada qal. Düzəltməli heç nə yoxdur. Həll etməli heç nə yoxdur. Sadəcə bu an və onun içində sən.
 
-    `Эти несколько минут — не лечение. Ты просто в комнате, которую знаешь. Стул или кровать уже держит тебя, и позвоночнику не нужно выпрямляться колонной. Есть ткань на коже, тепло или прохлада, и ничто из этого не должно уводить тебя куда-то. Оно остаётся здесь.
+Hazır olanda bir az daha dərin nəfəs al və yavaşca burax. Gəlib çatdın.`,
+    `Добро пожаловать. Следующие несколько минут тебе не нужно ничего делать хорошо. Просто побудь здесь.
 
-Глаза могут закрыться или остаться полуоткрытыми. Свет в комнате тот же. Окно то же. Если снаружи мотор, шаг или труба — этот звук тоже принадлежит комнате. Тебе не нужно его выключать. Комната его держит.
+Найди удобное положение — сидя или лёжа. Пусть то, что под тобой, — стул, кровать или пол — примет твой вес. Оно и так держало тебя всё это время. Ты можешь ему это позволить.
 
-Ты замечаешь лоб. Бровям не нужно напрягаться. Если веки тяжёлые, они могут остаться тяжёлыми. Челюсть может оставаться мягкой. Зубам не нужно сжиматься. Язык может лежать за верхними зубами, в маленьком месте, которое не просит работы.
+Если хочется, закрой глаза или мягко останови взгляд на одной точке перед собой.
 
-Воздух входит через нос, возможно чуть прохладный, и выходит чуть теплее. Ты не делаешь из этого технику. Ты только смотришь, как это дыхание приходит и уходит — не как судья, а как человек, который сидит в комнате.
+Заметь свой лоб. Посмотри, может ли он немного смягчиться. Пусть расслабятся брови. Пусть разожмётся челюсть, и зубы чуть разомкнутся. Язык тоже может отдохнуть.
 
-Стороны шеи и уши на месте. Плечам не нужно подниматься к ушам; миллиметра пространства между ними уже достаточно. Ладони лежат на бёдрах или по бокам, и пальцам не нужно сжиматься. Живот может чуть двигаться с дыханием. Увеличивать это движение не нужно.
+Теперь плечи. Многие из нас носят их приподнятыми и не замечают этого. Опусти их, подальше от ушей. Пусть руки станут тяжёлыми, а ладони отдыхают там, где они есть.
 
-Если стопы на полу — пол держит тебя: пятка, свод и пальцы как одно давление, не как список. Если ты лежишь — кровать делает ту же работу. Вес может оставаться внизу. Гонки нет.
+Заметь дыхание, не меняя его. Воздух входит, воздух выходит. Сейчас нет правильного способа дышать. Просто позволь этому происходить.
 
-Если ум возвращается к списку — это не ошибка. Списки так делают. Ты не гонишься за списком. Ты возвращаешься к челюсти, или к одной ладони, или к стопе, а потом снова к этому дыханию. Внутри, тихо, можно сказать: я здесь. Не ищи доказательства. Предложение стоит рядом с ощущением. Комната не работает на тебя. Ты в комнате.
+Если мысли уходят к планам или тревогам, это совершенно нормально. Так устроен ум. Каждый раз, когда ты это замечаешь, мягко возвращайся к ощущению опоры под телом.
 
-Вес плеч и перед груди на месте. Если дыхание яснее в груди — останься там. Если яснее в носу — там. Проходят ещё несколько дыханий, без спешки, без превращения счёта в очки. Если есть звуки — есть звуки. Далёкая птица, дверь, шаг. Комната держит и их, и тебя тоже держат.
+Почувствуй спину. Почувствуй ноги. Почувствуй стопы. Всё твоё тело отдыхает, его держат.
 
-Если ум снова ушёл — вернись к одной ладони: тепло, край, ткань. Потом лоб, челюсть, ладони, стопы — всё в одной комнате, в одно время. Ты не сделаешь из этого представление. Место, где ты сидишь, остаётся. Ты остаёшься. Этих минут достаточно.`,
+Побудь так несколько вдохов. Нечего исправлять. Нечего решать. Только этот момент и ты в нём.
+
+Когда почувствуешь готовность, сделай чуть более глубокий вдох и медленно выдохни. Ты здесь.`,
   ),
-
   'first-breath': pack(
-    `Bu birkaç dakika bir tedavi değil ve nefesi bir projeye çevirmeyeceksin. Hava zaten geliyor, hava zaten gidiyor. Sen hakem değilsin. Odada oturan, yumuşak bir seyirci gibisin.
+    `Birkaç dakikayı nefesle geçirelim.
 
-Nefesin daha net olduğu bir yer var: burun delikleri, üst dudak, göğsün önü, kaburgaların yanları ya da karın. Doğru bir yer yok; net olan yer var. Orada kalıyorsun.
+Yerine yerleş, omuzlarını aşağı bırak. Henüz özel bir şekilde nefes almana gerek yok. Sadece nefesi en net nerede hissettiğini fark et: burnunda mı, göğsünde mi, karnında mı?
 
-Alışta göğüs hafifçe genişleyebilir, verişte kendi kendine iner. Uzun yapmak zorunda değilsin, kısa yapmak zorunda değilsin. Ritmi düzeltmiyorsun. Bu nefes bu nefes, bir sonrakine yetişmeden.
+Şimdi nefesi nazikçe yavaşlatalım. Burnundan dörde kadar sayarak nefes al… bir, iki, üç, dört.
 
-Zihin bir cümleye giderse, o cümle de nefes gibi gelir ve gider. Onu kovalamıyorsun. Bir verişe dönüyorsun, havanın bittiği yere. Omuzlar o verişte bir şey kanıtlamak zorunda değil; inebilirler, inmezlerse de olur.
+Ve ağzından altıya kadar sayarak yavaşça ver… bir, iki, üç, dört, beş, altı.
 
-Veriş kendiliğinden biraz uzunsa uzun, değilse değil. Çekerek uzatmıyorsun. İki nefes boyunca sadece izliyorsun. İçinden izliyorum, yönetmiyorum diyebilirsin. Bu bir slogan değil. Avuçlar duruyor, tabanlar duruyor, nefes geçiyor.
+Uzun bir nefes veriş, bedenine yavaşlamanın güvenli olduğunu söyler. Bir kez daha: dörde kadar al… altıya kadar ver.
 
-Burun ucunda alışta bir serinlik, verişte biraz daha ılık bir fark olabilir. Küçük bir fark. Yeter. Zihin plan yaparsa planı izlemiyorsun; plan sonra da durur. Şimdi bir veriş yeter. Boyun ve çene orada, nefes onları düzeltmek zorunda değil. Onlar duruyor, nefes geçiyor.
+Saymak sana zor geliyorsa bırak. Sadece her nefes verişini, alışından biraz daha uzun tut.
 
-Alıştan sonra küçük bir boşluk olabilir, verişten sonra da. Boşluk varsa boşluk. Doldurmuyorsun. Hava bitmesin diye yarışmıyorsun. Akciğerler işini biliyor.
+Nefes alırken karnının yükseldiğini, verirken yumuşadığını hisset. Omuzların aşağıda kalsın. Çenen gevşek kalsın.
 
-Omuzlar, karın, burun — hepsi aynı odada. Son nefesleri bir skora çevirmeden izliyorsun, bitene kadar. Oda duruyor. Sen duruyorsun. Nefes durmuyor, geçiyor. Bu izlemek yeter.`,
+Kalbin hızlı atıyorsa sorun değil. Onu durdurmak zorunda değilsin. Sadece nefes verişini uzun ve rahat tut; bedenin kendi zamanında sana uyacak.
 
-    `These few minutes are not a treatment, and you will not turn the breath into a project. Air is already arriving. Air is already leaving. You are not the referee. You are a watcher in the room, a soft one.
+Nefes al… ve bırak.
 
-There is a place where the breath is clearer: the nostrils, the upper lip, the front of the chest, the sides of the ribs, or the belly. There is no correct place. There is the place that is clear. You stay there.
+Nefes al… ve bırak.
 
-On the in-breath the chest may widen a little. On the out-breath it falls on its own. You do not have to make it long. You do not have to make it short. You are not correcting the rhythm. This breath is this breath, without catching up to the next one.
+Birkaç nefes daha kendi hızında burada kal.
 
-If the mind goes to a sentence, that sentence also arrives and leaves, like breath. You do not chase it. You return to one exhale, to the place where the air ends. The shoulders do not have to prove anything on that exhale. They may drop. If they do not, that is all right.
+Şimdi nefesin doğal ritmine dönsün. Bedeninin birkaç dakika öncesine göre nasıl hissettiğini fark et. Küçük bir değişiklik bile yeterli.`,
+    `Let us spend a few minutes with the breath.
 
-If the exhale is a little longer by itself, it is longer. If not, not. You do not pull it to make it long. For a couple of breaths you only watch. Inside you may say I am watching, I am not managing. This is not a slogan. The palms stay. The soles stay. The breath passes.
+Settle into your seat and let your shoulders drop. You do not need to breathe in any special way yet. Just notice where you feel the breath most clearly: at the nose, in the chest, or in the belly.
 
-At the tip of the nose there may be cool on the way in and a little more warmth on the way out. A small difference. Enough. If the mind makes a plan, you do not follow the plan. The plan can wait. Right now one exhale is enough. The neck and the jaw are there. The breath does not have to fix them. They stay. The breath passes.
+Now let us slow it down gently. Breathe in through your nose for a count of four… one, two, three, four.
 
-After the in-breath there may be a small gap, and after the out-breath as well. If there is a gap, there is a gap. You do not fill it. You do not race so the air will not run out. The lungs know the work.
+And breathe out slowly through your mouth for a count of six… one, two, three, four, five, six.
 
-Shoulders, belly, nose — all in the same room. You watch the last breaths without turning a count into a score, until they finish. The room stays. You stay. The breath does not stay. It passes. Watching is enough.`,
+A longer out-breath tells your body that it is safe to slow down. Again: in for four… and out for six.
 
-    `Estos minutos no son un tratamiento, y no vas a convertir el aliento en un proyecto. El aire ya llega. El aire ya se va. No eres árbitro. Eres quien mira en la habitación, con suavidad.
+If counting feels like work, let it go. Simply make each out-breath a little longer than the in-breath.
 
-Hay un sitio donde el aliento se nota más: las fosas, el labio de arriba, el pecho por delante, los lados de las costillas o el vientre. No hay un sitio correcto. Hay el sitio claro. Te quedas ahí.
+Feel your belly rise as you breathe in, and soften as you breathe out. Let the shoulders stay low. Let the jaw stay loose.
 
-Al entrar, el pecho puede ensancharse un poco. Al salir, baja solo. No tienes que alargarlo. No tienes que acortarlo. No corriges el ritmo. Este aliento es este aliento, sin alcanzar el siguiente.
+If your heart is beating fast, that is okay. You do not have to make it stop. Just keep the out-breath long and easy, and your body will follow in its own time.
 
-Si la mente se va a una frase, esa frase también llega y se va, como el aliento. No la persigues. Vuelves a una exhalación, al sitio donde el aire termina. Los hombros no tienen que demostrar nada en esa exhalación. Pueden bajar. Si no bajan, está bien.
+Breathe in… and let go.
 
-Si la exhalación es un poco más larga sola, es más larga. Si no, no. No la estiras. Durante un par de alientos solo miras. Por dentro puedes decir miro, no gestiono. Esto no es un lema. Las palmas están. Las plantas están. El aliento pasa.
+Breathe in… and let go.
 
-En la punta de la nariz puede haber fresco al entrar y un poco más de calor al salir. Una diferencia pequeña. Basta. Si la mente hace un plan, no sigues el plan. El plan puede esperar. Ahora una exhalación basta. El cuello y la mandíbula están ahí. El aliento no tiene que arreglarlos. Ellos están. El aliento pasa.
+Stay here for a few more breaths, at your own pace.
 
-Después de entrar puede haber un hueco pequeño, y después de salir también. Si hay un hueco, hay un hueco. No lo llenas. No corres para que no se acabe el aire. Los pulmones saben el trabajo.
+Now let your breath return to its natural rhythm. Notice how your body feels now, compared to a few minutes ago. Even a small change is enough.`,
+    `Vamos a pasar unos minutos con la respiración.
 
-Hombros, vientre, nariz: todo en la misma habitación. Miras los últimos alientos sin convertir una cuenta en un marcador, hasta que terminen. La habitación sigue. Tú sigues. El aliento no se queda: pasa. Mirar basta.`,
+Acomódate y deja caer los hombros. Todavía no hace falta respirar de ninguna manera especial. Solo nota dónde sientes la respiración con más claridad: en la nariz, en el pecho o en el vientre.
 
-    `Questi minuti non sono una cura, e non farai del respiro un progetto. L’aria sta già arrivando. L’aria sta già andando. Non sei l’arbitro. Sei chi guarda nella stanza, con dolcezza.
+Ahora vamos a hacerla más lenta, con suavidad. Inhala por la nariz contando hasta cuatro… uno, dos, tres, cuatro.
 
-C’è un punto in cui il respiro è più chiaro: le narici, il labbro di sopra, il petto davanti, i lati delle costole o la pancia. Non c’è un punto giusto. C’è il punto chiaro. Restici.
+Y exhala despacio por la boca contando hasta seis… uno, dos, tres, cuatro, cinco, seis.
 
-All’ingresso il petto può allargarsi un poco. All’uscita scende da solo. Non devi allungarlo. Non devi accorciarlo. Non correggi il ritmo. Questo respiro è questo respiro, senza rincorrere il prossimo.
+Una exhalación larga le dice a tu cuerpo que es seguro ir más despacio. Otra vez: inhala en cuatro… exhala en seis.
 
-Se la mente va a una frase, anche quella frase arriva e se ne va, come il respiro. Non la insegui. Torni a un’espirazione, al punto in cui l’aria finisce. Le spalle non devono dimostrare niente in quell’espirazione. Possono scendere. Se non scendono, va bene.
+Si contar te cuesta, déjalo. Simplemente haz que cada exhalación sea un poco más larga que la inhalación.
 
-Se l’espirazione è un poco più lunga da sola, è più lunga. Se no, no. Non la tiri. Per un paio di respiri guardi soltanto. Dentro puoi dire guardo, non gestisco. Non è uno slogan. I palmi restano. Le piante restano. Il respiro passa.
+Siente cómo el vientre sube al inhalar y se suaviza al exhalar. Los hombros siguen abajo. La mandíbula sigue suelta.
 
-Sulla punta del naso può esserci fresco all’ingresso e un poco più di caldo all’uscita. Una piccola differenza. Basta. Se la mente fa un piano, non segui il piano. Il piano può aspettare. Adesso un’espirazione basta. Il collo e la mascella sono lì. Il respiro non deve aggiustarli. Restano. Il respiro passa.
+Si el corazón late deprisa, no pasa nada. No tienes que detenerlo. Solo mantén la exhalación larga y tranquila, y tu cuerpo te seguirá a su ritmo.
 
-Dopo l’ingresso può esserci un piccolo spazio, e dopo l’uscita anche. Se c’è uno spazio, c’è uno spazio. Non lo riempi. Non corri perché l’aria non finisca. I polmoni sanno il lavoro.
+Inhala… y suelta.
 
-Spalle, pancia, naso: tutto nella stessa stanza. Guardi gli ultimi respiri senza fare del conto un punteggio, finché finiscono. La stanza resta. Tu resti. Il respiro non resta: passa. Guardare basta.`,
+Inhala… y suelta.
 
-    `Bu bir neçə dəqiqə müalicə deyil və nəfəsi layihəyə çevirməyəcəksən. Hava artıq gəlir, hava artıq çıxır. Sən hakim deyilsən. Otaqda oturan, yumşaq bir tamaşaçısan.
+Quédate aquí unas respiraciones más, a tu ritmo.
 
-Nəfəsin daha aydın olduğu bir yer var: burun dəlikləri, üst dodaq, sinənin önü, qabırğaların yanı və ya qarın. Düzgün yer yoxdur; aydın olan yer var. Orada qalırsan.
+Ahora deja que la respiración vuelva a su ritmo natural. Nota cómo se siente tu cuerpo comparado con hace unos minutos. Incluso un pequeño cambio es suficiente.`,
+    `Passiamo qualche minuto con il respiro.
 
-Alışda sinə bir az açıla bilər, verişdə öz-özünə enir. Uzun etmək məcburiyyətində deyilsən, qısa etmək məcburiyyətində deyilsən. Ritmi düzəltmirsən. Bu nəfəs bu nəfəsdir, növbətiyə çatmadan.
+Sistemati e lascia scendere le spalle. Per ora non serve respirare in un modo particolare. Nota solo dove senti il respiro più chiaramente: nel naso, nel petto o nella pancia.
 
-Ağıl bir cümləyə getsə, o cümlə də nəfəs kimi gəlir və gedir. Onu qovmursan. Bir verişə qayıdırsan, havanın bitdiyi yerə. Çiyinlər o verişdə bir şey sübut etmək məcburiyyətində deyil; enə bilər, enməsə də olar.
+Ora rallentiamolo con dolcezza. Inspira dal naso contando fino a quattro… uno, due, tre, quattro.
 
-Veriş öz-özünə bir az uzundursa uzundur, deyilsə deyil. Çəkərək uzatmırsan. İki nəfəs boyu yalnız izləyirsən. İçindən izləyirəm, idarə etmirəm deyə bilərsən. Bu şüar deyil. Ovuc durur, ayaq altı durur, nəfəs keçir.
+Ed espira lentamente dalla bocca contando fino a sei… uno, due, tre, quattro, cinque, sei.
 
-Burun ucunda alışda sərinlik, verişdə bir az ilıq fərq ola bilər. Kiçik fərq. Bəsdir. Ağıl plan qurarsa planı izləmirsən; plan sonra da durar. İndi bir veriş bəsdir. Boyun və çənə oradadır, nəfəs onları düzəltmək məcburiyyətində deyil. Onlar durur, nəfəs keçir.
+Un’espirazione lunga dice al corpo che è sicuro rallentare. Ancora: inspira per quattro… espira per sei.
 
-Alışdan sonra kiçik bir boşluq ola bilər, verişdən sonra da. Boşluq varsa boşluq. Doldurmursan. Hava bitməsin deyə yarışmırsan. Ağciyərlər işini bilir.
+Se contare ti pesa, lascia stare. Fai solo in modo che ogni espirazione sia un po’ più lunga dell’inspirazione.
 
-Çiyinlər, qarın, burun — hamısı eyni otaqda. Son nəfəsləri xala çevirmədən izləyirsən, bitənə qədər. Otaq durur. Sən durursan. Nəfəs durmur, keçir. İzləmək bəsdir.`,
+Senti la pancia che si alza quando inspiri e si ammorbidisce quando espiri. Le spalle restano basse. La mascella resta morbida.
 
-    `Эти несколько минут — не лечение, и ты не сделаешь из дыхания проект. Воздух уже приходит. Воздух уже уходит. Ты не судья. Ты зритель в комнате, мягкий зритель.
+Se il cuore batte veloce, va bene. Non devi fermarlo. Mantieni solo l’espirazione lunga e facile, e il corpo ti seguirà con i suoi tempi.
 
-Есть место, где дыхание яснее: ноздри, верхняя губа, перед груди, бока рёбер или живот. Правильного места нет. Есть ясное место. Ты остаёшься там.
+Inspira… e lascia andare.
 
-На вдохе грудь может чуть расшириться. На выдохе она опускается сама. Не нужно делать его длинным. Не нужно делать его коротким. Ты не правишь ритм. Это дыхание — это дыхание, без погони за следующим.
+Inspira… e lascia andare.
 
-Если ум уходит в фразу, эта фраза тоже приходит и уходит, как дыхание. Ты не гонишься за ней. Ты возвращаешься к одному выдоху, к месту, где воздух кончается. Плечам не нужно ничего доказывать на этом выдохе. Они могут опуститься. Если нет — тоже хорошо.
+Resta qui ancora qualche respiro, al tuo ritmo.
 
-Если выдох чуть длиннее сам по себе — он длиннее. Если нет — нет. Ты не тянешь его. Пару дыханий ты только смотришь. Внутри можно сказать: я смотрю, я не управляю. Это не лозунг. Ладони остаются. Стопы остаются. Дыхание проходит.
+Ora lascia che il respiro torni al suo ritmo naturale. Nota come si sente il corpo rispetto a qualche minuto fa. Anche un piccolo cambiamento basta.`,
+    `Bir neçə dəqiqəni nəfəslə keçirək.
 
-На кончике носа на вдохе может быть прохлада, на выдохе — чуть теплее. Маленькая разница. Достаточно. Если ум строит план — ты не идёшь за планом. План может подождать. Сейчас одного выдоха достаточно. Шея и челюсть на месте. Дыханию не нужно их чинить. Они остаются. Дыхание проходит.
+Yerinə rahat otur, çiyinlərini aşağı burax. Hələ xüsusi bir şəkildə nəfəs almağa ehtiyac yoxdur. Sadəcə nəfəsi ən aydın harada hiss etdiyinə diqqət et: burnunda, sinəndə, yoxsa qarnında?
 
-После вдоха может быть маленький промежуток, и после выдоха тоже. Если есть промежуток — есть промежуток. Ты его не заполняешь. Ты не гонишься, чтобы воздух не кончился. Лёгкие знают работу.
+İndi nəfəsi yumşaqca yavaşladaq. Burnundan dördə qədər sayaraq nəfəs al… bir, iki, üç, dörd.
 
-Плечи, живот, нос — всё в одной комнате. Ты смотришь последние дыхания, не превращая счёт в очки, пока они не закончатся. Комната остаётся. Ты остаёшься. Дыхание не остаётся — проходит. Смотреть достаточно.`,
+Və ağzından altıya qədər sayaraq yavaşca ver… bir, iki, üç, dörd, beş, altı.
+
+Uzun nəfəs vermək bədəninə yavaşlamağın təhlükəsiz olduğunu deyir. Bir daha: dördə qədər al… altıya qədər ver.
+
+Saymaq sənə çətin gəlirsə, burax. Sadəcə hər nəfəs verməni nəfəs almadan bir az uzun et.
+
+Nəfəs alanda qarnının qalxdığını, verəndə yumşaldığını hiss et. Çiyinlərin aşağıda qalsın. Çənən boş qalsın.
+
+Ürəyin sürətlə döyünürsə, problem deyil. Onu dayandırmalı deyilsən. Sadəcə nəfəs verməni uzun və rahat saxla; bədənin öz vaxtında sənə uyğunlaşacaq.
+
+Nəfəs al… və burax.
+
+Nəfəs al… və burax.
+
+Öz tempində bir neçə nəfəs daha burada qal.
+
+İndi nəfəsin təbii ritminə qayıtsın. Bədəninin bir neçə dəqiqə əvvəlkinə nisbətən necə hiss etdiyinə diqqət et. Kiçik bir dəyişiklik belə kifayətdir.`,
+    `Давай проведём несколько минут с дыханием.
+
+Устройся поудобнее и опусти плечи. Пока не нужно дышать как-то особенно. Просто заметь, где ты яснее всего чувствуешь дыхание: в носу, в груди или в животе.
+
+Теперь мягко замедлим его. Вдохни через нос на четыре счёта… раз, два, три, четыре.
+
+И медленно выдохни через рот на шесть счётов… раз, два, три, четыре, пять, шесть.
+
+Долгий выдох говорит телу, что замедлиться безопасно. Ещё раз: вдох на четыре… выдох на шесть.
+
+Если считать тяжело, не считай. Просто делай каждый выдох чуть длиннее вдоха.
+
+Почувствуй, как живот поднимается на вдохе и мягко опускается на выдохе. Плечи остаются внизу. Челюсть остаётся свободной.
+
+Если сердце бьётся быстро, ничего страшного. Не нужно его останавливать. Просто держи выдох долгим и лёгким, и тело в своё время последует за ним.
+
+Вдох… и отпусти.
+
+Вдох… и отпусти.
+
+Побудь так ещё несколько вдохов, в своём темпе.
+
+Теперь пусть дыхание вернётся к естественному ритму. Заметь, как чувствует себя тело по сравнению с тем, что было несколько минут назад. Даже небольшой перемены достаточно.`,
   ),
-
   'first-ground': pack(
-    `Bu birkaç dakika bir tedavi değil. İki taban ve yer — bu kadar basit ve bu kadar gerçek. Ayakların yerdeyse topuk, kemer ve parmaklar aynı anda basıyor. Çorap varsa çorap, çıplaksa çıplak. Daha sert basmıyorsun, sayı tutmuyorsun. Sadece basınç var. Yer seni tutuyor. Sen yeri tutmak zorunda değilsin.
+    `Bu çalışma, düşüncelerin hızlandığında seni şimdiye geri getirir.
 
-Yatıyorsan topuklar yatakta, baldırlar, kalça, kürek kemikleri yatakla konuşuyor. Yatak da bir yer. O da tutuyor.
+Ayaklarınla başla. Onları nazikçe yere bastır. Topuklarını, tabanlarını, parmaklarını hisset. Altındaki zemin sağlam ve seni taşıyor.
 
-Her verişte ağırlık milim aşağı inebilir. İnmezse inmez. Yarış yok. İçinden tabanlarım yerde diyebilirsin. Kanıt arama. Cümle duyumun yanında duruyor.
+Şimdi etrafına bak ve görebildiğin beş şeyin adını söyle. İçinden sessizce söyleyebilirsin: bir lamba, bir pencere, bir bardak… orada ne varsa.
 
-Sol taban ve sağ taban aynı olmak zorunda değil. Biri daha net olabilir ve o yeter. Dizlerin ağırlığı aşağıda, kalçalar sandalyede ya da yatakta, pelvis duruyor. Zorunlu bir imge yok. Sadece ağırlık.
+Sonra hissedebildiğin dört şeyi fark et. Kıyafetinin kumaşı. Tenindeki hava. Ellerinin ağırlığı. Oturduğun yüzey.
 
-Eller de bir yer: avuçlar uylukta ya da yanlarda, parmak uçları kumaşa değiyor. Zihin gerçek gibi değil derse tartışmıyorsun. Tabanlara dönüyorsun. Basınç, kumaş, ısı. Birkaç nefes orada kalıyor.
+Şimdi üç sese kulak ver. Belki uzaktan bir trafik sesi, odadaki bir uğultu, kendi nefesin.
 
-Ayak bileklerinde ince kemikler var. Çorabın lastiği varsa lastik, ayakkabı varsa ayakkabının içi. Detay küçük ve detay gerçek. Omurga dik durmak zorunda değil. Bir milim kambur olsa da yer duruyor. İçinden yine: yer tutuyor, ben duruyorum.
+Koklayabildiğin iki şeyi fark et, ya da sadece havanın kokusunu.
 
-Başın ağırlığı boyunda, boyun omuzlarda, omuzlar gövdede, gövde kalçada, kalça yerde. Bunu bir zinciri kırmak için değil, fark etmek için izliyorsun. Zihin geleceğe, geçmişe ya da bir listeye giderse dönüş hep aynı: sol taban, sağ taban, ikisi birden, bir formül gibi değil, yerin seni tuttuğu haber gibi.
+Ve tadabildiğin bir şeyi, ağzındaki tat bile olsa.
 
-Ayaklar duruyor, yer duruyor, oda duruyor, sen duruyorsun. Yeri bir sınav haline getirmeyeceksin. Tabanlar duruyor. Yer duruyor. Sen de.`,
+Buradasın, bu odada, bu anda. Zihnin yarına atlayabilir ya da geçmişe dönebilir. Sorun değil. Bedenin her zaman burada, şimdide.
 
-    `These few minutes are not a treatment. Two soles and the ground — this simple, and this actual. If the feet are on the floor, heel, arch, and toes press at once. If there are socks, socks. If bare, bare. You are not pressing harder. You are not counting. There is only pressure. The ground holds you. You do not have to hold the ground.
+Yavaşça nefes al… ve uzun uzun ver. Ayaklarını bir kez daha yerde hisset.
 
-If you are lying down, the heels, the calves, the hips, and the shoulder blades are speaking with the bed. A bed is also ground. It holds too.
+Bugün ne zaman düşüncelerin içinde kaybolsan, buna geri dönebilirsin: beş, dört, üç, iki, bir. Ve ayakların yerde.`,
+    `This practice brings you back to the present when your thoughts are racing.
 
-On each exhale the weight may drop a millimetre. If it does not, it does not. No race. Inside you may say my soles are on the floor. Do not look for proof. The sentence stands next to the sensation.
+Start with your feet. Press them gently into the floor. Feel your heels, the soles, your toes. The ground is solid beneath you, and it is holding you up.
 
-The left sole and the right sole do not have to match. One may be clearer, and that is enough. The weight of the knees is downward. The hips are in the chair or the bed. The pelvis stays. There is no required image. Only weight.
+Now look around and name five things you can see. Say them quietly to yourself: a lamp, a window, a cup… whatever is there.
 
-The hands are also a place: palms on the thighs or at the sides, fingertips against cloth. If the mind says this does not feel real, you do not argue. You return to the soles. Pressure, cloth, heat. A few breaths stay there.
+Next, notice four things you can feel. The fabric of your clothes. The air on your skin. The weight of your hands. The surface you are sitting on.
 
-There are thin bones at the ankles. If there is the elastic of a sock, there is the elastic. If there are shoes, there is the inside of the shoe. The detail is small, and the detail is actual. The spine does not have to sit upright. A millimetre of curve, and the ground still stays. Inside again: the ground holds, I stay.
+Now listen for three sounds. Perhaps traffic far away, a hum in the room, your own breathing.
 
-The weight of the head rests in the neck, the neck in the shoulders, the shoulders in the torso, the torso in the hips, the hips on the ground. You watch this not to break a chain, only to notice it. If the mind goes to the future, the past, or a list, the way back is the same: left sole, right sole, both at once — not like a formula, like the news that the ground is holding you.
+Notice two things you can smell, or simply the smell of the air.
 
-The feet stay. The ground stays. The room stays. You stay. You will not turn the ground into an exam. The soles stay. The ground stays. So do you.`,
+And one thing you can taste, even if it is just the taste in your mouth.
 
-    `Estos minutos no son un tratamiento. Dos plantas y el suelo: así de simple y así de real. Si los pies están en el suelo, el talón, el arco y los dedos apoyan a la vez. Si hay calcetines, calcetines. Si estás descalza, descalza. No aprietas más. No cuentas. Solo hay presión. El suelo te sostiene. Tú no tienes que sostener el suelo.
+You are here, in this room, at this moment. Your mind may jump ahead to tomorrow or back to earlier. That is okay. Your body is always here, now.
 
-Si estás tumbada, los talones, las pantorrillas, las caderas y los omóplatos hablan con la cama. Una cama también es suelo. También sostiene.
+Take a slow breath in… and a long breath out. Feel your feet on the ground once more.
 
-En cada exhalación el peso puede bajar un milímetro. Si no baja, no baja. Sin carrera. Por dentro puedes decir mis plantas están en el suelo. No busques una prueba. La frase está junto a la sensación.
+Whenever you feel lost in thoughts today, you can come back to this: five, four, three, two, one. And your feet on the ground.`,
+    `Esta práctica te trae de vuelta al presente cuando los pensamientos se aceleran.
 
-La planta izquierda y la derecha no tienen que ser iguales. Una puede ser más clara, y basta. El peso de las rodillas va hacia abajo. Las caderas están en la silla o en la cama. La pelvis está. No hay una imagen obligatoria. Solo peso.
+Empieza por los pies. Apóyalos con suavidad en el suelo. Siente los talones, las plantas, los dedos. El suelo es firme y te sostiene.
 
-Las manos también son un sitio: palmas en los muslos o a los lados, yemas contra la tela. Si la mente dice que no se siente real, no discutas. Vuelves a las plantas. Presión, tela, calor. Unos alientos se quedan ahí.
+Ahora mira a tu alrededor y nombra cinco cosas que puedas ver. Puedes decirlas en silencio: una lámpara, una ventana, una taza… lo que haya.
 
-En los tobillos hay huesos finos. Si hay el elástico de un calcetín, está el elástico. Si hay zapatos, está el interior. El detalle es pequeño y el detalle es real. La columna no tiene que estar erguida. Un milímetro de curva, y el suelo sigue. Por dentro otra vez: el suelo sostiene, yo me quedo.
+Después, nota cuatro cosas que puedas sentir. La tela de tu ropa. El aire en la piel. El peso de tus manos. La superficie sobre la que estás.
 
-El peso de la cabeza está en el cuello, el cuello en los hombros, los hombros en el tronco, el tronco en las caderas, las caderas en el suelo. No miras esto para romper una cadena, solo para notarla. Si la mente se va al futuro, al pasado o a una lista, el regreso es el mismo: planta izquierda, planta derecha, las dos a la vez — no como una fórmula, como la noticia de que el suelo te sostiene.
+Ahora escucha tres sonidos. Quizá tráfico a lo lejos, un zumbido en la habitación, tu propia respiración.
 
-Los pies siguen. El suelo sigue. La habitación sigue. Tú sigues. No vas a convertir el suelo en un examen. Las plantas siguen. El suelo sigue. Tú también.`,
+Nota dos cosas que puedas oler, o simplemente el olor del aire.
 
-    `Questi minuti non sono una cura. Due piante e la terra: così semplice e così vero. Se i piedi sono a terra, tallone, arco e dita premono insieme. Se ci sono calzini, calzini. Se sei scalza, scalza. Non premi più forte. Non conti. C’è solo pressione. La terra ti tiene. Tu non devi tenere la terra.
+Y una cosa que puedas saborear, aunque solo sea el sabor de tu boca.
 
-Se sei sdraiata, i talloni, i polpacci, i fianchi e le scapole parlano con il letto. Un letto è anche terra. Tiene anche lui.
+Estás aquí, en esta habitación, en este momento. La mente puede saltar a mañana o volver al pasado. Está bien. Tu cuerpo siempre está aquí, ahora.
 
-A ogni espirazione il peso può scendere di un millimetro. Se non scende, non scende. Niente gara. Dentro puoi dire le piante sono a terra. Non cercare una prova. La frase sta accanto alla sensazione.
+Inhala despacio… y exhala largo. Siente una vez más los pies en el suelo.
 
-La pianta sinistra e la destra non devono essere uguali. Una può essere più chiara, e basta. Il peso delle ginocchia va in basso. I fianchi sono sulla sedia o sul letto. Il bacino resta. Nessuna immagine obbligatoria. Solo peso.
+Hoy, cada vez que los pensamientos te arrastren, puedes volver a esto: cinco, cuatro, tres, dos, uno. Y los pies en el suelo.`,
+    `Questa pratica ti riporta al presente quando i pensieri corrono.
 
-Anche le mani sono un luogo: palmi sulle cosce o ai lati, punte contro la stoffa. Se la mente dice che non sembra reale, non discuti. Torni alle piante. Pressione, stoffa, calore. Qualche respiro resta lì.
+Comincia dai piedi. Premili con delicatezza sul pavimento. Senti i talloni, le piante, le dita. Il pavimento è solido sotto di te e ti sostiene.
 
-Alle caviglie ci sono ossa sottili. Se c’è l’elastico del calzino, c’è l’elastico. Se ci sono scarpe, c’è l’interno. Il dettaglio è piccolo e il dettaglio è vero. La schiena non deve stare dritta. Un millimetro di curva, e la terra resta. Dentro di nuovo: la terra tiene, io resto.
+Ora guardati intorno e nomina cinque cose che puoi vedere. Puoi dirle in silenzio: una lampada, una finestra, una tazza… quello che c’è.
 
-Il peso della testa sta nel collo, il collo nelle spalle, le spalle nel busto, il busto nei fianchi, i fianchi a terra. Non guardi questo per spezzare una catena, solo per notarla. Se la mente va al futuro, al passato o a una lista, il ritorno è lo stesso: pianta sinistra, pianta destra, tutte e due insieme — non come una formula, come la notizia che la terra ti tiene.
+Poi nota quattro cose che senti sul corpo. Il tessuto dei vestiti. L’aria sulla pelle. Il peso delle mani. La superficie su cui sei.
 
-I piedi restano. La terra resta. La stanza resta. Tu resti. Non farai della terra un esame. Le piante restano. La terra resta. Anche tu.`,
+Ora ascolta tre suoni. Forse il traffico lontano, un ronzio nella stanza, il tuo stesso respiro.
 
-    `Bu bir neçə dəqiqə müalicə deyil. İki ayaq altı və yer — bu qədər sadə və bu qədər gerçək. Ayaqlar yerdədirsə daban, tağ və barmaqlar eyni anda basır. Corab varsa corab, çılpaqdırsa çılpaq. Daha bərk basmırsan, say tutmursan. Yalnız təzyiq var. Yer səni tutur. Sən yeri tutmaq məcburiyyətində deyilsən.
+Nota due odori, o semplicemente l’odore dell’aria.
 
-Uzanırsansa dabanlar, baldırlar, omba, kürək sümükləri çarpayı ilə danışır. Çarpayı da bir yerdir. O da tutur.
+E un sapore, anche solo il sapore che hai in bocca.
 
-Hər verişdə ağırlıq milim aşağı enə bilər. Enməsə enməz. Yarış yoxdur. İçindən ayaq altım yerdədir deyə bilərsən. Sübut axtarma. Cümlə duyumun yanında durur.
+Sei qui, in questa stanza, in questo momento. La mente può saltare a domani o tornare indietro. Va bene. Il corpo è sempre qui, adesso.
 
-Sol ayaq altı və sağ ayaq altı eyni olmaq məcburiyyətində deyil. Biri daha aydın ola bilər və o bəsdir. Dizlərin ağırlığı aşağıdadır, omba stulda və ya çarpayıda, çanaq durur. Məcburi şəkil yoxdur. Yalnız ağırlıq.
+Inspira piano… ed espira a lungo. Senti ancora una volta i piedi sul pavimento.
 
-Əllər də bir yerdir: ovuc budda və ya yanlarda, barmaq ucları parçaya dəyir. Ağıl real kimi deyil desə mübahisə etmirsən. Ayaq altına qayıdırsan. Təzyiq, parça, istilik. Bir neçə nəfəs orada qalır.
+Oggi, ogni volta che i pensieri ti portano via, puoi tornare qui: cinque, quattro, tre, due, uno. E i piedi a terra.`,
+    `Bu məşq fikirlərin sürətlənəndə səni indiki ana qaytarır.
 
-Biləklərdə incə sümüklər var. Corabın rezinı varsa rezin, ayaqqabı varsa içi. Detal kiçikdir və detal gerçəkdir. Onurğa dik durmaq məcburiyyətində deyil. Bir milim əyri olsa da yer durur. İçindən yenə: yer tutur, mən dururam.
+Ayaqlarından başla. Onları yumşaqca yerə bas. Dabanlarını, ayaqaltını, barmaqlarını hiss et. Altındakı yer möhkəmdir və səni saxlayır.
 
-Başın ağırlığı boyunda, boyun çiyində, çiyin gövdədə, gövdə ombada, omba yerdə. Bunu zənciri qırmaq üçün yox, duymaq üçün izləyirsən. Ağıl gələcəyə, keçmişə və ya siyahıya getsə dönüş eynidir: sol ayaq altı, sağ ayaq altı, ikisi birlikdə — formula kimi yox, yerin səni tutduğu xəbər kimi.
+İndi ətrafına bax və gördüyün beş şeyin adını çək. İçində səssizcə deyə bilərsən: lampa, pəncərə, stəkan… orada nə varsa.
 
-Ayaqlar durur, yer durur, otaq durur, sən durursan. Yeri imtahan etməyəcəksən. Ayaq altı durur. Yer durur. Sən də.`,
+Sonra hiss etdiyin dörd şeyə diqqət et. Paltarının parçası. Dərindəki hava. Əllərinin ağırlığı. Oturduğun səth.
 
-    `Эти несколько минут — не лечение. Две стопы и земля — так просто и так по-настоящему. Если стопы на полу, пятка, свод и пальцы давят сразу. Если есть носки — носки. Если босиком — босиком. Ты не давишь сильнее. Ты не считаешь. Есть только давление. Земля держит тебя. Тебе не нужно держать землю.
+İndi üç səsə qulaq as. Bəlkə uzaqdan maşın səsi, otaqda bir uğultu, öz nəfəsin.
 
-Если ты лежишь, пятки, икры, бёдра и лопатки говорят с кроватью. Кровать тоже земля. Она тоже держит.
+İyini hiss etdiyin iki şeyə diqqət et, ya da sadəcə havanın iyinə.
 
-На каждом выдохе вес может опуститься на миллиметр. Если не опускается — не опускается. Без гонки. Внутри можно сказать: стопы на полу. Не ищи доказательства. Предложение стоит рядом с ощущением.
+Və dadını hiss etdiyin bir şeyə, ağzındakı dad olsa belə.
 
-Левая стопа и правая не должны быть одинаковыми. Одна может быть яснее — и этого достаточно. Вес коленей вниз. Бёдра в стуле или в постели. Таз остаётся. Нет обязательного образа. Только вес.
+Buradasan, bu otaqda, bu anda. Zehnin sabaha tullana və ya keçmişə qayıda bilər. Problem deyil. Bədənin həmişə buradadır, indidədir.
 
-Руки тоже место: ладони на бёдрах или по бокам, кончики пальцев на ткани. Если ум говорит, что это не как настоящее — ты не споришь. Ты возвращаешься к стопам. Давление, ткань, тепло. Несколько дыханий остаются там.
+Yavaşca nəfəs al… və uzun-uzun ver. Ayaqlarını bir daha yerdə hiss et.
 
-В лодыжках тонкие кости. Если есть резинка носка — есть резинка. Если есть обувь — есть внутренняя сторона. Деталь маленькая, и деталь настоящая. Позвоночнику не нужно сидеть прямо. Миллиметр изгиба — и земля всё равно остаётся. Внутри снова: земля держит, я остаюсь.
+Bu gün nə vaxt fikirlərin içində itsən, buna qayıda bilərsən: beş, dörd, üç, iki, bir. Və ayaqların yerdə.`,
+    `Эта практика возвращает тебя в настоящее, когда мысли несутся вперёд.
 
-Вес головы в шее, шея в плечах, плечи в туловище, туловище в бёдрах, бёдра на земле. Ты смотришь на это не чтобы порвать цепь, а чтобы заметить её. Если ум уходит в будущее, в прошлое или в список, возвращение одно: левая стопа, правая, обе сразу — не как формула, как новость о том, что земля тебя держит.
+Начни со стоп. Мягко прижми их к полу. Почувствуй пятки, ступни, пальцы. Пол под тобой твёрдый, и он тебя держит.
 
-Стопы остаются. Земля остаётся. Комната остаётся. Ты остаёшься. Ты не сделаешь из земли экзамен. Стопы остаются. Земля остаётся. И ты тоже.`,
+Теперь оглянись и назови пять вещей, которые видишь. Можно про себя: лампа, окно, чашка… всё, что есть вокруг.
+
+Затем заметь четыре вещи, которые ощущаешь телом. Ткань одежды. Воздух на коже. Тяжесть рук. Поверхность, на которой сидишь.
+
+Теперь прислушайся к трём звукам. Может быть, далёкий шум машин, гул в комнате, твоё собственное дыхание.
+
+Заметь два запаха — или просто запах воздуха.
+
+И один вкус, пусть даже это просто вкус во рту.
+
+Ты здесь, в этой комнате, в этот момент. Ум может прыгнуть в завтра или вернуться в прошлое. Это нормально. Тело всегда здесь, сейчас.
+
+Медленно вдохни… и долго выдохни. Ещё раз почувствуй стопы на полу.
+
+Сегодня, когда бы мысли ни унесли тебя, ты можешь вернуться к этому: пять, четыре, три, два, один. И стопы на полу.`,
   ),
-
   'room-door': pack(
-    `Bu birkaç dakika bir tedavi değil. Bildiğin bir oda ve bir kapı. Kapıyı açmak zorunda değilsin, kapamak zorunda da değilsin. Sadece kapının olduğu odada duruyorsun.
+    `Bu meditasyonda kendini güvende hissettiğin bir odada dinleneceksin.
 
-Sırt yaslanabilir, ayaklar yerde. Kapı odanın öteki ucunda da olabilir, hemen yanında da. Mesafe önemli değil. Sen buradasın, kapı orada.
+İstersen gözlerini kapat ve yavaş bir nefes al. Şimdi çok iyi bildiğin bir odayı aklına getir. Kendi yatak odan, büyükannenin oturma odası ya da bir zamanlar huzur bulduğun herhangi bir yer olabilir.
 
-Hava giriyor ve çıkıyor, nefes kapıya gitmiyor, sende kalıyor. Zihin tokmağa uzanabilir: açılsın, kapalı kalsın, içeride ne var. Bu cümleler gelebilir. Onları kovalamıyorsun. Tokmağa dokunmuyorsun. Eşiğe dönüyorsun: ayak, avuç, bu nefes.
+O odanın kapısını gözünün önüne getir. Rengini, kolunu fark et. Kapı kapalı ve bu tarafında güvendesin. Şu an içeri hiçbir şeyin girmesi gerekmiyor.
 
-Kapı bir resim olabilir, gerçek bir eşik de olabilir. İkisi de aynı daveti taşır: zorlamak yok. Beklemek boşluk değil. Beklemek burada olmak.
+Zihninde odanın etrafına bak. Pencere nerede? Işık nasıl? Bir sandalye, bir yatak, bir halı var mı?
 
-Omuzlar, çene, dil — her biri kendi ağırlığına bırakılabilir. Kapı kımıldamasa oturum bozulmaz. Sen kımıldamasan kapı bozulmaz. İçinden eşikteyim diyebilirsin. Kanıt arama. Cümle duyumun yanında.
+Odada rahat bir yer bul ve oraya yerleş. Bedeninin, nerede olduğunu bildiğinde nasıl gevşediğini hisset.
 
-İçeride bir şey hazır değilse hazır değil. Bu bir teşhis değil, sadece şu an. Eşikte kalmak, içeri girmemek de bir seçim. Çıkmamak da. Koridorda bir adım, uzak bir kapı varsa oda onları da tutuyor ve sen de tutuluyorsun. Avuçlar uylukta, ısı ve kenar duruyor.
+Bazen bir düşünce kapıyı çalabilir: bir endişe, bir iş, bir anı. Kapıyı açmak zorunda değilsin. Sadece çalındığını fark edip öylece bırakabilirsin. Kapı yerinde duruyor.
 
-Kapı hâlâ orada, sen hâlâ buradasın. İkisi de doğru olabilir. Kapıyı bir sınav haline getirmeyeceksin. Eşik duruyor, oda duruyor, sen de. Gözler yavaşça odaya dönüyor, ışık ve eller orada. Kapıya gitmek zorunda değilsin. Kalmak yeter.`,
+Yavaşça nefes al… ve ver. Her nefes verişte omuzların biraz daha aşağı insin.
 
-    `These few minutes are not a treatment. A room you know, and a door. You do not have to open it. You do not have to close it. You are only staying in the room where the door is.
+Bu oda her zaman senin için burada. Dünya fazla gürültülü geldiğinde buraya dönebilir, kapıyı kapatıp dinlenebilirsin.
 
-The back can rest. The feet are on the floor. The door may be at the other end of the room, or close beside you. Distance does not matter. You are here. The door is there.
+Biraz daha kal. Sessizliği fark et. Şu anda güvende olduğunu fark et.
 
-Air arrives and leaves. The breath does not go to the door. It stays with you. The mind can reach for the handle: let it open, let it stay shut, what is inside. Those sentences can arrive. You do not chase them. You do not touch the handle. You return to the threshold: the foot, the palm, this breath.
+Hazır olduğunda daha derin bir nefes al ve bu sakinliğin bir kısmını yanına alarak yavaşça geri dön.`,
+    `In this meditation you will rest in a room where you feel safe.
 
-The door can be a picture. It can be a real doorway. Both carry the same invitation: no forcing. Waiting is not emptiness. Waiting is being here.
+Close your eyes if you like, and take a slow breath. Now bring to mind a room you know well. It could be your bedroom, a grandparent’s living room, any place where you once felt at ease.
 
-The shoulders, the jaw, the tongue — each can drop into its own weight. If the door does not move, the session is not broken. If you do not move, the door is not broken. Inside you may say I am at the threshold. Do not look for proof. The sentence stands next to the sensation.
+Picture the door of that room. Notice its colour, its handle. The door is closed, and on this side of it you are safe. Nothing needs to come in right now.
 
-If something inside is not ready, it is not ready. This is not a diagnosis. It is only this moment. Staying at the threshold, not going in, is also a choice. Not leaving is also a choice. If there is a step in the hall, or a far door, the room holds those sounds too, and you are being held as well. Palms on the thighs. Heat and edge stay.
+Look around the room in your mind. Where is the window? What is the light like? Is there a chair, a bed, a rug?
 
-The door is still there. You are still here. Both can be true. You will not turn the door into an exam. The threshold stays. The room stays. So do you. The eyes come back slowly to the room, to the light and the hands. You do not have to go to the door. Staying is enough.`,
+Find a comfortable place in the room and let yourself settle there. Feel how your body relaxes when it knows where it is.
 
-    `Estos minutos no son un tratamiento. Una habitación que conoces y una puerta. No tienes que abrirla. Tampoco cerrarla. Solo estás en la habitación donde está la puerta.
+Sometimes a thought may knock on the door: a worry, a task, a memory. You do not have to open it. You can simply notice the knock and let it be. The door holds.
 
-La espalda puede apoyarse. Los pies están en el suelo. La puerta puede estar al otro lado o cerca. La distancia no importa. Tú estás aquí. La puerta está ahí.
+Breathe in slowly… and breathe out. With every out-breath, let your shoulders sink a little deeper.
 
-El aire llega y se va. El aliento no va a la puerta. Se queda contigo. La mente puede ir al picaporte: que se abra, que se quede cerrada, qué hay dentro. Esas frases pueden llegar. No las persigues. No tocas el picaporte. Vuelves al umbral: el pie, la palma, este aliento.
+This room is always here for you. Whenever the world feels too loud, you can come back, close the door, and rest.
 
-La puerta puede ser una imagen. Puede ser un umbral real. Las dos traen la misma invitación: no forzar. Esperar no es vacío. Esperar es estar aquí.
+Stay a little longer. Notice the quiet. Notice that you are safe in this moment.
 
-Los hombros, la mandíbula, la lengua: cada uno puede caer en su peso. Si la puerta no se mueve, la sesión no se rompe. Si tú no te mueves, la puerta no se rompe. Por dentro puedes decir estoy en el umbral. No busques una prueba. La frase está junto a la sensación.
+When you are ready, take a deeper breath, and slowly come back, bringing a little of this calm with you.`,
+    `En esta meditación vas a descansar en una habitación donde te sientes a salvo.
 
-Si algo dentro no está listo, no está listo. Esto no es un diagnóstico. Es solo este momento. Quedarte en el umbral, no entrar, también es una elección. No salir también. Si hay un paso en el pasillo o una puerta lejana, la habitación también sostiene esos sonidos, y a ti también. Palmas en los muslos. El calor y el borde siguen.
+Si quieres, cierra los ojos y respira despacio. Ahora trae a la mente una habitación que conozcas bien. Puede ser tu dormitorio, el salón de tu abuela, cualquier lugar donde alguna vez sentiste calma.
 
-La puerta sigue ahí. Tú sigues aquí. Las dos cosas pueden ser ciertas. No vas a convertir la puerta en un examen. El umbral sigue. La habitación sigue. Tú también. Los ojos vuelven despacio a la habitación, a la luz y a las manos. No tienes que ir a la puerta. Quedarte basta.`,
+Imagina la puerta de esa habitación. Fíjate en su color, en su manilla. La puerta está cerrada, y de este lado estás a salvo. Ahora mismo no tiene que entrar nada.
 
-    `Questi minuti non sono una cura. Una stanza che conosci e una porta. Non devi aprirla. Non devi chiuderla. Resti solo nella stanza dove c’è la porta.
+Mira la habitación en tu mente. ¿Dónde está la ventana? ¿Cómo es la luz? ¿Hay una silla, una cama, una alfombra?
 
-La schiena può appoggiarsi. I piedi sono a terra. La porta può essere in fondo o accanto. La distanza non conta. Tu sei qui. La porta è lì.
+Busca un lugar cómodo en la habitación y acomódate allí. Siente cómo tu cuerpo se relaja cuando sabe dónde está.
 
-L’aria arriva e se ne va. Il respiro non va alla porta. Resta con te. La mente può andare alla maniglia: che si apra, che resti chiusa, cosa c’è dentro. Quelle frasi possono arrivare. Non le insegui. Non tocchi la maniglia. Torni alla soglia: il piede, il palmo, questo respiro.
+A veces un pensamiento puede llamar a la puerta: una preocupación, una tarea, un recuerdo. No tienes que abrir. Puedes simplemente notar la llamada y dejarla estar. La puerta aguanta.
 
-La porta può essere un’immagine. Può essere una soglia vera. Entrambe portano lo stesso invito: non forzare. Aspettare non è vuoto. Aspettare è essere qui.
+Inhala despacio… y exhala. Con cada exhalación, deja que los hombros bajen un poco más.
 
-Le spalle, la mascella, la lingua: ognuna può cadere nel proprio peso. Se la porta non si muove, la sessione non si rompe. Se tu non ti muovi, la porta non si rompe. Dentro puoi dire sono sulla soglia. Non cercare una prova. La frase sta accanto alla sensazione.
+Esta habitación siempre está aquí para ti. Cuando el mundo se sienta demasiado ruidoso, puedes volver, cerrar la puerta y descansar.
 
-Se qualcosa dentro non è pronto, non è pronto. Questo non è una diagnosi. È solo questo momento. Restare sulla soglia, non entrare, è anche una scelta. Non uscire è anche una scelta. Se c’è un passo nel corridoio o una porta lontana, la stanza tiene anche quei suoni, e tieni anche tu. Palmi sulle cosce. Il calore e il bordo restano.
+Quédate un poco más. Nota el silencio. Nota que, en este momento, estás a salvo.
 
-La porta è ancora lì. Tu sei ancora qui. Entrambe le cose possono essere vere. Non farai della porta un esame. La soglia resta. La stanza resta. Anche tu. Gli occhi tornano piano alla stanza, alla luce e alle mani. Non devi andare alla porta. Restare basta.`,
+Cuando quieras, respira un poco más hondo y vuelve despacio, llevando contigo algo de esta calma.`,
+    `In questa meditazione riposerai in una stanza dove ti senti al sicuro.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Tanıdığın bir otaq və bir qapı. Açmaq məcburiyyətində deyilsən, bağlamaq da. Yalnız qapının olduğu otaqdasan.
+Se vuoi, chiudi gli occhi e fai un respiro lento. Ora porta alla mente una stanza che conosci bene. Può essere la tua camera, il soggiorno dei nonni, qualsiasi posto che un tempo ti ha dato pace.
 
-Bel söykənə bilər, ayaqlar yerdədir. Qapı otağın o biri ucunda da ola bilər, yanında da. Məsafə fərq etməz. Sən buradasan, qapı oradadır.
+Immagina la porta di quella stanza. Nota il suo colore, la maniglia. La porta è chiusa, e da questa parte sei al sicuro. Adesso non deve entrare niente.
 
-Hava girir və çıxır, nəfəs qapıya getmir, səndə qalır. Ağıl dəstəyə uzana bilər: açılsın, bağlı qalsın, içində nə var. Bu cümlələr gələ bilər. Onları qovmursan. Dəstəyə toxunmursan. Eşiyə qayıdırsan: ayaq, ovuc, bu nəfəs.
+Guarda la stanza con la mente. Dov’è la finestra? Com’è la luce? C’è una sedia, un letto, un tappeto?
 
-Qapı bir şəkil ola bilər, gerçək eşik də. Hər ikisi eyni dəvəti daşıyır: məcbur yoxdur. Gözləmək boşluq deyil. Gözləmək burada olmaqdır.
+Trova un posto comodo nella stanza e sistemati lì. Senti come il corpo si rilassa quando sa dove si trova.
 
-Çiyinlər, çənə, dil — hər biri öz ağırlığına buraxıla bilər. Qapı tərpənməsə oturum pozulmur. Sən tərpənməsən qapı pozulmur. İçindən eşikdəyəm deyə bilərsən. Sübut axtarma. Cümlə duyumun yanında durur.
+A volte un pensiero può bussare alla porta: una preoccupazione, un impegno, un ricordo. Non devi aprire. Puoi solo notare il bussare e lasciarlo stare. La porta regge.
 
-İçəridə bir şey hazır deyilsə hazır deyil. Bu diaqnoz deyil, yalnız bu an. Eşikdə qalmaq, içəri girməmək də seçimdir. Çıxmamaq da. Dəhlizdə addım, uzaq qapı varsa otaq onları da tutur və sən də tutulursan. Ovuc budda, istilik və kənar durur.
+Inspira piano… ed espira. A ogni espirazione lascia che le spalle scendano un po’ di più.
 
-Qapı hələ oradadır, sən hələ buradasan. Hər ikisi doğru ola bilər. Qapını imtahan etməyəcəksən. Eşik durur, otaq durur, sən də. Gözlər yavaşca otağa qayıdır, işıq və əllər oradadır. Qapıya getmək məcburiyyətində deyilsən. Qalmaq bəsdir.`,
+Questa stanza è sempre qui per te. Quando il mondo sembra troppo rumoroso, puoi tornare, chiudere la porta e riposare.
 
-    `Эти несколько минут — не лечение. Комната, которую ты знаешь, и дверь. Её не нужно открывать. Не нужно и закрывать. Ты просто в комнате, где есть дверь.
+Resta ancora un po’. Nota il silenzio. Nota che, in questo momento, sei al sicuro.
 
-Спина может опереться. Стопы на полу. Дверь может быть в другом конце или рядом. Расстояние не важно. Ты здесь. Дверь там.
+Quando vuoi, fai un respiro più profondo e torna piano, portando con te un po’ di questa calma.`,
+    `Bu meditasiyada özünü təhlükəsiz hiss etdiyin bir otaqda dincələcəksən.
 
-Воздух входит и выходит. Дыхание не идёт к двери. Оно остаётся с тобой. Ум может потянуться к ручке: пусть откроется, пусть останется закрытой, что внутри. Эти фразы могут прийти. Ты их не гонишь. Ручку не трогаешь. Ты возвращаешься к порогу: стопа, ладонь, это дыхание.
+İstəsən gözlərini yum və yavaş bir nəfəs al. İndi çox yaxşı tanıdığın bir otağı xatırla. Öz yataq otağın, nənənin qonaq otağı və ya bir vaxtlar rahatlıq tapdığın hər hansı bir yer ola bilər.
 
-Дверь может быть картинкой. Может быть настоящим порогом. Оба несут одно приглашение: не торопить. Ожидание — не пустота. Ожидание — быть здесь.
+O otağın qapısını gözünün önünə gətir. Rənginə, dəstəyinə diqqət et. Qapı bağlıdır və onun bu tərəfində təhlükəsizsən. İndi içəri heç nəyin girməsinə ehtiyac yoxdur.
 
-Плечи, челюсть, язык — каждое может упасть в свой вес. Если дверь не двинется, сессия не сломана. Если не двинешься ты, дверь не сломана. Внутри можно сказать: я на пороге. Не ищи доказательства. Предложение стоит рядом с ощущением.
+Zehnində otağın ətrafına bax. Pəncərə haradadır? İşıq necədir? Stul, yataq, xalça varmı?
 
-Если что-то внутри не готово — оно не готово. Это не диагноз. Только этот момент. Остаться на пороге, не входить — тоже выбор. Не уходить — тоже. Если в коридоре шаг или далёкая дверь, комната держит и эти звуки, и тебя. Ладони на бёдрах. Тепло и край остаются.
+Otaqda rahat bir yer tap və ora yerləş. Bədəninin harada olduğunu bildikdə necə rahatlaşdığını hiss et.
 
-Дверь всё ещё там. Ты всё ещё здесь. Оба могут быть правдой. Ты не сделаешь из двери экзамен. Порог остаётся. Комната остаётся. И ты. Глаза медленно возвращаются в комнату, к свету и к рукам. К двери идти не нужно. Остаться достаточно.`,
+Bəzən bir fikir qapını döyə bilər: bir narahatlıq, bir iş, bir xatirə. Qapını açmalı deyilsən. Sadəcə döyüldüyünü hiss edib olduğu kimi buraxa bilərsən. Qapı yerindədir.
+
+Yavaşca nəfəs al… və ver. Hər nəfəs verəndə çiyinlərin bir az da aşağı ensin.
+
+Bu otaq həmişə sənin üçün buradadır. Dünya çox səs-küylü gələndə bura qayıda, qapını bağlayıb dincələ bilərsən.
+
+Bir az da qal. Sükutu hiss et. Bu anda təhlükəsiz olduğunu hiss et.
+
+Hazır olanda daha dərin bir nəfəs al və bu sakitliyin bir hissəsini özünlə götürərək yavaşca geri qayıt.`,
+    `В этой медитации ты отдохнёшь в комнате, где чувствуешь себя в безопасности.
+
+Если хочешь, закрой глаза и сделай медленный вдох. Теперь вспомни комнату, которую хорошо знаешь. Это может быть твоя спальня, гостиная у бабушки — любое место, где тебе когда-то было спокойно.
+
+Представь дверь этой комнаты. Заметь её цвет, её ручку. Дверь закрыта, и по эту сторону ты в безопасности. Сейчас ничему не нужно входить.
+
+Мысленно оглядись. Где окно? Какой свет? Есть ли кресло, кровать, ковёр?
+
+Найди в комнате удобное место и устройся там. Почувствуй, как расслабляется тело, когда знает, где оно.
+
+Иногда в дверь может постучать мысль: тревога, дело, воспоминание. Открывать не обязательно. Можно просто заметить стук и оставить всё как есть. Дверь держит.
+
+Медленно вдохни… и выдохни. С каждым выдохом плечи опускаются чуть ниже.
+
+Эта комната всегда доступна тебе. Когда мир кажется слишком громким, можно вернуться сюда, закрыть дверь и отдохнуть.
+
+Побудь здесь ещё немного. Заметь тишину. Заметь, что в этот момент ты в безопасности.
+
+Когда почувствуешь готовность, сделай вдох поглубже и медленно возвращайся, взяв с собой немного этого покоя.`,
   ),
-
   'room-light': pack(
-    `Bu birkaç dakika bir tedavi değil. Odadaki ışık. Perde yarı açık olabilir, öğleden sonra, ya da bir lamba. Hangisi olursa ışık bir yere düşüyor ve sen o yere oturuyorsun. Işığı kovalamıyorsun. Sadece ona yer veriyorsun.
+    `Sessiz odana geri dönelim ve ışığı fark edelim.
 
-Gözler kapanabilir; ışık yine orada, kapakların arkasında pembe bir iz. İzi kovalamıyorsun, sadece fark ediyorsun. Hava burundan giriyor, göğüste bir an duruyor, çıkıyor. Işık değişmese nefes değişebilir, nefes değişmese ışık değişebilir. İkisi de senin işin değil. İkisi de oluyor.
+Yavaşça nefes alıp ver ve odayı yeniden gözünün önüne getir. Şimdi ışığın nereden geldiğine bak. Belki yumuşak gün ışığı süzülen bir pencere, belki sıcak, altın renkli bir lamba.
 
-Zihin karanlığı ölçebilir: yetmez, fazla. Bu cümleler gelebilir. Onları düzeltmiyorsun. Avuçlara dönüyorsun. Avuçlar birbirine değebilir, ılık, basit. Işık bir teşhis değil, karanlık da değil. Odaların halleri var. Sen odanın hali değilsin. Sen buradasın, ışığın düştüğü yerde.
+O ışığın biraz daha sıcak, biraz daha yumuşak olduğunu hayal et. Odanın üzerine, yere ve senin üzerine nazikçe düşsün.
 
-Omuzlar, boyun, çene, dil — her biri kendi gölgesine bırakılabilir. Gölge korkutucu olmak zorunda değil; sadece ışığın öteki yüzü. İçinden ışık düşüyor, ben buradayım diyebilirsin. Kanıt arama. Işığa gitmeden, karanlığa gitmeden, ortada, göğüste birkaç nefes geçiyor.
+Önce yüzünde hisset. Alnın yumuşuyor. Gözlerin dinleniyor. Çenen gevşiyor.
 
-Pencere varsa dışarıdaki ses içeri sızabilir, kapı varsa koridor duruyor. Bırakıyorsun. Sen ışığın düştüğü yerdesin. Alın duruyor, kaşlar gerilmek zorunda değil. Işık kalsa da solsa da ayaklar yerde. Bu yeterli bir haber. Avuç, taban, bu nefes.
+Sıcak ışık boynuna ve omuzlarına insin. Dokunduğu her yerde gerginlik biraz eriyor, güneşteki kar gibi.
 
-Gözler yavaşça odaya dönüyor. Işığın düştüğü yer duruyor, eller duruyor. Işığı bir sınav haline getirmeyeceksin. Düştüğü yer duruyor. Sen duruyorsun. Kalkmak zorunda değilsin hemen. Işık sönmez. Sen de sönmezsin.`,
+Şimdi göğsüne ulaşıyor. Nefesin yavaş ve rahat oluyor. Sonra karnına, yumuşak ve sakin.
 
-    `These few minutes are not a treatment. The light in the room. The curtain may be half open, afternoon, or there may be a lamp. Either way, light falls somewhere, and you sit in that place. You are not chasing the light. You are only making room for it.
+Işık kollarından ellerine iniyor. Ellerin ısınıyor ve ağırlaşıyor.
 
-The eyes can close. The light is still there, a pink trace behind the lids. You do not chase the trace. You only notice it. Air comes in through the nose, stays a moment in the chest, and leaves. The light can stay the same while the breath changes. The breath can stay the same while the light changes. Neither is your job. Both are happening.
+Bacaklarından aşağı, ta ayaklarına kadar akıyor. Bütün bedenin sıcak, yumuşak bir ışığın içinde dinleniyor.
 
-The mind can measure the dark: not enough, too much. Those sentences can arrive. You do not correct them. You return to the palms. The palms can touch, warm, simple. Light is not a diagnosis. Dark is not either. Rooms have states. You are not a state of the room. You are here, where the light falls.
+Bir yerin hâlâ gergin hissediyorsa onunla savaşma. Işığın bir süre orada durmasına izin ver. Acele yok.
 
-The shoulders, the neck, the jaw, the tongue — each can rest in its own shade. Shade does not have to be frightening. It is only the other face of light. Inside you may say light is falling, I am here. Do not look for proof. Without going toward the light, without going toward the dark, a few breaths pass in the middle, in the chest.
+Sıcaklığı içine çek… ve şu an ihtiyacın olmayan her şeyi nefesle dışarı bırak.
 
-If there is a window, sound from outside can leak in. If there is a door, the hall is still there. You let that be. You are where the light falls. The forehead stays. The brows do not have to tighten. If the light stays, if it fades, the feet are on the floor. That is enough news. Palm, sole, this breath.
+Birkaç nefes boyunca bu ışıkta kal. Güvendesin, sıcaktasın ve buradasın.
 
-The eyes come back slowly to the room. The place the light falls stays. The hands stay. You will not turn the light into an exam. The place it falls stays. You stay. You do not have to stand up yet. The light does not go out. Neither do you.`,
+Hazır olduğunda görüntünün yavaşça solmasına izin ver ve sıcaklığı yanında tut.`,
+    `Let us return to your quiet room, and notice the light.
 
-    `Estos minutos no son un tratamiento. La luz de la habitación. La cortina puede estar a medio abrir, tarde, o puede haber una lámpara. En cualquier caso la luz cae en algún sitio y tú te sientas ahí. No persigues la luz. Solo le das sitio.
+Breathe in and out slowly, and picture the room again. Now notice where the light is coming from. Perhaps a window with soft daylight, or a lamp with a warm, golden glow.
 
-Los ojos pueden cerrarse. La luz sigue, un rastro rosa detrás de los párpados. No persigues el rastro. Solo lo notas. El aire entra por la nariz, se queda un momento en el pecho y sale. La luz puede quedarse igual mientras el aire cambia. El aire puede quedarse igual mientras la luz cambia. Ninguna es tu trabajo. Las dos ocurren.
+Imagine that light becoming a little warmer, a little softer. Let it fall gently across the room, across the floor, and across you.
 
-La mente puede medir la oscuridad: no basta, demasiado. Esas frases pueden llegar. No las corriges. Vuelves a las palmas. Pueden tocarse, tibias, simples. La luz no es un diagnóstico. La oscuridad tampoco. Las habitaciones tienen estados. Tú no eres un estado de la habitación. Estás aquí, donde cae la luz.
+Feel it first on your face. Your forehead softens. Your eyes rest. Your jaw lets go.
 
-Los hombros, el cuello, la mandíbula, la lengua: cada uno puede descansar en su sombra. La sombra no tiene que asustar. Es solo la otra cara de la luz. Por dentro puedes decir la luz cae, estoy aquí. No busques una prueba. Sin ir hacia la luz, sin ir hacia la oscuridad, pasan unos alientos en el medio, en el pecho.
+Let the warm light move down to your neck and shoulders. Wherever it touches, tension melts a little, like snow in the sun.
 
-Si hay ventana, el sonido de fuera puede colarse. Si hay puerta, el pasillo sigue. Lo dejas. Tú estás donde cae la luz. La frente está. Las cejas no tienen que tensarse. Si la luz se queda, si se apaga, los pies están en el suelo. Eso basta como noticia. Palma, planta, este aliento.
+Now it reaches your chest. Your breath becomes slow and easy. Then your belly, soft and calm.
 
-Los ojos vuelven despacio a la habitación. El sitio donde cae la luz sigue. Las manos siguen. No vas a convertir la luz en un examen. El sitio donde cae sigue. Tú sigues. No tienes que levantarte aún. La luz no se apaga. Tú tampoco.`,
+The light moves down your arms to your hands. Your hands grow warm and heavy.
 
-    `Questi minuti non sono una cura. La luce nella stanza. La tenda può essere socchiusa, pomeriggio, o c’è una lampada. In ogni caso la luce cade da qualche parte e tu ti siedi lì. Non insegui la luce. Le fai solo spazio.
+It flows down your legs, all the way to your feet. Your whole body is resting in warm, gentle light.
 
-Gli occhi possono chiudersi. La luce resta, una traccia rosa dietro le palpebre. Non insegui la traccia. La noti soltanto. L’aria entra dal naso, resta un momento nel petto ed esce. La luce può restare uguale mentre il respiro cambia. Il respiro può restare uguale mentre la luce cambia. Nessuno dei due è il tuo compito. Entrambi accadono.
+If a part of you still feels tight, do not fight it. Just let the light rest there for a moment. There is no hurry.
 
-La mente può misurare il buio: non basta, troppo. Quelle frasi possono arrivare. Non le correggi. Torni ai palmi. Possono toccarsi, caldi, semplici. La luce non è una diagnosi. Il buio nemmeno. Le stanze hanno stati. Tu non sei uno stato della stanza. Sei qui, dove cade la luce.
+Breathe in the warmth… and breathe out anything you do not need right now.
 
-Le spalle, il collo, la mascella, la lingua: ognuno può restare nella propria ombra. L’ombra non deve spaventare. È solo l’altra faccia della luce. Dentro puoi dire la luce cade, io sono qui. Non cercare una prova. Senza andare verso la luce, senza andare verso il buio, passano alcuni respiri in mezzo, nel petto.
+Stay in this light for a few breaths. You are safe, you are warm, and you are here.
 
-Se c’è una finestra, il suono di fuori può entrare. Se c’è una porta, il corridoio resta. Lo lasci. Tu sei dove cade la luce. La fronte resta. Le sopracciglia non devono stringersi. Se la luce resta, se svanisce, i piedi sono a terra. Questa è notizia abbastanza. Palmo, pianta, questo respiro.
+When you are ready, let the image fade slowly, and keep the warmth with you.`,
+    `Volvamos a tu habitación tranquila y fijémonos en la luz.
 
-Gli occhi tornano piano alla stanza. Il punto dove cade la luce resta. Le mani restano. Non farai della luce un esame. Il punto dove cade resta. Tu resti. Non devi alzarti ancora. La luce non si spegne. Nemmeno tu.`,
+Inhala y exhala despacio, e imagina de nuevo la habitación. Ahora fíjate de dónde viene la luz. Quizá una ventana con luz suave de día, o una lámpara con un brillo cálido y dorado.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Otaqdakı işıq. Pərdə yarı açıq ola bilər, günorta, və ya lampa. Hansı olsa işıq bir yerə düşür və sən o yerdə oturursan. Işığı qovmursan. Yalnız ona yer verirsən.
+Imagina que esa luz se vuelve un poco más cálida, un poco más suave. Deja que caiga con delicadeza sobre la habitación, sobre el suelo y sobre ti.
 
-Gözlər bağlana bilər; işıq yenə oradadır, qapaqların arxasında çəhrayı iz. İzi qovmursan, yalnız görürsən. Hava burundan girir, sinədə bir an qalır, çıxır. Işıq dəyişməsə nəfəs dəyişə bilər, nəfəs dəyişməsə işıq dəyişə bilər. Heç biri sənin işin deyil. Hər ikisi olur.
+Siéntela primero en la cara. La frente se suaviza. Los ojos descansan. La mandíbula se suelta.
 
-Ağıl qaranlığı ölçə bilər: çatmır, çoxdur. Bu cümlələr gələ bilər. Onları düzəltmirsən. Ovucalara qayıdırsan. Ovucalar toxuna bilər, isti, sadə. Işıq diaqnoz deyil, qaranlıq da deyil. Otaqların halları var. Sən otağın halı deyilsən. Sən buradasan, işığın düşdüyü yerdə.
+Deja que la luz cálida baje al cuello y a los hombros. Allí donde toca, la tensión se derrite un poco, como la nieve al sol.
 
-Çiyinlər, boyun, çənə, dil — hər biri öz kölgəsinə buraxıla bilər. Kölgə qorxutmaq məcburiyyətində deyil; yalnız işığın o biri üzüdür. İçindən işıq düşür, mən buradayam deyə bilərsən. Sübut axtarma. Işığa getmədən, qaranlığa getmədən, ortada, sinədə bir neçə nəfəs keçir.
+Ahora llega al pecho. La respiración se vuelve lenta y fácil. Luego al vientre, blando y tranquilo.
 
-Pəncərə varsa çöldən səs sızabilir, qapı varsa dəhliz durur. Buraxırsan. Sən işığın düşdüyü yerdəsən. Alın durur, qaşlar gərilmək məcburiyyətində deyil. Işıq qalsa da getsə də ayaqlar yerdədir. Bu kifayət qədər xəbərdir. Ovuc, ayaq altı, bu nəfəs.
+La luz baja por los brazos hasta las manos. Las manos se calientan y pesan.
 
-Gözlər yavaşca otağa qayıdır. Işığın düşdüyü yer durur, əllər durur. Işığı imtahan etməyəcəksən. Düşdüyü yer durur. Sən durursan. İndi durmaq məcburiyyətində deyilsən. Işıq sönmür. Sən də sönmürsən.`,
+Fluye por las piernas, hasta los pies. Todo tu cuerpo descansa en una luz cálida y suave.
 
-    `Эти несколько минут — не лечение. Свет в комнате. Штора может быть полуоткрыта, после полудня, или горит лампа. В любом случае свет падает куда-то, и ты садишься туда. Ты не гонишься за светом. Ты только даёшь ему место.
+Si alguna parte sigue tensa, no luches con ella. Deja que la luz se quede allí un momento. No hay prisa.
 
-Глаза могут закрыться. Свет всё ещё там, розовый след за веками. Ты не гонишься за следом. Ты только замечаешь его. Воздух входит через нос, на миг остаётся в груди и выходит. Свет может остаться прежним, пока дыхание меняется. Дыхание может остаться прежним, пока меняется свет. Ни то ни другое — не твоя работа. Оба происходят.
+Inspira la calidez… y suelta con el aire todo lo que ahora no necesitas.
 
-Ум может мерить темноту: мало, много. Эти фразы могут прийти. Ты их не правишь. Ты возвращаешься к ладоням. Ладони могут коснуться, тёплые, простые. Свет — не диагноз. Темнота тоже. У комнат есть состояния. Ты не состояние комнаты. Ты здесь, там, куда падает свет.
+Quédate en esta luz unas respiraciones. Estás a salvo, sientes calor y estás aquí.
 
-Плечи, шея, челюсть, язык — каждое может остаться в своей тени. Тень не обязана пугать. Это только другая сторона света. Внутри можно сказать: свет падает, я здесь. Не ищи доказательства. Не к свету, не к темноте — несколько дыханий проходят посередине, в груди.
+Cuando quieras, deja que la imagen se desvanezca despacio y quédate con la calidez.`,
+    `Torniamo nella tua stanza tranquilla e notiamo la luce.
 
-Если есть окно, звук с улицы может войти. Если есть дверь, коридор на месте. Ты это оставляешь. Ты там, куда падает свет. Лоб на месте. Бровям не нужно напрягаться. Если свет останется, если потускнеет — стопы на полу. Этого достаточно как новости. Ладонь, стопа, это дыхание.
+Inspira ed espira piano, e immagina di nuovo la stanza. Ora nota da dove arriva la luce. Forse una finestra con una luce morbida, o una lampada con un bagliore caldo e dorato.
 
-Глаза медленно возвращаются в комнату. Место, куда падает свет, остаётся. Руки остаются. Ты не сделаешь из света экзамен. Место, куда он падает, остаётся. Ты остаёшься. Вставать ещё не нужно. Свет не гаснет. И ты не гаснешь.`,
+Immagina che quella luce diventi un po’ più calda, un po’ più morbida. Lascia che si posi con delicatezza sulla stanza, sul pavimento e su di te.
+
+Sentila prima sul viso. La fronte si ammorbidisce. Gli occhi riposano. La mascella si scioglie.
+
+Lascia che la luce calda scenda sul collo e sulle spalle. Dove tocca, la tensione si scioglie un po’, come neve al sole.
+
+Ora arriva al petto. Il respiro diventa lento e facile. Poi alla pancia, morbida e calma.
+
+La luce scende lungo le braccia fino alle mani. Le mani si scaldano e diventano pesanti.
+
+Scorre giù per le gambe, fino ai piedi. Tutto il corpo riposa in una luce calda e gentile.
+
+Se una parte è ancora tesa, non combatterla. Lascia che la luce resti lì per un momento. Non c’è fretta.
+
+Inspira il calore… ed espira tutto ciò che adesso non ti serve.
+
+Resta in questa luce per qualche respiro. Sei al sicuro, sei al caldo, e sei qui.
+
+Quando vuoi, lascia che l’immagine sfumi piano e tieni con te il calore.`,
+    `Sakit otağına qayıdaq və işığa diqqət edək.
+
+Yavaşca nəfəs al və ver, otağı yenidən gözünün önünə gətir. İndi işığın haradan gəldiyinə bax. Bəlkə yumşaq gün işığı süzülən bir pəncərə, bəlkə isti, qızılı rəngli bir lampa.
+
+O işığın bir az daha isti, bir az daha yumşaq olduğunu təsəvvür et. Qoy otağın üstünə, döşəməyə və sənin üstünə yumşaqca düşsün.
+
+Əvvəlcə üzündə hiss et. Alnın yumşalır. Gözlərin dincəlir. Çənən boşalır.
+
+İsti işıq boynuna və çiyinlərinə ensin. Toxunduğu hər yerdə gərginlik bir az əriyir, günəşdəki qar kimi.
+
+İndi sinənə çatır. Nəfəsin yavaş və rahat olur. Sonra qarnına, yumşaq və sakit.
+
+İşıq qollarından əllərinə enir. Əllərin istiləşir və ağırlaşır.
+
+Ayaqlarından aşağı, ta barmaqlarının ucuna qədər axır. Bütün bədənin isti, yumşaq bir işığın içində dincəlir.
+
+Bir yerin hələ gərgin hiss edirsə, onunla mübarizə aparma. Qoy işıq bir müddət orada qalsın. Tələsməyə ehtiyac yoxdur.
+
+İstiliyi içinə çək… və indi ehtiyacın olmayan hər şeyi nəfəslə çölə burax.
+
+Bir neçə nəfəs bu işıqda qal. Təhlükəsizsən, isti bir yerdəsən və buradasan.
+
+Hazır olanda təsvirin yavaşca solmasına icazə ver və istiliyi özünlə saxla.`,
+    `Давай вернёмся в твою тихую комнату и заметим свет.
+
+Медленно вдохни и выдохни, снова представь комнату. Теперь заметь, откуда идёт свет. Может быть, это окно с мягким дневным светом или лампа с тёплым золотистым сиянием.
+
+Представь, что этот свет становится чуть теплее, чуть мягче. Пусть он мягко ложится на комнату, на пол и на тебя.
+
+Сначала почувствуй его на лице. Лоб смягчается. Глаза отдыхают. Челюсть отпускает.
+
+Пусть тёплый свет опустится на шею и плечи. Где он касается, напряжение немного тает, как снег на солнце.
+
+Теперь он доходит до груди. Дыхание становится медленным и лёгким. Потом живот — мягкий и спокойный.
+
+Свет спускается по рукам к ладоням. Ладони теплеют и тяжелеют.
+
+Он течёт вниз по ногам, до самых стоп. Всё твоё тело отдыхает в тёплом мягком свете.
+
+Если какая-то часть ещё напряжена, не борись с ней. Просто позволь свету побыть там немного. Спешить некуда.
+
+Вдохни тепло… и выдохни всё, что сейчас не нужно.
+
+Побудь в этом свете несколько вдохов. Тебе безопасно, тебе тепло, и ты здесь.
+
+Когда почувствуешь готовность, позволь образу медленно растаять, а тепло оставь с собой.`,
   ),
-
   'room-hands': pack(
-    `Bu birkaç dakika bir tedavi değil. Eller bir iş yapmak zorunda değiller. Kucakta durabilirler, dizlerde, birbirine değerek. Sadece durmak.
+    `Bu son bölümde kendine teselli vermek için kendi ellerini kullanacaksın.
 
-Ayaklar yerde, sırt yaslı, eller kendi ağırlıklarında. Bu ağırlık bir haber: buradasın. Nefes avuçlara gitmiyor, avuçlar nefesi tutmuyor. İkisi yan yana. Hava burundan giriyor ve çıkıyor, avuçlar ılık kalıyor.
+Odana yerleş ve yavaşça nefes al. Dikkatini ellerine getir. Şu an nasıl hissettiklerini fark et: sıcak mı serin mi, hareketsiz mi, karıncalanıyor mu?
 
-Parmaklar kendi yerinde. Sıkmak yok, açmak yok, sadece durmak. Tırnağın kenarı, avuç içindeki bir çizgi — küçük ve gerçek. Zihin elleri bir göreve çağırabilir: yaz, tut, düzelt. Bu çağrı gelebilir. Eller göreve gitmek zorunda değil. Kucakta kalabilirler.
+Avuçlarını birkaç saniye nazikçe birbirine sürt ve oluşturduğun sıcaklığı hisset.
 
-İçinden ellerim burada diyebilirsin. Kanıt arama. Avuçların ısısını fark ediyorsun. Isı bir teşhis değil, sadece ten. Nabız varsa nabız; hızlı ya da yavaş, ikisi de haber. Nabzı düzeltmek yok, sadece duymak.
+Şimdi bir elini göğsüne, kalbinin üstüne, diğerini karnına koy. Nefes alıp verirken ellerinin altındaki yükselip alçalmayı hisset.
 
-Bilekler, önkol, dirseklerin ağırlığı orada. Omuzlar kulaklara gitmek zorunda değil; aralarında bir milim boşluk olsa da yine avuçlara dönüyorsun. Oturum kısa diye acele yok. Eller hâlâ orada, sen hâlâ buradasın. Çene, dil, avuç aynı odada.
+İçeriden şefkat böyle hissettirir. Bir arkadaşını nasıl teselli edersen, kendini de öyle teselli edebilirsin.
 
-Gözler yavaşça odaya dönüyor, eller duruyor. Elleri bir sınav haline getirmeyeceksin. Avuçlar açık kalabilir. Kaldırmak zorunda değilsin hemen. Bu da yeter.`,
+İçinden kendine söyle: Buradayım. Şu an güvendeyim. Bu his geçecek.
 
-    `These few minutes are not a treatment. The hands do not have to do a job. They can rest in the lap, on the knees, touching each other. Only staying.
+Yavaşça nefes al… ve ellerinin yükseldiğini hisset. Nefes ver… ve yerine oturduklarını hisset.
 
-Feet on the floor, back supported, hands in their own weight. That weight is news: you are here. Breath does not go to the palms. The palms do not hold the breath. They sit side by side. Air comes in through the nose and leaves. The palms stay warm.
+Duygular gelirse gelsinler. Ellerin seni olduğun gibi tutuyor.
 
-The fingers stay in their places. No clenching, no spreading, only staying. The edge of a nail, a line in the palm — small and actual. The mind can call the hands to a task: write, hold, fix. That call can arrive. The hands do not have to go. They can stay in the lap.
+Uzun zamandır çok şey taşıyorsun. Bu birkaç an boyunca hiçbir şey taşımak zorunda değilsin. Sadece tutulabilirsin.
 
-Inside you may say my hands are here. Do not look for proof. You notice the warmth of the palms. Warmth is not a diagnosis. It is only skin. If there is a pulse, there is a pulse. Fast or slow, both are news. You do not have to fix the pulse. Only hear it.
+Birkaç nefes daha ellerinin sıcaklığıyla kal.
 
-The wrists, the forearms, the weight of the elbows are there. The shoulders do not have to climb toward the ears. A millimetre of space is enough, and then you return to the palms again. The session is short. Short does not mean hurry. The hands are still there. You are still here. Jaw, tongue, palm, in the same room.
+Bitirmeden önce bu zamanı kendine ayırdığın için kendine teşekkür et. Hazır olduğunda ellerini kucağına bırak, derin bir nefes al ve gözlerini yavaşça aç.`,
+    `In this last part, you will use your own hands to bring comfort.
 
-The eyes come back slowly to the room. The hands stay. You will not turn the hands into an exam. Palms can stay open. You do not have to lift them yet. That is enough.`,
+Settle into your room, and breathe slowly. Bring your attention to your hands. Notice how they feel right now: warm or cool, still or tingling.
 
-    `Estos minutos no son un tratamiento. Las manos no tienen que hacer un trabajo. Pueden quedarse en el regazo, en las rodillas, tocándose. Solo quedarse.
+Gently rub your palms together for a few seconds, and feel the warmth that you create.
 
-Los pies en el suelo, la espalda apoyada, las manos en su propio peso. Ese peso es una noticia: estás aquí. El aire no va a las palmas. Las palmas no sujetan el aire. Van juntas. El aire entra por la nariz y sale. Las palmas siguen tibias.
+Now place one hand on your chest, over your heart, and the other on your belly. Feel the rise and fall beneath your hands as you breathe.
 
-Los dedos están en su sitio. Sin apretar, sin abrir, solo quedarse. El borde de una uña, una línea en la palma: pequeño y real. La mente puede llamar a las manos a una tarea: escribe, sujeta, arregla. Esa llamada puede llegar. Las manos no tienen que ir. Pueden quedarse en el regazo.
+This is what kindness feels like from the inside. The same way you might comfort a friend, you can comfort yourself.
 
-Por dentro puedes decir mis manos están aquí. No busques una prueba. Notas el calor de las palmas. El calor no es un diagnóstico. Es solo piel. Si hay pulso, hay pulso. Rápido o lento, los dos son noticia. No tienes que arreglar el pulso. Solo oírlo.
+Silently say to yourself: I am here. I am safe right now. This feeling will pass.
 
-Las muñecas, los antebrazos, el peso de los codos están ahí. Los hombros no tienen que subir hacia las orejas. Un milímetro de espacio basta, y luego vuelves a las palmas. La sesión es corta. Corta no significa prisa. Las manos siguen ahí. Tú sigues aquí. Mandíbula, lengua, palma, en la misma habitación.
+Breathe in slowly… and feel your hands rise. Breathe out… and feel them settle.
 
-Los ojos vuelven despacio a la habitación. Las manos siguen. No vas a convertir las manos en un examen. Las palmas pueden quedar abiertas. No tienes que levantarlas aún. Eso basta.`,
+If emotions come up, let them. Your hands are holding you, just as you are.
 
-    `Questi minuti non sono una cura. Le mani non devono fare un lavoro. Possono restare in grembo, sulle ginocchia, toccandosi. Solo restare.
+You have been carrying a lot. For these few moments, you do not have to carry anything. You can simply be held.
 
-Piedi a terra, schiena appoggiata, mani nel proprio peso. Quel peso è una notizia: sei qui. Il respiro non va ai palmi. I palmi non tengono il respiro. Stanno accanto. L’aria entra dal naso ed esce. I palmi restano caldi.
+Stay with the warmth of your hands for a few more breaths.
 
-Le dita restano al loro posto. Senza stringere, senza aprire, solo restare. Il bordo di un’unghia, una linea nel palmo: piccolo e vero. La mente può chiamare le mani a un compito: scrivi, tieni, sistema. Quella chiamata può arrivare. Le mani non devono andare. Possono restare in grembo.
+Before you finish, thank yourself for taking this time. When you are ready, rest your hands in your lap, take a deep breath, and gently open your eyes.`,
+    `En esta última parte, vas a usar tus propias manos para darte consuelo.
 
-Dentro puoi dire le mie mani sono qui. Non cercare una prova. Noti il calore dei palmi. Il calore non è una diagnosi. È solo pelle. Se c’è un polso, c’è un polso. Veloce o lento, tutti e due sono notizia. Non devi sistemare il polso. Solo ascoltarlo.
+Acomódate en tu habitación y respira despacio. Lleva la atención a las manos. Nota cómo están ahora: cálidas o frescas, quietas o con un leve hormigueo.
 
-I polsi, gli avambracci, il peso dei gomiti sono lì. Le spalle non devono salire verso le orecchie. Un millimetro di spazio basta, e poi torni ai palmi. La sessione è breve. Breve non significa fretta. Le mani sono ancora lì. Tu sei ancora qui. Mascella, lingua, palmo, nella stessa stanza.
+Frota suavemente las palmas durante unos segundos y siente el calor que creas.
 
-Gli occhi tornano piano alla stanza. Le mani restano. Non farai delle mani un esame. I palmi possono restare aperti. Non devi alzarle ancora. Questo basta.`,
+Ahora pon una mano sobre el pecho, sobre el corazón, y la otra sobre el vientre. Siente cómo suben y bajan bajo tus manos al respirar.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Əllər iş görmək məcburiyyətində deyil. Qucaqda dura bilər, dizlərdə, bir-birinə dəyərək. Yalnız durmaq.
+Así se siente la amabilidad desde dentro. Igual que consolarías a alguien que quieres, puedes consolarte a ti.
 
-Ayaqlar yerdə, bel dayaqlı, əllər öz ağırlığında. Bu ağırlıq bir xəbərdir: buradasan. Nəfəs ovucalara getmir, ovucalar nəfəsi tutmur. Yan-yana dururlar. Hava burundan girir və çıxır, ovucalar isti qalır.
+Di en silencio: Estoy aquí. Ahora mismo estoy a salvo. Esta sensación pasará.
 
-Barmaqlar öz yerindədir. Sıxmaq yoxdur, açmaq yoxdur, yalnız durmaq. Dırnağın kənarı, ovucun içindəki xətt — kiçik və gerçək. Ağıl əlləri bir işə çağıra bilər: yaz, tut, düzəlt. Bu çağırış gələ bilər. Əllər getmək məcburiyyətində deyil. Qucağda qala bilər.
+Inhala despacio… y siente cómo suben tus manos. Exhala… y siente cómo se asientan.
 
-İçindən əllərim buradadır deyə bilərsən. Sübut axtarma. Ovucaların istiliyini görürsən. İstilik diaqnoz deyil, yalnız dəri. Nəbz varsa nəbz; tez və ya yavaş, hər ikisi xəbərdir. Nəbzi düzəltmək yoxdur, yalnız eşitmək.
+Si aparecen emociones, déjalas estar. Tus manos te sostienen tal como estás.
 
-Biləklər, ön qol, dirsəklərin ağırlığı oradadır. Çiyinlər qulaqlara getmək məcburiyyətində deyil; bir milim boşluq olsa da yenə ovucalara qayıdırsan. Oturum qısa deyə tələsmək yoxdur. Əllər hələ oradadır, sən hələ buradasan. Çənə, dil, ovuc eyni otaqda.
+Has cargado con mucho. Durante estos momentos no tienes que cargar con nada. Solo dejarte sostener.
 
-Gözlər yavaşca otağa qayıdır, əllər durur. Əlləri imtahan etməyəcəksən. Ovucalar açıq qala bilər. İndi qaldırmaq məcburiyyətində deyilsən. Bu da bəsdir.`,
+Quédate unas respiraciones más con el calor de tus manos.
 
-    `Эти несколько минут — не лечение. Рукам не нужно делать работу. Они могут лежать на коленях, в лоне, касаясь друг друга. Только оставаться.
+Antes de terminar, agradécete este tiempo. Cuando quieras, deja las manos en el regazo, respira hondo y abre los ojos despacio.`,
+    `In quest’ultima parte userai le tue mani per darti conforto.
 
-Стопы на полу, спина с опорой, руки в своём весе. Этот вес — новость: ты здесь. Дыхание не идёт к ладоням. Ладони не держат дыхание. Они рядом. Воздух входит через нос и выходит. Ладони остаются тёплыми.
+Sistemati nella tua stanza e respira piano. Porta l’attenzione alle mani. Nota come sono adesso: calde o fresche, ferme o con un leggero formicolio.
 
-Пальцы на своих местах. Не сжимать, не раскрывать, только оставаться. Край ногтя, линия на ладони — маленькое и настоящее. Ум может позвать руки к делу: пиши, держи, исправь. Этот зов может прийти. Рукам не нужно идти. Они могут остаться в лоне.
+Strofina dolcemente i palmi per qualche secondo e senti il calore che crei.
 
-Внутри можно сказать: мои руки здесь. Не ищи доказательства. Ты замечаешь тепло ладоней. Тепло — не диагноз. Только кожа. Если есть пульс — есть пульс. Быстрый или медленный, оба — новость. Пульс не нужно чинить. Только слышать.
+Ora metti una mano sul petto, sul cuore, e l’altra sulla pancia. Senti il respiro che sale e scende sotto le mani.
 
-Запястья, предплечья, вес локтей на месте. Плечам не нужно подниматься к ушам. Миллиметра пространства достаточно, и ты снова возвращаешься к ладоням. Сессия короткая. Короткое не значит спешить. Руки всё ещё там. Ты всё ещё здесь. Челюсть, язык, ладонь — в одной комнате.
+Ecco come si sente la gentilezza da dentro. Come consoleresti una persona cara, puoi consolare te.
 
-Глаза медленно возвращаются в комнату. Руки остаются. Ты не сделаешь из рук экзамен. Ладони могут остаться открытыми. Поднимать их ещё не нужно. Этого достаточно.`,
+Ripeti in silenzio: Sono qui. In questo momento sono al sicuro. Questa sensazione passerà.
+
+Inspira piano… e senti le mani che si alzano. Espira… e senti che si posano.
+
+Se arrivano emozioni, lasciale stare. Le tue mani ti tengono così come sei.
+
+Hai portato tanto. In questi momenti non devi portare niente. Puoi solo lasciarti sostenere.
+
+Resta ancora qualche respiro con il calore delle mani.
+
+Prima di finire, ringraziati per questo tempo. Quando vuoi, appoggia le mani in grembo, fai un respiro profondo e apri piano gli occhi.`,
+    `Bu son hissədə özünə təsəlli vermək üçün öz əllərindən istifadə edəcəksən.
+
+Otağına yerləş və yavaşca nəfəs al. Diqqətini əllərinə gətir. İndi necə hiss etdiklərinə bax: istidirlər, yoxsa sərin, hərəkətsizdirlər, yoxsa göynəyirlər?
+
+Ovuclarını bir neçə saniyə yumşaqca bir-birinə sürt və yaratdığın istiliyi hiss et.
+
+İndi bir əlini sinənə, ürəyinin üstünə, digərini qarnına qoy. Nəfəs aldıqca əllərinin altında qalxıb enməni hiss et.
+
+İçəridən şəfqət belə hiss olunur. Bir dostuna necə təsəlli verirsənsə, özünə də elə təsəlli verə bilərsən.
+
+İçində özünə de: Buradayam. Bu an təhlükəsizəm. Bu hiss keçib gedəcək.
+
+Yavaşca nəfəs al… və əllərinin qalxdığını hiss et. Nəfəs ver… və yerinə oturduqlarını hiss et.
+
+Hisslər gəlsə, qoy gəlsinlər. Əllərin səni olduğun kimi saxlayır.
+
+Uzun müddətdir çox şey daşıyırsan. Bu bir neçə an ərzində heç nə daşımalı deyilsən. Sadəcə özünü əllərinə tapşıra bilərsən.
+
+Bir neçə nəfəs də əllərinin istiliyi ilə qal.
+
+Bitirməzdən əvvəl bu vaxtı özünə ayırdığın üçün özünə təşəkkür et. Hazır olanda əllərini dizlərinin üstünə qoy, dərin nəfəs al və gözlərini yavaşca aç.`,
+    `В этой последней части ты используешь собственные руки, чтобы утешить себя.
+
+Устройся в своей комнате и дыши медленно. Перенеси внимание на руки. Заметь, какие они сейчас: тёплые или прохладные, спокойные или покалывают.
+
+Мягко потри ладони друг о друга несколько секунд и почувствуй тепло, которое ты создаёшь.
+
+Теперь положи одну руку на грудь, на сердце, а другую — на живот. Почувствуй, как под ладонями поднимается и опускается дыхание.
+
+Так ощущается доброта изнутри. Так же, как утешают друга, можно утешить и себя.
+
+Мысленно скажи себе: Я здесь. Сейчас я в безопасности. Это чувство пройдёт.
+
+Медленно вдохни… и почувствуй, как руки поднимаются. Выдохни… и почувствуй, как они опускаются.
+
+Если поднимаются эмоции, позволь им быть. Твои руки рядом и держат тебя.
+
+На тебе было так много. В эти несколько мгновений ничего не нужно нести. Можно просто позволить себя поддержать.
+
+Побудь ещё несколько вдохов с теплом своих рук.
+
+Прежде чем закончить, поблагодари себя за это время. Когда почувствуешь готовность, опусти руки на колени, сделай глубокий вдох и мягко открой глаза.`,
   ),
-
   'shore-edge': pack(
-    `Bu birkaç dakika bir tedavi değil. Bir kıyı. Su gelir, su gider, sen kenarda oturuyorsun. Dalgayı yönetmiyorsun, dalgayı durdurmuyorsun. Sadece kenardasın.
+    `Kendini sessiz bir kıyıda, denizin kenarında otururken hayal et.
 
-Sırt yaslanabilir, ayaklar yerde ya da uzanmış. Kum, taş, tahta — hangisi varsa o. Soğuk ya da ılık, ikisi de kıyı. Nefes dalgaya benzemez zorunda değil. Giriyor, çıkıyor. Su kendi işini bilir, sen kendi yerini.
+Yavaş bir nefes al. Altındaki kumu ya da düz bir kayayı hisset; sağlam ve sabit. Önünde su ufka kadar uzanıyor.
 
-Zihin dalgayı sayabilir: yetmez, fazla, yakın, uzak. Bu cümleler gelebilir. Saymayı bırakıyorsun. Kenara dönüyorsun: avuç, taban, bu nefes. İçinden kenardayım diyebilirsin. Kanıt arama. Su geliyorsa geliyor, gidiyorsa gidiyor. İkisi de senin görevin değil.
+Dalgaları izle. Biri yükseliyor, büyüyor, sonra kıyıya yumuşakça vuruyor ve geri çekiliyor. Sonra bir başkası geliyor.
 
-Omuzlar, çene, dil kendi ağırlıklarında. Rüzgâr varsa rüzgâr, yoksa yok. Kıyı ikisini de tutar ve sen de tutuluyorsun. Alış bir geliş gibi gelebilir, veriş bir gidiş gibi; benzetmek zorunda değilsin. Sadece sıra, sonra yine ayaklar.
+Duyguların da böyle hareket edebilir. Kaygı bir dalga gibi yükselebilir, güçlenebilir, zirveye ulaşabilir — ve sonra her zaman geri çekilir. Her dalga çekilir.
 
-Cam gibi bir anlatı gelebilir. Camı kırmıyorsun. Kenar duruyor, basınç duruyor. Bu da bir haber. Su sesi, uzak bir kuş, bir motor — onları kapatmıyorsun. Kenar onları da alır. Sen kenardasın; suyun içinde olmak zorunda değilsin.
+Dalgaları durdurmak zorunda değilsin. Sen kıyısın. Dalgalar gelir ve gider, kıyı kalır.
 
-Gözler yavaşça odaya dönüyor, eller duruyor. Kıyı bir resimse resim, gerçekse gerçek. Sen buradasın. Kıyıyı bir sınav haline getirmeyeceksin. Kenar duruyor. Su durmuyor — geliyor, gidiyor. Sen duruyorsun. Bu yeter.`,
+Bir dalga gelirken nefes al… çekilirken nefes ver.
 
-    `These few minutes are not a treatment. A shore. Water arrives, water leaves, and you sit at the edge. You are not managing the wave. You are not stopping the wave. You are only at the edge.
+Al… ve ver.
 
-The back can rest. The feet are on the floor or stretched out. Sand, stone, wood — whichever is there, that. Cool or warm, both are shore. The breath does not have to resemble a wave. It comes in and it leaves. The water knows its work. You know your place.
+Suyun sesini fark et, düzenli ve ritmik. Yüzündeki temiz havayı hisset.
 
-The mind can count the waves: not enough, too many, near, far. Those sentences can arrive. You leave the counting. You return to the edge: the palm, the sole, this breath. Inside you may say I am at the edge. Do not look for proof. If water comes, it comes. If it leaves, it leaves. Neither is your task.
+Büyük bir dalga gelirse — güçlü bir duygu, hızlanan bir düşünce — sadece izle. Ne kadar büyük olduğunu fark et, sonra küçülmeye başlayışını izle. Zaten denize geri dönüyor.
 
-The shoulders, the jaw, the tongue rest in their own weight. If there is wind, there is wind. If not, not. The shore holds both, and you are being held as well. An in-breath may feel like an arrival, an out-breath like a leaving. You do not have to force the likeness. Only the sequence, then the feet again.
+Kıyıda güvendesin. Deniz hareket ediyor, sen kalıyorsun.
 
-A story about glass can arrive. You do not break the glass. The edge stays. Pressure stays. That is also news. Water, a far bird, an engine — you do not shut them out. The edge takes them too. You are at the edge. You do not have to be inside the water.
+Dalgalarla birlikte nefes alarak biraz daha kal.
 
-The eyes come back slowly to the room. The hands stay. If the shore is a picture, a picture. If it is actual, actual. You are here. You will not turn the shore into an exam. The edge stays. The water does not stay — it comes, it goes. You stay. That is enough.`,
+Hazır olduğunda daha derin bir nefes al, oturduğun yerde bedenini hisset ve yavaşça geri dön.`,
+    `Imagine yourself sitting by the sea, on a quiet shore.
 
-    `Estos minutos no son un tratamiento. Una orilla. El agua llega, el agua se va, y te sientas al borde. No gestionas la ola. No la detienes. Solo estás al borde.
+Take a slow breath. Feel the sand or a smooth rock beneath you, solid and steady. In front of you, the water stretches out to the horizon.
 
-La espalda puede apoyarse. Los pies están en el suelo o estirados. Arena, piedra, madera: lo que haya. Frío o calor, los dos son orilla. El aliento no tiene que parecerse a una ola. Entra y sale. El agua sabe su trabajo. Tú sabes tu sitio.
+Watch the waves. One rises, grows, and then rolls gently onto the shore before sliding back. Then another one comes.
 
-La mente puede contar las olas: no basta, demasiadas, cerca, lejos. Esas frases pueden llegar. Dejas la cuenta. Vuelves al borde: la palma, la planta, este aliento. Por dentro puedes decir estoy al borde. No busques una prueba. Si el agua llega, llega. Si se va, se va. Ninguna es tu tarea.
+Your feelings can move like this. Anxiety may rise like a wave, grow stronger, reach its peak — and then it always falls back. Every wave does.
 
-Los hombros, la mandíbula, la lengua están en su peso. Si hay viento, hay viento. Si no, no. La orilla sostiene las dos cosas, y a ti también. Una entrada puede sentirse como una llegada, una salida como una ida. No tienes que forzar el parecido. Solo la secuencia, luego los pies otra vez.
+You do not have to stop the waves. You are the shore. The waves come and go, and the shore stays.
 
-Puede llegar un relato de cristal. No rompes el cristal. El borde sigue. La presión sigue. Eso también es noticia. Agua, un pájaro lejano, un motor: no los apagas. El borde también los toma. Estás al borde. No tienes que estar dentro del agua.
+Breathe in as a wave rolls in… and breathe out as it slides away.
 
-Los ojos vuelven despacio a la habitación. Las manos siguen. Si la orilla es una imagen, una imagen. Si es real, real. Estás aquí. No vas a convertir la orilla en un examen. El borde sigue. El agua no se queda: llega, se va. Tú te quedas. Eso basta.`,
+In… and out.
 
-    `Questi minuti non sono una cura. Una riva. L’acqua arriva, l’acqua se ne va, e siedi sul bordo. Non gestisci l’onda. Non la fermi. Sei solo sul bordo.
+Notice the sound of the water, steady and rhythmic. Feel the fresh air on your face.
 
-La schiena può appoggiarsi. I piedi sono a terra o distesi. Sabbia, pietra, legno: quello che c’è. Freddo o caldo, tutti e due sono riva. Il respiro non deve assomigliare a un’onda. Entra ed esce. L’acqua sa il suo lavoro. Tu sai il tuo posto.
+If a big wave comes — a strong feeling, a racing thought — just watch it. Notice how big it is, and then watch it begin to shrink. It is already on its way back to the sea.
 
-La mente può contare le onde: non basta, troppe, vicine, lontane. Quelle frasi possono arrivare. Lasci il conto. Torni al bordo: il palmo, la pianta, questo respiro. Dentro puoi dire sono sul bordo. Non cercare una prova. Se l’acqua arriva, arriva. Se se ne va, se ne va. Nessuna è il tuo compito.
+You are safe on the shore. The sea moves, and you stay.
 
-Le spalle, la mascella, la lingua restano nel proprio peso. Se c’è vento, c’è vento. Se no, no. La riva tiene entrambi, e tieni anche tu. Un’inspirazione può sembrare un arrivo, un’espirazione una partenza. Non devi forzare la somiglianza. Solo la sequenza, poi di nuovo i piedi.
+Stay a while longer, breathing with the waves.
 
-Può arrivare un racconto di vetro. Non rompi il vetro. Il bordo resta. La pressione resta. Anche questa è notizia. Acqua, un uccello lontano, un motore: non li chiudi fuori. Il bordo li prende anche. Sei sul bordo. Non devi essere dentro l’acqua.
+When you are ready, take a deeper breath, feel your body where you are sitting, and slowly come back.`,
+    `Imagina que estás junto al mar, en una orilla tranquila.
 
-Gli occhi tornano piano alla stanza. Le mani restano. Se la riva è un’immagine, un’immagine. Se è vera, vera. Tu sei qui. Non farai della riva un esame. Il bordo resta. L’acqua non resta: arriva, se ne va. Tu resti. Questo basta.`,
+Respira despacio. Siente la arena o una roca lisa debajo de ti, firme y estable. Frente a ti, el agua se extiende hasta el horizonte.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Bir sahil. Su gəlir, su gedir, sən kənarda oturursan. Dalğanı idarə etmirsən, dalğanı dayandırmırsan. Yalnız kənardasan.
+Mira las olas. Una se eleva, crece y luego rompe suavemente en la orilla antes de retirarse. Después llega otra.
 
-Bel söykənə bilər, ayaqlar yerdə və ya uzanıb. Qum, daş, taxta — hansı varsa, o. Soyuq ya isti, hər ikisi sahildir. Nəfəs dalğaya bənzəmək məcburiyyətində deyil. Girir, çıxır. Su öz işini bilir, sən öz yerini.
+Tus emociones pueden moverse así. La ansiedad puede subir como una ola, hacerse más fuerte, llegar a su punto más alto… y después siempre baja. Todas las olas bajan.
 
-Ağıl dalğanı saya bilər: çatmır, çoxdur, yaxın, uzaq. Bu cümlələr gələ bilər. Sayımı buraxırsan. Kənara qayıdırsan: ovuc, ayaq altı, bu nəfəs. İçindən kənardayam deyə bilərsən. Sübut axtarma. Su gəlirsə gəlir, gedirsə gedir. Heç biri sənin vəzifən deyil.
+No tienes que detener las olas. Tú eres la orilla. Las olas vienen y van, y la orilla se queda.
 
-Çiyinlər, çənə, dil öz ağırlığındadır. Külək varsa külək, yoxdursa yox. Sahil ikisini də tutur və sən də tutulursan. Alış bir gəliş kimi gələ bilər, veriş bir gediş kimi; bənzətmək məcburiyyətində deyilsən. Yalnız sıra, sonra yenə ayaqlar.
+Inhala cuando llega una ola… y exhala cuando se retira.
 
-Şüşə kimi bir danışıq gələ bilər. Şüşəni qırmırsan. Kənar durur, təzyiq durur. Bu da bir xəbər. Su səsi, uzaq quş, bir motor — onları bağlamırsan. Kənar onları da alır. Sən kənardasan; suyun içində olmaq məcburiyyətində deyilsən.
+Dentro… y fuera.
 
-Gözlər yavaşca otağa qayıdır, əllər durur. Sahil şəkilədirsə şəkil, gerçəkdirsə gerçək. Sən buradasan. Sahili imtahan etməyəcəksən. Kənar durur. Su durmur — gəlir, gedir. Sən durursan. Bu bəsdir.`,
+Escucha el sonido del agua, constante y rítmico. Siente el aire fresco en la cara.
 
-    `Эти несколько минут — не лечение. Берег. Вода приходит, вода уходит, и ты сидишь на краю. Ты не управляешь волной. Ты её не останавливаешь. Ты просто на краю.
+Si llega una ola grande —una emoción fuerte, un pensamiento acelerado—, solo obsérvala. Nota lo grande que es y luego mira cómo empieza a hacerse pequeña. Ya está volviendo al mar.
 
-Спина может опереться. Стопы на полу или вытянуты. Песок, камень, дерево — что есть, то и есть. Холод или тепло — оба берег. Дыханию не нужно быть похожим на волну. Оно входит и выходит. Вода знает свою работу. Ты знаешь своё место.
+En la orilla estás a salvo. El mar se mueve, y tú te quedas.
 
-Ум может считать волны: мало, много, близко, далеко. Эти фразы могут прийти. Ты оставляешь счёт. Ты возвращаешься к краю: ладонь, стопа, это дыхание. Внутри можно сказать: я на краю. Не ищи доказательства. Если вода приходит — приходит. Если уходит — уходит. Ни то ни другое не твоя задача.
+Quédate un rato más, respirando con las olas.
 
-Плечи, челюсть, язык в своём весе. Если есть ветер — есть ветер. Если нет — нет. Берег держит оба, и тебя. Вдох может быть как приход, выдох как уход. Не нужно насильно делать сходство. Только последовательность, потом снова стопы.
+Cuando quieras, respira más hondo, siente tu cuerpo donde estás y vuelve despacio.`,
+    `Immagina di trovarti in riva al mare, su una spiaggia tranquilla.
 
-Может прийти рассказ про стекло. Ты стекло не бьёшь. Край остаётся. Давление остаётся. Это тоже новость. Вода, далёкая птица, мотор — ты их не закрываешь. Край берёт и их. Ты на краю. Тебе не нужно быть внутри воды.
+Fai un respiro lento. Senti la sabbia o una roccia liscia sotto di te, solida e stabile. Davanti a te l’acqua si stende fino all’orizzonte.
 
-Глаза медленно возвращаются в комнату. Руки остаются. Если берег — картинка, картинка. Если настоящий — настоящий. Ты здесь. Ты не сделаешь из берега экзамен. Край остаётся. Вода не остаётся — приходит, уходит. Ты остаёшься. Этого достаточно.`,
+Guarda le onde. Una sale, cresce, poi si stende dolcemente sulla riva e si ritira. Poi ne arriva un’altra.
+
+Le emozioni possono muoversi così. L’ansia può salire come un’onda, farsi più forte, raggiungere il picco… e poi ricade sempre. Ogni onda ricade.
+
+Non devi fermare le onde. Tu sei la riva. Le onde vanno e vengono, la riva resta.
+
+Inspira quando un’onda arriva… espira quando si ritira.
+
+Dentro… e fuori.
+
+Ascolta il suono dell’acqua, costante e ritmico. Senti l’aria fresca sul viso.
+
+Se arriva un’onda grande — un’emozione forte, un pensiero che corre — osservala soltanto. Nota quanto è grande, poi guardala mentre comincia a rimpicciolire. Sta già tornando al mare.
+
+Sulla riva sei al sicuro. Il mare si muove, e tu resti.
+
+Resta ancora un po’, respirando con le onde.
+
+Quando vuoi, fai un respiro più profondo, senti il corpo dove sei e torna piano.`,
+    `Özünü sakit bir sahildə, dənizin kənarında oturmuş təsəvvür et.
+
+Yavaş bir nəfəs al. Altındakı qumu və ya hamar bir qayanı hiss et; möhkəm və sabit. Qarşında su üfüqə qədər uzanır.
+
+Dalğalara bax. Biri qalxır, böyüyür, sonra sahilə yumşaqca çırpılır və geri çəkilir. Sonra başqası gəlir.
+
+Hisslərin də belə hərəkət edə bilər. Narahatlıq dalğa kimi qalxa, güclənə, zirvəyə çata bilər — və sonra həmişə geri çəkilir. Hər dalğa çəkilir.
+
+Dalğaları dayandırmalı deyilsən. Sən sahilsən. Dalğalar gəlir və gedir, sahil qalır.
+
+Dalğa gələndə nəfəs al… çəkiləndə nəfəs ver.
+
+Al… və ver.
+
+Suyun səsinə diqqət et, ahəngdar və ritmik. Üzündə təmiz havanı hiss et.
+
+Böyük bir dalğa gəlsə — güclü bir hiss, sürətlənən bir fikir — sadəcə bax. Nə qədər böyük olduğunu gör, sonra kiçilməyə başladığını izlə. O artıq dənizə qayıdır.
+
+Sahildə təhlükəsizsən. Dəniz hərəkət edir, sən qalırsan.
+
+Dalğalarla birlikdə nəfəs alaraq bir az da qal.
+
+Hazır olanda daha dərin nəfəs al, oturduğun yerdə bədənini hiss et və yavaşca geri qayıt.`,
+    `Представь, что сидишь у моря, на тихом берегу.
+
+Сделай медленный вдох. Почувствуй под собой песок или гладкий камень — твёрдый и надёжный. Перед тобой вода тянется до самого горизонта.
+
+Смотри на волны. Одна поднимается, растёт, мягко накатывает на берег и отступает. Потом приходит следующая.
+
+Чувства могут двигаться так же. Тревога может подняться, как волна, стать сильнее, достичь пика — и потом она всегда отступает. Каждая волна отступает.
+
+Тебе не нужно останавливать волны. Ты — берег. Волны приходят и уходят, а берег остаётся.
+
+Вдыхай, когда волна накатывает… выдыхай, когда она отступает.
+
+Вдох… и выдох.
+
+Заметь шум воды, ровный и ритмичный. Почувствуй свежий воздух на лице.
+
+Если приходит большая волна — сильное чувство, бегущая мысль, — просто наблюдай. Заметь, какая она большая, а потом смотри, как она начинает уменьшаться. Она уже возвращается в море.
+
+На берегу ты в безопасности. Море движется, а ты остаёшься.
+
+Побудь ещё немного, дыша вместе с волнами.
+
+Когда почувствуешь готовность, сделай вдох поглубже, почувствуй тело там, где сидишь, и медленно возвращайся.`,
   ),
-
   'shore-stone': pack(
-    `Bu birkaç dakika bir tedavi değil. Avuçta bir ağırlık. Taş olabilir, anahtar, telefon, ya da sadece avucun kendi ağırlığı. Hangisi varsa o. Sıkmak yok. Sadece tutmak, sonra bırakmak.
+    `Sessiz kıyında kal ve yanındaki kuma bak.
 
-Ayaklar yerde, sırt yaslı, avuç açık ya da yarı kapalı. Ağırlık aşağıda. Aşağı bir emir değil, yerçekimi. Nefes taşı taşımıyor, taş nefesi tutmuyor. İkisi yan yana. Hava giriyor ve çıkıyor, ağırlık duruyor.
+Deniz kabuklarının arasında pürüzsüz, yuvarlak bir taş görüyorsun. Onu al ve avucunda tut.
 
-Zihin taşı bir anlama çevirebilir: suç, görev, dert. Bu cümleler gelebilir. Taşa anlam yüklemiyorsun. Sadece ağırlık, ısı, kenar. İçinden avucumda ağırlık var diyebilirsin. Kanıt arama. Her verişte milim bırakılabilir; bırakılmazsa bırakılmaz. Yarış yok.
+Ağırlığını hisset. Göründüğünden daha ağır, sağlam ve sakin. Yüzeyini hisset: yıllarca dalgaların cilaladığı pürüzsüz bir yüzey.
 
-Parmaklar taşı ezmek zorunda değil. Taş soğuksa soğuk, ılıksa ılık, ikisi de haber. Omuzlar, çene, dil bırakılabilir; ağırlık avuçta kalabilir. Zihin atayım diyebilir, sonsuza kadar tutayım da diyebilir. İkisini de şimdi yapmak zorunda değilsin. Şimdi sadece ağırlığı fark etmek.
+Bu taş binlerce fırtına atlattı. Dalgalar onu itti, çevirdi, ama işte burada; bütün ve sağlam. Fırtınalar onu sadece daha pürüzsüz yaptı.
 
-İstersen taşı yavaşça bir masaya ya da dize bırakırsın. Bırakmazsan da avuç duruyor. Gözler yavaşça odaya dönüyor, eller duruyor. Taşı bir sınav haline getirmeyeceksin. Ağırlık durabilir. Sen duruyorsun. Atmak zorunda değilsin, sonsuza kadar tutmak da değil. Bu birkaç dakika yeter.`,
+Yavaşça nefes al… ve verirken bedeninin bu taş kadar sağlam hissetmesine izin ver.
 
-    `These few minutes are not a treatment. A weight in the palm. It can be a stone, a key, a phone, or only the weight of the palm itself. Whichever is there, that. No squeezing. Only holding, then setting down.
+Taşın sıcaklığını fark et. Belki hâlâ güneşten ılık. Bu sıcaklık avucuna, sonra koluna yayılsın.
 
-Feet on the floor, back supported, palm open or half closed. Weight down. Down is not an order. It is gravity. The breath does not carry the stone. The stone does not hold the breath. They sit side by side. Air arrives and leaves. The weight stays.
+Düşünceler gelirse onları taşın üzerinden akıp giden su gibi düşün. Geçip giderler, taş olduğu gibi kalır.
 
-The mind can turn the stone into a meaning: blame, duty, trouble. Those sentences can arrive. You do not load the stone with meaning. Only weight, heat, edge. Inside you may say there is weight in my palm. Do not look for proof. On each exhale a millimetre can be released. If it is not, it is not. No race.
+Taşı tut ve kendine söyle: Ben de sağlam olabilirim. Daha önce de zor günler atlattım ve hâlâ buradayım.
 
-The fingers do not have to crush the stone. If the stone is cold, cold. If warm, warm. Both are news. The shoulders, the jaw, the tongue can drop. The weight can stay in the palm. The mind can say throw it. It can also say hold it forever. You do not have to do either now. Now you only notice the weight.
+Nefes al… ve ver.
 
-If you want, you set the stone down slowly on a table or a knee. If you do not, the palm still stays. The eyes come back slowly to the room. The hands stay. You will not turn the stone into an exam. The weight can stay. You stay. You do not have to throw it. You do not have to keep it forever. These few minutes are enough.`,
+Birkaç nefes boyunca taşın ağırlığı ve sıcaklığıyla kal.
 
-    `Estos minutos no son un tratamiento. Un peso en la palma. Puede ser una piedra, una llave, un teléfono, o solo el peso de la palma. Lo que haya. Sin apretar. Solo sostener, luego dejar.
+Kendini sağlam bir zeminde hissetmeye ihtiyaç duyduğunda bu taşa geri dönebilirsin. Elindeki gerçek bir taş, bir anahtar ya da bir fincan bile sana hatırlatabilir: buradasın ve sağlamsın.`,
+    `Stay on your quiet shore, and look down at the sand beside you.
 
-Los pies en el suelo, la espalda apoyada, la palma abierta o a medio cerrar. El peso hacia abajo. Abajo no es una orden. Es gravedad. El aire no carga la piedra. La piedra no sujeta el aire. Van juntas. El aire llega y se va. El peso sigue.
+Among the shells you see a smooth, round stone. Pick it up and hold it in your palm.
 
-La mente puede convertir la piedra en un significado: culpa, deber, problema. Esas frases pueden llegar. No cargas la piedra de sentido. Solo peso, calor, borde. Por dentro puedes decir hay peso en mi palma. No busques una prueba. En cada exhalación se puede soltar un milímetro. Si no, no. Sin carrera.
+Feel its weight. It is heavier than it looks, solid and calm. Feel its surface: smooth, polished by years of waves.
 
-Los dedos no tienen que aplastar la piedra. Si la piedra está fría, fría. Si tibia, tibia. Las dos son noticia. Los hombros, la mandíbula, la lengua pueden caer. El peso puede quedarse en la palma. La mente puede decir tírala. También puede decir reténla para siempre. No tienes que hacer ninguna de las dos ahora. Ahora solo notas el peso.
+This stone has been through thousands of storms. The waves pushed it and turned it, and yet here it is, whole and steady. The storms only made it smoother.
 
-Si quieres, dejas la piedra despacio en una mesa o en una rodilla. Si no, la palma sigue. Los ojos vuelven despacio a la habitación. Las manos siguen. No vas a convertir la piedra en un examen. El peso puede quedarse. Tú te quedas. No tienes que tirarla. Tampoco guardarla para siempre. Estos minutos bastan.`,
+Breathe in slowly… and as you breathe out, let your body feel as steady as the stone.
 
-    `Questi minuti non sono una cura. Un peso nel palmo. Può essere una pietra, una chiave, un telefono, o solo il peso del palmo. Quello che c’è. Senza stringere. Solo tenere, poi posare.
+Notice the temperature of the stone. Perhaps it is still warm from the sun. Let that warmth spread into your hand, then up your arm.
 
-Piedi a terra, schiena appoggiata, palmo aperto o mezzo chiuso. Peso in basso. Basso non è un ordine. È gravità. Il respiro non porta la pietra. La pietra non tiene il respiro. Stanno accanto. L’aria arriva e se ne va. Il peso resta.
+If thoughts come, imagine them like water washing over the stone. They pass, and the stone stays as it is.
 
-La mente può trasformare la pietra in un significato: colpa, dovere, problema. Quelle frasi possono arrivare. Non carichi la pietra di senso. Solo peso, calore, bordo. Dentro puoi dire c’è peso nel palmo. Non cercare una prova. A ogni espirazione si può lasciare un millimetro. Se no, no. Niente gara.
+Hold the stone and say to yourself: I can be steady too. I have been through difficult days before, and I am still here.
 
-Le dita non devono schiacciare la pietra. Se la pietra è fredda, fredda. Se tiepida, tiepida. Tutte e due sono notizia. Le spalle, la mascella, la lingua possono cadere. Il peso può restare nel palmo. La mente può dire buttala. Può anche dire tienila per sempre. Non devi fare nessuna delle due ora. Ora noti solo il peso.
+Breathe in… and breathe out.
 
-Se vuoi, posi la pietra piano su un tavolo o su un ginocchio. Se non lo fai, il palmo resta. Gli occhi tornano piano alla stanza. Le mani restano. Non farai della pietra un esame. Il peso può restare. Tu resti. Non devi buttarla. Non devi tenerla per sempre. Questi minuti bastano.`,
+Stay with the weight and warmth of the stone for a few breaths.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Ovucda bir ağırlıq. Daş ola bilər, açar, telefon, və ya yalnız ovucun öz ağırlığı. Hansı varsa, o. Sıxmaq yoxdur. Yalnız tutmaq, sonra buraxmaq.
+You can come back to this stone whenever you need to feel grounded. Even a real stone, a key, or a cup in your hand can remind you: you are here, and you are steady.`,
+    `Sigue en tu orilla tranquila y mira la arena a tu lado.
 
-Ayaqlar yerdə, bel dayaqlı, ovuc açıq və ya yarı bağlı. Ağırlıq aşağıdadır. Aşağı əmr deyil, cazibə. Nəfəs daşı daşımır, daş nəfəsi tutmur. Yan-yana dururlar. Hava girir və çıxır, ağırlıq durur.
+Entre las conchas ves una piedra lisa y redonda. Tómala y sostenla en la palma.
 
-Ağıl daşı bir mənaya çevirə bilər: günah, vəzifə, dərd. Bu cümlələr gələ bilər. Daşa məna yükləmirsən. Yalnız ağırlıq, istilik, kənar. İçindən ovucumda ağırlıq var deyə bilərsən. Sübut axtarma. Hər verişdə milim buraxıla bilər; buraxılmazsa buraxılmaz. Yarış yoxdur.
+Siente su peso. Pesa más de lo que parece, firme y tranquila. Siente su superficie: lisa, pulida por años de olas.
 
-Barmaqlar daşı əzmək məcburiyyətində deyil. Daş soyuqsa soyuq, istidirsə isti, hər ikisi xəbərdir. Çiyinlər, çənə, dil buraxıla bilər; ağırlıq ovucda qala bilər. Ağıl atım deyə bilər, sonsuza qədər tutum da. İkisini də indi etmək məcburiyyətində deyilsən. İndi yalnız ağırlığı görmək.
+Esta piedra ha pasado por miles de tormentas. Las olas la empujaron y la hicieron girar, y aun así aquí está, entera y firme. Las tormentas solo la hicieron más suave.
 
-İstəsən daşı yavaşca masaya və ya dizə qoyursan. Qoymasan da ovuc durur. Gözlər yavaşca otağa qayıdır, əllər durur. Daşı imtahan etməyəcəksən. Ağırlıq qala bilər. Sən durursan. Atmaq məcburiyyətində deyilsən, sonsuza qədər tutmaq da deyil. Bu bir neçə dəqiqə bəsdir.`,
+Inhala despacio… y al exhalar deja que tu cuerpo se sienta tan firme como la piedra.
 
-    `Эти несколько минут — не лечение. Вес на ладони. Это может быть камень, ключ, телефон, или только вес самой ладони. Что есть — то и есть. Не сжимать. Только держать, потом положить.
+Nota la temperatura de la piedra. Quizá todavía esté templada por el sol. Deja que ese calor se extienda por la mano y luego por el brazo.
 
-Стопы на полу, спина с опорой, ладонь открыта или полузакрыта. Вес вниз. Вниз — не приказ. Это сила тяжести. Дыхание не несёт камень. Камень не держит дыхание. Они рядом. Воздух входит и выходит. Вес остаётся.
+Si llegan pensamientos, imagínalos como agua que pasa sobre la piedra. Pasan, y la piedra sigue igual.
 
-Ум может превратить камень в смысл: вина, долг, беда. Эти фразы могут прийти. Ты не нагружаешь камень смыслом. Только вес, тепло, край. Внутри можно сказать: на ладони есть вес. Не ищи доказательства. На каждом выдохе можно отпустить миллиметр. Если нет — нет. Без гонки.
+Sostén la piedra y dite: Yo también tengo firmeza. Ya he pasado días difíciles, y sigo aquí.
 
-Пальцам не нужно давить камень. Если камень холодный — холодный. Если тёплый — тёплый. Оба — новость. Плечи, челюсть, язык могут опуститься. Вес может остаться на ладони. Ум может сказать брось. Может сказать держи навсегда. Сейчас не нужно делать ни то ни другое. Сейчас ты только замечаешь вес.
+Inhala… y exhala.
 
-Если хочешь, медленно кладёшь камень на стол или на колено. Если нет — ладонь всё равно остаётся. Глаза медленно возвращаются в комнату. Руки остаются. Ты не сделаешь из камня экзамен. Вес может остаться. Ты остаёшься. Бросать не нужно. Держать навсегда тоже нет. Этих нескольких минут достаточно.`,
+Quédate unas respiraciones con el peso y el calor de la piedra.
+
+Puedes volver a esta piedra siempre que necesites sentir los pies en la tierra. Incluso una piedra de verdad, una llave o una taza en la mano pueden recordarte: estás aquí, y tienes firmeza.`,
+    `Resta sulla tua riva tranquilla e guarda la sabbia accanto a te.
+
+Tra le conchiglie vedi un sasso liscio e rotondo. Prendilo e tienilo nel palmo.
+
+Senti il suo peso. È più pesante di quanto sembri, solido e calmo. Senti la superficie: liscia, levigata da anni di onde.
+
+Questo sasso ha attraversato migliaia di tempeste. Le onde lo hanno spinto e rigirato, eppure eccolo qui, intero e saldo. Le tempeste lo hanno solo reso più liscio.
+
+Inspira piano… ed espirando lascia che il corpo si senta saldo come il sasso.
+
+Nota la temperatura del sasso. Forse è ancora tiepido di sole. Lascia che quel calore si diffonda nella mano, poi lungo il braccio.
+
+Se arrivano pensieri, immaginali come acqua che scorre sul sasso. Passano, e il sasso resta com’è.
+
+Tieni il sasso e ripeti: Anch’io ho una mia solidità. Ho già attraversato giorni difficili, e sono ancora qui.
+
+Inspira… ed espira.
+
+Resta qualche respiro con il peso e il calore del sasso.
+
+Puoi tornare a questo sasso ogni volta che hai bisogno di sentirti con i piedi per terra. Anche un sasso vero, una chiave o una tazza in mano possono ricordarti: sei qui, e hai una base solida.`,
+    `Sakit sahilində qal və yanındakı quma bax.
+
+Balıqqulaqlarının arasında hamar, yumru bir daş görürsən. Onu götür və ovucunda saxla.
+
+Ağırlığını hiss et. Göründüyündən ağırdır, möhkəm və sakit. Səthini hiss et: illərlə dalğaların cilaladığı hamar bir səth.
+
+Bu daş minlərlə fırtınadan keçib. Dalğalar onu itələyib, fırladıb, amma budur, buradadır; bütöv və möhkəm. Fırtınalar onu sadəcə daha da hamarlaşdırıb.
+
+Yavaşca nəfəs al… və verəndə bədəninin bu daş kimi möhkəm hiss etməsinə icazə ver.
+
+Daşın istiliyinə diqqət et. Bəlkə hələ günəşdən ılıqdır. Qoy bu istilik ovucuna, sonra qoluna yayılsın.
+
+Fikirlər gəlsə, onları daşın üstündən axıb gedən su kimi düşün. Keçib gedirlər, daş isə olduğu kimi qalır.
+
+Daşı tut və özünə de: Mən də möhkəm ola bilərəm. Əvvəl də çətin günlərdən keçmişəm və hələ də buradayam.
+
+Nəfəs al… və ver.
+
+Bir neçə nəfəs daşın ağırlığı və istiliyi ilə qal.
+
+Özünü möhkəm bir zəmində hiss etməyə ehtiyacın olanda bu daşa qayıda bilərsən. Əlindəki əsl daş, açar və ya fincan belə sənə xatırlada bilər: buradasan və möhkəmsən.`,
+    `Оставайся на своём тихом берегу и посмотри на песок рядом.
+
+Среди ракушек ты видишь гладкий круглый камень. Возьми его и положи на ладонь.
+
+Почувствуй его вес. Он тяжелее, чем кажется, — плотный и спокойный. Почувствуй поверхность: гладкую, отполированную годами волн.
+
+Этот камень пережил тысячи штормов. Волны толкали и переворачивали его, но вот он здесь — целый и устойчивый. Штормы сделали его только глаже.
+
+Медленно вдохни… и на выдохе позволь телу почувствовать себя таким же устойчивым, как камень.
+
+Заметь, какой камень на ощупь. Может быть, он ещё тёплый от солнца. Пусть это тепло растечётся по ладони, а потом по руке.
+
+Если приходят мысли, представь их водой, которая омывает камень. Они проходят, а камень остаётся прежним.
+
+Держи камень и скажи себе: во мне тоже есть устойчивость. Трудные дни уже бывали, и я всё ещё здесь.
+
+Вдох… и выдох.
+
+Побудь несколько вдохов с весом и теплом камня.
+
+Ты можешь вернуться к этому камню, когда нужно почувствовать опору. Даже настоящий камень, ключ или чашка в руке могут напомнить: ты здесь, и у тебя есть опора.`,
   ),
-
   'shore-seed': pack(
-    `Bu birkaç dakika bir tedavi değil. Tek bir kare, tek bir tohum. Bütün geceyi, bütün hayatı planlamak yok. Sadece bir şey. Küçük. Tutulabilir.
+    `Sessiz kıyında gün bitiyor. Gökyüzü yumuşak turuncu ve mor tonlara dönüyor.
 
-Gözler kapanabilir. Bir sahne seçiyorsun. Büyük olmak zorunda değil: bir fincan, bir pencere, bir kumaş, bir isim. Hangisi gelirse o. Değiştirmiyorsun, zenginleştirmiyorsun. Tek kare.
+Yavaş bir nefes al ve bedeninin ağırlaşıp rahatlamasına izin ver.
 
-Tohum nefesi yönetmez, nefes tohumu büyütmez. İkisi yan yana. Hava giriyor ve çıkıyor, kare duruyor. Zihin kareyi bir plana çevirebilir: yarın, liste, düzeltme. Bu cümleler gelebilir. Planı kovalamıyorsun. Kareye dönüyorsun: avuç, taban, bu nefes.
+Şimdi geceye yanında götüreceğin sakin bir görüntü seç. Gün batımında deniz, bir penceredeki sıcak bir lamba ya da avucundaki pürüzsüz taş olabilir. Sadece bir görüntü, sade ve huzurlu.
 
-İçinden bir karem var diyebilirsin. Kanıt arama. Tohumu zorla büyütmüyorsun. Bu gece filizlenmek zorunda değil. Sadece durmak. Omuzlar, çene, dil kendi ağırlıklarında. Kare zihinde solabilir; solursa avuca dönüyorsun, ısıya ve kenara, sonra isterse aynı kare yine.
+Onu zihninde nazikçe tut; yumuşak toprağa bir tohum eker gibi. Onunla bir şey yapmana gerek yok. Sadece orada dinlensin.
 
-Küçük bir şükran, bağırış değil: bu kumaş, bu nefes, bu oda. Fazlası yok. Gözler yavaşça odaya dönüyor, eller duruyor. Tohum sende kalabilir. Götürmek zorunda değilsin, bırakmak da zorunda değilsin. Tohumu bir sınav haline getirmeyeceksin. Tek kare yeter. Oda duruyor. Sen duruyorsun. Bu birkaç dakika yeter.`,
+Nefes al… ve verirken günü bırak. Bugün ne olduysa oldu. Yarın kendi zamanında gelecek.
 
-    `These few minutes are not a treatment. One frame, one seed. No plan for the whole night, or the whole life. Only one thing. Small. Holdable.
+Bugün minnettar olduğun küçük bir şeyi düşün. Çok küçük olabilir: sıcak bir içecek, nazik bir söz, ya da sadece şu an nefes alıyor olman.
 
-The eyes can close. You choose one scene. It does not have to be large: a cup, a window, a cloth, a name. Whichever arrives, that. You do not swap it. You do not enrich it. One frame.
+Bu minnettarlık göğsüne yerleşsin, sıcak ve sessiz.
 
-The seed does not manage the breath. The breath does not grow the seed. They sit side by side. Air arrives and leaves. The frame stays. The mind can turn the frame into a plan: tomorrow, a list, a fix. Those sentences can arrive. You do not chase the plan. You return to the frame: the palm, the sole, this breath.
+Dalgalar artık yavaş. Işık soluyor. Her şey sessizleşiyor, sen de.
 
-Inside you may say I have one frame. Do not look for proof. You do not force the seed to grow. It does not have to sprout tonight. Only stay. The shoulders, the jaw, the tongue rest in their own weight. The frame can fade in the mind. If it fades, you return to the palm, to heat and edge, and then, if it wants, the same frame again.
+Uyumaya gidiyorsan nefesin yavaş ve rahat kalsın, seçtiğin görüntü uykuya dalarken seninle olsun.
 
-A small thanks, not a shout: this cloth, this breath, this room. Nothing extra. The eyes come back slowly to the room. The hands stay. The seed can stay with you. You do not have to carry it away. You do not have to leave it. You will not turn the seed into an exam. One frame is enough. The room stays. You stay. These few minutes are enough.`,
+Bugün yeterince yaptın. Artık dinlenebilirsin.
 
-    `Estos minutos no son un tratamiento. Un solo fotograma, una semilla. No hay un plan para toda la noche ni para toda la vida. Solo una cosa. Pequeña. Que se puede sostener.
+İyi geceler.`,
+    `The day is ending on your quiet shore. The sky turns soft shades of orange and violet.
 
-Los ojos pueden cerrarse. Eliges una escena. No tiene que ser grande: una taza, una ventana, una tela, un nombre. Lo que llegue, eso. No la cambias. No la enriquezcas. Un fotograma.
+Take a slow breath, and let your body grow heavy and comfortable.
 
-La semilla no gestiona el aire. El aire no hace crecer la semilla. Van juntas. El aire llega y se va. El fotograma sigue. La mente puede convertir el fotograma en un plan: mañana, una lista, un arreglo. Esas frases pueden llegar. No persigues el plan. Vuelves al fotograma: la palma, la planta, este aliento.
+Now choose one calm image to take with you into the night. It could be the sea at sunset, a warm lamp in a window, or the smooth stone in your hand. Just one image, simple and peaceful.
 
-Por dentro puedes decir tengo un fotograma. No busques una prueba. No fuerzas la semilla a crecer. No tiene que brotar esta noche. Solo quedarse. Los hombros, la mandíbula, la lengua están en su peso. El fotograma puede desvanecerse. Si se desvanece, vuelves a la palma, al calor y al borde, y luego, si quiere, el mismo fotograma otra vez.
+Hold it gently in your mind, like planting a seed in soft ground. You do not need to do anything with it. Just let it rest there.
 
-Una pequeña gracia, no un grito: esta tela, este aliento, esta habitación. Nada de más. Los ojos vuelven despacio a la habitación. Las manos siguen. La semilla puede quedarse contigo. No tienes que llevártela. Tampoco dejarla. No vas a convertir la semilla en un examen. Un fotograma basta. La habitación sigue. Tú sigues. Estos minutos bastan.`,
+Breathe in… and as you breathe out, let the day go. Whatever happened today is done. Tomorrow will come in its own time.
 
-    `Questi minuti non sono una cura. Un solo fotogramma, un seme. Niente piano per tutta la notte, né per tutta la vita. Solo una cosa. Piccola. Che si può tenere.
+Think of one small thing you are grateful for today. It can be very small: a warm drink, a kind word, simply that you are breathing now.
 
-Gli occhi possono chiudersi. Scegli una scena. Non deve essere grande: una tazza, una finestra, una stoffa, un nome. Quella che arriva, quella. Non la cambi. Non la arricchisci. Un fotogramma.
+Let that gratitude settle in your chest, warm and quiet.
 
-Il seme non gestisce il respiro. Il respiro non fa crescere il seme. Stanno accanto. L’aria arriva e se ne va. Il fotogramma resta. La mente può trasformare il fotogramma in un piano: domani, una lista, una correzione. Quelle frasi possono arrivare. Non insegui il piano. Torni al fotogramma: il palmo, la pianta, questo respiro.
+The waves are slow now. The light is fading. Everything is getting quieter, and so are you.
 
-Dentro puoi dire ho un fotogramma. Non cercare una prova. Non forzi il seme a crescere. Non deve germogliare stanotte. Solo restare. Le spalle, la mascella, la lingua restano nel proprio peso. Il fotogramma può sbiadire. Se sbiadisce, torni al palmo, al calore e al bordo, e poi, se vuole, lo stesso fotogramma di nuovo.
+If you are going to sleep, let your breathing stay slow and easy, and let the image you chose stay with you as you drift off.
 
-Un piccolo grazie, non un grido: questa stoffa, questo respiro, questa stanza. Niente in più. Gli occhi tornano piano alla stanza. Le mani restano. Il seme può restare con te. Non devi portarlo via. Non devi lasciarlo. Non farai del seme un esame. Un fotogramma basta. La stanza resta. Tu resti. Questi minuti bastano.`,
+You have done enough today. You can rest now.
 
-    `Bu bir neçə dəqiqə müalicə deyil. Tək bir kadr, tək bir toxum. Bütün gecəni, bütün həyatı planlamaq yoxdur. Yalnız bir şey. Kiçik. Tutula bilər.
+Good night.`,
+    `En tu orilla tranquila el día termina. El cielo se tiñe de suaves tonos naranjas y violetas.
 
-Gözlər bağlana bilər. Bir səhnə seçirsən. Böyük olmaq məcburiyyətində deyil: bir fincan, bir pəncərə, bir parça, bir ad. Hansı gəlirsə, o. Dəyişdirmirsən, zənginləşdirmirsən. Tək kadr.
+Respira despacio y deja que el cuerpo se vuelva pesado y cómodo.
 
-Toxum nəfəsi idarə etmir, nəfəs toxumu böyütmür. Yan-yana dururlar. Hava girir və çıxır, kadr durur. Ağıl kadri bir plana çevirə bilər: sabah, siyahı, düzəliş. Bu cümlələr gələ bilər. Planı qovmursan. Kadrə qayıdırsan: ovuc, ayaq altı, bu nəfəs.
+Ahora elige una imagen tranquila para llevarte a la noche. Puede ser el mar al atardecer, una lámpara cálida en una ventana o la piedra lisa en tu mano. Solo una imagen, sencilla y serena.
 
-İçindən bir kadrım var deyə bilərsən. Sübut axtarma. Toxumu zorla böyütmürsən. Bu gecə cücərmək məcburiyyətində deyil. Yalnız durmaq. Çiyinlər, çənə, dil öz ağırlığındadır. Kadr ağılda sönə bilər; sönərsə ovuca qayıdırsan, istiliyə və kənara, sonra istəsə eyni kadr yenə.
+Sostenla con suavidad en la mente, como quien planta una semilla en tierra blanda. No tienes que hacer nada con ella. Solo deja que repose ahí.
 
-Kiçik bir minnətdarlıq, qışqırıq deyil: bu parça, bu nəfəs, bu otaq. Artığı yoxdur. Gözlər yavaşca otağa qayıdır, əllər durur. Toxum səndə qala bilər. Aparmaq məcburiyyətində deyilsən, buraxmaq da. Toxumu imtahan etməyəcəksən. Tək kadr bəsdir. Otaq durur. Sən durursan. Bu bir neçə dəqiqə bəsdir.`,
+Inhala… y al exhalar suelta el día. Lo que haya pasado hoy ya pasó. Mañana llegará a su tiempo.
 
-    `Эти несколько минут — не лечение. Один кадр, одно семя. Нет плана на всю ночь и на всю жизнь. Только одна вещь. Маленькая. Её можно удержать.
+Piensa en algo pequeño por lo que hoy sientas gratitud. Puede ser muy pequeño: una bebida caliente, una palabra amable o simplemente que ahora estás respirando.
 
-Глаза могут закрыться. Ты выбираешь одну сцену. Ей не нужно быть большой: чашка, окно, ткань, имя. Что пришло — то. Ты не меняешь. Не украшаешь. Один кадр.
+Deja que esa gratitud se asiente en el pecho, cálida y tranquila.
 
-Семя не управляет дыханием. Дыхание не растит семя. Они рядом. Воздух входит и выходит. Кадр остаётся. Ум может превратить кадр в план: завтра, список, исправление. Эти фразы могут прийти. Ты не гонишься за планом. Ты возвращаешься к кадру: ладонь, стопа, это дыхание.
+Las olas ya van despacio. La luz se apaga. Todo se vuelve más silencioso, y tú también.
 
-Внутри можно сказать: у меня есть один кадр. Не ищи доказательства. Ты не заставляешь семя расти. Ему не нужно взойти этой ночью. Только оставаться. Плечи, челюсть, язык в своём весе. Кадр может растаять в уме. Если растаял — ты возвращаешься к ладони, к теплу и краю, и потом, если захочет, тот же кадр снова.
+Si vas a dormir, deja que la respiración siga lenta y suave, y que la imagen que elegiste te acompañe mientras te duermes.
 
-Маленькая благодарность, не крик: эта ткань, этот вдох, эта комната. Ничего лишнего. Глаза медленно возвращаются в комнату. Руки остаются. Семя может остаться с тобой. Уносить его не нужно. Оставлять тоже не нужно. Ты не сделаешь из семени экзамен. Одного кадра достаточно. Комната остаётся. Ты остаёшься. Этих нескольких минут достаточно.`,
+Hoy has hecho suficiente. Ahora puedes descansar.
+
+Buenas noches.`,
+    `Sulla tua riva tranquilla il giorno finisce. Il cielo si tinge di morbidi toni arancio e viola.
+
+Fai un respiro lento e lascia che il corpo diventi pesante e comodo.
+
+Ora scegli un’immagine calma da portare con te nella notte. Può essere il mare al tramonto, una lampada calda in una finestra o il sasso liscio nella tua mano. Una sola immagine, semplice e serena.
+
+Tienila con dolcezza nella mente, come chi pianta un seme nella terra morbida. Non devi farci niente. Lascia solo che riposi lì.
+
+Inspira… ed espirando lascia andare la giornata. Quello che è successo oggi è passato. Domani arriverà a suo tempo.
+
+Pensa a una piccola cosa per cui oggi provi gratitudine. Può essere piccolissima: una bevanda calda, una parola gentile, o semplicemente il fatto che ora stai respirando.
+
+Lascia che questa gratitudine si posi nel petto, calda e quieta.
+
+Le onde ora sono lente. La luce si spegne. Tutto si fa più silenzioso, e anche tu.
+
+Se stai andando a dormire, lascia che il respiro resti lento e morbido, e che l’immagine che hai scelto ti accompagni mentre ti addormenti.
+
+Oggi hai fatto abbastanza. Ora puoi riposare.
+
+Buonanotte.`,
+    `Sakit sahilində gün bitir. Səma yumşaq narıncı və bənövşəyi rənglərə boyanır.
+
+Yavaş bir nəfəs al və bədəninin ağırlaşıb rahatlamasına icazə ver.
+
+İndi gecəyə özünlə aparacağın sakit bir təsvir seç. Gün batımında dəniz, pəncərədə isti bir lampa və ya ovucundakı hamar daş ola bilər. Sadəcə bir təsvir, sadə və dinc.
+
+Onu zehnində yumşaqca saxla; yumşaq torpağa toxum əkən kimi. Onunla nəsə etməyə ehtiyac yoxdur. Qoy sadəcə orada dincəlsin.
+
+Nəfəs al… və verəndə günü burax. Bu gün nə olubsa, olub. Sabah öz vaxtında gələcək.
+
+Bu gün minnətdar olduğun kiçik bir şeyi düşün. Çox kiçik ola bilər: isti bir içki, xoş bir söz, ya da sadəcə indi nəfəs alman.
+
+Qoy bu minnətdarlıq sinənə yerləşsin, isti və sakit.
+
+Dalğalar artıq yavaşdır. İşıq solur. Hər şey sakitləşir, sən də.
+
+Yatmağa gedirsənsə, nəfəsin yavaş və rahat qalsın, seçdiyin təsvir yuxuya gedəndə səninlə olsun.
+
+Bu gün kifayət qədər etdin. İndi dincələ bilərsən.
+
+Gecən xeyrə qalsın.`,
+    `На твоём тихом берегу заканчивается день. Небо окрашивается в мягкие оранжевые и лиловые тона.
+
+Сделай медленный вдох и позволь телу стать тяжёлым и удобным.
+
+Теперь выбери один спокойный образ, который возьмёшь с собой в ночь. Это может быть море на закате, тёплая лампа в окне или гладкий камень в ладони. Только один образ, простой и мирный.
+
+Мягко удерживай его в уме, словно сажаешь семя в мягкую землю. С ним ничего не нужно делать. Пусть он просто отдыхает там.
+
+Вдохни… и на выдохе отпусти день. Что бы ни случилось сегодня, это уже позади. Завтра придёт в своё время.
+
+Вспомни одну маленькую вещь, за которую сегодня хочется сказать спасибо. Она может быть совсем маленькой: тёплый напиток, доброе слово или просто то, что ты сейчас дышишь.
+
+Пусть эта благодарность устроится в груди — тёплая и тихая.
+
+Волны теперь медленные. Свет гаснет. Всё становится тише, и ты тоже.
+
+Если ты ложишься спать, пусть дыхание остаётся медленным и лёгким, а выбранный образ будет с тобой, пока ты засыпаешь.
+
+На сегодня сделано достаточно. Теперь можно отдохнуть.
+
+Спокойной ночи.`,
   ),
 }
 
