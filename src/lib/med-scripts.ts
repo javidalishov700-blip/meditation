@@ -19,11 +19,11 @@ function pack(
  */
 export const MED_SCRIPTS: Record<string, Record<LocaleId, string>> = {
   'first-settle': pack(
-    `Hoş geldin. Şimdi birkaç dakikayı yalnızca kendine ayırıyorsun. Hiçbir şeyi başarman gerekmiyor.
+    `Hoş geldin, şimdi birkaç dakikayı yalnızca kendine ayırıyorsun. Hiçbir şeyi başarman gerekmiyor.
 
 Rahatça otur ya da uzan. Ağırlığını altındaki yere bırak. Sandalye, yatak ya da zemin… seni taşıyor. Bir yere tutunmana gerek yok.
 
-İstersen gözlerini kapat. İstemezsen bakışını önünde bir noktaya bırak, gözlerin dinlensin.
+İstersen gözlerini kapat, istemezsen bakışını önünde bir noktaya bırak ve gözlerin dinlensin.
 
 Yüzünden başlayalım. Alnındaki gerginlik yavaşça çözülsün. Kaşlarının arası açılsın. Çeneni gevşet, dişlerin birbirinden hafifçe ayrılsın.
 
@@ -915,7 +915,7 @@ Hazır olanda dərin nəfəs al. Oturduğun yeri hiss et və yavaşca bura qayı
 Когда почувствуешь готовность, глубоко вдохни. Почувствуй, на чём ты сидишь, и медленно возвращайся.`,
   ),
   'shore-stone': pack(
-    `Sessiz sahilinde kal. Yanındaki kuma bir bak.
+    `Sessiz sahilinde biraz daha kal ve yanındaki kuma bir bak.
 
 Deniz kabuklarının arasında yuvarlak, pürüzsüz bir taş var. Onu al ve avucunun içine yerleştir.
 
@@ -1063,7 +1063,7 @@ Uyumaya hazırlanıyorsan nefesin yavaş ve rahat kalsın. Seçtiğin görüntü
 
 Bugün yeterince yaptın. Artık dinlenebilirsin.
 
-İyi geceler.`,
+Huzurlu bir gece geçir, iyi geceler.`,
     `The day is ending on your quiet shore. The sky turns soft shades of orange and violet.
 
 Take a slow breath, and let your body grow heavy and comfortable.

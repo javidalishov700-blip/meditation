@@ -5,9 +5,10 @@ Never pass SSML as the utterance. Edge reads tags aloud
 ("version 1.0", "minus 12 percent", "minus 2 hertz") when Communicate()
 is given a <speak> string. Rate and pitch go in the constructor kwargs.
 
-Multilingual voices guess the language sentence by sentence and read short
-lines ("Hoş geldin.") in the wrong one. For those voices the request
-envelope (not the text) carries a <lang> tag that pins the clip's language.
+Multilingual voices guess the language sentence by sentence and can read a
+very short line ("Hoş geldin.") in the wrong one, so keep such lines joined
+to a longer sentence in the scripts. The request envelope (not the text)
+also names the clip's language on <speak>; Edge refuses a <lang> element.
 
 Raw Edge speech runs sentences together and sounds dry and close. Every clip
 is finished in calm_finish(): longer breaths between sentences and paragraphs,
@@ -89,7 +90,7 @@ def voice_pitch(locale: str) -> str:
 def hash_name(locale: str, clip_id: str, text: str) -> str:
     voice = VOICES.get(locale, "")
     if multilingual(voice):
-        voice = f"{voice}|{LANG_TAGS.get(locale, '')}"
+        voice = f"{voice}|speak:{LANG_TAGS.get(locale, '')}"
     raw = f"{HASH_MARK}|{TONE}|{voice}|{voice_rate(locale, clip_id)}|{voice_pitch(locale)}|{locale}|{clip_id}|{text}"
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
 
@@ -106,9 +107,9 @@ def _mkssml(tc, escaped_text):  # noqa: ANN001
         escaped_text = escaped_text.decode("utf-8")
     return (
         f"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='{lang}'>"
-        f"<voice name='{tc.voice}'><lang xml:lang='{lang}'>"
+        f"<voice name='{tc.voice}'>"
         f"<prosody pitch='{tc.pitch}' rate='{tc.rate}' volume='{tc.volume}'>{escaped_text}</prosody>"
-        "</lang></voice></speak>"
+        "</voice></speak>"
     )
 
 
@@ -267,8 +268,8 @@ async def bake_one(locale: str, clip_id: str, text: str, dest: Path) -> None:
     last = None
     tmp = dest.with_suffix(".raw.mp3")
     for attempt in range(5):
-        # Pin the language on a multilingual voice; if the service ever refuses
-        # the tag, the last tries go without it and the log says so.
+        # Name the language on a multilingual voice; if the service ever refuses
+        # it, the last tries go without it and the log says so.
         pin = LANG_TAGS[locale] if multilingual(voice) and attempt < 3 else ""
         if multilingual(voice) and not pin:
             print(f"lang-unpinned {locale}:{clip_id}", flush=True)
