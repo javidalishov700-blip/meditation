@@ -1,9 +1,9 @@
 {
   "voice": "coral",
   "speed": 0.94,
-  "updated": "2026-08-16T21:10:02.644426+00:00",
+  "updated": "2026-10-03T11:08:52.702955+00:00",
   "clips": {
-    "tr:sample": "clips/4349426f6f2ecae7.mp3",
+    "tr:sample": "clips/74ceeedc7bb8ecbe.mp3",
     "tr:ui:sos_in": "clips/508b627d1f234213.mp3",
     "tr:ui:sos_hold": "clips/498eb1bd7c80d9a3.mp3",
     "tr:ui:sos_out": "clips/81a51a0f27cc8353.mp3",
@@ -141,7 +141,7 @@
     "tr:prog:depersonalization-5": "clips/78e801ca3d1179f4.mp3",
     "tr:prog:depersonalization-6": "clips/cecacdcd01f0174e.mp3",
     "tr:prog:depersonalization-7": "clips/96d0b8014e251b44.mp3",
-    "az:sample": "clips/4e21309a61d45170.mp3",
+    "az:sample": "clips/65631f218585fedd.mp3",
     "az:quote:epictetus-views": "clips/d07db0c99643bd14.mp3",
     "az:quote:seneca-imagination": "clips/a57e809409396aa2.mp3",
     "az:quote:aurelius-mind": "clips/c17a104543df512f.mp3",
@@ -248,7 +248,7 @@
     "az:prog:depersonalization-5": "clips/5d0fedb90b140d55.mp3",
     "az:prog:depersonalization-6": "clips/ce9936b925ec1e19.mp3",
     "az:prog:depersonalization-7": "clips/72936aadc1405e56.mp3",
-    "en:sample": "clips/63622fbb5b16afb7.mp3",
+    "en:sample": "clips/7c98e3cb75ace234.mp3",
     "en:ui:sos_in": "clips/cb57479fa6271310.mp3",
     "en:ui:sos_hold": "clips/44ef4b7592ff8210.mp3",
     "en:ui:sos_out": "clips/e1274802597d52a1.mp3",
@@ -386,7 +386,7 @@
     "en:prog:depersonalization-5": "clips/e7e6d53f47d46884.mp3",
     "en:prog:depersonalization-6": "clips/8d9c9f4a13df3955.mp3",
     "en:prog:depersonalization-7": "clips/39230f8c438d7ebd.mp3",
-    "ru:sample": "clips/fb94d8becc666d41.mp3",
+    "ru:sample": "clips/53124a34406d7a84.mp3",
     "ru:quote:epictetus-views": "clips/2608ed0084f0015b.mp3",
     "ru:quote:seneca-imagination": "clips/fa91a070e2717a88.mp3",
     "ru:quote:aurelius-mind": "clips/749d22f13e946e11.mp3",
@@ -493,7 +493,7 @@
     "ru:prog:depersonalization-5": "clips/dce0efb2495a9645.mp3",
     "ru:prog:depersonalization-6": "clips/1053401e4a5be307.mp3",
     "ru:prog:depersonalization-7": "clips/ee17a80f6e5ef25c.mp3",
-    "es:sample": "clips/8fb90bf9264ec6a1.mp3",
+    "es:sample": "clips/78bcbe00050a1d33.mp3",
     "es:ui:sos_in": "clips/3197bf3136261cbf.mp3",
     "es:ui:sos_hold": "clips/03bf81611670177c.mp3",
     "es:ui:sos_out": "clips/8c99aa3ca75b296d.mp3",
@@ -768,7 +768,8 @@
     "az:sos:tap:0": "clips/2598d49023c60a29.mp3",
     "az:sos:tap:1": "clips/57cd7e2b610a5044.mp3",
     "az:sos:tap:2": "clips/981a15e6742d1b06.mp3",
-    "az:sos:tap:3": "clips/215530685060d970.mp3"
+    "az:sos:tap:3": "clips/215530685060d970.mp3",
+    "it:sample": "clips/b2efa29720828492.mp3"
   },
   "model": "gpt-4o-mini-tts",
   "medVoice": "edge-plain"
