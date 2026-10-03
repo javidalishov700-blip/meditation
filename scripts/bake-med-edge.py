@@ -135,6 +135,8 @@ async def main() -> int:
         and (c.get("text") or "").strip()
         and (not only_langs or c.get("locale") in only_langs)
     ]
+    manifest.setdefault("clips", {})
+    clips_before = dict(manifest["clips"])
     q: asyncio.Queue = asyncio.Queue()
     planned: list[tuple[str, str]] = []
     for c in clips:
@@ -175,9 +177,11 @@ async def main() -> int:
             stale.unlink()
             print(f"drop {rel}", flush=True)
 
-    manifest["updated"] = datetime.now(timezone.utc).isoformat()
-    manifest["medVoice"] = "edge-plain"
-    MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n")
+    # Leave the manifest alone when nothing changed, so a no-op run makes no commit.
+    if manifest["clips"] != clips_before:
+        manifest["updated"] = datetime.now(timezone.utc).isoformat()
+        manifest["medVoice"] = "edge-plain"
+        MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"done new={made[0]} cached={skipped[0]} failed={len(failed)} med={len(planned)}")
     for line in failed:
         print(line)
