@@ -5,6 +5,10 @@ Never pass SSML as the utterance. Edge reads tags aloud
 ("version 1.0", "minus 12 percent", "minus 2 hertz") when Communicate()
 is given a <speak> string. Rate and pitch go in the constructor kwargs.
 
+Multilingual voices guess the language sentence by sentence and read short
+lines ("Hoş geldin.") in the wrong one. For those voices the request
+envelope (not the text) carries a <lang> tag that pins the clip's language.
+
 Raw Edge speech runs sentences together and sounds dry and close. Every clip
 is finished in calm_finish(): longer breaths between sentences and paragraphs,
 a warmer tone, a soft room, and one steady level across clips.
@@ -12,6 +16,7 @@ a warmer tone, a soft room, and one steady level across clips.
 from __future__ import annotations
 
 import asyncio
+import contextvars
 import hashlib
 import json
 import subprocess
@@ -20,6 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import edge_tts
+import edge_tts.communicate as edge_comm
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,12 +34,13 @@ MANIFEST_PATH = ROOT / "public" / "voice" / "manifest.json"
 
 VOICES = {
     "en": "en-US-JennyNeural",
-    "tr": "tr-TR-EmelNeural",
+    "tr": "de-DE-SeraphinaMultilingualNeural",
     "az": "az-AZ-BanuNeural",
     "ru": "ru-RU-SvetlanaNeural",
     "es": "es-ES-ElviraNeural",
     "it": "it-IT-ElsaNeural",
 }
+LANG_TAGS = {"en": "en-US", "tr": "tr-TR", "az": "az-AZ", "ru": "ru-RU", "es": "es-ES", "it": "it-IT"}
 RATE = "-12%"
 PITCH = "-2Hz"
 # Hash prefix must change if we ever spoke SSML, so old tagged files are not reused.
@@ -62,10 +69,50 @@ def profile(clip_id: str) -> dict:
     return PROFILES.get(clip_id.split(":", 1)[0], PROFILES["ui"])
 
 
+def multilingual(voice: str) -> bool:
+    return "Multilingual" in voice
+
+
+def voice_rate(locale: str, clip_id: str) -> str:
+    """The newer multilingual voices already speak slowly; slowing them as much
+    as the older voices makes them drag."""
+    rate = int(profile(clip_id)["rate"].rstrip("%"))
+    if multilingual(VOICES.get(locale, "")):
+        rate += 8
+    return f"{rate:+d}%"
+
+
+def voice_pitch(locale: str) -> str:
+    return "+0Hz" if multilingual(VOICES.get(locale, "")) else PITCH
+
+
 def hash_name(locale: str, clip_id: str, text: str) -> str:
-    rate = profile(clip_id)["rate"]
-    raw = f"{HASH_MARK}|{TONE}|{VOICES.get(locale, '')}|{rate}|{PITCH}|{locale}|{clip_id}|{text}"
+    voice = VOICES.get(locale, "")
+    if multilingual(voice):
+        voice = f"{voice}|{LANG_TAGS.get(locale, '')}"
+    raw = f"{HASH_MARK}|{TONE}|{voice}|{voice_rate(locale, clip_id)}|{voice_pitch(locale)}|{locale}|{clip_id}|{text}"
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
+
+
+_pinned_lang: contextvars.ContextVar[str] = contextvars.ContextVar("pinned_lang", default="")
+_plain_mkssml = edge_comm.mkssml
+
+
+def _mkssml(tc, escaped_text):  # noqa: ANN001
+    lang = _pinned_lang.get()
+    if not lang:
+        return _plain_mkssml(tc, escaped_text)
+    if isinstance(escaped_text, bytes):
+        escaped_text = escaped_text.decode("utf-8")
+    return (
+        f"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='{lang}'>"
+        f"<voice name='{tc.voice}'><lang xml:lang='{lang}'>"
+        f"<prosody pitch='{tc.pitch}' rate='{tc.rate}' volume='{tc.volume}'>{escaped_text}</prosody>"
+        "</lang></voice></speak>"
+    )
+
+
+edge_comm.mkssml = _mkssml
 
 
 # Warm the voice before the room is added: trim rumble, a little body around
@@ -220,8 +267,14 @@ async def bake_one(locale: str, clip_id: str, text: str, dest: Path) -> None:
     last = None
     tmp = dest.with_suffix(".raw.mp3")
     for attempt in range(5):
+        # Pin the language on a multilingual voice; if the service ever refuses
+        # the tag, the last tries go without it and the log says so.
+        pin = LANG_TAGS[locale] if multilingual(voice) and attempt < 3 else ""
+        if multilingual(voice) and not pin:
+            print(f"lang-unpinned {locale}:{clip_id}", flush=True)
+        token = _pinned_lang.set(pin)
         try:
-            comm = edge_tts.Communicate(line, voice, rate=profile(clip_id)["rate"], pitch=PITCH)
+            comm = edge_tts.Communicate(line, voice, rate=voice_rate(locale, clip_id), pitch=voice_pitch(locale))
             await comm.save(str(tmp))
             if tmp.stat().st_size < 800:
                 raise RuntimeError("tiny mp3")
@@ -232,8 +285,11 @@ async def bake_one(locale: str, clip_id: str, text: str, dest: Path) -> None:
             return
         except Exception as err:  # noqa: BLE001
             last = err
+            print(f"retry {locale}:{clip_id}: {err}", flush=True)
             tmp.unlink(missing_ok=True)
             await asyncio.sleep(1.2 * (attempt + 1))
+        finally:
+            _pinned_lang.reset(token)
     raise RuntimeError(f"{locale}:{clip_id} failed: {last}")
 
 
