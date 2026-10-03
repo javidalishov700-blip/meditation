@@ -7,7 +7,6 @@ import type { PlanId } from './types'
 
 /** App Store Connect product ids. Mirror of store/app-store-products.json */
 export const STORE_PRODUCTS: Record<PlanId, string> = {
-  week: 'app.steady.pro.weekly',
   month: 'app.steady.pro.monthly',
   year: 'app.steady.pro.yearly',
 }
@@ -23,7 +22,7 @@ export type StorePlan = {
 
 export type PurchaseResult = 'ok' | 'cancelled' | 'pending' | 'unavailable' | 'timeout'
 
-const PLAN_ORDER: PlanId[] = ['week', 'month', 'year']
+const PLAN_ORDER: PlanId[] = ['month', 'year']
 
 /**
  * If StoreKit never answers, the caller must still get a result — a button that

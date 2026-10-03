@@ -3,7 +3,7 @@ import type { LocaleId } from './locales'
 export const DOORS = ['panic', 'anxiety', 'derealization', 'depersonalization'] as const
 export type DoorId = (typeof DOORS)[number]
 
-export type PlanId = 'week' | 'month' | 'year'
+export type PlanId = 'month' | 'year'
 
 export type SessionKind =
   | 'program'

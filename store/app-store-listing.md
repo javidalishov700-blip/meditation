@@ -54,7 +54,7 @@ Audio ships inside the app. No streaming, no buffering, no data burned at 3 a.m.
 FREE AND PRO
 Free covers SOS, one sleep story, one writing, one breath, the first meditation session, today's clarity, day 1 of the panic program, and 5 minutes of rain or piano. Steady Pro unlocks every program, the full library, longer listening, the sleep lab, and your history.
 
-Steady Pro is available as a weekly, monthly, or yearly auto-renewable subscription. Prices are shown inside the app in your App Store region's currency. Payment is charged to your Apple ID at confirmation of purchase. A subscription renews automatically unless it is cancelled at least 24 hours before the end of the current period, and your account is charged for renewal within 24 hours before the period ends. Manage or cancel anytime in iPhone Settings → Apple ID → Subscriptions. Deleting the app does not cancel a subscription.
+Steady Pro is available as a monthly or yearly auto-renewable subscription. Prices are shown inside the app in your App Store region's currency. Payment is charged to your Apple ID at confirmation of purchase. A subscription renews automatically unless it is cancelled at least 24 hours before the end of the current period, and your account is charged for renewal within 24 hours before the period ends. Manage or cancel anytime in iPhone Settings → Apple ID → Subscriptions. Deleting the app does not cancel a subscription.
 
 IMPORTANT
 Steady is not a clinic, a therapist, a licensed healthcare provider, or an emergency service. It does not diagnose or treat any condition. If you are in crisis, call your local emergency number.

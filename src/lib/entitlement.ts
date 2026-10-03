@@ -12,7 +12,7 @@ export const STEADY_PRO_EVENT = 'steady-pro'
 export const PLANS: {
   id: PlanId
   featured?: boolean
-}[] = [{ id: 'week' }, { id: 'month', featured: true }, { id: 'year' }]
+}[] = [{ id: 'month', featured: true }, { id: 'year' }]
 
 export const FREE_NATURE_IDS = ['rain', 'piano'] as const
 

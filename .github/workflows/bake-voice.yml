@@ -49,7 +49,7 @@ jobs:
       - name: Install tools
         run: |
           npm ci --ignore-scripts
-          pip install edge-tts==7.2.8
+          pip install edge-tts==7.2.8 numpy==2.1.3
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
       - name: Bake (only clips whose text changed are synthesised)
@@ -62,6 +62,10 @@ jobs:
           # from the English and Turkish fallback text; bake them from their own.
           npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/ru-az.json" lib,prog
           python scripts/bake-med-edge.py "$RUNNER_TEMP/ru-az.json" --langs=ru,az
+          # SOS and UI cues in these languages are Edge voices too; keep them
+          # in the same calm tone as the meditations.
+          npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/cues.json" sos,ui
+          python scripts/bake-med-edge.py "$RUNNER_TEMP/cues.json" --langs=az,ru,it
 
       - name: Commit audio
         # Keep whatever did bake even if a few clips failed; a re-run fills the rest.

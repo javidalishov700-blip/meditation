@@ -19,8 +19,7 @@ import {
 } from '../lib/purchases'
 import type { PlanId } from '../lib/types'
 
-const PERIOD: Record<PlanId, 'pay_period_week' | 'pay_period_month' | 'pay_period_year'> = {
-  week: 'pay_period_week',
+const PERIOD: Record<PlanId, 'pay_period_month' | 'pay_period_year'> = {
   month: 'pay_period_month',
   year: 'pay_period_year',
 }
@@ -39,7 +38,7 @@ export function Paywall() {
   const [status, setStatus] = useState(storeStatus)
   const paid = storePro
   const native = iapConfigured()
-  const planLabel = { week: t('pay_week'), month: t('pay_month'), year: t('pay_year') }
+  const planLabel = { month: t('pay_month'), year: t('pay_year') }
 
   useEffect(() => {
     let alive = true
