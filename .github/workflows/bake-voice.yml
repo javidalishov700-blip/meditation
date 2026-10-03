@@ -1,0 +1,71 @@
+name: Bake voice
+
+# Narration MP3s are baked with Microsoft Edge neural voices. The cloud dev
+# sandbox cannot reach the speech service, so the runner does it and commits
+# the result back to the branch that triggered it.
+on:
+  push:
+    paths:
+      - 'src/lib/med-scripts.ts'
+      - 'src/lib/copy.ts'
+      - 'src/lib/copy-locales.ts'
+      - 'src/lib/content.ts'
+      - 'src/lib/library.ts'
+      - 'scripts/bake-med-edge.py'
+      - 'scripts/dump-voice-clips.ts'
+      - '.github/workflows/bake-voice.yml'
+  workflow_dispatch:
+    inputs:
+      kinds:
+        description: 'Clip kinds to bake (med, lib, prog, quote, sos, ui, sample)'
+        default: 'med,lib,prog'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bake-voice-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install tools
+        run: |
+          npm ci --ignore-scripts
+          pip install edge-tts==7.2.8
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: List clips
+        run: npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/clips.json" "${{ github.event.inputs.kinds || 'sample' }}"
+
+      - name: Bake (only clips whose text changed are synthesised)
+        run: python scripts/bake-med-edge.py "$RUNNER_TEMP/clips.json"
+
+      - name: Commit audio
+        run: |
+          git config user.name "steady-voice-bot"
+          git config user.email "steady-voice-bot@users.noreply.github.com"
+          git add -A public/voice
+          if git diff --cached --quiet; then
+            echo "No audio changes."
+            exit 0
+          fi
+          git commit -m "Re-bake narration audio for changed texts"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

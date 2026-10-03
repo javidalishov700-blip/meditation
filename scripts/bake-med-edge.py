@@ -162,11 +162,23 @@ async def main() -> int:
     await asyncio.gather(*workers)
 
     kept: set[str] = set()
+    replaced: set[str] = set()
     for key, rel in planned:
         path = ROOT / "public" / "voice" / rel
         if path.exists() and path.stat().st_size > 800:
+            previous = manifest["clips"].get(key)
+            if previous and previous != rel:
+                replaced.add(previous)
             manifest["clips"][key] = rel
             kept.add(rel)
+
+    # A re-baked clip leaves its old file behind; drop it unless another key still points at it.
+    still_used = set(manifest["clips"].values())
+    for rel in replaced - still_used:
+        stale = ROOT / "public" / "voice" / rel
+        if stale.exists():
+            stale.unlink()
+            print(f"drop {rel}", flush=True)
 
     if prune_med:
         for rel in old_med - kept:
