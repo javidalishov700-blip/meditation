@@ -52,18 +52,14 @@ export function Me() {
       {!store ? (
         <Link
           to="/paywall"
-          className="keep-dark mt-4 flex items-center gap-3.5 overflow-hidden rounded-[1.35rem] bg-gradient-to-br from-[#7C3AED] via-[#8B5CF6] to-[#DB2777] px-4 py-4 shadow-[0_12px_32px_rgba(124,58,237,0.35)]"
+          className="pro-card mt-4 flex items-center gap-3.5 overflow-hidden rounded-[1.35rem] px-4 py-4"
         >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.9rem] bg-white/20 text-white">
-            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
-              <path d="M12 2.8 13.9 9l6.3 1.9-6.3 1.9L12 19l-1.9-6.2-6.3-1.9L10.1 9 12 2.8ZM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" />
-            </svg>
-          </span>
+          <img src="/favicon.svg" alt="" className="h-11 w-11 shrink-0 rounded-[0.8rem]" />
           <span className="min-w-0 flex-1">
-            <span className="block text-[15px] font-semibold leading-5 text-white">{t('me_upgrade')}</span>
-            <span className="mt-0.5 block text-[12px] leading-4 text-white/85">{t('premium_banner')}</span>
+            <span className="block font-display text-[16px] font-semibold leading-5 text-[#FFF6EC]">{t('me_upgrade')}</span>
+            <span className="mt-0.5 block text-[12.5px] leading-4 text-[#FFF6EC]/75">{t('premium_banner')}</span>
           </span>
-          <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/90" fill="none" stroke="currentColor" strokeWidth="2.2">
+          <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#FFE3C2]" fill="none" stroke="currentColor" strokeWidth="2.2">
             <path d="M9 6l6 6-6 6" />
           </svg>
         </Link>
@@ -77,7 +73,7 @@ export function Me() {
         <StatTile
           value={stats.totalMinutes}
           label={t('total_min')}
-          tone="from-[#A78BFA] to-[#6D28D9]"
+          tone="tint-violet"
           icon={
             <>
               <circle cx="12" cy="12" r="8.5" />
@@ -88,7 +84,7 @@ export function Me() {
         <StatTile
           value={stats.activeDays}
           label={t('active_days')}
-          tone="from-[#38BDF8] to-[#2563EB]"
+          tone="tint-sky"
           icon={
             <>
               <rect x="4" y="5" width="16" height="15" rx="2.5" />
@@ -99,13 +95,13 @@ export function Me() {
         <StatTile
           value={stats.currentStreak}
           label={t('current_streak')}
-          tone="from-[#FBBF24] to-[#F97316]"
+          tone="tint-amber"
           icon={<path d="M13 3 6 13h6l-1 8 8-12h-6l0-6Z" />}
         />
         <StatTile
           value={stats.longestStreak}
           label={t('longest_streak')}
-          tone="from-[#F472B6] to-[#DB2777]"
+          tone="tint-pink"
           icon={<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4.5a2.5 2.5 0 0 0 2.6 3.4M17 6h2.5a2.5 2.5 0 0 1-2.6 3.4" />}
         />
       </div>
@@ -238,7 +234,7 @@ export function Me() {
 function StatTile({ value, label, tone, icon }: { value: number; label: string; tone: string; icon: ReactNode }) {
   return (
     <div className="surface flex items-center gap-3 rounded-[1.2rem] border border-white/[0.06] px-3.5 py-3">
-      <span className={`keep-dark flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.85rem] bg-gradient-to-br ${tone} text-white`}>
+      <span className={`tint ${tone} flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.85rem]`}>
         <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           {icon}
         </svg>

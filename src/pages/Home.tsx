@@ -12,7 +12,8 @@ import { todaysClarity } from '../lib/library'
 import { activityStats, canApplyFreeze, formatLongDate } from '../lib/activity'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
-import { MOOD_KEYS, readMood, type MoodId } from '../lib/mood'
+import { MOOD_KEYS, MOOD_TINT, readMood, type MoodId } from '../lib/mood'
+import { readOnboard } from '../lib/onboard'
 import { quotes } from '../lib/quotes'
 import { isLoading, isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
 import { readDim, writeDim } from '../lib/theme'
@@ -37,6 +38,7 @@ export function Home() {
   const [reading, setReading] = useState(() => isSpeaking() || isLoading())
   const stats = activityStats()
   const [phase] = useState(() => skyPhase())
+  const name = readOnboard().name?.trim()
   // A freeze is only worth offering to someone who had a streak to save.
   const restoreStreak = canApplyFreeze() && stats.activeDays > 0
 
@@ -62,8 +64,8 @@ export function Home() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/45" />
 
         <header className="relative z-10 flex items-center justify-between gap-3 px-5 pt-[calc(1.6rem+env(safe-area-inset-top))]">
-          <p className="min-w-0 truncate text-[13px] font-medium capitalize tracking-[0.02em] text-white/80">
-            {formatLongDate(new Date(), locale)}
+          <p className="min-w-0 truncate text-[13px] font-medium tracking-[0.02em] text-white/80">
+            {t(GREET[phase])} · <span className="capitalize">{formatLongDate(new Date(), locale)}</span>
           </p>
           <div className="flex shrink-0 items-center gap-2">
             <CircleIconBtn
@@ -109,23 +111,32 @@ export function Home() {
           </div>
         </header>
 
-        <div className="relative z-10 px-5 pt-4">
-          <p className="text-[2rem] font-semibold leading-tight tracking-tight text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.3)]">
-            {t(GREET[phase])}
-          </p>
+        <div className="relative z-10 px-5 pt-5">
+          <h1 className="font-display text-[2.15rem] font-semibold leading-tight tracking-tight text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.3)]">
+            {name ? t('hello_name', { n: name }) : t('hello')}
+          </h1>
           <button
             type="button"
             onClick={() => setMoodOpen(true)}
-            className="mt-2.5 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/15 py-1 pl-3 pr-2 text-[13px] font-medium text-white backdrop-blur-md"
+            className="mt-4 flex w-full max-w-[17.5rem] items-center gap-3 rounded-[1.1rem] border border-white/15 bg-white/[0.11] px-3 py-2.5 text-left backdrop-blur-md"
           >
-            {mood ? t(MOOD_KEYS[mood]) : t('mood_check')}
-            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.2">
-              <path d="M7 10l5 5 5-5" />
+            <span className={`tint ${mood ? MOOD_TINT[mood] : 'tint-peach'} flex h-9 w-9 shrink-0 items-center justify-center rounded-full`}>
+              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="8.5" />
+                <path d="M8.5 14.2c.9 1.2 2.1 1.8 3.5 1.8s2.6-.6 3.5-1.8M9.2 10h.01M14.8 10h.01" />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[11.5px] leading-4 text-white/70">{t('mood_today')}</span>
+              <span className="block truncate text-[15px] font-medium leading-5 text-white">{mood ? t(MOOD_KEYS[mood]) : t('mood_ask')}</span>
+            </span>
+            <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/70" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M9 6l6 6-6 6" />
             </svg>
           </button>
         </div>
 
-        <div className="relative z-10 px-5 pb-11 pt-24">
+        <div className="relative z-10 px-5 pb-11 pt-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/75">{t('home_quote')}</p>
           <p key={slides[slide]!.id} className="sheet-up mt-2 max-w-[20rem] font-display text-[1.3rem] font-medium leading-snug text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.45)]">
             {slides[slide]!.text[locale]}
@@ -176,7 +187,7 @@ export function Home() {
 
       <div className="-mx-5 mt-5 flex gap-2.5 overflow-x-auto px-5 hide-scroll">
         <QuickTile
-          tone="from-[#FB7185] to-[#E11D48]"
+          tone="tint-coral"
           to="/sos"
           label={t('sos_short')}
           icon={
@@ -187,7 +198,7 @@ export function Home() {
           }
         />
         <QuickTile
-          tone="from-[#38BDF8] to-[#2563EB]"
+          tone="tint-sky"
           to="/breath"
           label={t('breathing')}
           icon={
@@ -197,7 +208,7 @@ export function Home() {
           }
         />
         <QuickTile
-          tone="from-[#FCD34D] to-[#F59E0B]"
+          tone="tint-amber"
           to="/session/extra/three-objects"
           label={t('more_objects')}
           icon={
@@ -209,7 +220,7 @@ export function Home() {
           }
         />
         <QuickTile
-          tone="from-[#F472B6] to-[#DB2777]"
+          tone="tint-pink"
           label={t('favorites')}
           onClick={() => setFavOpen(true)}
           icon={
@@ -219,7 +230,7 @@ export function Home() {
           }
         />
         <QuickTile
-          tone="from-[#A78BFA] to-[#6D28D9]"
+          tone="tint-violet"
           to="/treat"
           label={t('treat_title')}
           icon={

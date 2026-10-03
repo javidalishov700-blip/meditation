@@ -5,7 +5,7 @@ import { hrefFor, itemTitle, resolveFavorite, searchCatalog, searchQuotes } from
 import { LangPicker } from './LangPicker'
 import { readFavorites, STEADY_FAV_EVENT, toggleFavorite, type FavItem } from '../lib/favorites'
 import { useI18n } from '../lib/i18n'
-import { MOODS, MOOD_KEYS, readMood, writeMood, type MoodId } from '../lib/mood'
+import { MOODS, MOOD_KEYS, MOOD_TINT, readMood, writeMood, type MoodId } from '../lib/mood'
 
 function portal(node: ReactNode) {
   if (typeof document === 'undefined') return null
@@ -34,7 +34,7 @@ function SheetFrame({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg max-h-[min(36rem,calc(100svh-6rem))] overflow-y-auto overscroll-none rounded-[1.6rem] border border-white/12 bg-[#1C1C1E] px-5 py-5 shadow-[0_24px_64px_rgba(0,0,0,0.55)]"
+        className="w-full max-w-lg max-h-[min(36rem,calc(100svh-6rem))] overflow-y-auto overscroll-none rounded-[1.6rem] border border-white/12 bg-[#17141d] px-5 py-5 shadow-[0_24px_64px_rgba(0,0,0,0.55)]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between gap-3">
@@ -69,7 +69,7 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={t('search_ph')}
-            className="h-12 flex-1 rounded-full bg-[#1C1C1E] px-5 text-sm text-white outline-none placeholder:text-white/35"
+            className="h-12 flex-1 rounded-full bg-[#17141d] px-5 text-sm text-white outline-none placeholder:text-white/35"
           />
           <button type="button" className="px-2 text-sm text-white/60" onClick={onClose}>
             {t('close')}
@@ -85,7 +85,7 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
                 <Link
                   to={hrefFor(item)}
                   onClick={onClose}
-                  className="flex items-center gap-3 rounded-2xl bg-[#1C1C1E] p-2"
+                  className="flex items-center gap-3 rounded-2xl bg-[#17141d] p-2"
                 >
                   <img src={item.cover} alt="" className="h-14 w-11 rounded-xl object-cover" />
                   <span className="text-sm font-medium">{itemTitle(item, locale)}</span>
@@ -99,7 +99,7 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
               <ul className="mt-2 space-y-2">
                 {lines.map((quote) => (
                   <li key={quote.id}>
-                    <Link to="/quotes" onClick={onClose} className="block rounded-2xl bg-[#1C1C1E] p-4">
+                    <Link to="/quotes" onClick={onClose} className="block rounded-2xl bg-[#17141d] p-4">
                       <p className="text-sm leading-6 text-white/90">{quote.text[locale]}</p>
                       <p className="mt-2 text-xs text-white/40">{quote.author}</p>
                     </Link>
@@ -146,11 +146,17 @@ export function MoodSheet({
               onPick(id)
               onClose()
             }}
-            className={`rounded-2xl px-4 py-3.5 text-left text-sm ${
-              current === id ? 'bg-[#7B61FF] text-white' : 'bg-white/6 text-white/90'
+            className={`flex items-center gap-3 rounded-2xl border px-3 py-3 text-left text-[15px] ${
+              current === id ? 'border-[#FFE3C2]/60 bg-white/[0.08] text-white' : 'border-transparent bg-white/[0.05] text-white/90'
             }`}
           >
-            {t(MOOD_KEYS[id])}
+            <span className={`tint-dot ${MOOD_TINT[id]} h-3 w-3 shrink-0 rounded-full`} />
+            <span className="min-w-0 flex-1">{t(MOOD_KEYS[id])}</span>
+            {current === id ? (
+              <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#FFE3C2]" fill="none" stroke="currentColor" strokeWidth="2.6">
+                <path d="M5 12.5 10 17l9-9" />
+              </svg>
+            ) : null}
           </button>
         ))}
       </div>
@@ -226,18 +232,14 @@ export function PremiumBanner({ onDismiss }: { onDismiss: () => void }) {
     <div className="pointer-events-none fixed inset-x-0 bottom-[calc(4.6rem+env(safe-area-inset-bottom))] z-[42] flex justify-center px-4">
       <Link
         to="/paywall"
-        className="keep-dark pointer-events-auto flex w-full max-w-lg items-center gap-2.5 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#8B5CF6] to-[#DB2777] py-2 pl-2 pr-3 text-[13px] font-medium text-white shadow-[0_10px_30px_rgba(124,58,237,0.4)]"
+        className="pro-card keep-dark pointer-events-auto flex w-full max-w-lg items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-3 text-[13px] font-medium shadow-[0_10px_28px_rgba(0,0,0,0.45)]"
       >
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/20">
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-            <path d="M12 2.8 13.9 9l6.3 1.9-6.3 1.9L12 19l-1.9-6.2-6.3-1.9L10.1 9 12 2.8Z" />
-          </svg>
-        </span>
-        <span className="min-w-0 flex-1 truncate leading-snug">{t('premium_banner')}</span>
+        <img src="/favicon.svg" alt="" className="h-7 w-7 shrink-0 rounded-full" />
+        <span className="min-w-0 flex-1 truncate leading-snug text-[#FFF6EC]">{t('premium_banner')}</span>
         <button
           type="button"
           aria-label={t('close')}
-          className="shrink-0 rounded-full p-1 text-white/90"
+          className="shrink-0 rounded-full p-1 text-[#FFE3C2]"
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -290,13 +292,13 @@ export function QuickTile({
   label,
   onClick,
   to,
-  tone = 'from-[#A1A1AA] to-[#52525B]',
+  tone = 'tint-gray',
 }: {
   icon: ReactNode
   label: string
   onClick?: () => void
   to?: string
-  /** Tailwind gradient stops for the icon chip. */
+  /** A `.tint-*` class for the icon chip. */
   tone?: string
 }) {
   const className =
@@ -304,7 +306,7 @@ export function QuickTile({
   const inner = (
     <>
       <span
-        className={`keep-dark flex h-9 w-9 items-center justify-center rounded-[0.8rem] bg-gradient-to-br ${tone} text-white shadow-[0_6px_14px_rgba(0,0,0,0.3)]`}
+        className={`tint ${tone} flex h-9 w-9 items-center justify-center rounded-[0.8rem]`}
       >
         {icon}
       </span>

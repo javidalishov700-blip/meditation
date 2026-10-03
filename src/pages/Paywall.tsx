@@ -195,7 +195,7 @@ export function Paywall() {
         </div>
 
         <div className="mt-2 text-center">
-          <span className="inline-block rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white">
+          <span className="inline-block rounded-full border border-[#FFE3C2]/35 px-3 py-[3px] text-[10px] font-semibold uppercase tracking-[0.24em] text-[#FFE3C2]">
             Steady Pro
           </span>
           <h1 className="mt-2.5 font-display text-[1.7rem] font-semibold leading-tight tracking-tight text-white">
@@ -257,8 +257,8 @@ export function Paywall() {
                   >
                     {best || p.featured ? (
                       <span
-                        className={`absolute -top-2.5 right-4 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white ${
-                          best ? 'bg-gradient-to-r from-[#F59E0B] to-[#EC4899]' : 'bg-[#7B61FF]'
+                        className={`absolute -top-2.5 right-4 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                          best ? 'bg-[#F6B58E] text-[#2A1A20]' : 'bg-[#4B3486] text-[#FFF6EC]'
                         }`}
                       >
                         {best ? t('pay_best') : t('pay_featured')}
@@ -266,11 +266,11 @@ export function Paywall() {
                     ) : null}
                     <span
                       className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border-2 ${
-                        on ? 'border-white bg-white' : 'border-white/30'
+                        on ? 'border-[#FFE3C2] bg-[#FFE3C2]' : 'border-white/30'
                       }`}
                     >
                       {on ? (
-                        <svg viewBox="0 0 24 24" className="h-3 w-3 text-[#6D28D9]" fill="none" stroke="currentColor" strokeWidth="3.4">
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 text-[#2A1A3A]" fill="none" stroke="currentColor" strokeWidth="3.4">
                           <path d="M5 12.5 10 17l9-9" />
                         </svg>
                       ) : null}
@@ -282,7 +282,7 @@ export function Paywall() {
                           {yearDeal.perMonth ? t('pay_per_month', { p: yearDeal.perMonth }) : null}
                           {yearDeal.perMonth && yearDeal.save ? ' · ' : null}
                           {yearDeal.save ? (
-                            <span className="font-semibold text-[#FCD34D]">{t('pay_save', { n: yearDeal.save })}</span>
+                            <span className="font-semibold text-[#F6B58E]">{t('pay_save', { n: yearDeal.save })}</span>
                           ) : null}
                         </span>
                       ) : null}
@@ -356,7 +356,7 @@ export function Paywall() {
                 <div className="grid grid-cols-[1fr_3.6rem_3.6rem] items-center border-b border-white/[0.08] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/60">
                   <span />
                   <span className="text-center">{t('pay_free_k')}</span>
-                  <span className="text-center text-[#E9D5FF]">Pro</span>
+                  <span className="text-center text-[#FFE3C2]">Pro</span>
                 </div>
                 {[...FREE_KEYS.map((key) => ({ key, free: true })), ...PRO_KEYS.map((key) => ({ key, free: false }))].map(
                   (row) => (
@@ -398,7 +398,7 @@ export function Paywall() {
               type="button"
               disabled={busy != null}
               onClick={() => void buy(picked)}
-              className="pay-cta relative w-full overflow-hidden rounded-full px-5 py-[1.05rem] text-[15px] font-semibold tracking-[0.02em] text-white disabled:opacity-60"
+              className="pay-cta relative w-full overflow-hidden rounded-full px-5 py-[1.05rem] text-[15px] font-semibold tracking-[0.01em] disabled:opacity-60"
             >
               <span className="relative z-10">
                 {busy === picked
@@ -421,7 +421,7 @@ function Tick({ muted = false }: { muted?: boolean }) {
   return (
     <span
       className={`flex h-5 w-5 items-center justify-center rounded-full ${
-        muted ? 'bg-white/[0.12] text-white/80' : 'bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] text-white'
+        muted ? 'bg-white/[0.1] text-white/70' : 'bg-[#FFE3C2] text-[#2A1A3A]'
       }`}
     >
       <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3.2">

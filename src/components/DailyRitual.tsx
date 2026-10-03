@@ -27,7 +27,7 @@ export function DailyRitual({ onMood, sessionTo }: { onMood: () => void; session
     {
       key: 'ritual_mood',
       done: moodForDay(today) != null,
-      tone: 'from-[#F472B6] to-[#DB2777]',
+      tone: 'tint-pink',
       onClick: onMood,
       icon: (
         <>
@@ -39,14 +39,14 @@ export function DailyRitual({ onMood, sessionTo }: { onMood: () => void; session
     {
       key: 'ritual_breath',
       done: kinds.includes('breath'),
-      tone: 'from-[#38BDF8] to-[#2563EB]',
+      tone: 'tint-sky',
       to: '/breath',
       icon: <path d="M3 14c3-8 7-8 9-8s6 0 9 8M6 18c2-3.5 4-4.5 6-4.5s4 1 6 4.5" />,
     },
     {
       key: 'ritual_session',
       done: kinds.some((k) => k !== 'breath'),
-      tone: 'from-[#A78BFA] to-[#6D28D9]',
+      tone: 'tint-violet',
       to: sessionTo,
       icon: <path d="M8 5.5v13l10-6.5-10-6.5Z" />,
     },
@@ -63,9 +63,9 @@ export function DailyRitual({ onMood, sessionTo }: { onMood: () => void; session
           <svg viewBox="0 0 64 64" className="h-full w-full -rotate-90">
             <defs>
               <linearGradient id="ritual-ring" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#F472B6" />
-                <stop offset="55%" stopColor="#8B5CF6" />
-                <stop offset="100%" stopColor="#38BDF8" />
+                <stop offset="0%" stopColor="#FFE3C2" />
+                <stop offset="50%" stopColor="#F6B58E" />
+                <stop offset="100%" stopColor="#A28CFF" />
               </linearGradient>
             </defs>
             <circle cx="32" cy="32" r={R} fill="none" stroke="currentColor" strokeWidth="6" className="text-white/[0.09]" />
@@ -102,9 +102,7 @@ export function DailyRitual({ onMood, sessionTo }: { onMood: () => void; session
           const inner = (
             <>
               <span
-                className={`keep-dark flex h-9 w-9 items-center justify-center rounded-full text-white ${
-                  s.done ? 'bg-gradient-to-br from-[#4ADE80] to-[#16A34A]' : `bg-gradient-to-br ${s.tone}`
-                }`}
+                className={`tint flex h-9 w-9 items-center justify-center rounded-full ${s.done ? 'tint-green' : s.tone}`}
               >
                 <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill={s.key === 'ritual_session' && !s.done ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   {s.done ? <path d="M5 12.5 10 17l9-9" /> : s.icon}

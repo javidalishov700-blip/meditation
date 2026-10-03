@@ -12,6 +12,8 @@ export type MedexId = 'none' | 'some' | 'skip'
 export type AgreeId = 'yes' | 'no'
 
 export type OnboardAnswers = {
+  /** What to call the user on Home. Optional, stays on the phone. */
+  name?: string
   bring?: BringId
   need?: NeedId
   often?: FreqId

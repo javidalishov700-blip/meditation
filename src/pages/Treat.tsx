@@ -92,13 +92,16 @@ export function Treat() {
               style={on ? { ['--door-a' as string]: s.from, ['--door-b' as string]: s.to } : undefined}
             >
               <span
-                className="flex h-10 w-10 items-center justify-center rounded-[0.85rem] text-white shadow-[0_6px_16px_rgba(0,0,0,0.3)]"
-                style={{ background: on ? 'rgba(255,255,255,0.22)' : `linear-gradient(135deg, ${s.from}, ${s.to})` }}
+                className="tint flex h-10 w-10 items-center justify-center rounded-[0.85rem]"
+                style={{ ['--c' as string]: s.from }}
               >
                 <DoorGlyph style={s} />
               </span>
               {on ? (
-                <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-white text-black">
+                <span
+                  className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full text-[#17141d]"
+                  style={{ background: s.from }}
+                >
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3.2">
                     <path d="M5 12.5 10 17l9-9" />
                   </svg>
@@ -121,10 +124,7 @@ export function Treat() {
         style={{ ['--door-a' as string]: look.from, ['--door-b' as string]: look.to }}
       >
         <div className="flex items-center gap-2.5">
-          <span
-            className="flex h-8 w-8 items-center justify-center rounded-full text-white"
-            style={{ background: `linear-gradient(135deg, ${look.from}, ${look.to})` }}
-          >
+          <span className="tint flex h-8 w-8 items-center justify-center rounded-full" style={{ ['--c' as string]: look.from }}>
             <DoorGlyph style={look} size="h-4 w-4" />
           </span>
           <span className="text-[13px] font-semibold uppercase tracking-[0.14em] text-white/70">{t(look.name)}</span>
@@ -133,11 +133,11 @@ export function Treat() {
         {active.id === 'panic' ? (
           <Link
             to="/sos"
-            className="keep-dark mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#F43F5E] to-[#F97316] px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_26px_rgba(244,63,94,0.35)]"
+            className="keep-dark mt-4 inline-flex items-center gap-2 rounded-full bg-[#F29A8E] px-5 py-3 text-sm font-semibold text-[#2A1218]"
           >
             <span className="relative flex h-2.5 w-2.5">
-              <span className="live-ping absolute inset-0 rounded-full bg-white/80" />
-              <span className="relative h-2.5 w-2.5 rounded-full bg-white" />
+              <span className="live-ping absolute inset-0 rounded-full bg-[#2A1218]/50" />
+              <span className="relative h-2.5 w-2.5 rounded-full bg-[#2A1218]" />
             </span>
             {t('sos_now')}
           </Link>
@@ -162,9 +162,9 @@ export function Treat() {
                 <Link to={to} className="surface flex items-center gap-3.5 rounded-[1.15rem] border border-white/[0.06] px-3.5 py-3">
                   <span
                     className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold tabular-nums ${
-                      open ? 'keep-dark text-white' : 'bg-white/[0.07] text-white/55'
+                      open ? 'tint' : 'bg-white/[0.07] text-white/55'
                     }`}
-                    style={open ? { background: `linear-gradient(135deg, ${look.from}, ${look.to})` } : undefined}
+                    style={open ? { ['--c' as string]: look.from } : undefined}
                   >
                     {d.day}
                   </span>
@@ -181,7 +181,7 @@ export function Treat() {
                       </svg>
                     </span>
                   ) : (
-                    <span className="flex h-8 shrink-0 items-center gap-1 rounded-full bg-[#7B61FF]/20 px-2.5 text-[11px] font-semibold text-[#C4B5FD]">
+                    <span className="flex h-8 shrink-0 items-center gap-1 rounded-full bg-[#FFE3C2]/12 px-2.5 text-[11px] font-semibold text-[#FFE3C2]">
                       <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
                         <path d="M8 10V8a4 4 0 1 1 8 0v2h.5A1.5 1.5 0 0 1 18 11.5v7a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 18.5v-7A1.5 1.5 0 0 1 7.5 10H8Zm2 0h4V8a2 2 0 1 0-4 0v2Z" />
                       </svg>

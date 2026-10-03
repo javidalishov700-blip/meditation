@@ -127,7 +127,7 @@ export function PrimaryButton({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`w-full rounded-full bg-[#7B61FF] px-5 py-[1.05rem] text-sm font-semibold tracking-[0.06em] text-white keep-dark shadow-[0_0_22px_rgba(123,97,255,0.28)] disabled:bg-[#2C2C2E] disabled:text-white/40 disabled:shadow-none ${className}`}
+      className={`btn-primary w-full rounded-full px-5 py-[1.05rem] text-[15px] font-semibold tracking-[0.01em] transition-transform active:scale-[0.985] ${className}`}
     >
       {children}
     </button>

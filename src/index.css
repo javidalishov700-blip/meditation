@@ -1,84 +1,99 @@
 @import 'tailwindcss';
 
+/*
+ * Onest (text) and Lora (display), both variable and both complete for every
+ * language the app ships: Turkish ğ ş ı İ, Azerbaijani ə, Cyrillic. The old
+ * Outfit set had no latin-ext at weight 500 and no ə at all, so those letters
+ * fell back to another font mid-word. Licences: public/fonts/OFL-*.txt.
+ */
+
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'Onest';
   font-style: normal;
   font-display: swap;
-  font-weight: 400;
-  src: url('/fonts/outfit-latin-400-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/onest-latin-wght-normal.woff2') format('woff2-variations'), url('/fonts/onest-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'Onest';
   font-style: normal;
   font-display: swap;
-  font-weight: 400;
-  src: url('/fonts/outfit-latin-ext-400-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/onest-latin-ext-wght-normal.woff2') format('woff2-variations'), url('/fonts/onest-latin-ext-wght-normal.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'Onest';
   font-style: normal;
   font-display: swap;
-  font-weight: 500;
-  src: url('/fonts/outfit-latin-500-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/onest-cyrillic-wght-normal.woff2') format('woff2-variations'), url('/fonts/onest-cyrillic-wght-normal.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
+
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'Lora';
   font-style: normal;
   font-display: swap;
-  font-weight: 600;
-  src: url('/fonts/outfit-latin-600-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/lora-latin-wght-normal.woff2') format('woff2-variations'), url('/fonts/lora-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'Lora';
   font-style: normal;
   font-display: swap;
-  font-weight: 600;
-  src: url('/fonts/outfit-latin-ext-600-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/lora-latin-ext-wght-normal.woff2') format('woff2-variations'), url('/fonts/lora-latin-ext-wght-normal.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
-  font-family: 'Noto Sans';
+  font-family: 'Lora';
   font-style: normal;
   font-display: swap;
-  font-weight: 400;
-  src: url('/fonts/noto-sans-latin-400-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/lora-cyrillic-wght-normal.woff2') format('woff2-variations'), url('/fonts/lora-cyrillic-wght-normal.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
+
 @font-face {
-  font-family: 'Noto Sans';
-  font-style: normal;
+  font-family: 'Lora';
+  font-style: italic;
   font-display: swap;
-  font-weight: 400;
-  src: url('/fonts/noto-sans-latin-ext-400-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/lora-latin-wght-italic.woff2') format('woff2-variations'), url('/fonts/lora-latin-wght-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
-  font-family: 'Noto Sans';
-  font-style: normal;
+  font-family: 'Lora';
+  font-style: italic;
   font-display: swap;
-  font-weight: 400;
-  src: url('/fonts/noto-sans-cyrillic-400-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/lora-latin-ext-wght-italic.woff2') format('woff2-variations'), url('/fonts/lora-latin-ext-wght-italic.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
-  font-family: 'Noto Sans';
-  font-style: normal;
+  font-family: 'Lora';
+  font-style: italic;
   font-display: swap;
-  font-weight: 500;
-  src: url('/fonts/noto-sans-latin-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url('/fonts/noto-sans-cyrillic-500-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  src: url('/fonts/lora-cyrillic-wght-italic.woff2') format('woff2-variations'), url('/fonts/lora-cyrillic-wght-italic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @theme {
-  --font-display: 'Outfit', 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Outfit', 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #000000;
-  --color-ink-2: #0a0a0a;
-  --color-ink-3: #141414;
+  --font-display: 'Lora', ui-serif, Georgia, serif;
+  --font-sans: 'Onest', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --color-ink: #0b0910;
+  --color-ink-2: #110e16;
+  --color-ink-3: #17141d;
   --color-plum: #4a1948;
   --color-rose: #f472b6;
   --color-rose-2: #fb7185;
@@ -180,12 +195,6 @@ a {
 
 .safe-top {
   padding-top: calc(2.15rem + env(safe-area-inset-top));
-}
-
-html:lang(ru),
-html:lang(uk) {
-  --font-display: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 html:lang(ar) {
@@ -464,8 +473,7 @@ html:lang(fa) {
 }
 
 .nav-glow {
-  background: rgba(123, 97, 255, 0.32);
-  box-shadow: 0 0 22px rgba(123, 97, 255, 0.38);
+  background: rgba(255, 227, 194, 0.12);
 }
 
 @keyframes sheet-up {
@@ -500,6 +508,7 @@ html:lang(fa) {
   .breathe-orb,
   .ob-in,
   .ob-in-back,
+  .ob-wave,
   .cover-ken,
   .home-hero-blur,
   .sheet-up,
@@ -511,9 +520,55 @@ html:lang(fa) {
 .ob-glow {
   position: absolute;
   inset: 0 0 auto 0;
-  height: 230px;
+  height: 320px;
   pointer-events: none;
-  background: radial-gradient(80% 120% at 50% -12%, rgba(123, 97, 255, 0.4), transparent 72%);
+  background:
+    radial-gradient(80% 110% at 50% -16%, rgba(110, 82, 190, 0.5), transparent 72%),
+    radial-gradient(50% 60% at 50% -10%, rgba(246, 181, 142, 0.18), transparent 70%);
+}
+
+.ob-breath-glow {
+  background: radial-gradient(closest-side, rgba(246, 181, 142, 0.22), rgba(162, 140, 255, 0.1) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.ob-quote {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ob-quote-storm {
+  background:
+    radial-gradient(90% 70% at 100% 100%, rgba(242, 154, 142, 0.18), transparent 60%),
+    #17141d;
+}
+
+.ob-quote-soft {
+  background:
+    radial-gradient(90% 70% at 100% 100%, rgba(134, 184, 255, 0.16), transparent 60%),
+    #17141d;
+}
+
+.ob-wave {
+  animation: ob-wave 5.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes ob-wave {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-4%) scaleY(0.82);
+  }
+}
+
+.ob-breath-orb {
+  background: radial-gradient(circle at 40% 35%, #fff8ef 0%, #ffe3c2 38%, #f6b58e 72%, #d98a8a 100%);
+  box-shadow: 0 0 40px rgba(246, 181, 142, 0.35);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
 }
 
 .ob-in {
@@ -601,12 +656,12 @@ html:lang(fa) {
 
 .chip-off {
   border-color: rgba(255, 255, 255, 0.1);
-  background: #1c1c1e;
+  background: #17141d;
   color: rgba(255, 255, 255, 0.7);
 }
 
 .surface {
-  background: #1c1c1e;
+  background: #17141d;
 }
 
 @keyframes sit-breathe {
@@ -1163,10 +1218,9 @@ html.session-listen {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(120% 55% at 50% -8%, rgba(139, 92, 246, 0.6), transparent 62%),
-    radial-gradient(70% 38% at 92% 18%, rgba(236, 72, 153, 0.26), transparent 62%),
-    radial-gradient(60% 40% at 4% 36%, rgba(56, 189, 248, 0.16), transparent 62%),
-    linear-gradient(180deg, #1b1035 0%, #0e0a1d 42%, #07060c 100%);
+    radial-gradient(110% 50% at 50% -6%, rgba(110, 82, 190, 0.55), transparent 62%),
+    radial-gradient(70% 36% at 50% 2%, rgba(246, 181, 142, 0.22), transparent 60%),
+    linear-gradient(180deg, #1c1430 0%, #100c19 42%, #0b0910 100%);
 }
 
 .pay-sky::after {
@@ -1198,7 +1252,7 @@ html.session-listen {
   position: absolute;
   inset: -12%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(196, 181, 253, 0.55) 0%, rgba(139, 92, 246, 0.25) 38%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 214, 170, 0.45) 0%, rgba(162, 140, 255, 0.2) 40%, transparent 70%);
   animation: calm-breathe 6.4s ease-in-out infinite;
 }
 
@@ -1206,7 +1260,7 @@ html.session-listen {
   position: absolute;
   inset: 6%;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, rgba(236, 72, 153, 0.9), rgba(139, 92, 246, 0.1), rgba(56, 189, 248, 0.8), rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.9));
+  background: conic-gradient(from 0deg, rgba(255, 227, 194, 0.9), rgba(162, 140, 255, 0.08), rgba(246, 181, 142, 0.8), rgba(162, 140, 255, 0.08), rgba(255, 227, 194, 0.9));
   mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
   animation: breath-spin 14s linear infinite;
@@ -1219,33 +1273,34 @@ html.session-listen {
   border-radius: 1rem;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 14px 36px rgba(139, 92, 246, 0.55);
+    0 14px 36px rgba(246, 181, 142, 0.3);
 }
 
 .plan-on {
   background:
-    linear-gradient(135deg, rgba(139, 92, 246, 0.42), rgba(236, 72, 153, 0.22)) padding-box,
-    linear-gradient(135deg, #a78bfa, #f472b6) border-box;
+    linear-gradient(135deg, rgba(255, 227, 194, 0.13), rgba(162, 140, 255, 0.12)) padding-box,
+    linear-gradient(#17121f, #17121f) padding-box,
+    linear-gradient(135deg, #ffe3c2, #a28cff) border-box;
   border: 1.5px solid transparent;
-  box-shadow: 0 10px 32px rgba(139, 92, 246, 0.32);
 }
 
 .pay-dock {
-  background: linear-gradient(180deg, rgba(7, 6, 12, 0) 0%, rgba(7, 6, 12, 0.92) 24%, #07060c 44%);
+  background: linear-gradient(180deg, rgba(11, 9, 16, 0) 0%, rgba(11, 9, 16, 0.92) 24%, #0b0910 44%);
 }
 
 .pay-cta {
-  background: linear-gradient(100deg, #7c3aed 0%, #8b5cf6 40%, #db2777 100%);
+  background: linear-gradient(100deg, #fff1df 0%, #ffd9b8 55%, #f6b58e 100%);
+  color: #1d1428;
   box-shadow:
-    0 12px 32px rgba(139, 92, 246, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    0 12px 30px rgba(246, 181, 142, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .pay-cta::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 48%, transparent 66%);
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 48%, transparent 66%);
   transform: translateX(-120%);
   animation: cta-shine 3.6s ease-in-out infinite;
 }
@@ -1277,11 +1332,9 @@ html.light .kicker {
 
 .door-on {
   background:
-    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
-    linear-gradient(140deg, var(--door-a), var(--door-b));
-  box-shadow:
-    0 14px 34px color-mix(in srgb, var(--door-b) 45%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    radial-gradient(120% 100% at 0% 0%, color-mix(in srgb, var(--door-a) 34%, transparent), transparent 70%),
+    linear-gradient(140deg, color-mix(in srgb, var(--door-a) 24%, #17141d), color-mix(in srgb, var(--door-b) 16%, #17141d));
+  border: 1.5px solid color-mix(in srgb, var(--door-a) 75%, transparent);
 }
 
 .door-promise {
@@ -1512,9 +1565,8 @@ html.light .door-promise .text-white\/70 {
 
 .ritual {
   background:
-    radial-gradient(120% 140% at 0% 0%, rgba(139, 92, 246, 0.22), transparent 55%),
-    radial-gradient(90% 120% at 100% 100%, rgba(56, 189, 248, 0.12), transparent 60%),
-    #17151d;
+    radial-gradient(120% 140% at 0% 0%, rgba(246, 181, 142, 0.1), transparent 55%),
+    #17141d;
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -1576,4 +1628,80 @@ html.light .text-mute {
 
 html.light .keep-dark .text-mute {
   color: var(--color-mute);
+}
+
+
+/* ── Brand tokens: taken from the app icon (dusk plum → sand sunrise) ───── */
+
+:root {
+  --sand: #ffe3c2;
+  --peach: #f6b58e;
+  --coral: #e98a86;
+  --iris: #8e6cf0;
+  --plum: #4a2a78;
+}
+
+/* Primary action: warm sand on the night background, not a neon glow. */
+.btn-primary {
+  background: linear-gradient(180deg, #fff1df 0%, #f7dcc0 100%);
+  color: #1d1428;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.btn-primary:disabled {
+  background: #2a2532;
+  color: rgba(255, 255, 255, 0.38);
+  box-shadow: none;
+}
+
+html.light .btn-primary {
+  background: #1d1428;
+  color: #fff6ec;
+}
+
+html.light .btn-primary:disabled {
+  background: rgba(26, 22, 18, 0.12);
+  color: rgba(26, 22, 18, 0.4);
+}
+
+/* Soft tinted icon tiles: one hue per meaning, glyph in that hue. */
+.tint {
+  background: color-mix(in srgb, var(--c) 17%, transparent);
+  color: var(--c);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 22%, transparent);
+}
+
+html.light .tint {
+  background: color-mix(in srgb, var(--c) 16%, #fff);
+  color: color-mix(in srgb, var(--c) 58%, #1a1612);
+}
+
+.tint-violet { --c: #b3a4ff; }
+.tint-iris { --c: #a28cff; }
+.tint-blue { --c: #86b8ff; }
+.tint-sky { --c: #7fcbef; }
+.tint-teal { --c: #74d3c4; }
+.tint-green { --c: #8fd9a8; }
+.tint-amber { --c: #f2c672; }
+.tint-orange { --c: #ffb184; }
+.tint-peach { --c: #f6b58e; }
+.tint-coral { --c: #f29a8e; }
+.tint-red { --c: #ff8f8f; }
+.tint-pink { --c: #f2a3c8; }
+.tint-slate { --c: #aab4c8; }
+.tint-gray { --c: #bab4c4; }
+
+/* Pro surfaces: dusk, the same sky as the icon, instead of violet→pink. */
+.pro-card {
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(246, 181, 142, 0.32), transparent 55%),
+    linear-gradient(135deg, #2b1c47 0%, #46307c 55%, #6d4a86 100%);
+  border: 1px solid rgba(255, 227, 194, 0.16);
+  color: #fff6ec;
+}
+
+.tint-dot {
+  background: var(--c);
 }

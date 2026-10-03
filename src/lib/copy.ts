@@ -1,4 +1,5 @@
 import type { LocaleId } from './locales'
+import { CONTENT_AZ, CONTENT_RU } from './copy-locales'
 import { MED_SCRIPTS } from './med-scripts'
 import type { BreathPattern, LibraryItem, MedPath, ProgramDay } from './types'
 import type { Door } from './treatments'
@@ -822,7 +823,7 @@ PACK['panic-1'] = {
   ),
   sentence: L('Bu anda güvende oturuyorum.', 'Right now I sit in safety.', 'Ahora mismo me siento a salvo.', 'En cet instant je suis assis en sûreté.', 'In diesem Moment sitze ich in Sicherheit.', 'In questo momento sto seduto al sicuro.'),
   scene: L(
-    'Bildığın bir oda. Kapı görünür. Bir lamba. Ayakların yerde.',
+    'Bildiğin bir oda. Kapı görünür. Bir lamba. Ayakların yerde.',
     'A room you know. The door is visible. A lamp. Feet on the floor.',
     'Una habitación que conoces. La puerta se ve. Una lámpara. Pies en el suelo.',
     'Une pièce que tu connais. La porte se voit. Une lampe. Pieds au sol.',
@@ -1323,3 +1324,16 @@ extraShort(
     'Non è una trasmissione. Acqua, libro chiuso, telefono capovolto, spalle. La notte sa il suo lavoro. Seme: lampada fioca, libro chiuso, coperta pesante.',
   ),
 )
+
+// Last, after every PACK entry above exists: fill the Russian and Azerbaijani
+// slots that L() otherwise backs with English and Turkish.
+for (const [locale, table] of [
+  ['ru', CONTENT_RU],
+  ['az', CONTENT_AZ],
+] as const) {
+  for (const [path, text] of Object.entries(table)) {
+    const dot = path.lastIndexOf('.')
+    const map = PACK[path.slice(0, dot)]?.[path.slice(dot + 1) as keyof Pack]
+    if (map) map[locale] = text
+  }
+}

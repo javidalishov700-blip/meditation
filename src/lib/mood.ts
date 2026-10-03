@@ -12,6 +12,15 @@ export const MOOD_KEYS: Record<MoodId, StringKey> = {
   distant: 'mood_distant',
 }
 
+/** One hue per mood, shared by the home card, the picker and the history. */
+export const MOOD_TINT: Record<MoodId, string> = {
+  calm: 'tint-teal',
+  tense: 'tint-coral',
+  sleepless: 'tint-iris',
+  wave: 'tint-sky',
+  distant: 'tint-gray',
+}
+
 export type MoodEntry = { day: string; mood: MoodId; at: number }
 
 function todayKey(now = Date.now()): string {

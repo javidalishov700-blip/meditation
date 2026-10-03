@@ -46,7 +46,7 @@ export function BreathList() {
           <li key={b.id}>
             <Link
               to={open ? `/session/breath/${b.id}` : '/paywall'}
-              className="flex items-center gap-3 rounded-[1.2rem] bg-[#1C1C1E] px-4 py-3.5"
+              className="flex items-center gap-3 rounded-[1.2rem] bg-[#17141d] px-4 py-3.5"
             >
               <img src={cover} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
               <span className="min-w-0 flex-1">

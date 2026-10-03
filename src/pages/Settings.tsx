@@ -47,28 +47,26 @@ function Chevron() {
   )
 }
 
-/** One colour per row, iOS-style: the icon is found by colour before it is read. */
-const TONES = {
-  violet: 'from-[#A78BFA] to-[#7C3AED]',
-  blue: 'from-[#60A5FA] to-[#2563EB]',
-  red: 'from-[#FB7185] to-[#E11D48]',
-  slate: 'from-[#94A3B8] to-[#475569]',
-  pink: 'from-[#F472B6] to-[#DB2777]',
-  green: 'from-[#4ADE80] to-[#16A34A]',
-  orange: 'from-[#FDBA74] to-[#EA580C]',
-  indigo: 'from-[#818CF8] to-[#4338CA]',
-  amber: 'from-[#FCD34D] to-[#D97706]',
-  teal: 'from-[#5EEAD4] to-[#0D9488]',
-  gray: 'from-[#A1A1AA] to-[#52525B]',
-} as const
+/** One hue per row so a row is found by colour before it is read — soft tints, not neon. */
+type Tone = 'violet' | 'blue' | 'red' | 'slate' | 'pink' | 'green' | 'orange' | 'indigo' | 'amber' | 'teal' | 'gray'
 
-type Tone = keyof typeof TONES
+const TINT: Record<Tone, string> = {
+  violet: 'tint-violet',
+  blue: 'tint-blue',
+  red: 'tint-coral',
+  slate: 'tint-slate',
+  pink: 'tint-pink',
+  green: 'tint-green',
+  orange: 'tint-orange',
+  indigo: 'tint-iris',
+  amber: 'tint-amber',
+  teal: 'tint-teal',
+  gray: 'tint-gray',
+}
 
 function IconWrap({ children, tone }: { children: ReactNode; tone: Tone }) {
   return (
-    <span
-      className={`keep-dark flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.6rem] bg-gradient-to-br ${TONES[tone]} text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]`}
-    >
+    <span className={`tint ${TINT[tone]} flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.6rem]`}>
       {children}
     </span>
   )
@@ -251,14 +249,6 @@ function CrownIcon() {
   return (
     <Glyph fill>
       <path d="M4 8.5 8 12l4-6 4 6 4-3.5-1.6 9.1c-.1.5-.5.9-1 .9H6.6c-.5 0-.9-.4-1-.9L4 8.5Z" />
-    </Glyph>
-  )
-}
-
-function SparkIcon() {
-  return (
-    <Glyph fill>
-      <path d="M12 2.8 13.9 9l6.3 1.9-6.3 1.9L12 19l-1.9-6.2-6.3-1.9L10.1 9 12 2.8ZM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" />
     </Glyph>
   )
 }
@@ -471,18 +461,13 @@ function Index() {
     <>
       {/* Anyone without a real subscription keeps a way in. */}
       {!storePro ? (
-        <Link
-          to="/paywall"
-          className="keep-dark relative mt-5 flex items-center gap-3.5 overflow-hidden rounded-[1.35rem] bg-gradient-to-br from-[#7C3AED] via-[#8B5CF6] to-[#DB2777] px-4 py-4 shadow-[0_12px_32px_rgba(124,58,237,0.35)]"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.9rem] bg-white/20 text-white">
-            <SparkIcon />
-          </span>
+        <Link to="/paywall" className="pro-card relative mt-5 flex items-center gap-3.5 overflow-hidden rounded-[1.35rem] px-4 py-4">
+          <img src="/favicon.svg" alt="" className="h-11 w-11 shrink-0 rounded-[0.8rem]" />
           <span className="min-w-0 flex-1">
-            <span className="block text-[15px] font-semibold leading-5 text-white">Steady Pro</span>
-            <span className="mt-0.5 block text-[12px] leading-4 text-white/85">{t('premium_banner')}</span>
+            <span className="block font-display text-[16px] font-semibold leading-5 text-[#FFF6EC]">Steady Pro</span>
+            <span className="mt-0.5 block text-[12.5px] leading-4 text-[#FFF6EC]/75">{t('premium_banner')}</span>
           </span>
-          <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white/90" fill="none" stroke="currentColor" strokeWidth="2.2">
+          <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#FFE3C2]" fill="none" stroke="currentColor" strokeWidth="2.2">
             <path d="M9 6l6 6-6 6" />
           </svg>
         </Link>

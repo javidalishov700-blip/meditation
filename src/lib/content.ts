@@ -51,7 +51,7 @@ export const programs: Program[] = [
           },
         ],
         'Bu anda güvende oturuyorum.',
-        'Bildığın bir oda. Kapı görünür. Bir lamba. Ayakların yerde. Pencereden sakin bir ışık.',
+        'Bildiğin bir oda. Kapı görünür. Bir lamba. Ayakların yerde. Pencereden sakin bir ışık.',
         'Zihne işi bırak diyorum. Ben zorlamıyorum.',
         'Nefes alabildiğim için teşekkür ederim.',
         'Kapalı kapı, loş lamba, yorganın ağırlığı.',
