@@ -58,7 +58,7 @@ export type StoreStatus = {
   /** False in a browser: StoreKit cannot be reached at all. */
   native: boolean
   stage: StoreStage
-  /** How many of the three products the App Store actually returned. */
+  /** How many of the plans' products the App Store actually returned. */
   productCount: number
   /** Verbatim message from the last failed StoreKit call. */
   error: string | null
@@ -179,7 +179,7 @@ export async function loadStorePlans(): Promise<StorePlan[] | null> {
     const out = PLAN_ORDER.map((id) => found.get(id)).filter((p): p is StorePlan => Boolean(p))
     if (!out.length) {
       const secs = ((Date.now() - started) / 1000).toFixed(1)
-      lastError = `App Store answered in ${secs}s with 0 of 3 products for ${Object.values(STORE_PRODUCTS).join(', ')}`
+      lastError = `App Store answered in ${secs}s with 0 of ${Object.keys(STORE_PRODUCTS).length} products for ${Object.values(STORE_PRODUCTS).join(', ')}`
     }
     return out.length ? out : null
   }

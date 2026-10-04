@@ -39,6 +39,8 @@ export function Paywall() {
   const paid = storePro
   const native = iapConfigured()
   const planLabel = { month: t('pay_month'), year: t('pay_year') }
+  /** Null for a product no longer sold (an old weekly test purchase): name the subscription, not a wrong plan. */
+  const activePlan = proProductId ? planIdOf(proProductId) : null
 
   useEffect(() => {
     let alive = true
@@ -208,7 +210,7 @@ export function Paywall() {
         {paid && native && proProductId ? (
           <div className="mt-6 rounded-[1.25rem] border border-white/[0.12] bg-white/[0.06] p-5">
             <p className="text-sm text-white">
-              {t('pay_active_plan', { plan: planLabel[planIdOf(proProductId) ?? 'month'] })}
+              {t('pay_active_plan', { plan: activePlan ? planLabel[activePlan] : 'Steady Pro' })}
             </p>
             {proExpiresAt ? (
               <p className="mt-1 text-xs text-white/60">

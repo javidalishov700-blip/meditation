@@ -1172,6 +1172,25 @@ Gecən xeyrə qalsın.`,
   ),
 }
 
+/**
+ * Where the quiet practice goes in each meditation, by paragraph: after
+ * paragraph `i` the narration falls silent for a share of the session that
+ * is proportional to the weight. The voice then spans the whole step instead
+ * of finishing in two minutes and leaving the rest to the music, and the
+ * closing words land at the end. Paragraphs line up across languages.
+ */
+export const MED_REST: Record<string, Record<number, number>> = {
+  'first-settle': { 3: 0.5, 4: 0.5, 5: 1, 6: 0.5, 7: 1, 8: 2 },
+  'first-breath': { 1: 0.5, 4: 1.5, 6: 1, 8: 0.3, 9: 0.3, 10: 2 },
+  'first-ground': { 1: 0.5, 2: 1, 3: 1, 4: 1, 5: 0.5, 6: 0.5, 7: 1.5, 8: 1 },
+  'room-door': { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 0.5, 8: 2 },
+  'room-light': { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1, 10: 2 },
+  'room-hands': { 1: 0.5, 2: 0.5, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 2 },
+  'shore-edge': { 1: 1, 2: 1.5, 3: 1, 4: 1, 5: 0.5, 6: 1, 7: 1, 8: 1, 9: 1, 10: 2 },
+  'shore-stone': { 1: 0.5, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 2 },
+  'shore-seed': { 1: 1, 2: 1, 3: 1.5, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1.5, 9: 0.5 },
+}
+
 export function medBody(id: string) {
   return MED_SCRIPTS[id]?.tr ?? ''
 }

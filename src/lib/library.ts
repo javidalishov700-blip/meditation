@@ -454,7 +454,7 @@ export const meditations: MedPath[] = [
       {
         id: 'first-settle',
         title: 'Yerleş',
-        minutes: 8,
+        minutes: 6,
         bed: 'forest',
         body: medBody('first-settle'),
       },
@@ -468,7 +468,7 @@ export const meditations: MedPath[] = [
       {
         id: 'first-ground',
         title: 'Yer tutuyor',
-        minutes: 7,
+        minutes: 6,
         bed: 'bowl',
         body: medBody('first-ground'),
       },
@@ -489,14 +489,14 @@ export const meditations: MedPath[] = [
       {
         id: 'room-light',
         title: 'Pencere ışığı',
-        minutes: 7,
+        minutes: 6,
         bed: 'swell',
         body: medBody('room-light'),
       },
       {
         id: 'room-hands',
         title: 'El ve nabız',
-        minutes: 5,
+        minutes: 6,
         bed: 'crystal',
         body: medBody('room-hands'),
       },
@@ -517,14 +517,14 @@ export const meditations: MedPath[] = [
       {
         id: 'shore-stone',
         title: 'Avuçta ağırlık',
-        minutes: 7,
+        minutes: 6,
         bed: 'piano',
         body: medBody('shore-stone'),
       },
       {
         id: 'shore-seed',
         title: 'Tek kare',
-        minutes: 5,
+        minutes: 6,
         bed: 'night',
         body: medBody('shore-seed'),
       },

@@ -6,12 +6,17 @@ import { quotes } from './quotes'
 import { sosSentences, tapSentences } from './sosPhrases'
 import { translate, type StringKey } from './strings'
 import type { LibraryItem } from './types'
+import { MED_REST } from './med-scripts'
 import { VOICE_SAMPLE } from './voice-lines'
 
 export type VoiceClip = {
   id: string
   locale: LocaleId
   text: string
+  /** Meditation steps: how long the step runs, so the bake can spread the narration over it. */
+  fillSec?: number
+  /** Meditation steps: paragraph index → share of the quiet practice that follows it. */
+  rest?: Record<number, number>
 }
 
 const SOS_UI: StringKey[] = [
@@ -40,10 +45,10 @@ function libraryItems(): LibraryItem[] {
   return [...stories, ...writings, ...sleepLab, ...clarity, ...extras]
 }
 
-function push(out: VoiceClip[], locale: LocaleId, id: string, text: string) {
+function push(out: VoiceClip[], locale: LocaleId, id: string, text: string, extra?: Partial<VoiceClip>) {
   const clean = text.trim()
   if (!clean) return
-  out.push({ id, locale, text: clean })
+  out.push({ id, locale, text: clean, ...extra })
 }
 
 export function listVoiceClips(): VoiceClip[] {
@@ -67,7 +72,10 @@ export function listVoiceClips(): VoiceClip[] {
     for (const path of meditations) {
       const loc = locMedPath(path, locale)
       for (const step of loc.steps) {
-        push(out, locale, `med:${step.id}`, step.body)
+        push(out, locale, `med:${step.id}`, step.body, {
+          fillSec: step.minutes * 60,
+          rest: MED_REST[step.id],
+        })
       }
     }
 

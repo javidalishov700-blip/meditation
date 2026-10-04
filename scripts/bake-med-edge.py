@@ -87,12 +87,30 @@ def voice_pitch(locale: str) -> str:
     return "+0Hz" if multilingual(VOICES.get(locale, "")) else PITCH
 
 
-def hash_name(locale: str, clip_id: str, text: str) -> str:
+def hash_name(locale: str, clip_id: str, text: str, spread: dict | None = None) -> str:
     voice = VOICES.get(locale, "")
     if multilingual(voice):
         voice = f"{voice}|speak:{LANG_TAGS.get(locale, '')}"
     raw = f"{HASH_MARK}|{TONE}|{voice}|{voice_rate(locale, clip_id)}|{voice_pitch(locale)}|{locale}|{clip_id}|{text}"
+    if spread:
+        raw += f"|fill:{spread['fill']}|rest:{sorted(spread['rest'].items())}"
     return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16]
+
+
+# A meditation step runs for a fixed time. Its narration is spread over that
+# time: the quiet practice goes after the paragraphs MED_REST names, so the
+# closing words arrive near the end instead of two minutes in.
+SPREAD_MARGIN_S = 10.0
+SPREAD_MAX_PER_WEIGHT_S = 90.0
+
+
+def spread_of(clip: dict) -> dict | None:
+    fill = clip.get("fillSec")
+    if not fill:
+        return None
+    paragraphs = [p for p in clip["text"].replace("\r\n", "\n").split("\n\n") if p.strip()]
+    rest = {int(k): float(v) for k, v in (clip.get("rest") or {}).items()}
+    return {"fill": float(fill), "rest": rest, "paragraphs": len(paragraphs)}
 
 
 _pinned_lang: contextvars.ContextVar[str] = contextvars.ContextVar("pinned_lang", default="")
@@ -170,23 +188,28 @@ def frame_db(x: np.ndarray, hop: int) -> np.ndarray:
     return 20 * np.log10(np.sqrt(np.mean(fr**2, axis=1)) + 1e-9)
 
 
-def stretch_pauses(x: np.ndarray, sentence: float, para: float) -> np.ndarray:
+def stretch_pauses(
+    x: np.ndarray, sentence: float, para: float, spread: dict | None = None, tail: float = 0.0
+) -> tuple[np.ndarray, str]:
     """Lengthen the quiet gaps Edge leaves between sentences and paragraphs.
 
     Edge leaves ~0.15-0.25 s at a comma, ~0.25-0.45 s after a sentence and
     ~1.1-1.3 s at a blank line. Silence is inserted in the middle of each gap,
     so no breath or word edge is cut.
+
+    With `spread`, the paragraph breaks are the N-1 longest gaps (N paragraphs
+    in the text), and the time left before the end of the step is shared out
+    after the paragraphs its rest map names.
     """
     if sentence <= 0 and para <= 0:
-        return x
+        return x, ""
     hop = SR // 100
     quiet = frame_db(x, hop) < -45
     if not len(quiet) or quiet.all():
-        return x
+        return x, ""
     voiced = np.flatnonzero(~quiet)
     first, last = voiced[0], voiced[-1]
-    pieces = []
-    cursor = 0
+    gaps: list[tuple[int, int]] = []
     i = first
     while i <= last:
         if not quiet[i]:
@@ -195,30 +218,66 @@ def stretch_pauses(x: np.ndarray, sentence: float, para: float) -> np.ndarray:
         j = i
         while j <= last and quiet[j]:
             j += 1
-        gap = (j - i) / 100
-        if gap >= 0.9:
-            extra = max(0.0, para - gap)
-        elif gap >= 0.28:
-            extra = sentence
+        gaps.append((i, j))
+        i = j
+
+    def length(g: tuple[int, int]) -> float:
+        return (g[1] - g[0]) / 100
+
+    if spread and spread["paragraphs"] > 1:
+        longest = sorted(range(len(gaps)), key=lambda k: length(gaps[k]), reverse=True)
+        breaks = sorted(k for k in longest[: spread["paragraphs"] - 1] if length(gaps[k]) >= 0.5)
+    else:
+        breaks = [k for k, g in enumerate(gaps) if length(g) >= 0.9]
+    after = {gap: n for n, gap in enumerate(breaks)}
+
+    extras = []
+    for k, g in enumerate(gaps):
+        if k in after:
+            extras.append(max(0.0, para - length(g)))
+        elif length(g) >= 0.28:
+            extras.append(sentence)
         else:
-            extra = 0.0
+            extras.append(0.0)
+
+    note = ""
+    if spread:
+        rest = {n: w for n, w in spread["rest"].items() if n < len(breaks)}
+        base = len(x) / SR + sum(extras) + tail
+        free = spread["fill"] - SPREAD_MARGIN_S - base
+        weight = sum(rest.values())
+        given = 0.0
+        if free > 0 and weight > 0:
+            unit = free / weight
+            for k, n in after.items():
+                if n in rest:
+                    add = min(rest[n] * unit, rest[n] * SPREAD_MAX_PER_WEIGHT_S)
+                    extras[k] += add
+                    given += add
+        note = (
+            f"paragraph breaks {len(breaks)}/{spread['paragraphs'] - 1}, speech {base:.0f}s, "
+            f"quiet practice {given:.0f}s, total {base + given:.0f}s of {spread['fill']:.0f}s"
+        )
+
+    pieces = []
+    cursor = 0
+    for (i, j), extra in zip(gaps, extras):
         if extra > 0:
             mid = ((i + j) // 2) * hop
             pieces.append(x[cursor:mid])
             pieces.append(np.zeros(int(SR * extra), dtype=x.dtype))
             cursor = mid
-        i = j
     pieces.append(x[cursor:])
-    return np.concatenate(pieces)
+    return np.concatenate(pieces), note
 
 
-def calm_finish(raw_mp3: Path, dest: Path, clip_id: str) -> None:
+def calm_finish(raw_mp3: Path, dest: Path, clip_id: str, spread: dict | None = None) -> str:
     prof = profile(clip_id)
     pcm = ffmpeg("-i", str(raw_mp3), "-af", TONE_FILTERS, "-ac", "1", "-ar", str(SR), "-f", "f32le", "-")
     dry = np.frombuffer(pcm, dtype=np.float32).astype(np.float64)
     if len(dry) < SR // 4:
         raise RuntimeError("clip too short")
-    dry = stretch_pauses(dry, prof["sentence"], prof["para"])
+    dry, note = stretch_pauses(dry, prof["sentence"], prof["para"], spread, prof["tail"])
 
     # Steady speech level: -20 dBFS RMS over voiced frames only, so long
     # pauses do not pull the level up.
@@ -250,6 +309,7 @@ def calm_finish(raw_mp3: Path, dest: Path, clip_id: str) -> None:
         str(dest),
         data=out,
     )
+    return note
 
 
 def spoken_text(text: str) -> str:
@@ -258,7 +318,7 @@ def spoken_text(text: str) -> str:
     return "\n\n".join(parts)
 
 
-async def bake_one(locale: str, clip_id: str, text: str, dest: Path) -> None:
+async def bake_one(locale: str, clip_id: str, text: str, dest: Path, spread: dict | None = None) -> None:
     voice = VOICES[locale]
     line = spoken_text(text)
     if not line:
@@ -279,7 +339,9 @@ async def bake_one(locale: str, clip_id: str, text: str, dest: Path) -> None:
             await comm.save(str(tmp))
             if tmp.stat().st_size < 800:
                 raise RuntimeError("tiny mp3")
-            await asyncio.to_thread(calm_finish, tmp, dest, clip_id)
+            note = await asyncio.to_thread(calm_finish, tmp, dest, clip_id, spread)
+            if note:
+                print(f"spread {locale}:{clip_id}: {note}", flush=True)
             tmp.unlink(missing_ok=True)
             if dest.stat().st_size < 800:
                 raise RuntimeError("tiny transcode")
@@ -300,14 +362,14 @@ async def worker(q: asyncio.Queue, made: list[int], skipped: list[int], failed: 
         if item is None:
             q.task_done()
             break
-        locale, clip_id, text, dest, key, rel = item
+        locale, clip_id, text, dest, key, rel, spread = item
         try:
             if dest.exists() and dest.stat().st_size > 800:
                 skipped[0] += 1
                 print(f"skip {key}", flush=True)
             else:
                 print(f"bake {key}", flush=True)
-                await bake_one(locale, clip_id, text, dest)
+                await bake_one(locale, clip_id, text, dest, spread)
                 made[0] += 1
         except Exception as err:  # noqa: BLE001
             failed.append(f"{key}: {err}")
@@ -345,12 +407,13 @@ async def main() -> int:
         locale = c["locale"]
         clip_id = c["id"]
         text = c["text"].strip()
-        name = f"{hash_name(locale, clip_id, text)}.mp3"
+        spread = spread_of(c)
+        name = f"{hash_name(locale, clip_id, text, spread)}.mp3"
         dest = CLIPS_DIR / name
         key = f"{locale}:{clip_id}"
         rel = f"clips/{name}"
         planned.append((key, rel))
-        await q.put((locale, clip_id, text, dest, key, rel))
+        await q.put((locale, clip_id, text, dest, key, rel, spread))
 
     made = [0]
     skipped = [0]

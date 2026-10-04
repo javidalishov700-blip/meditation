@@ -8,7 +8,7 @@ import type { PlanId, SessionKind } from './types'
 
 export const STEADY_PRO_EVENT = 'steady-pro'
 
-/** The three plans, in display order. Prices come only from the App Store. */
+/** The plans, in display order. Prices come only from the App Store. */
 export const PLANS: {
   id: PlanId
   featured?: boolean
