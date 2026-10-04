@@ -1,5 +1,6 @@
 import type { LocaleId } from './locales'
 import { CONTENT_AZ, CONTENT_RU } from './copy-locales'
+import { LONG } from './content-long'
 import { NATURAL } from './content-natural'
 import { MED_SCRIPTS } from './med-scripts'
 import type { BreathPattern, LibraryItem, MedPath, ProgramDay } from './types'
@@ -1346,4 +1347,13 @@ for (const [path, text] of Object.entries(NATURAL)) {
   const field = path.slice(dot + 1) as keyof Pack
   const pack = (PACK[id] ??= {})
   pack[field] = { ...(pack[field] ?? {}), ...text }
+}
+
+// Last, the longer narration where it exists (tr, en, az, ru for now).
+for (const [path, text] of Object.entries(LONG)) {
+  const dot = path.lastIndexOf('.')
+  const id = path.slice(0, dot)
+  const field = path.slice(dot + 1) as keyof Pack
+  const pack = (PACK[id] ??= {})
+  pack[field] = { ...(pack[field] ?? {}), ...text } as Record<LocaleId, string>
 }
