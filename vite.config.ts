@@ -53,6 +53,8 @@ export default defineConfig(({ mode }) => {
           ],
         },
         workbox: {
+          // The narration texts for every language ship in the main bundle.
+          maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
           globPatterns: ['**/*.{js,css,html,svg,ico,webmanifest}'],
           globIgnores: ['**/voice/clips/**', '**/covers/**'],
           navigateFallbackDenylist: [/^\/voice\//, /\.mp3$/i],

@@ -1,5 +1,6 @@
 import type { LocaleId } from './locales'
 import { CONTENT_AZ, CONTENT_RU } from './copy-locales'
+import { clipMinutes } from './clip-minutes'
 import { LONG } from './content-long'
 import { NATURAL } from './content-natural'
 import { MED_SCRIPTS } from './med-scripts'
@@ -921,7 +922,7 @@ export function locMedPath(path: MedPath, locale: LocaleId): MedPath {
 
 export function locLibrary(item: LibraryItem, locale: LocaleId): LibraryItem {
   const p = PACK[item.id]
-  if (!p) return item
+  if (!p) return { ...item, minutes: clipMinutes(`lib:${item.id}`, locale, item.minutes) }
   return {
     ...item,
     title: pickPack(p.title, locale, item.title),
@@ -929,6 +930,7 @@ export function locLibrary(item: LibraryItem, locale: LocaleId): LibraryItem {
     body: pickPack(p.body, locale, item.body) || item.body,
     sentence: item.sentence != null ? pickPack(p.sentence, locale, item.sentence) : item.sentence,
     nightSeed: item.nightSeed != null ? pickPack(p.nightSeed, locale, item.nightSeed) : item.nightSeed,
+    minutes: clipMinutes(`lib:${item.id}`, locale, item.minutes),
   }
 }
 
@@ -954,9 +956,11 @@ export function locDay(programId: string, d: ProgramDay, locale: LocaleId): Prog
       body: pickPack(bp.body, locale, b.body),
     }
   })
-  if (!p) return { ...d, blocks }
+  const minutes = clipMinutes(`prog:${programId}-${d.day}`, locale, d.minutes)
+  if (!p) return { ...d, blocks, minutes }
   return {
     ...d,
+    minutes,
     title: pickPack(p.title, locale, d.title),
     summary: pickPack(p.summary, locale, d.summary),
     sentence: pickPack(p.sentence, locale, d.sentence),

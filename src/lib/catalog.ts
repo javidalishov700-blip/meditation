@@ -1,4 +1,6 @@
 import { NATURE_SCENES, TONES } from './audio'
+import { clipMinutes, programDayMinutes } from './clip-minutes'
+import { programs } from './content'
 import { packRecord, packTitle } from './copy'
 import { R, type LocaleId } from './locales'
 import { breaths, extras, meditations, pathMinutes, sleepLab, stories, writings } from './library'
@@ -941,18 +943,37 @@ export function groupItems(group: CatalogItem['group']): CatalogItem[] {
   return ITEMS.filter((i) => i.group === group)
 }
 
+const LIB_KINDS = new Set(['story', 'writing', 'sleeplab', 'clarity', 'extra'])
+
+function programOf(to: string) {
+  return to.includes('panic')
+    ? 'panic'
+    : to.includes('anxiety')
+      ? 'anxiety'
+      : to.includes('derealization')
+        ? 'derealization'
+        : 'depersonalization'
+}
+
+/** Minutes for a card: the real narration length where the card plays one. */
+export function itemMinutes(item: CatalogItem, locale: LocaleId): number | undefined {
+  if (item.minutes == null) return item.minutes
+  const id = item.to.split('/').pop()!.split('?')[0]!
+  if (item.kind === 'program') {
+    const door = programOf(item.to)
+    const days = programs.find((p) => p.id === door)?.days.map((d) => d.day) ?? []
+    return programDayMinutes(door, days, locale, item.minutes)
+  }
+  if (LIB_KINDS.has(item.kind)) return clipMinutes(`lib:${id}`, locale, item.minutes)
+  return item.minutes
+}
+
 export function hrefFor(item: CatalogItem): string {
   if (item.kind === 'quotes') return item.to
   const id = item.to.split('/').pop()!.split('?')[0]!
   const kind = item.kind
   if (kind === 'program') {
-    const door = item.to.includes('panic')
-      ? 'panic'
-      : item.to.includes('anxiety')
-        ? 'anxiety'
-        : item.to.includes('derealization')
-          ? 'derealization'
-          : 'depersonalization'
+    const door = programOf(item.to)
     return canAccess('program', door, { day: 1 }) ? item.to : '/paywall'
   }
   return canAccess(kind, id) ? item.to : '/paywall'

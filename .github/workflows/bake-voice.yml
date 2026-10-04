@@ -16,6 +16,7 @@ on:
       - 'src/lib/content-long.ts'
       - 'scripts/bake-med-edge.py'
       - 'scripts/dump-voice-clips.ts'
+      - 'scripts/voice-durations.py'
       - '.github/workflows/bake-voice.yml'
   workflow_dispatch:
     inputs:
@@ -68,13 +69,18 @@ jobs:
           npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/cues.json" sos,ui
           python scripts/bake-med-edge.py "$RUNNER_TEMP/cues.json" --langs=az,ru,it
 
+      - name: Measure narration lengths
+        # The "N min" labels in the app come from the audio that was baked.
+        if: always()
+        run: python scripts/voice-durations.py
+
       - name: Commit audio
         # Keep whatever did bake even if a few clips failed; a re-run fills the rest.
         if: always()
         run: |
           git config user.name "steady-voice-bot"
           git config user.email "steady-voice-bot@users.noreply.github.com"
-          git add -A public/voice
+          git add -A public/voice src/lib/voice-durations.ts
           if git diff --cached --quiet; then
             echo "No audio changes."
             exit 0

@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { hrefFor, itemTitle, itemsById, type BadgeKind } from '../lib/catalog'
+import { hrefFor, itemMinutes, itemTitle, itemsById, type BadgeKind } from '../lib/catalog'
 import { isFavorite, STEADY_FAV_EVENT, toggleFavorite } from '../lib/favorites'
 import { audio } from '../lib/audio'
 import { useI18n } from '../lib/i18n'
@@ -184,7 +184,7 @@ export function CatalogGrid({ ids }: { ids: readonly string[] | string[] }) {
           favTo={item.to}
           cover={item.cover}
           title={itemTitle(item, locale)}
-          minutes={item.minutes}
+          minutes={itemMinutes(item, locale)}
           badge={item.badge}
           locked={hrefFor(item) === '/paywall'}
           kenDelay={i * 0.4}

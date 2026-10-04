@@ -147,7 +147,7 @@ export function Treat() {
       <section className="mt-9">
         <div className="flex items-end justify-between">
           <Kicker>{t('program')}</Kicker>
-          <span className="text-xs text-white/45">{t('min_n', { n: program.days.reduce((a, d) => a + d.minutes, 0) })}</span>
+          <span className="text-xs text-white/45">{t('min_n', { n: program.days.reduce((a, d) => a + locDay(active.id, d, locale).minutes, 0) })}</span>
         </div>
         <div className="mt-3">
           <FoldList
@@ -170,7 +170,7 @@ export function Treat() {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[11px] uppercase tracking-[0.12em] text-white/45">
-                      {t('day_n', { n: d.day })} · {t('min_n', { n: d.minutes })}
+                      {t('day_n', { n: d.day })} · {t('min_n', { n: day.minutes })}
                     </span>
                     <span className="mt-0.5 block truncate text-[15px] font-medium text-cream">{day.title}</span>
                   </span>

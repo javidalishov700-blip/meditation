@@ -5,7 +5,7 @@ import { DailyRitual } from '../components/DailyRitual'
 import { SkyScene, skyPhase, type SkyPhase } from '../components/SkyScene'
 import { CircleIconBtn, FavSheet, MoodSheet, QuickTile, SearchSheet } from '../components/Sheets'
 import { MoodHistory } from '../components/MoodHistory'
-import { BREATH_RAIL_IDS, CLARITY_COVER, SOUND_RAIL_IDS, hrefFor, itemTitle, itemsById, nowIds } from '../lib/catalog'
+import { BREATH_RAIL_IDS, CLARITY_COVER, SOUND_RAIL_IDS, hrefFor, itemMinutes, itemTitle, itemsById, nowIds } from '../lib/catalog'
 import { locLibrary } from '../lib/copy'
 import { todaysClarity } from '../lib/library'
 import { activityStats, canApplyFreeze, formatLongDate } from '../lib/activity'
@@ -264,7 +264,7 @@ export function Home() {
             favTo={item.to}
             cover={item.cover}
             title={itemTitle(item, locale)}
-            minutes={item.minutes}
+            minutes={itemMinutes(item, locale)}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
             kenDelay={i * 1.2}
@@ -283,7 +283,7 @@ export function Home() {
             favTo={item.to}
             cover={item.cover}
             title={itemTitle(item, locale)}
-            minutes={item.minutes}
+            minutes={itemMinutes(item, locale)}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
             kenDelay={i * 0.8}
@@ -299,7 +299,7 @@ export function Home() {
             favTo={item.to}
             cover={item.cover}
             title={itemTitle(item, locale)}
-            minutes={item.minutes}
+            minutes={itemMinutes(item, locale)}
             badge={item.badge}
             locked={hrefFor(item) === '/paywall'}
             kenDelay={i}
