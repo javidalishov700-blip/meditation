@@ -6,7 +6,7 @@ import { programDay } from '../lib/content'
 import { canAccess, canListenMinutes } from '../lib/entitlement'
 import { useEntitlement } from '../lib/entitlement-store'
 import { MED_ALIAS, breathById, clarityById, extraById, sleepLabById, storyById, writingById } from '../lib/library'
-import { VoicePlayer, useSpeech } from '../components/VoicePlayer'
+import { StagePlayer, VoicePlayer, useSpeech } from '../components/VoicePlayer'
 import { CalmField } from '../components/CalmField'
 import { SessionStage } from '../components/SessionStage'
 import { MeditationSession } from './MeditationPlay'
@@ -420,22 +420,14 @@ function ScriptView({
     return (
       <SessionStage>
         <CalmField paused={snap.paused} progress={frac} />
-        <button
-          type="button"
-          className="absolute left-4 z-20 rounded-full bg-white/15 px-3.5 py-1.5 text-sm text-white"
-          style={{ top: 'max(1rem, env(safe-area-inset-top))' }}
-          onClick={() => {
+        <StagePlayer
+          title={title}
+          onBack={() => {
             stopSpeak()
             setSpeaking(false)
             window.history.back()
           }}
-        >
-          {t('back')}
-        </button>
-        <div className="relative z-10 flex min-h-dvh flex-col justify-end bg-gradient-to-t from-[#0b0612] via-[#0b0612]/70 to-transparent px-5 pb-[max(1.2rem,env(safe-area-inset-bottom))] pt-24">
-          <h1 className="mb-4 text-center font-display text-2xl text-white">{title}</h1>
-          <VoicePlayer />
-        </div>
+        />
       </SessionStage>
     )
   }

@@ -385,7 +385,7 @@ function MeditationPlayer({
         </p>
       ) : null}
 
-      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#0b0612] via-[#0b0612]/85 to-transparent px-5 pb-[max(1.1rem,env(safe-area-inset-bottom))] pt-16">
+      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-[#0b0612]/90 via-[#0b0612]/55 to-transparent px-5 pb-[max(1.1rem,env(safe-area-inset-bottom))] pt-16">
         <div className="mx-auto max-w-lg">
           <div className="flex items-end justify-between text-sm tabular-nums text-white/70">
             <span>{formatMmSs(elapsed)}</span>
