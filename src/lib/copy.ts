@@ -1,5 +1,6 @@
 import type { LocaleId } from './locales'
 import { CONTENT_AZ, CONTENT_RU } from './copy-locales'
+import { NATURAL } from './content-natural'
 import { MED_SCRIPTS } from './med-scripts'
 import type { BreathPattern, LibraryItem, MedPath, ProgramDay } from './types'
 import type { Door } from './treatments'
@@ -480,7 +481,7 @@ PACK['room-hands'] = {
 }
 PACK.shore = {
   title: L('Kıyıda', 'On the shore', 'En la orilla', 'Sur le rivage', 'Am Ufer', 'Sulla riva'),
-  subtitle: L('Üç seans. Kenar, taş, tohum.', 'Three sessions. Edge, stone, seed.', 'Tres sesiones. Orilla, piedra, semilla.', 'Trois séances. Bord, pierre, graine.', 'Drei Sitzungen. Rand, Stein, Samen.', 'Tre sessioni. Orlo, pietra, seme.'),
+  subtitle: L('Üç seans. Dalgalar, taş, gece.', 'Three sessions. Waves, a stone, the night.', 'Tres sesiones. Olas, una piedra, la noche.', 'Trois séances. Vagues, pierre, nuit.', 'Drei Sitzungen. Wellen, Stein, Nacht.', 'Tre sessioni. Onde, un sasso, la notte.'),
 }
 PACK['shore-edge'] = {
   title: L('Dalgaları izle', 'Watch the waves', 'Mira las olas', '', '', 'Guarda le onde', 'Dalğalara bax', 'Смотри на волны'),
@@ -1336,4 +1337,13 @@ for (const [locale, table] of [
     const map = PACK[path.slice(0, dot)]?.[path.slice(dot + 1) as keyof Pack]
     if (map) map[locale] = text
   }
+}
+
+// Then the rewritten stories, practices and program days in every language.
+for (const [path, text] of Object.entries(NATURAL)) {
+  const dot = path.lastIndexOf('.')
+  const id = path.slice(0, dot)
+  const field = path.slice(dot + 1) as keyof Pack
+  const pack = (PACK[id] ??= {})
+  pack[field] = { ...(pack[field] ?? {}), ...text }
 }

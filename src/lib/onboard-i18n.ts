@@ -102,7 +102,7 @@ export const ONBOARD_I18N = {
   ob_path_sos: R('Panik için SOS|SOS for panic|Panik üçün SOS|SOS при панике|SOS para el pánico|SOS per il panico'),
   ob_path_sos_s: R('Nefes, ses, Geçti.|Breath, sound, It passed.|Nəfəs, səs, Keçdi.|Дыхание, звук, Прошло.|Respiración, sonido, Pasó.|Respiro, suono, È passato.'),
   ob_path_sleep: R('Gece uykusu|Night sleep|Gecə yuxusu|Ночной сон|Sueño nocturno|Sonno notturno'),
-  ob_path_sleep_s: R('Hikâye, sahne, tohum.|Story, scene, seed.|Hekayə, səhnə, toxum.|История, сцена, семя.|Relato, escena, semilla.|Racconto, scena, seme.'),
+  ob_path_sleep_s: R('Hikâyeler, sakin bir sahne, uykuya bir görüntü.|Stories, a calm scene, one image for sleep.|Hekayələr, sakit səhnə, yuxuya bir görüntü.|Истории, спокойная сцена, образ перед сном.|Historias, una escena tranquila, una imagen para dormir.|Storie, una scena tranquilla, un’immagine per dormire.'),
   ob_path_quote: R('Bir cümle|A sentence|Bir cümlə|Одна фраза|Una frase|Una frase'),
   ob_path_quote_s: R('Günün cümlesi burada.|Today’s line is here.|Günün cümləsi buradadır.|Фраза дня уже здесь.|La frase de hoy está aquí.|La frase di oggi è qui.'),
   ob_path_breath: R('Dalga nefesi|Wave breath|Dalğa nəfəsi|Дыхание волны|Respiración de ola|Respiro dell’onda'),
