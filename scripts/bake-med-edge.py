@@ -101,7 +101,7 @@ def hash_name(locale: str, clip_id: str, text: str, spread: dict | None = None) 
 # time: the quiet practice goes after the paragraphs MED_REST names, so the
 # closing words arrive near the end instead of two minutes in.
 SPREAD_MARGIN_S = 10.0
-SPREAD_MAX_PER_WEIGHT_S = 90.0
+SPREAD_MAX_PER_WEIGHT_S = 40.0
 
 
 def spread_of(clip: dict) -> dict | None:
