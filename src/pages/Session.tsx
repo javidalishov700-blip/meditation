@@ -457,7 +457,7 @@ function ScriptView({
             render={(b) => (
               <Card>
                 <p className="font-display text-xl">{b.title}</p>
-                <p className="mt-2 text-sm leading-7 text-cream/85">{b.body}</p>
+                <p className="mt-2 whitespace-pre-line text-sm leading-7 text-cream/85">{b.body}</p>
               </Card>
             )}
           />
@@ -479,7 +479,7 @@ function ScriptView({
             preview={0}
             getKey={(x) => x.id}
             render={(x) => (
-              <p className="text-sm leading-7 text-mute">
+              <p className="whitespace-pre-line text-sm leading-7 text-mute">
                 {x.label}. {x.text}
               </p>
             )}
