@@ -1,4 +1,52 @@
-# App Store Connect — iOS App Version 1.0
+# App Store Connect — iOS App Listing
+
+## Version 1.2
+
+### Promotional Text (170)
+- EN: New: longer sleep stories, 6-minute meditations and fuller program days, read aloud in calm native voices. SOS stays free, works offline, no sign-up.
+- TR: Yeni: daha uzun uyku hikâyeleri, 6 dakikalık meditasyonlar ve dolu dolu program günleri, sakin ve doğal seslerle. SOS her zaman ücretsiz, internetsiz çalışır.
+- RU: Новое: длинные истории для сна, 6-минутные медитации и насыщенные дни программ спокойным голосом. SOS всегда бесплатно и работает без интернета.
+
+### What's New in This Version
+EN:
+```
+• Sleep stories now run about 4 minutes; writings, sleep lab nights, short practices and program days about 3 minutes
+• Meditations fill all 6 minutes with spoken guidance
+• Calmer, native voices in Turkish, English, Azerbaijani and Russian
+• The minutes on every card now match the real audio
+• Full-screen player with a soft animated background
+• Steady Pro is now monthly or yearly
+• Bug fixes and polish
+```
+TR:
+```
+• Uyku hikâyeleri artık yaklaşık 4 dakika; yazılar, uyku laboratuvarı, kısa egzersizler ve program günleri yaklaşık 3 dakika
+• Meditasyonlar 6 dakikanın tamamında sesli rehberlik veriyor
+• Türkçe, İngilizce, Azerbaycanca ve Rusçada daha sakin, doğal sesler
+• Kartlardaki süreler artık gerçek ses süresini gösteriyor
+• Tam ekran oynatıcı ve yumuşak hareketli arka plan
+• Steady Pro artık aylık veya yıllık
+• Hata düzeltmeleri ve iyileştirmeler
+```
+RU:
+```
+• Истории для сна теперь длятся около 4 минут; письменные практики, ночи лаборатории сна, короткие упражнения и дни программ — около 3 минут
+• Медитации на все 6 минут наполнены голосовым сопровождением
+• Более спокойные, естественные голоса на турецком, английском, азербайджанском и русском
+• Минуты на карточках теперь совпадают с реальной длительностью аудио
+• Полноэкранный плеер с мягким анимированным фоном
+• Steady Pro теперь по месяцу или по году
+• Исправления ошибок и улучшения
+```
+
+### Screenshots
+iPhone 6.9" (1320×2868), 8 per language: home, SOS, meditation player, story
+player, programs, sleep, sounds, profile. Made from the app with a headless
+browser; regenerate before each release that changes the look.
+
+---
+
+# Version 1.0 (original listing)
 
 Copy-paste source for the App Store listing. Character limits are Apple's.
 Product ids and review note: `store/app-store-products.json`.
@@ -46,7 +94,7 @@ WHAT IS INSIDE
 • Mood and sleep history that stays on the device
 
 SIX LANGUAGES
-Türkçe, Azərbaycan, English, Русский, Español, Italiano — spoken audio included.
+Türkçe, Azərbaycan, English, Русский, Español, Italiano. Spoken audio in every language except Italian.
 
 WORKS OFFLINE
 Audio ships inside the app. No streaming, no buffering, no data burned at 3 a.m.
