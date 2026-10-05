@@ -141,6 +141,29 @@ export const quotes: Quote[] = [
   },
 ]
 
+type AuthorNames = Partial<Record<LocaleId, string>>
+
+/** Author and source labels in each language; Spanish and Italian keep the stored name for now. */
+const AUTHOR_NAMES: Record<string, AuthorNames> = {
+  Epictetus: { tr: 'Epiktetos', az: 'Epiktet', ru: 'Эпиктет' },
+  Seneca: { az: 'Seneka', ru: 'Сенека' },
+  'Marcus Aurelius': { az: 'Mark Avreli', ru: 'Марк Аврелий' },
+  'William James': { az: 'Uilyam Ceyms', ru: 'Уильям Джеймс' },
+  CBT: { tr: 'BDT', az: 'KDT', ru: 'КПТ' },
+  Attention: { tr: 'Dikkat', az: 'Diqqət', ru: 'Внимание' },
+  Breath: { tr: 'Nefes', az: 'Nəfəs', ru: 'Дыхание' },
+  Depersonalization: { tr: 'Depersonalizasyon', az: 'Depersonalizasiya', ru: 'Деперсонализация' },
+  Derealization: { tr: 'Derealizasyon', az: 'Derealizasiya', ru: 'Дереализация' },
+  Grounding: { tr: 'Topraklanma', az: 'Bu ana qayıtmaq', ru: 'Заземление' },
+  'Panic wave': { tr: 'Panik dalgası', az: 'Panika dalğası', ru: 'Волна паники' },
+  'Self-talk': { tr: 'İç konuşma', az: 'Daxili danışıq', ru: 'Внутренний диалог' },
+  Sleep: { tr: 'Uyku', az: 'Yuxu', ru: 'Сон' },
+}
+
+export function quoteAuthor(q: Quote, locale: LocaleId): string {
+  return AUTHOR_NAMES[q.author]?.[locale] ?? q.author
+}
+
 export function quoteById(id: string) {
   return quotes.find((q) => q.id === id)
 }

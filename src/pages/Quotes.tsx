@@ -4,7 +4,7 @@ import { Card, FoldList, GhostButton, PrimaryButton, ProChip } from '../componen
 import { audio } from '../lib/audio'
 import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
-import { quotes, type Quote } from '../lib/quotes'
+import { quoteAuthor, quotes, type Quote } from '../lib/quotes'
 import { isLoading, isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
 
 export function Quotes() {
@@ -45,7 +45,7 @@ export function Quotes() {
                   <p className="font-display text-xl leading-snug">
                     {allowed ? q.text[locale] : '········'}
                   </p>
-                  <p className="mt-3 text-xs text-mute">{q.author}</p>
+                  <p className="mt-3 text-xs text-mute">{quoteAuthor(q, locale)}</p>
                   {!allowed ? (
                     <span className="absolute right-4 top-4">
                       <ProChip />
@@ -61,7 +61,7 @@ export function Quotes() {
       {open ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-ink px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(2.5rem+env(safe-area-inset-top))]">
           <p className="mt-10 font-display text-3xl leading-snug">{open.text[locale]}</p>
-          <p className="mt-6 text-sm text-mute">{open.author}</p>
+          <p className="mt-6 text-sm text-mute">{quoteAuthor(open, locale)}</p>
           <div className="mt-auto space-y-3">
             <PrimaryButton
               onClick={() => {

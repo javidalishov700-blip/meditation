@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { hrefFor, itemTitle, resolveFavorite, searchCatalog, searchQuotes } from '../lib/catalog'
+import { quoteAuthor } from '../lib/quotes'
 import { LangPicker } from './LangPicker'
 import { readFavorites, STEADY_FAV_EVENT, toggleFavorite, type FavItem } from '../lib/favorites'
 import { useI18n } from '../lib/i18n'
@@ -101,7 +102,7 @@ export function SearchSheet({ open, onClose }: { open: boolean; onClose: () => v
                   <li key={quote.id}>
                     <Link to="/quotes" onClick={onClose} className="block rounded-2xl bg-[#17141d] p-4">
                       <p className="text-sm leading-6 text-white/90">{quote.text[locale]}</p>
-                      <p className="mt-2 text-xs text-white/40">{quote.author}</p>
+                      <p className="mt-2 text-xs text-white/40">{quoteAuthor(quote, locale)}</p>
                     </Link>
                   </li>
                 ))}

@@ -13,7 +13,7 @@ import { isPro, quoteFree } from '../lib/entitlement'
 import { useI18n } from '../lib/i18n'
 import { MOOD_KEYS, MOOD_TINT, readMood, type MoodId } from '../lib/mood'
 import { readOnboard } from '../lib/onboard'
-import { quotes } from '../lib/quotes'
+import { quoteAuthor, quotes } from '../lib/quotes'
 import { isLoading, isSpeaking, speak, stopSpeak, subscribeSpeak } from '../lib/speech'
 import { readDim, writeDim } from '../lib/theme'
 
@@ -176,7 +176,7 @@ export function Home() {
             <button
               key={line.id}
               type="button"
-              aria-label={line.author}
+              aria-label={quoteAuthor(line, locale)}
               onClick={() => setSlide(i)}
               className={`hero-seg flex-1 ${i === slide ? 'on' : ''}`}
             />
