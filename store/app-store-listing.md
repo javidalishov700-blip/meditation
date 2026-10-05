@@ -40,7 +40,7 @@ RU:
 ```
 
 ### Screenshots
-iPhone 6.9" (1320×2868), 8 per language: home, SOS, meditation player, story
+iPhone 6.5" (1284×2778, the size App Store Connect requires), 8 per language: home, SOS, meditation player, story
 player, programs, sleep, sounds, profile. Made from the app with a headless
 browser; regenerate before each release that changes the look.
 
