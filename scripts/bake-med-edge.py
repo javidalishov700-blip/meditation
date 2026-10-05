@@ -5,10 +5,11 @@ Never pass SSML as the utterance. Edge reads tags aloud
 ("version 1.0", "minus 12 percent", "minus 2 hertz") when Communicate()
 is given a <speak> string. Rate and pitch go in the constructor kwargs.
 
-Multilingual voices guess the language sentence by sentence and can read a
-very short line ("Hoş geldin.") in the wrong one, so keep such lines joined
-to a longer sentence in the scripts. The request envelope (not the text)
-also names the clip's language on <speak>; Edge refuses a <lang> element.
+Every language uses a native voice of that language. Multilingual voices
+(Seraphina and the like) sound smoother but slip into a foreign accent on
+some words even with the language named on <speak>, so they are avoided.
+If one is ever used again, the request envelope (not the text) names the
+clip's language on <speak>; Edge refuses a <lang> element.
 
 Raw Edge speech runs sentences together and sounds dry and close. Every clip
 is finished in calm_finish(): longer breaths between sentences and paragraphs,
@@ -35,7 +36,7 @@ MANIFEST_PATH = ROOT / "public" / "voice" / "manifest.json"
 
 VOICES = {
     "en": "en-US-JennyNeural",
-    "tr": "de-DE-SeraphinaMultilingualNeural",
+    "tr": "tr-TR-EmelNeural",
     "az": "az-AZ-BanuNeural",
     "ru": "ru-RU-SvetlanaNeural",
     "es": "es-ES-ElviraNeural",
@@ -430,12 +431,13 @@ async def main() -> int:
         if path.exists() and path.stat().st_size > 800:
             previous = manifest["clips"].get(key)
             if previous and previous != rel:
-                replaced.add(previous)
+                # Older clips can be several files joined with commas.
+                replaced.update(p.strip() for p in previous.split(",") if p.strip())
             manifest["clips"][key] = rel
 
     # A re-baked clip leaves its old file behind; drop it unless another key
     # still points at it. Only files of clips baked in this run are touched.
-    still_used = set(manifest["clips"].values())
+    still_used = {p.strip() for v in manifest["clips"].values() for p in v.split(",")}
     for rel in (replaced - still_used) if prune else set():
         stale = ROOT / "public" / "voice" / rel
         if stale.exists():

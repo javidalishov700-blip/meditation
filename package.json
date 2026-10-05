@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "prebuild": "node scripts/prune-voice-clips.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint src",
     "preview": "vite preview --host",

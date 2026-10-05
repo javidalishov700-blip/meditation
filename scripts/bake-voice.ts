@@ -113,6 +113,10 @@ async function main() {
     console.error('OPENAI_API_KEY missing. Put it in .env (not git), then rerun.')
     process.exit(1)
   }
+  // Narration is baked with Edge voices by the GitHub workflow. Here we only
+  // fill clips that have no audio at all, so a build that happens to have an
+  // OpenAI key never swaps the shipped voices. --force re-bakes everything.
+  const force = process.argv.includes('--force')
   const onlyMed = process.argv.includes('--only=med')
   const onlySos = process.argv.includes('--only=sos')
   const langArg = process.argv.find((a) => a.startsWith('--langs='))
@@ -142,6 +146,15 @@ async function main() {
   for (const clip of clips) {
     if (stopped) break
     const key = `${clip.locale}:${clip.id}`
+    const existing = manifest.clips[key]
+    if (
+      !force &&
+      existing &&
+      existing.split(',').every((rel) => rel.trim() && existsSync(join(root, 'public', 'voice', rel.trim())))
+    ) {
+      skipped += 1
+      continue
+    }
     const parts = chunkVoiceText(clip.text)
     const files: string[] = []
     let complete = true

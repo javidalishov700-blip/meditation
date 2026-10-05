@@ -64,10 +64,10 @@ jobs:
           # Stories, practices and program days in every narrated language.
           npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/lib-prog.json" lib,prog
           python scripts/bake-med-edge.py "$RUNNER_TEMP/lib-prog.json"
-          # SOS and UI cues in these languages are Edge voices too; keep them
-          # in the same calm tone as the meditations.
-          npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/cues.json" sos,ui
-          python scripts/bake-med-edge.py "$RUNNER_TEMP/cues.json" --langs=az,ru,it
+          # SOS, UI cues and quotes in the same native voices and calm tone as
+          # the meditations. Spanish keeps its older clips for now.
+          npx tsx scripts/dump-voice-clips.ts "$RUNNER_TEMP/cues.json" sos,ui,quote
+          python scripts/bake-med-edge.py "$RUNNER_TEMP/cues.json" --langs=tr,en,az,ru,it
 
       - name: Measure narration lengths
         # The "N min" labels in the app come from the audio that was baked.
