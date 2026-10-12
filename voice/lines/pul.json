@@ -1,0 +1,27 @@
+{
+  "name": "pul",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {"id": "L00", "say": "Pul bir anda yoxa çıxsaydı, nə olardı?", "cap": "Pul bir anda yoxa çıxsaydı, nə olardı?", "tr": "Para bir anda yok olsaydı ne olurdu?"},
+    {"id": "L01", "say": "Təsəvvür et: Təzə Bazardasan, pomidor alırsan.", "cap": "Təsəvvür et: Təzə Bazardasan, pomidor alırsan.", "tr": "Hayal et: Bakü'de Teze Bazar'dasın, domates alıyorsun."},
+    {"id": "L02", "say": "Və bir anda dünyadakı bütün pullar yox olur.", "cap": "Və bir anda dünyadakı bütün pullar yox olur.", "tr": "Ve bir anda dünyadaki bütün paralar yok oluyor."},
+    {"id": "L03", "say": "Əlindəki manat da, kartdakı balans da.", "cap": "Əlindəki manat da, kartdakı balans da.", "tr": "Elindeki manat da, karttaki bakiye de."},
+    {"id": "L04", "say": "Bankomatlar sıfır göstərir. Telefonda balans: sıfır manat.", "cap": "Bankomatlar sıfır göstərir. Telefonda balans: 0,00 ₼.", "tr": "ATM'ler sıfır gösteriyor. Telefonda bakiye: 0,00 ₼."},
+    {"id": "L05", "say": "Azərbaycanda kart əməliyyatlarının təxminən yetmiş faizi artıq nağdsızdır.", "cap": "Azərbaycanda kart əməliyyatlarının ~70%-i artıq nağdsızdır.", "tr": "Azerbaycan'da kart işlemlerinin yaklaşık %70'i artık nakitsiz."},
+    {"id": "L06", "say": "Bu rəqəmlər bir saniyədə silinir.", "cap": "Bu rəqəmlər bir saniyədə silinir.", "tr": "Bu rakamlar bir saniyede siliniyor."},
+    {"id": "L07", "say": "Amma çörək, ev, maşın, hamısı yerindədir. Yox olan yalnız puldur.", "cap": "Amma çörək, ev, maşın — hamısı yerindədir. Yox olan yalnız puldur.", "tr": "Ama ekmek, ev, araba — hepsi yerinde. Yok olan sadece para."},
+    {"id": "L08", "say": "Ertəsi gün bazarda barter başlayır: bir kilo pomidor, iki çörəyə.", "cap": "Ertəsi gün bazarda barter başlayır: 1 kq pomidor — 2 çörəyə.", "tr": "Ertesi gün pazarda takas başlıyor: 1 kg domates — 2 ekmeğe."},
+    {"id": "L09", "say": "Amma barterin böyük problemi var: sənin malını istəyən adamda, sənə lazım olan şey olmalıdır.", "cap": "Amma barterin böyük problemi var: sənin malını istəyən adamda sənə lazım olan şey olmalıdır.", "tr": "Ama takasın büyük bir sorunu var: senin malını isteyen kişide, senin ihtiyacın olan şey olmalı."},
+    {"id": "L10", "say": "Bir həftə sonra maaşlar ödənmir. Yanacaq daşıyan maşınlar dayanır.", "cap": "Bir həftə sonra maaşlar ödənmir. Yanacaq daşıyan maşınlar dayanır.", "tr": "Bir hafta sonra maaşlar ödenmiyor. Yakıt taşıyan araçlar duruyor."},
+    {"id": "L11", "say": "Metro hələ işləyir. Amma qatarı sürən maşinist nə vaxta qədər pulsuz işləyəcək?", "cap": "Metro hələ işləyir. Amma qatarı sürən maşinist nə vaxta qədər pulsuz işləyəcək?", "tr": "Metro hâlâ çalışıyor. Ama treni süren makinist ne zamana kadar bedavaya çalışacak?"},
+    {"id": "L12", "say": "Bir aydan sonra insanlar dəyəri olan şeylərə qaçır: qızıla, una, siqaretə.", "cap": "Bir aydan sonra insanlar dəyəri olan şeylərə qaçır: qızıla, una, siqaretə.", "tr": "Bir ay sonra insanlar değeri olan şeylere koşuyor: altına, una, sigaraya."},
+    {"id": "L13", "say": "Bu, tarixdə olub. Min doqquz yüz qırx beşinci ildən sonra Almaniyada siqaret pul kimi işlədilirdi.", "cap": "Bu, tarixdə olub: 1945-ci ildən sonra Almaniyada siqaret pul kimi işlədilirdi.", "tr": "Bu tarihte yaşandı: 1945'ten sonra Almanya'da sigara para gibi kullanıldı."},
+    {"id": "L14", "say": "İki min birinci il böhranından sonra isə Argentinada milyonlarla insan barter klublarına qoşuldu.", "cap": "2001-ci il böhranından sonra isə Argentinada milyonlarla insan barter klublarına qoşuldu.", "tr": "2001 krizinden sonra Arjantin'de milyonlarca insan takas kulüplerine katıldı."},
+    {"id": "L15", "say": "Və bir il sonra insanlar yenidən pul icad edir.", "cap": "Və bir il sonra insanlar yenidən pul icad edir.", "tr": "Ve bir yıl sonra insanlar yeniden para icat ediyor."},
+    {"id": "L16", "say": "Manat sözü də latınca moneta, yəni sikkə sözündəndir.", "cap": "\"Manat\" sözü də latınca \"moneta\", yəni \"sikkə\" sözündəndir.", "tr": "\"Manat\" kelimesi de Latince \"moneta\", yani \"madeni para\" kelimesinden geliyor."},
+    {"id": "L17", "say": "Çünki pul kağız deyil. Pul, insanların bir-birinə etibarıdır.", "cap": "Çünki pul kağız deyil. Pul — insanların bir-birinə etibarıdır.", "tr": "Çünkü para kâğıt değil. Para, insanların birbirine güvenidir."},
+    {"id": "L18", "say": "Sən nə ilə ödəyərdin? Şərhlərdə yaz.", "cap": "Sən nə ilə ödəyərdin? Şərhlərdə yaz.", "tr": "Sen neyle öderdin? Yorumlara yaz."}
+  ]
+}
