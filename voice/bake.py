@@ -14,6 +14,11 @@ ROOT = Path(__file__).resolve().parent
 def h(voice, rate, pitch, text):
     return hashlib.sha1(f"{voice}|{rate}|{pitch}|{text}".encode()).hexdigest()[:12]
 
+LOG = []
+def log(*a):
+    line = " ".join(str(x) for x in a)
+    print(line, flush=True); LOG.append(line)
+
 async def bake(path: Path):
     d = json.loads(path.read_text("utf-8"))
     out = ROOT / "out" / d["name"]; out.mkdir(parents=True, exist_ok=True)
@@ -28,19 +33,34 @@ async def bake(path: Path):
         dest = out / f"{ln['id']}.mp3"
         if man.get(ln["id"]) == key and dest.exists():
             continue
+        ok = False
         for attempt in range(4):
             try:
                 await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(str(dest))
-                break
+                if dest.stat().st_size > 1000:
+                    ok = True
+                    break
+                log("empty", ln["id"])
             except Exception as e:  # noqa: BLE001
-                print("retry", ln["id"], e, flush=True)
-                await asyncio.sleep(3 * (attempt + 1))
-        else:
-            raise SystemExit(f"alınmadı: {ln['id']}")
+                log("retry", ln["id"], type(e).__name__, e)
+            await asyncio.sleep(3 * (attempt + 1))
+        if not ok:
+            log("FAILED", ln["id"])
+            if dest.exists() and dest.stat().st_size < 1000: dest.unlink()
+            continue
         man[ln["id"]] = key
-        print("ok", ln["id"], flush=True)
+        log("ok", ln["id"], dest.stat().st_size)
     mpath.write_text(json.dumps(man, indent=1, ensure_ascii=False), "utf-8")
+    (out / "log.txt").write_text("\n".join(LOG), "utf-8")
+
+async def voices():
+    try:
+        vs = await edge_tts.list_voices()
+        log("az voices:", [v["ShortName"] for v in vs if v["Locale"].startswith("az")], "total", len(vs))
+    except Exception as e:  # noqa: BLE001
+        log("list_voices error", type(e).__name__, e)
 
 if __name__ == "__main__":
+    asyncio.run(voices())
     for p in sys.argv[1:]:
         asyncio.run(bake(Path(p)))
