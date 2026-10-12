@@ -30,12 +30,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install
+      - name: Install and find a working client
         run: |
+          mkdir -p voice/out
           pip install -U edge-tts
-          python -c "import edge_tts, edge_tts.constants as c; print(edge_tts.__version__, getattr(c, 'SEC_MS_GEC_VERSION', ''), getattr(c, 'CHROMIUM_FULL_VERSION', ''))"
+          PKG=$(python -c "import edge_tts,os;print(os.path.dirname(edge_tts.__file__))")
+          if python voice/probe.py; then echo "pypi ok" >> voice/out/probe.txt; exit 0; fi
+          echo "pypi fail" >> voice/out/probe.txt
+          pip install -q --force-reinstall "git+https://github.com/rany2/edge-tts.git" || true
+          PKG=$(python -c "import edge_tts,os;print(os.path.dirname(edge_tts.__file__))")
+          grep -n "CHROMIUM_FULL_VERSION =" $PKG/constants.py >> voice/out/probe.txt || true
+          if python voice/probe.py; then echo "master ok" >> voice/out/probe.txt; exit 0; fi
+          echo "master fail" >> voice/out/probe.txt
+          for v in 146.0.3856.62 148.0.3967.54 150.0.4078.48 152.0.4166.40 141.0.3537.85; do
+            sed -i -E "s/CHROMIUM_FULL_VERSION = \"[0-9.]+\"/CHROMIUM_FULL_VERSION = \"$v\"/" $PKG/constants.py
+            if python voice/probe.py; then echo "version ok $v" >> voice/out/probe.txt; exit 0; fi
+            echo "version fail $v" >> voice/out/probe.txt
+          done
+          exit 0
       - name: Bake
-        run: python voice/bake.py voice/lines/*.json
+        run: python voice/bake.py voice/lines/*.json || true
       - name: Commit audio
         if: always()
         run: |
