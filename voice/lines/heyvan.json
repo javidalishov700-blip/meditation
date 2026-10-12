@@ -1,0 +1,27 @@
+{
+  "name": "heyvan",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {"id": "L00", "say": "Bütün heyvanlar və həşəratlar bir anda yox olsaydı, nə olardı?", "cap": "Bütün heyvanlar və həşəratlar bir anda yox olsaydı, nə olardı?", "tr": "Bütün hayvanlar ve böcekler bir anda yok olsaydı ne olurdu?"},
+    {"id": "L01", "say": "İçərişəhər. Bakının məşhur pişikləri günəşdə yatır.", "cap": "İçərişəhər. Bakının məşhur pişikləri günəşdə yatır.", "tr": "İçerişehir. Bakü'nün meşhur kedileri güneşte uyuyor."},
+    {"id": "L02", "say": "Və bir anda hamısı yox olur: pişiklər, itlər, quşlar, arılar, milçəklər.", "cap": "Və bir anda hamısı yox olur: pişiklər, itlər, quşlar, arılar, milçəklər.", "tr": "Ve bir anda hepsi yok oluyor: kediler, köpekler, kuşlar, arılar, sinekler."},
+    {"id": "L03", "say": "İnsanlardan başqa, bütün heyvanlar.", "cap": "İnsanlardan başqa, bütün heyvanlar.", "tr": "İnsanlar hariç, bütün hayvanlar."},
+    {"id": "L04", "say": "Bulvar susur. Dünyada hər insana iki yüz milyondan çox həşərat düşürdü. İndi heç biri yoxdur.", "cap": "Bulvar susur. Dünyada hər insana 200 milyondan çox həşərat düşürdü — indi heç biri yoxdur.", "tr": "Bulvar susuyor. Dünyada insan başına 200 milyondan fazla böcek düşüyordu — şimdi hiçbiri yok."},
+    {"id": "L05", "say": "Ertəsi gün Təzə Bazarda ət, süd, yumurta, pendir və bal yoxdur.", "cap": "Ertəsi gün Təzə Bazarda ət, süd, yumurta, pendir və bal yoxdur.", "tr": "Ertesi gün Teze Bazar'da et, süt, yumurta, peynir ve bal yok."},
+    {"id": "L06", "say": "Toyuq da, qoyun da, inək də yoxa çıxıb. Kabab, qatıq, pendir, hamısı tarixə qovuşur.", "cap": "Toyuq da, qoyun da, inək də yoxa çıxıb. Kabab, qatıq, pendir — hamısı tarixə qovuşur.", "tr": "Tavuk da, koyun da, inek de yok oldu. Kebap, yoğurt, peynir — hepsi tarihe karışıyor."},
+    {"id": "L07", "say": "Xəzərdə nərə balıqları da, dünyada yalnız burada yaşayan Xəzər suitisi də yox olur.", "cap": "Xəzərdə nərə balıqları da, dünyada yalnız burada yaşayan Xəzər suitisi də yox olur.", "tr": "Hazar'da mersin balıkları da, dünyada sadece burada yaşayan Hazar foku da yok oluyor."},
+    {"id": "L08", "say": "Balıqçılıq bitir. Qara kürü artıq yalnız xatirədir.", "cap": "Balıqçılıq bitir. Qara kürü artıq yalnız xatirədir.", "tr": "Balıkçılık bitiyor. Siyah havyar artık sadece bir anı."},
+    {"id": "L09", "say": "Yaz gəlir. Qubanın alma bağları çiçəkləyir, amma bir dənə də arı yoxdur.", "cap": "Yaz gəlir. Qubanın alma bağları çiçəkləyir, amma bir dənə də arı yoxdur.", "tr": "Bahar geliyor. Kuba'nın elma bahçeleri çiçek açıyor ama tek bir arı bile yok."},
+    {"id": "L10", "say": "Çiçəkli bitkilərin təxminən doxsan faizini heyvanlar tozlayır.", "cap": "Çiçəkli bitkilərin ~90%-ini heyvanlar tozlayır.", "tr": "Çiçekli bitkilerin yaklaşık %90'ını hayvanlar tozluyor."},
+    {"id": "L11", "say": "Payızda ağaclarda alma çox az olur.", "cap": "Payızda ağaclarda alma çox az olur.", "tr": "Sonbaharda ağaçlarda çok az elma oluyor."},
+    {"id": "L12", "say": "Amma çörək qalır: buğda, düyü və qarğıdalı arıya ehtiyac duymur.", "cap": "Amma çörək qalır: buğda, düyü və qarğıdalı arıya ehtiyac duymur.", "tr": "Ama ekmek kalıyor: buğday, pirinç ve mısır arıya ihtiyaç duymuyor."},
+    {"id": "L13", "say": "Yenə də dünyada ərzağın təxminən otuz beş faizi tozlayıcılardan asılı bitkilərdən gəlir.", "cap": "Yenə də dünyada ərzağın ~35%-i tozlayıcılardan asılı bitkilərdən gəlir.", "tr": "Yine de dünyada gıdanın ~%35'i tozlayıcılara bağlı bitkilerden geliyor."},
+    {"id": "L14", "say": "Şəkinin ipək kəlağayısı ipək qurdu olmadan toxunmur. Xalça üçün yun da yoxdur.", "cap": "Şəkinin ipək kəlağayısı ipək qurdu olmadan toxunmur. Xalça üçün yun da yoxdur.", "tr": "Şeki'nin ipek kelağayısı ipek böceği olmadan dokunamıyor. Halı için yün de yok."},
+    {"id": "L15", "say": "Yaxşı tərəfi də var: ağcaqanad yoxdur, malyariya yoxdur, ziyanvericilər yoxdur.", "cap": "Yaxşı tərəfi də var: ağcaqanad yoxdur, malyariya yoxdur, ziyanvericilər yoxdur.", "tr": "İyi tarafı da var: sivrisinek yok, sıtma yok, zararlılar yok."},
+    {"id": "L16", "say": "Amma torpağı qazan soxulcanlar da yoxdur. Yarpaqlar yavaş çürüyür, torpaq bərkiyir.", "cap": "Amma torpağı qazan soxulcanlar da yoxdur. Yarpaqlar yavaş çürüyür, torpaq bərkiyir.", "tr": "Ama toprağı kazan solucanlar da yok. Yapraklar yavaş çürüyor, toprak sertleşiyor."},
+    {"id": "L17", "say": "Bioloq Edvard Uilson demişdi: həşəratlar yox olsa, təbiət xaosa yuvarlanar.", "cap": "Bioloq E. O. Uilson demişdi: \"Həşəratlar yox olsa, təbiət xaosa yuvarlanar.\"", "tr": "Biyolog E. O. Wilson demişti: \"Böcekler yok olursa doğa kaosa sürüklenir.\""},
+    {"id": "L18", "say": "Sən hansı heyvanın yoxluğunu ən çox hiss edərdin? Şərhlərdə yaz.", "cap": "Sən hansı heyvanın yoxluğunu ən çox hiss edərdin? Şərhlərdə yaz.", "tr": "Hangi hayvanın yokluğunu en çok hissederdin? Yorumlara yaz."}
+  ]
+}
