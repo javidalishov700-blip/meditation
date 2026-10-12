@@ -15,6 +15,7 @@ def h(voice, rate, pitch, text):
     return hashlib.sha1(f"{voice}|{rate}|{pitch}|{text}".encode()).hexdigest()[:12]
 
 LOG = []
+FAILS = []
 def log(*a):
     line = " ".join(str(x) for x in a)
     print(line, flush=True); LOG.append(line)
@@ -46,6 +47,10 @@ async def bake(path: Path):
             await asyncio.sleep(3 * (attempt + 1))
         if not ok:
             log("FAILED", ln["id"])
+            FAILS.append(ln["id"])
+            if len(FAILS) >= 2 and not any(v for v in man.values()):
+                log("abort: service refuses")
+                break
             if dest.exists() and dest.stat().st_size < 1000: dest.unlink()
             continue
         man[ln["id"]] = key
@@ -55,6 +60,8 @@ async def bake(path: Path):
 
 async def voices():
     try:
+        import edge_tts.constants as c
+        log("edge-tts", getattr(edge_tts, "__version__", "?"), getattr(c, "SEC_MS_GEC_VERSION", ""))
         vs = await edge_tts.list_voices()
         log("az voices:", [v["ShortName"] for v in vs if v["Locale"].startswith("az")], "total", len(vs))
     except Exception as e:  # noqa: BLE001

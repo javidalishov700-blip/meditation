@@ -31,7 +31,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install
-        run: pip install edge-tts==7.2.8
+        run: |
+          pip install -U edge-tts
+          python -c "import edge_tts, edge_tts.constants as c; print(edge_tts.__version__, getattr(c, 'SEC_MS_GEC_VERSION', ''), getattr(c, 'CHROMIUM_FULL_VERSION', ''))"
       - name: Bake
         run: python voice/bake.py voice/lines/*.json
       - name: Commit audio
