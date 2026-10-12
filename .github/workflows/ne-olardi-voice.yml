@@ -1,5 +1,6 @@
 name: Ne olardi voice
 
+# (yenidən yoxlama)
 # Səsləndirmə Microsoft Edge neural səsləri ilə bişirilir. Bulud mühiti səs
 # xidmətinə qoşula bilmir, ona görə runner bunu edir və nəticəni bu branch-a
 # geri commit edir (meditation/bake-voice.yml ilə eyni yanaşma).
