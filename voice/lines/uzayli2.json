@@ -1,0 +1,120 @@
+{
+  "name": "uzayli2",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Uzaylılar səni pişiyinlə aparsaydı, nə olardı? İkinci bölüm.",
+      "cap": "Uzaylılar səni pişiyinlə aparsaydı, nə olardı? İkinci bölüm.",
+      "tr": "Uzaylılar seni kedinle kaçırsaydı ne olurdu? İkinci bölüm.",
+      "en": "What if aliens abducted you and your cat? Part two."
+    },
+    {
+      "id": "L01",
+      "say": "Əvvəlki bölümdə: uzaylılar səni və pişiyini Bakıdan kosmosa apardılar.",
+      "cap": "Əvvəlki bölümdə: uzaylılar səni və pişiyini Bakıdan kosmosa apardılar.",
+      "tr": "Önceki bölümde: uzaylılar seni ve kedini Bakü'den uzaya götürdü.",
+      "en": "Previously: aliens took you and your cat from Baku into space."
+    },
+    {
+      "id": "L02",
+      "say": "Uzaylı səni yox, pişiyini skan edir.",
+      "cap": "Uzaylı səni yox, pişiyini skan edir.",
+      "tr": "Uzaylı seni değil, kedini tarıyor.",
+      "en": "The alien scans your cat, not you."
+    },
+    {
+      "id": "L03",
+      "say": "Ekranda pişiyin skeleti görünür: 230-a yaxın sümük. İnsanda isə 206 sümük var.",
+      "cap": "Ekranda pişiyin skeleti görünür: 230-a yaxın sümük. İnsanda isə 206 sümük var.",
+      "tr": "Ekranda kedinin iskeleti beliriyor: yaklaşık 230 kemik. İnsanda ise 206 kemik var.",
+      "en": "Your cat's skeleton appears on screen: about 230 bones. Humans have 206."
+    },
+    {
+      "id": "L04",
+      "say": "Skan bitən kimi gəminin mühərrikləri işə düşür.",
+      "cap": "Skan bitən kimi gəminin mühərrikləri işə düşür.",
+      "tr": "Tarama biter bitmez geminin motorları çalışıyor.",
+      "en": "The moment the scan ends, the ship's engines fire up."
+    },
+    {
+      "id": "L05",
+      "say": "İlk dayanacaq — Ay. Yerdən 384 400 km uzaqdadır.",
+      "cap": "İlk dayanacaq — Ay. Yerdən 384 400 km uzaqdadır.",
+      "tr": "İlk durak — Ay. Dünya'dan 384.400 km uzakta.",
+      "en": "First stop: the Moon, 384,400 km from Earth."
+    },
+    {
+      "id": "L06",
+      "say": "Apollo astronavtları bu yolu təxminən 3 günə qət edirdi. Gəmi isə bir neçə saniyəyə.",
+      "cap": "Apollo astronavtları bu yolu təxminən 3 günə qət edirdi. Gəmi isə bir neçə saniyəyə.",
+      "tr": "Apollo astronotları bu yolu yaklaşık 3 günde alıyordu. Gemi ise birkaç saniyede.",
+      "en": "Apollo astronauts took about 3 days to get here. The ship takes seconds."
+    },
+    {
+      "id": "L07",
+      "say": "Sonra Mars... Yupiter... Saturn.",
+      "cap": "Sonra Mars... Yupiter... Saturn.",
+      "tr": "Sonra Mars... Jüpiter... Satürn.",
+      "en": "Then Mars... Jupiter... Saturn."
+    },
+    {
+      "id": "L08",
+      "say": "Günəş işığı Yerə 8 dəqiqə 20 saniyəyə çatır. Saturna isə təxminən 80 dəqiqəyə.",
+      "cap": "Günəş işığı Yerə 8 dəqiqə 20 saniyəyə çatır. Saturna isə təxminən 80 dəqiqəyə.",
+      "tr": "Güneş ışığı Dünya'ya 8 dakika 20 saniyede ulaşır. Satürn'e ise yaklaşık 80 dakikada.",
+      "en": "Sunlight reaches Earth in 8 minutes 20 seconds — and Saturn in about 80 minutes."
+    },
+    {
+      "id": "L09",
+      "say": "Voyager 1 zondu Günəş sisteminin sərhədinə 35 ilə çatmışdı.",
+      "cap": "Voyager 1 zondu Günəş sisteminin sərhədinə 35 ilə çatmışdı.",
+      "tr": "Voyager 1 sondası Güneş sisteminin sınırına 35 yılda ulaşmıştı.",
+      "en": "The Voyager 1 probe took 35 years to reach the edge of the Solar System."
+    },
+    {
+      "id": "L10",
+      "say": "Gəmi işıq sürətindən də sürətli tullanış edir.",
+      "cap": "Gəmi işıq sürətindən də sürətli tullanış edir.",
+      "tr": "Gemi ışık hızından bile hızlı bir sıçrama yapıyor.",
+      "en": "The ship jumps faster than light."
+    },
+    {
+      "id": "L11",
+      "say": "Ən yaxın ulduz Proksima Sentavra 4,24 işıq ili uzaqdadır — işıq belə ora 4 ildən çox gedir.",
+      "cap": "Ən yaxın ulduz Proksima Sentavra 4,24 işıq ili uzaqdadır — işıq belə ora 4 ildən çox gedir.",
+      "tr": "En yakın yıldız Proxima Centauri 4,24 ışık yılı uzakta — ışık bile oraya 4 yıldan fazla sürede gidiyor.",
+      "en": "The nearest star, Proxima Centauri, is 4.24 light-years away — even light takes over 4 years."
+    },
+    {
+      "id": "L12",
+      "say": "Və qarşında iki günəşli bir dünya.",
+      "cap": "Və qarşında iki günəşli bir dünya.",
+      "tr": "Ve karşında iki güneşli bir dünya.",
+      "en": "And ahead of you: a world with two suns."
+    },
+    {
+      "id": "L13",
+      "say": "Bu, fantastika deyil: 2011-ci ildə NASA iki ulduzun ətrafında fırlanan Kepler-16b planetini tapıb.",
+      "cap": "Bu, fantastika deyil: 2011-ci ildə NASA iki ulduzun ətrafında fırlanan Kepler-16b planetini tapıb.",
+      "tr": "Bu bilim kurgu değil: 2011'de NASA iki yıldızın etrafında dönen Kepler-16b gezegenini buldu.",
+      "en": "This isn't fiction: in 2011, NASA found Kepler-16b, a planet that orbits two stars."
+    },
+    {
+      "id": "L14",
+      "say": "Gəmi enir, qapılar açılır və... yüzlərlə uzaylı pişiyinin qarşısında baş əyir.",
+      "cap": "Gəmi enir, qapılar açılır və... yüzlərlə uzaylı pişiyinin qarşısında baş əyir.",
+      "tr": "Gemi iniyor, kapılar açılıyor ve... yüzlerce uzaylı kedinin önünde eğiliyor.",
+      "en": "The ship lands, the doors open and... hundreds of aliens bow before your cat."
+    },
+    {
+      "id": "L15",
+      "say": "Səncə, pişiyin əslində kimdir? Şərhlərdə yaz.",
+      "cap": "Səncə, pişiyin əslində kimdir? Şərhlərdə yaz.",
+      "tr": "Sence kedin aslında kim? Yorumlara yaz.",
+      "en": "Who do you think your cat really is? Tell us in the comments."
+    }
+  ]
+}
