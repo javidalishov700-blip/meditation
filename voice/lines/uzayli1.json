@@ -55,24 +55,24 @@
     },
     {
       "id": "L07",
-      "say": "Mavi bir işıq şüası səni və pişiyini yerdən qaldırır.",
-      "cap": "Mavi bir işıq şüası səni və pişiyini yerdən qaldırır.",
-      "tr": "Mavi bir ışık huzmesi seni ve kedini yerden kaldırıyor.",
-      "en": "A blue beam of light lifts you and your cat into the air."
+      "say": "Mavi bir işıq şüası səni və pişiyini yerdən qaldırıb gəminin içinə çəkir.",
+      "cap": "Mavi bir işıq şüası səni və pişiyini yerdən qaldırıb gəminin içinə çəkir.",
+      "tr": "Mavi bir ışık huzmesi seni ve kedini yerden kaldırıp geminin içine çekiyor.",
+      "en": "A blue beam lifts you and your cat off the ground and pulls you into the ship."
     },
     {
       "id": "L08",
-      "say": "Bakı ayaqlarının altında kiçilir: 1 km... 10 km... 100 km.",
-      "cap": "Bakı ayaqlarının altında kiçilir: 1 km... 10 km... 100 km.",
-      "tr": "Bakü ayaklarının altında küçülüyor: 1 km... 10 km... 100 km.",
-      "en": "Baku shrinks beneath your feet: 1 km... 10 km... 100 km."
+      "say": "Lyuk bağlanır, gəmi qalxır. Şüşə döşəmənin altında Bakı kiçilir: 1 km... 10 km...",
+      "cap": "Lyuk bağlanır, gəmi qalxır. Şüşə döşəmənin altında Bakı kiçilir: 1 km... 10 km...",
+      "tr": "Kapak kapanıyor, gemi yükseliyor. Cam zeminin altında Bakü küçülüyor: 1 km... 10 km...",
+      "en": "The hatch closes and the ship climbs. Below the glass floor, Baku shrinks: 1 km... 10 km..."
     },
     {
       "id": "L09",
-      "say": "100 km-də Karman xəttini keçirsən — bu, kosmosun sərhədidir.",
-      "cap": "100 km-də Karman xəttini keçirsən — bu, kosmosun sərhədidir.",
-      "tr": "100 km'de Kármán hattını geçiyorsun — uzayın sınırı.",
-      "en": "At 100 km you cross the Kármán line, the edge of space."
+      "say": "...100 km. Gəmi Karman xəttini keçir — bu, kosmosun sərhədidir.",
+      "cap": "...100 km. Gəmi Karman xəttini keçir — bu, kosmosun sərhədidir.",
+      "tr": "...100 km. Gemi Kármán hattını geçiyor — uzayın sınırı.",
+      "en": "...100 km. The ship crosses the Kármán line, the edge of space."
     },
     {
       "id": "L10",
