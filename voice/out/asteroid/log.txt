@@ -1,13 +1,21 @@
-edge-tts 7.2.8 1-152.0.4166.40
+edge-tts 7.3.1 2-143.0.3650.75
 az voices: ['az-AZ-BabekNeural', 'az-AZ-BanuNeural'] total 322
-retry L00 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=31faa46825a4473581f61ed646e70f15&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-retry L00 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=97b05d1480384c96ad6adf188ca353d1&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-retry L00 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=4d41bb162b1e4cbba7676d32dbff8ce0&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-retry L00 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=e77c8119d6af4ba7b5632eaeb93bba87&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-FAILED L00
-retry L01 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=22c0b2519686463bbc5292eee27df3e9&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-retry L01 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=e38b9ac63ad74ad9a987432240b0a292&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-retry L01 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=f44217a9a636414c8f14d56362d577e4&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-retry L01 WSServerHandshakeError 403, message='Invalid response status', url='wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=2412e2c96be34654b0dfb1b05dddf026&Sec-MS-GEC=4158F2EEEAEFEDCEA414625DC91ACBEC49731264EB92EC018558013D3770AB42&Sec-MS-GEC-Version=1-152.0.4166.40'
-FAILED L01
-abort: service refuses
+ok L00 19152
+ok L01 22032
+ok L02 22320
+ok L03 38592
+ok L04 37008
+ok L05 34128
+ok L06 49536
+ok L07 32112
+ok L08 51984
+ok L09 33840
+ok L10 36288
+ok L11 35712
+ok L12 34848
+ok L13 37008
+ok L14 40320
+ok L15 48240
+ok L16 43920
+ok L17 20592
+ok L18 30816
