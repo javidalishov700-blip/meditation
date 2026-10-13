@@ -1,0 +1,141 @@
+{
+  "name": "asteroid",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Bakıya asteroid düşsəydi, nə olardı?",
+      "cap": "Bakıya asteroid düşsəydi, nə olardı?",
+      "tr": "Bakü'ye asteroit düşseydi ne olurdu?",
+      "en": "What if an asteroid hit Baku?"
+    },
+    {
+      "id": "L01",
+      "say": "Səhər, Bakı. Adi bir gün.",
+      "cap": "Səhər, Bakı. Adi bir gün.",
+      "tr": "Sabah, Bakü. Sıradan bir gün.",
+      "en": "Morning in Baku. Just an ordinary day."
+    },
+    {
+      "id": "L02",
+      "say": "Birdən səmada Günəşdən də parlaq bir işıq peyda olur.",
+      "cap": "Birdən səmada Günəşdən də parlaq bir işıq peyda olur.",
+      "tr": "Birden gökyüzünde Güneş'ten bile parlak bir ışık beliriyor.",
+      "en": "Suddenly, a light brighter than the Sun appears in the sky."
+    },
+    {
+      "id": "L03",
+      "say": "Bu, 20 metrlik asteroiddir — 2013-cü ildə Rusiyanın Çelyabinsk şəhəri üzərində partlayan kimi.",
+      "cap": "Bu, 20 metrlik asteroiddir — 2013-cü ildə Rusiyanın Çelyabinsk şəhəri üzərində partlayan kimi.",
+      "tr": "Bu, 20 metrelik bir asteroit — 2013'te Rusya'nın Çelyabinsk şehri üzerinde patlayan gibi.",
+      "en": "It's a 20-metre asteroid, like the one that exploded over Chelyabinsk, Russia, in 2013."
+    },
+    {
+      "id": "L04",
+      "say": "O, təxminən 30 km hündürlükdə partlayır: enerjisi Hiroşima bombasından 30 dəfə çoxdur.",
+      "cap": "O, təxminən 30 km hündürlükdə partlayır: enerjisi Hiroşima bombasından 30 dəfə çoxdur.",
+      "tr": "Yaklaşık 30 km yükseklikte patlıyor: enerjisi Hiroşima bombasının 30 katı.",
+      "en": "It explodes about 30 km up, releasing roughly 30 times the energy of the Hiroshima bomb."
+    },
+    {
+      "id": "L05",
+      "say": "Amma hələ səs yoxdur. Zərbə dalğası iki dəqiqədən çox sonra gəlir...",
+      "cap": "Amma hələ səs yoxdur. Zərbə dalğası iki dəqiqədən çox sonra gəlir...",
+      "tr": "Ama henüz ses yok. Şok dalgası iki dakikadan fazla sonra geliyor...",
+      "en": "But there's no sound yet. The shock wave arrives more than two minutes later..."
+    },
+    {
+      "id": "L06",
+      "say": "...və minlərlə pəncərə çilik-çilik olur. Çelyabinskdə 1500-ə yaxın insan, əsasən şüşə qırıqlarından yaralanmışdı.",
+      "cap": "...və minlərlə pəncərə çilik-çilik olur. Çelyabinskdə 1500-ə yaxın insan, əsasən şüşə qırıqlarından yaralanmışdı.",
+      "tr": "...ve binlerce cam paramparça oluyor. Çelyabinsk'te yaklaşık 1500 kişi, çoğu cam kırıklarından yaralanmıştı.",
+      "en": "...and thousands of windows shatter. In Chelyabinsk, about 1,500 people were hurt, mostly by flying glass."
+    },
+    {
+      "id": "L07",
+      "say": "İndi 50 metr: 1908-ci ildə Sibirdə Tunqus partlayışı belə idi.",
+      "cap": "İndi 50 metr: 1908-ci ildə Sibirdə Tunqus partlayışı belə idi.",
+      "tr": "Şimdi 50 metre: 1908'de Sibirya'daki Tunguska patlaması böyleydi.",
+      "en": "Now 50 metres: that's how big the 1908 Tunguska blast in Siberia was."
+    },
+    {
+      "id": "L08",
+      "say": "O, iki min yüz əlli kvadrat kilometr meşəni yerlə bir etdi. Bütün Abşeron yarımadası isə iki min yüz on kvadrat kilometrdir.",
+      "cap": "O, 2150 km² meşəni yerlə bir etdi. Bütün Abşeron yarımadası isə 2110 km²-dir.",
+      "tr": "2150 km² ormanı yerle bir etti. Bütün Abşeron Yarımadası ise 2110 km².",
+      "en": "It flattened 2,150 km² of forest. The whole Absheron Peninsula is 2,110 km²."
+    },
+    {
+      "id": "L09",
+      "say": "Abşeronun üzərində partlasaydı, Bakı daxil, demək olar ki, bütün yarımada dağılardı.",
+      "cap": "Abşeronun üzərində partlasaydı, Bakı daxil, demək olar ki, bütün yarımada dağılardı.",
+      "tr": "Abşeron üzerinde patlasaydı, Bakü dahil neredeyse bütün yarımada yıkılırdı.",
+      "en": "Exploding over Absheron, it would wreck almost the entire peninsula, Baku included."
+    },
+    {
+      "id": "L10",
+      "say": "1 kilometr. Asteroid Xəzərə, Bakıdan bir neçə on kilometr aralıya düşür.",
+      "cap": "1 kilometr. Asteroid Xəzərə, Bakıdan bir neçə on kilometr aralıya düşür.",
+      "tr": "1 kilometre. Asteroit Hazar'a, Bakü'den birkaç on kilometre uzağa düşüyor.",
+      "en": "1 kilometre. The asteroid strikes the Caspian, a few dozen kilometres from Baku."
+    },
+    {
+      "id": "L11",
+      "say": "Enerjisi təxminən altmış min meqatondur — tarixin ən güclü nüvə bombasından min dəfədən çox.",
+      "cap": "Enerjisi ~60 000 meqatondur — tarixin ən güclü nüvə bombasından min dəfədən çox.",
+      "tr": "Enerjisi ~60.000 megaton — tarihin en güçlü nükleer bombasının binden fazla katı.",
+      "en": "About 60,000 megatons: over a thousand times the most powerful nuclear bomb ever tested."
+    },
+    {
+      "id": "L12",
+      "say": "Dənizin dibində 10 km-dən geniş krater açılır, nəhəng dalğalar Xəzərin sahillərinə yayılır.",
+      "cap": "Dənizin dibində 10 km-dən geniş krater açılır, nəhəng dalğalar Xəzərin sahillərinə yayılır.",
+      "tr": "Deniz tabanında 10 km'den geniş bir krater açılıyor, dev dalgalar Hazar kıyılarına yayılıyor.",
+      "en": "A crater over 10 km wide opens in the seabed, and giant waves race toward the Caspian's shores."
+    },
+    {
+      "id": "L13",
+      "say": "10 kilometr: 66 milyon il əvvəl dinozavrların sonunu gətirən asteroid bu ölçüdə idi.",
+      "cap": "10 kilometr: 66 milyon il əvvəl dinozavrların sonunu gətirən asteroid bu ölçüdə idi.",
+      "tr": "10 kilometre: 66 milyon yıl önce dinozorların sonunu getiren asteroit bu boyuttaydı.",
+      "en": "10 kilometres: the size of the asteroid that ended the dinosaurs 66 million years ago."
+    },
+    {
+      "id": "L14",
+      "say": "Krater ~200 km idi, toz və his Günəşi illərlə örtdü, canlı növlərinin 75%-i yox oldu.",
+      "cap": "Krater ~200 km idi, toz və his Günəşi illərlə örtdü, canlı növlərinin 75%-i yox oldu.",
+      "tr": "Krater ~200 km'ydi, toz ve is Güneş'i yıllarca örttü, canlı türlerinin %75'i yok oldu.",
+      "en": "Its crater was ~200 km wide, dust and soot hid the Sun for years, and 75% of species died out."
+    },
+    {
+      "id": "L15",
+      "say": "Yaxşı xəbər: alimlər 1 km-dən böyük yaxın asteroidlərin 95%-dən çoxunu tapıb — heç biri yaxın 100 ildə təhlükə yaratmır.",
+      "cap": "Yaxşı xəbər: alimlər 1 km-dən böyük yaxın asteroidlərin 95%-dən çoxunu tapıb — heç biri yaxın 100 ildə təhlükə yaratmır.",
+      "tr": "İyi haber: bilim insanları 1 km'den büyük yakın asteroitlerin %95'inden fazlasını buldu — hiçbiri önümüzdeki 100 yılda tehlike oluşturmuyor.",
+      "en": "Good news: scientists have found over 95% of nearby asteroids larger than 1 km, and none threatens us in the next 100 years."
+    },
+    {
+      "id": "L16",
+      "say": "2022-ci ildə NASA-nın DART aparatı Dimorfos asteroidinə çırpılıb onun orbit müddətini 32 dəqiqə qısaltdı.",
+      "cap": "2022-ci ildə NASA-nın DART aparatı Dimorfos asteroidinə çırpılıb onun orbit müddətini 32 dəqiqə qısaltdı.",
+      "tr": "2022'de NASA'nın DART aracı Dimorphos asteroidine çarparak yörünge süresini 32 dakika kısalttı.",
+      "en": "In 2022, NASA's DART spacecraft slammed into the asteroid Dimorphos and cut its orbital period by 32 minutes."
+    },
+    {
+      "id": "L17",
+      "say": "Yəni Bakının səması hələlik təhlükəsizdir.",
+      "cap": "Yəni Bakının səması hələlik təhlükəsizdir.",
+      "tr": "Yani Bakü'nün gökyüzü şimdilik güvende.",
+      "en": "So, for now, Baku's sky is safe."
+    },
+    {
+      "id": "L18",
+      "say": "Asteroidi görsəydin, ilk nə edərdin? Şərhlərdə yaz.",
+      "cap": "Asteroidi görsəydin, ilk nə edərdin? Şərhlərdə yaz.",
+      "tr": "Asteroidi görseydin ilk ne yapardın? Yorumlara yaz.",
+      "en": "If you saw the asteroid, what would you do first? Tell us in the comments."
+    }
+  ]
+}
