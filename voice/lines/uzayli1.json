@@ -1,0 +1,120 @@
+{
+  "name": "uzayli1",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Uzaylılar səni pişiyinlə birlikdə aparsaydı, nə olardı? Birinci bölüm.",
+      "cap": "Uzaylılar səni pişiyinlə birlikdə aparsaydı, nə olardı? Birinci bölüm.",
+      "tr": "Uzaylılar seni kedinle birlikte kaçırsaydı ne olurdu? Birinci bölüm.",
+      "en": "What if aliens abducted you and your cat? Part one."
+    },
+    {
+      "id": "L01",
+      "say": "Gecə saat üç. Bakı yatır. Sən pişiyinlə balkondasan.",
+      "cap": "Gecə saat üç. Bakı yatır. Sən pişiyinlə balkondasan.",
+      "tr": "Gece saat üç. Bakü uyuyor. Kedinle balkondasın.",
+      "en": "3 a.m. Baku is asleep. You're on the balcony with your cat."
+    },
+    {
+      "id": "L02",
+      "say": "Birdən pişik qulaqlarını dikəldib dənizə baxır. O nəsə eşidir — sən isə yox.",
+      "cap": "Birdən pişik qulaqlarını dikəldib dənizə baxır. O nəsə eşidir — sən isə yox.",
+      "tr": "Birden kedi kulaklarını dikip denize bakıyor. Bir şey duyuyor — sen ise duymuyorsun.",
+      "en": "Suddenly your cat pricks up its ears and stares at the sea. It hears something you can't."
+    },
+    {
+      "id": "L03",
+      "say": "Pişiklər altmış dörd min hersə qədər səsləri eşidir, insan isə təxminən iyirmi min hersə qədər.",
+      "cap": "Pişiklər 64 000 hersə qədər səsləri eşidir, insan isə təxminən 20 000 hersə qədər.",
+      "tr": "Kediler 64.000 Hz'e kadar sesleri duyar, insan ise yaklaşık 20.000 Hz'e kadar.",
+      "en": "Cats hear sounds up to 64,000 Hz; humans only up to about 20,000 Hz."
+    },
+    {
+      "id": "L04",
+      "say": "Sonra sən də görürsən: Xəzərin üstündə qəribə işıqlar.",
+      "cap": "Sonra sən də görürsən: Xəzərin üstündə qəribə işıqlar.",
+      "tr": "Sonra sen de görüyorsun: Hazar'ın üzerinde garip ışıklar.",
+      "en": "Then you see it too: strange lights over the Caspian."
+    },
+    {
+      "id": "L05",
+      "say": "Və birdən bütün Bakıda işıqlar sönür.",
+      "cap": "Və birdən bütün Bakıda işıqlar sönür.",
+      "tr": "Ve birden bütün Bakü'de ışıklar sönüyor.",
+      "en": "And suddenly, all of Baku goes dark."
+    },
+    {
+      "id": "L06",
+      "say": "Nəhəng bir gəmi səssizcə düz başının üstündə dayanır.",
+      "cap": "Nəhəng bir gəmi səssizcə düz başının üstündə dayanır.",
+      "tr": "Dev bir gemi sessizce tam başının üstünde duruyor.",
+      "en": "A giant ship silently stops right above your head."
+    },
+    {
+      "id": "L07",
+      "say": "Mavi bir işıq şüası səni və pişiyini yerdən qaldırır.",
+      "cap": "Mavi bir işıq şüası səni və pişiyini yerdən qaldırır.",
+      "tr": "Mavi bir ışık huzmesi seni ve kedini yerden kaldırıyor.",
+      "en": "A blue beam of light lifts you and your cat into the air."
+    },
+    {
+      "id": "L08",
+      "say": "Bakı ayaqlarının altında kiçilir: 1 km... 10 km... 100 km.",
+      "cap": "Bakı ayaqlarının altında kiçilir: 1 km... 10 km... 100 km.",
+      "tr": "Bakü ayaklarının altında küçülüyor: 1 km... 10 km... 100 km.",
+      "en": "Baku shrinks beneath your feet: 1 km... 10 km... 100 km."
+    },
+    {
+      "id": "L09",
+      "say": "100 km-də Karman xəttini keçirsən — bu, kosmosun sərhədidir.",
+      "cap": "100 km-də Karman xəttini keçirsən — bu, kosmosun sərhədidir.",
+      "tr": "100 km'de Kármán hattını geçiyorsun — uzayın sınırı.",
+      "en": "At 100 km you cross the Kármán line, the edge of space."
+    },
+    {
+      "id": "L10",
+      "say": "Gəminin içində çəki yoxdur. Pişiyin havada üzür, ayaq basmağa yer tapmır.",
+      "cap": "Gəminin içində çəki yoxdur. Pişiyin havada üzür, ayaq basmağa yer tapmır.",
+      "tr": "Geminin içinde ağırlık yok. Kedin havada süzülüyor, basacak yer bulamıyor.",
+      "en": "There's no weight inside the ship. Your cat floats, with nowhere to put its paws."
+    },
+    {
+      "id": "L11",
+      "say": "1950-ci illərdə ABŞ Hərbi Hava Qüvvələri pişikləri çəkisizlikdə sınamışdı — onlar da belə çaşmışdılar.",
+      "cap": "1950-ci illərdə ABŞ Hərbi Hava Qüvvələri pişikləri çəkisizlikdə sınamışdı — onlar da belə çaşmışdılar.",
+      "tr": "1950'lerde ABD Hava Kuvvetleri kedileri ağırlıksız ortamda test etmişti — onlar da böyle şaşırmıştı.",
+      "en": "In the 1950s, the US Air Force tested cats in weightlessness — they were just as confused."
+    },
+    {
+      "id": "L12",
+      "say": "Pəncərədə Yer görünür. Bu hündürlükdə saatda iyirmi səkkiz min kilometr sürətlə, doxsan dəqiqəyə bir dövrə vurursan.",
+      "cap": "Pəncərədə Yer görünür. Bu hündürlükdə saatda 28 000 km sürətlə 90 dəqiqəyə bir dövrə vurursan.",
+      "tr": "Pencerede Dünya görünüyor. Bu yükseklikte saatte 28.000 km hızla 90 dakikada bir tur atıyorsun.",
+      "en": "Earth fills the window. At this height you circle it at 28,000 km/h — one lap every 90 minutes."
+    },
+    {
+      "id": "L13",
+      "say": "Sonra arxada bir qapı açılır...",
+      "cap": "Sonra arxada bir qapı açılır...",
+      "tr": "Sonra arkada bir kapı açılıyor...",
+      "en": "Then a door opens behind you..."
+    },
+    {
+      "id": "L14",
+      "say": "...və içəri girən varlıq pişiyinin adını çəkir.",
+      "cap": "...və içəri girən varlıq pişiyinin adını çəkir.",
+      "tr": "...ve içeri giren varlık kedinin adını söylüyor.",
+      "en": "...and the creature that walks in says your cat's name."
+    },
+    {
+      "id": "L15",
+      "say": "Səncə, uzaylılar pişikdən nə istəyir? Şərhlərdə yaz.",
+      "cap": "Səncə, uzaylılar pişikdən nə istəyir? Şərhlərdə yaz.",
+      "tr": "Sence uzaylılar kediden ne istiyor? Yorumlara yaz.",
+      "en": "What do you think the aliens want with your cat? Tell us in the comments."
+    }
+  ]
+}
