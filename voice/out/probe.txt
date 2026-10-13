@@ -46,3 +46,11 @@ version fail 148.0.3967.54
 version fail 150.0.4078.48
 version fail 152.0.4166.40
 version fail 141.0.3537.85
+pypi fail
+11:CHROMIUM_FULL_VERSION = "143.0.3650.75"
+master fail
+version fail 146.0.3856.62
+version fail 148.0.3967.54
+version fail 150.0.4078.48
+version fail 152.0.4166.40
+version fail 141.0.3537.85
