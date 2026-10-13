@@ -1,0 +1,127 @@
+{
+  "name": "uzayli3",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Uzaylılar səni pişiyinlə aparsaydı, nə olardı? Son bölüm.",
+      "cap": "Uzaylılar səni pişiyinlə aparsaydı, nə olardı? Son bölüm.",
+      "tr": "Uzaylılar seni kedinle kaçırsaydı ne olurdu? Son bölüm.",
+      "en": "What if aliens abducted you and your cat? The final part."
+    },
+    {
+      "id": "L01",
+      "say": "Əvvəlki bölümdə: uzaylılar pişiyinin qarşısında baş əydi.",
+      "cap": "Əvvəlki bölümdə: uzaylılar pişiyinin qarşısında baş əydi.",
+      "tr": "Önceki bölümde: uzaylılar kedinin önünde eğildi.",
+      "en": "Previously: the aliens bowed before your cat."
+    },
+    {
+      "id": "L02",
+      "say": "Gəmidən çıxırsan və dizlərin bükülür: burada cazibə Yerdəkindən iki dəfə güclüdür.",
+      "cap": "Gəmidən çıxırsan və dizlərin bükülür: burada cazibə Yerdəkindən iki dəfə güclüdür.",
+      "tr": "Gemiden iniyorsun ve dizlerin bükülüyor: burada yerçekimi Dünya'dakinin iki katı.",
+      "en": "You step out and your knees buckle: gravity here is twice as strong as on Earth."
+    },
+    {
+      "id": "L03",
+      "say": "70 kiloqramlıq insan özünü 140 kiloqram kimi hiss edir. Pişiyin isə... rahatca yeriyir.",
+      "cap": "70 kiloqramlıq insan özünü 140 kiloqram kimi hiss edir. Pişiyin isə... rahatca yeriyir.",
+      "tr": "70 kiloluk bir insan kendini 140 kilo gibi hissediyor. Kedin ise... rahatça yürüyor.",
+      "en": "A 70 kg person feels like 140 kg. But your cat... strolls along with ease."
+    },
+    {
+      "id": "L04",
+      "say": "Sarayda holoqram açılır: uzaylıların itmiş kraliçası... sənin pişiyindir!",
+      "cap": "Sarayda holoqram açılır: uzaylıların itmiş kraliçası... sənin pişiyindir!",
+      "tr": "Sarayda bir hologram açılıyor: uzaylıların kayıp kraliçesi... senin kedin!",
+      "en": "A hologram lights up in the palace: the aliens' lost queen... is your cat!"
+    },
+    {
+      "id": "L05",
+      "say": "Deyirlər, o, minlərlə il əvvəl Yerə səyahətə çıxıb və orada qalıb.",
+      "cap": "Deyirlər, o, minlərlə il əvvəl Yerə səyahətə çıxıb və orada qalıb.",
+      "tr": "Söylentiye göre binlerce yıl önce Dünya'ya yolculuğa çıkmış ve orada kalmış.",
+      "en": "Legend says she travelled to Earth thousands of years ago — and stayed."
+    },
+    {
+      "id": "L06",
+      "say": "Maraqlıdır: Kiprdə 9500 il əvvəl insanla birlikdə basdırılmış pişik tapılıb — ən qədim ev pişiyi izlərindən biri.",
+      "cap": "Maraqlıdır: Kiprdə 9500 il əvvəl insanla birlikdə basdırılmış pişik tapılıb — ən qədim ev pişiyi izlərindən biri.",
+      "tr": "İlginç: Kıbrıs'ta 9500 yıl önce bir insanla birlikte gömülmüş bir kedi bulundu — evcil kedinin en eski izlerinden biri.",
+      "en": "Fun fact: a cat buried with a person 9,500 years ago was found on Cyprus — one of the oldest signs of pet cats."
+    },
+    {
+      "id": "L07",
+      "say": "Qədim Misirdə isə pişikləri müqəddəs sayır, ilahə Bastetlə əlaqələndirirdilər.",
+      "cap": "Qədim Misirdə isə pişikləri müqəddəs sayır, ilahə Bastetlə əlaqələndirirdilər.",
+      "tr": "Antik Mısır'da ise kediler kutsal sayılır, tanrıça Bastet ile ilişkilendirilirdi.",
+      "en": "In ancient Egypt, cats were sacred and linked to the goddess Bastet."
+    },
+    {
+      "id": "L08",
+      "say": "Uzaylılar kraliçaya taxt təklif edir. Amma pişik taxtdan düşüb sənin yanına gəlir.",
+      "cap": "Uzaylılar kraliçaya taxt təklif edir. Amma pişik taxtdan düşüb sənin yanına gəlir.",
+      "tr": "Uzaylılar kraliçeye tahtını sunuyor. Ama kedi tahttan inip yanına geliyor.",
+      "en": "The aliens offer the queen her throne. But the cat jumps down and comes to you."
+    },
+    {
+      "id": "L09",
+      "say": "Seçimini edib: səninlə evə, Bakıya qayıdır.",
+      "cap": "Seçimini edib: səninlə evə, Bakıya qayıdır.",
+      "tr": "Seçimini yaptı: seninle eve, Bakü'ye dönüyor.",
+      "en": "She has made her choice: home to Baku, with you."
+    },
+    {
+      "id": "L10",
+      "say": "Amma işıq sürətinə yaxın uçanda zaman yavaşlayır.",
+      "cap": "Amma işıq sürətinə yaxın uçanda zaman yavaşlayır.",
+      "tr": "Ama ışık hızına yakın uçarken zaman yavaşlar.",
+      "en": "But when you fly close to light speed, time slows down."
+    },
+    {
+      "id": "L11",
+      "say": "İşıq sürətinin 99,5%-i ilə 1 il uçsan, Yerdə təxminən 10 il keçər.",
+      "cap": "İşıq sürətinin 99,5%-i ilə 1 il uçsan, Yerdə təxminən 10 il keçər.",
+      "tr": "Işık hızının %99,5'iyle 1 yıl uçarsan, Dünya'da yaklaşık 10 yıl geçer.",
+      "en": "Fly for 1 year at 99.5% of light speed, and about 10 years pass on Earth."
+    },
+    {
+      "id": "L12",
+      "say": "Xoşbəxtlikdən uzaylılar zamanı da idarə edir: gəmi səni elə həmin gecəyə qaytarır.",
+      "cap": "Xoşbəxtlikdən uzaylılar zamanı da idarə edir: gəmi səni elə həmin gecəyə qaytarır.",
+      "tr": "Neyse ki uzaylılar zamanı da yönetiyor: gemi seni aynı geceye geri bırakıyor.",
+      "en": "Luckily, the aliens control time too: the ship brings you back to that same night."
+    },
+    {
+      "id": "L13",
+      "say": "Saat 03:10. Bakı yenə yatır. Sanki heç nə olmayıb.",
+      "cap": "Saat 03:10. Bakı yenə yatır. Sanki heç nə olmayıb.",
+      "tr": "Saat 03:10. Bakü yine uyuyor. Sanki hiçbir şey olmamış.",
+      "en": "3:10 a.m. Baku is still asleep, as if nothing ever happened."
+    },
+    {
+      "id": "L14",
+      "say": "Pişiyin sənə baxır... və gözləri bir anlıq mavi parlayır.",
+      "cap": "Pişiyin sənə baxır... və gözləri bir anlıq mavi parlayır.",
+      "tr": "Kedin sana bakıyor... ve gözleri bir an mavi parlıyor.",
+      "en": "Your cat looks at you... and its eyes flash blue for a moment."
+    },
+    {
+      "id": "L15",
+      "say": "Yoxsa bütün bunlar sadəcə bir yuxu idi?",
+      "cap": "Yoxsa bütün bunlar sadəcə bir yuxu idi?",
+      "tr": "Yoksa bunların hepsi sadece bir rüya mıydı?",
+      "en": "Or was it all just a dream?"
+    },
+    {
+      "id": "L16",
+      "say": "Sənin pişiyin də gecələr səmaya baxır? Şərhlərdə yaz.",
+      "cap": "Sənin pişiyin də gecələr səmaya baxır? Şərhlərdə yaz.",
+      "tr": "Senin kedin de geceleri gökyüzüne bakıyor mu? Yorumlara yaz.",
+      "en": "Does your cat stare at the sky at night too? Tell us in the comments."
+    }
+  ]
+}
