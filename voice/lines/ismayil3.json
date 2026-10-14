@@ -1,0 +1,368 @@
+{
+  "name": "ismayil3",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+0%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00_0",
+      "say": "Şah İsmayıl olsaydın, nə olardı?",
+      "rate": "-4%",
+      "pitch": "-2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L01_0",
+      "say": "Təsəvvür et: sən Şah İsmayılsan.",
+      "rate": "-6%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L01_1",
+      "say": "Arxanda minlərlə qızılbaş dayanıb.",
+      "rate": "+0%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L01_2",
+      "say": "Hamısı sənin bir əmrini gözləyir.",
+      "rate": "-3%",
+      "pitch": "-2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L02_0",
+      "say": "Amma hər şey çox ağır başlayır.",
+      "rate": "-6%",
+      "pitch": "-4Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L02_1",
+      "say": "Min dörd yüz səksən yeddidə Ərdəbildə doğulursan.",
+      "rate": "+0%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L02_2",
+      "say": "Atan, Səfəvi təriqətinin başçısı Şeyx Heydərdir.",
+      "rate": "-2%",
+      "pitch": "-1Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L03_0",
+      "say": "Hələ bir yaşın var.",
+      "rate": "-5%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L03_1",
+      "say": "Atan Təbərsəranda, Şirvanşahla döyüşdə həlak olur.",
+      "rate": "-3%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L04_0",
+      "say": "Yeddi yaşında böyük qardaşın Sultan Əli də öldürülür.",
+      "rate": "-3%",
+      "pitch": "-2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L04_1",
+      "say": "Səni gecə ilə Lahıcana qaçırırlar.",
+      "rate": "+3%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L04_2",
+      "say": "Beş il gizlənirsən.",
+      "rate": "-6%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L05_0",
+      "say": "On iki yaşında gizləndiyin yerdən çıxırsan.",
+      "rate": "+0%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L05_1",
+      "say": "Ərzincanda ətrafına yeddi min qızılbaş toplanır.",
+      "rate": "+2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L05_2",
+      "say": "Onlar səni öz lideri sayırlar.",
+      "rate": "-4%",
+      "pitch": "-2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L06_0",
+      "say": "İlk böyük döyüşün Şirvandadır.",
+      "rate": "+2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L06_1",
+      "say": "Cabanıda atanın qatili Fərrux Yasarın ordusuna hücum edirsən, və qalib gəlirsən!",
+      "rate": "+5%",
+      "pitch": "+2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L07_0",
+      "say": "Sonra Bakı qalasını mühasirəyə alırsan.",
+      "rate": "+0%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L07_1",
+      "say": "Divarın bir hissəsi uçurulur, və şəhər sənin olur.",
+      "rate": "+3%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L08_0",
+      "say": "Şərurda Ağqoyunlu hökmdarı Əlvəndin, deyilənə görə, dörd dəfə böyük ordusunu darmadağın edirsən.",
+      "rate": "+2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L09_0",
+      "say": "Və Təbrizə girirsən.",
+      "rate": "-3%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L09_1",
+      "say": "On dörd yaşındasan, və artıq şahsan.",
+      "rate": "-6%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L09_2",
+      "say": "Xalq qarşında baş əyir.",
+      "rate": "-4%",
+      "pitch": "-1Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L10_0",
+      "say": "Sonrakı illərdə İran və İraq torpaqlarını birləşdirirsən.",
+      "rate": "+2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L10_1",
+      "say": "Min beş yüz onda Mərvdə özbək hökmdarı Şeybani xanı məğlub edirsən.",
+      "rate": "+2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L11_0",
+      "say": "Döyüşlərin arasında isə qələm götürürsən.",
+      "rate": "-5%",
+      "pitch": "-2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L11_1",
+      "say": "Xətai təxəllüsü ilə ana dilində şeirlər yazırsan, Dəhnamə poemasını yaradırsan.",
+      "rate": "-2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L12_0",
+      "say": "Sarayında da, ordunda da Azərbaycan türkcəsi danışılır.",
+      "rate": "-2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13_0",
+      "say": "Min beş yüz on dörd.",
+      "rate": "-8%",
+      "pitch": "-4Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13_1",
+      "say": "Çaldıran.",
+      "rate": "-8%",
+      "pitch": "-4Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13_2",
+      "say": "Osmanlı sultanı Səlim toplar və tüfənglərlə gəlir.",
+      "rate": "+0%",
+      "pitch": "-2Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13_3",
+      "say": "Sən isə qılınclı süvarilərinlə onun üstünə gedirsən.",
+      "rate": "+4%",
+      "pitch": "+1Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L14_0",
+      "say": "Bu dəfə məğlub olursan.",
+      "rate": "-8%",
+      "pitch": "-4Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L14_1",
+      "say": "Yaralanırsan, az qala əsir düşürsən.",
+      "rate": "-4%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L14_2",
+      "say": "Bundan sonra bir daha döyüşə çıxmırsan.",
+      "rate": "-6%",
+      "pitch": "-4Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L15_0",
+      "say": "Min beş yüz iyirmi dörddə, cəmi otuz altı yaşında dünyadan köçürsən.",
+      "rate": "-6%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L15_1",
+      "say": "Ərdəbildə, ulu baban Şeyx Səfinin türbəsində dəfn olunursan.",
+      "rate": "-5%",
+      "pitch": "-3Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L16_0",
+      "say": "Amma qurduğun Səfəvi dövləti səndən sonra da iki yüz otuz beş il yaşayacaq.",
+      "rate": "-2%",
+      "pitch": "-1Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L17_0",
+      "say": "Sən Şah İsmayıl olsaydın, Çaldırana gedərdinmi?",
+      "rate": "+0%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L17_1",
+      "say": "Şərhlərdə yaz.",
+      "rate": "+2%",
+      "pitch": "+0Hz",
+      "cap": "",
+      "tr": "",
+      "en": ""
+    }
+  ]
+}

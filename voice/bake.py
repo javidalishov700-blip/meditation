@@ -30,14 +30,15 @@ async def bake(path: Path):
         text = ln["say"].strip()
         if "<speak" in text.lower():
             raise SystemExit("SSML olmaz")
-        key = h(voice, rate, pitch, text)
+        lrate, lpitch = ln.get("rate", rate), ln.get("pitch", pitch)
+        key = h(voice, lrate, lpitch, text)
         dest = out / f"{ln['id']}.mp3"
         if man.get(ln["id"]) == key and dest.exists():
             continue
         ok = False
         for attempt in range(4):
             try:
-                await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(str(dest))
+                await edge_tts.Communicate(text, voice, rate=lrate, pitch=lpitch).save(str(dest))
                 if dest.stat().st_size > 1000:
                     ok = True
                     break
