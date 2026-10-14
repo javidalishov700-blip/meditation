@@ -1,0 +1,15 @@
+{
+  "name": "sample_babek",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+0%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "S1",
+      "say": "Təsəvvür et: sən Şah İsmayılsan. On dörd yaşındasan, və bu gün Təbrizdə şah elan olunursan.",
+      "cap": "Təsəvvür et: sən Şah İsmayılsan. On dörd yaşındasan, və bu gün Təbrizdə şah elan olunursan.",
+      "tr": "",
+      "en": ""
+    }
+  ]
+}
