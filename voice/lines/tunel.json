@@ -1,7 +1,7 @@
 {
   "name": "tunel",
   "voice": "az-AZ-BabekNeural",
-  "rate": "+6%",
+  "rate": "+12%",
   "pitch": "+0Hz",
   "lines": [
     {
@@ -20,8 +20,8 @@
     },
     {
       "id": "L02",
-      "say": "Uzunluğu 12742 kilometrdir — Yerin bütün diametri.",
-      "cap": "Uzunluğu 12 742 km — Yerin bütün diametri.",
+      "say": "Bu, düz 12742 kilometr deməkdir.",
+      "cap": "Bu, düz 12 742 km deməkdir.",
       "tr": "",
       "en": ""
     },
@@ -41,36 +41,36 @@
     },
     {
       "id": "L05",
-      "say": "İlk 35 kilometr yer qabığıdır. Hər kilometrdə temperatur təxminən 25 dərəcə artır.",
-      "cap": "İlk 35 km — yer qabığı. Hər kilometrdə temperatur təxminən 25 °C artır.",
+      "say": "İlk 35 kilometr yer qabığıdır. Hər kilometrdə 25 dərəcə isti artır.",
+      "cap": "İlk 35 km — yer qabığı. Hər kilometrdə təxminən 25 °C isti artır.",
       "tr": "",
       "en": ""
     },
     {
       "id": "L06",
-      "say": "Sonra mantiya gəlir: 2900 kilometr qalınlığında, çox yavaş axan qızmar süxur.",
+      "say": "Sonra mantiya gəlir: 2900 kilometr qalınlığında qızmar süxur.",
       "cap": "Sonra mantiya: 2 900 km qalınlığında, çox yavaş axan qızmar süxur.",
       "tr": "",
       "en": ""
     },
     {
       "id": "L07",
-      "say": "2900 kilometr dərinlikdə maye dəmir okeanı başlayır. Yerin maqnit sahəsini məhz o yaradır.",
-      "cap": "2 900 km dərinlikdə maye dəmir okeanı başlayır. Yerin maqnit sahəsini məhz o yaradır.",
+      "say": "2900 kilometrdən sonra maye dəmir okeanı başlayır. Yerin maqnit sahəsini o yaradır.",
+      "cap": "2 900 km-dən sonra maye dəmir okeanı başlayır. Yerin maqnit sahəsini o yaradır.",
       "tr": "",
       "en": ""
     },
     {
       "id": "L08",
-      "say": "Mərkəzdə bərk dəmir kürə var: təxminən 5200 dərəcə. Təzyiq isə 3,6 milyon atmosferdir.",
-      "cap": "Mərkəzdə bərk dəmir kürə var: təxminən 5 200 °C. Təzyiq — 3,6 milyon atmosfer.",
+      "say": "Mərkəzdə bərk dəmir kürə var: 5200 dərəcə, 3,6 milyon atmosfer təzyiq.",
+      "cap": "Mərkəzdə bərk dəmir kürə var: təxminən 5 200 °C və 3,6 milyon atmosfer təzyiq.",
       "tr": "",
       "en": ""
     },
     {
       "id": "L09",
-      "say": "Əvvəlcə tunelin havasını çəkirik — yoxsa sürtünmə səni mərkəzdə dayandırar. İndi tullan!",
-      "cap": "Əvvəlcə tunelin havasını çəkirik — yoxsa sürtünmə səni mərkəzdə dayandırar. İndi tullan!",
+      "say": "Əvvəlcə tunelin havasını çəkirik, yoxsa sürtünmə səni mərkəzdə saxlayar. İndi tullan!",
+      "cap": "Əvvəlcə tunelin havasını çəkirik — yoxsa sürtünmə səni mərkəzdə saxlayar. İndi tullan!",
       "tr": "",
       "en": ""
     },
@@ -104,8 +104,8 @@
     },
     {
       "id": "L14",
-      "say": "Bir şeydən tutmasan, geri düşürsən — və hər 76 dəqiqədən bir Bakıya qayıdırsan.",
-      "cap": "Bir şeydən tutmasan, geri düşürsən — və hər 76 dəqiqədən bir Bakıya qayıdırsan.",
+      "say": "Tutunmasan, geri düşürsən, və hər 76 dəqiqədən bir Bakıya qayıdırsan.",
+      "cap": "Tutunmasan, geri düşürsən — və hər 76 dəqiqədən bir Bakıya qayıdırsan.",
       "tr": "",
       "en": ""
     },
