@@ -1,0 +1,134 @@
+{
+  "name": "ismayil",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+8%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Şah İsmayıl Xətai: on dörd yaşında şah olan uşaq.",
+      "cap": "Şah İsmayıl Xətai: 14 yaşında şah olan uşaq.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L01",
+      "say": "On dörd yaşında şah oldu, otuz altı yaşında dünyadan köçdü. Bəs bu qısa ömürdə nələr baş verdi?",
+      "cap": "14 yaşında şah oldu, 36 yaşında dünyadan köçdü. Bəs bu qısa ömürdə nələr baş verdi?",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L02",
+      "say": "Min dörd yüz səksən yeddinci il, Ərdəbil. İsmayıl Səfəvi təriqətinin başçısı Şeyx Heydərin ailəsində doğulur. Anası Ağqoyunlu hökmdarı Uzun Həsənin qızıdır.",
+      "cap": "1487, Ərdəbil. İsmayıl Səfəvi təriqətinin başçısı Şeyx Heydərin ailəsində doğulur. Anası Ağqoyunlu hökmdarı Uzun Həsənin qızıdır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L03",
+      "say": "Bir yaşı olanda atası Təbərsəranda, Şirvanşah Fərrux Yasarla döyüşdə həlak olur.",
+      "cap": "Bir yaşı olanda atası Təbərsəranda, Şirvanşah Fərrux Yasarla döyüşdə həlak olur.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L04",
+      "say": "Min dörd yüz doxsan dörddə böyük qardaşı Sultan Əli də öldürülür. Yeddi yaşlı İsmayıl Gilana, Lahıcana qaçırılır və orada illərlə gizlənir.",
+      "cap": "1494-də böyük qardaşı Sultan Əli də öldürülür. 7 yaşlı İsmayıl Gilana, Lahıcana qaçırılır və orada illərlə gizlənir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L05",
+      "say": "On iki yaşında gizləndiyi yerdən çıxır. Min beş yüzüncü ilin yayında Ərzincanda ətrafına yeddi min qızılbaş toplanır.",
+      "cap": "12 yaşında gizləndiyi yerdən çıxır. 1500-cü ilin yayında Ərzincanda ətrafına 7 000 qızılbaş toplanır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L06",
+      "say": "İlk hədəf Şirvan olur. Cabanı döyüşündə atasının qatili Şirvanşah Fərrux Yasar məğlub edilir.",
+      "cap": "İlk hədəf Şirvan olur. Cabanı döyüşündə atasının qatili Şirvanşah Fərrux Yasar məğlub edilir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L07",
+      "say": "Min beş yüz birdə Bakı mühasirəyə alınır. Qala divarının bir hissəsi uçurulur və şəhər alınır.",
+      "cap": "1501-də Bakı mühasirəyə alınır. Qala divarının bir hissəsi uçurulur və şəhər alınır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L08",
+      "say": "Həmin yay Şərurda Ağqoyunlu hökmdarı Əlvəndin, deyilənə görə, dörd dəfə böyük ordusu darmadağın edilir.",
+      "cap": "Həmin yay Şərurda Ağqoyunlu hökmdarı Əlvəndin, deyilənə görə, 4 dəfə böyük ordusu darmadağın edilir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L09",
+      "say": "İsmayıl Təbrizə girir və on dörd yaşında şah elan olunur. Paytaxt Təbriz olur.",
+      "cap": "İsmayıl Təbrizə girir və 14 yaşında şah elan olunur. Paytaxt Təbriz olur.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L10",
+      "say": "Sonrakı illərdə İran və İraq torpaqları onun hakimiyyətinə keçir. Min beş yüz onda Mərvdə özbək hökmdarı Şeybani xan məğlub edilir.",
+      "cap": "Sonrakı illərdə İran və İraq torpaqları onun hakimiyyətinə keçir. 1510-da Mərvdə özbək hökmdarı Şeybani xan məğlub edilir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L11",
+      "say": "Döyüşlərin arasında şeir yazır. Xətai təxəllüsü ilə ana dilində divan və Dəhnamə poemasını yaradır.",
+      "cap": "Döyüşlərin arasında şeir yazır. Xətai təxəllüsü ilə ana dilində divan və \"Dəhnamə\" poemasını (1506) yaradır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L12",
+      "say": "Qızılbaş ordusunda və sarayda Azərbaycan türkcəsi danışılır.",
+      "cap": "Qızılbaş ordusunda və sarayda Azərbaycan türkcəsi danışılır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13",
+      "say": "Min beş yüz on dörd, Çaldıran. Osmanlı sultanı Səlim topları və tüfəngli yeniçəriləri ilə gəlir. Qızılbaşlar ağır məğlubiyyətə uğrayır.",
+      "cap": "1514, Çaldıran. Osmanlı sultanı Səlim topları və tüfəngli yeniçəriləri ilə gəlir. Qızılbaşlar ağır məğlubiyyətə uğrayır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L14",
+      "say": "Yaralanan şah az qala əsir düşür. Bundan sonra o, bir daha heç bir yürüşə çıxmır.",
+      "cap": "Yaralanan şah az qala əsir düşür. Bundan sonra o, bir daha heç bir yürüşə çıxmır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L15",
+      "say": "Min beş yüz iyirmi dörddə, otuz altı yaşında vəfat edir və Ərdəbildə, Şeyx Səfi türbəsində dəfn olunur.",
+      "cap": "1524-də, 36 yaşında vəfat edir və Ərdəbildə, Şeyx Səfi türbəsində dəfn olunur.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L16",
+      "say": "Onun qurduğu Səfəvi dövləti min yeddi yüz otuz altıncı ilədək, düz iki yüz otuz beş il yaşadı.",
+      "cap": "Onun qurduğu Səfəvi dövləti 1736-cı ilədək — düz 235 il yaşadı.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L17",
+      "say": "Şah İsmayılın həyatında sənə ən maraqlı gələn an hansıdır? Şərhlərdə yaz.",
+      "cap": "Şah İsmayılın həyatında sənə ən maraqlı gələn an hansıdır? Şərhlərdə yaz.",
+      "tr": "",
+      "en": ""
+    }
+  ]
+}
