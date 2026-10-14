@@ -1,0 +1,120 @@
+{
+  "name": "tunel",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+6%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Yerin içindən tunel qazsaydıq, nə olardı?",
+      "cap": "Yerin içindən tunel qazsaydıq, nə olardı?",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L01",
+      "say": "Təsəvvür et: Bakıdan başlayıb Yerin düz mərkəzindən keçən bir tunel qazırıq.",
+      "cap": "Təsəvvür et: Bakıdan başlayıb Yerin düz mərkəzindən keçən bir tunel qazırıq.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L02",
+      "say": "Uzunluğu 12742 kilometrdir — Yerin bütün diametri.",
+      "cap": "Uzunluğu 12 742 km — Yerin bütün diametri.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L03",
+      "say": "İnsanların qazdığı ən dərin quyu, Kola quyusu, cəmi 12 kilometrdir. Onu qazmaq 19 il çəkib.",
+      "cap": "İnsanların qazdığı ən dərin quyu — Kola quyusu — cəmi 12 km-dir. Onu qazmaq 19 il çəkib.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L04",
+      "say": "Bu, mərkəzə qədər olan yolun cəmi 0,2 faizidir. Qalanını təsəvvür edək.",
+      "cap": "Bu, mərkəzə qədər olan yolun cəmi 0,2%-idir. Qalanını təsəvvür edək.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L05",
+      "say": "İlk 35 kilometr yer qabığıdır. Hər kilometrdə temperatur təxminən 25 dərəcə artır.",
+      "cap": "İlk 35 km — yer qabığı. Hər kilometrdə temperatur təxminən 25 °C artır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L06",
+      "say": "Sonra mantiya gəlir: 2900 kilometr qalınlığında, çox yavaş axan qızmar süxur.",
+      "cap": "Sonra mantiya: 2 900 km qalınlığında, çox yavaş axan qızmar süxur.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L07",
+      "say": "2900 kilometr dərinlikdə maye dəmir okeanı başlayır. Yerin maqnit sahəsini məhz o yaradır.",
+      "cap": "2 900 km dərinlikdə maye dəmir okeanı başlayır. Yerin maqnit sahəsini məhz o yaradır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L08",
+      "say": "Mərkəzdə bərk dəmir kürə var: təxminən 5200 dərəcə. Təzyiq isə 3,6 milyon atmosferdir.",
+      "cap": "Mərkəzdə bərk dəmir kürə var: təxminən 5 200 °C. Təzyiq — 3,6 milyon atmosfer.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L09",
+      "say": "Əvvəlcə tunelin havasını çəkirik — yoxsa sürtünmə səni mərkəzdə dayandırar. İndi tullan!",
+      "cap": "Əvvəlcə tunelin havasını çəkirik — yoxsa sürtünmə səni mərkəzdə dayandırar. İndi tullan!",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L10",
+      "say": "Bütün yol boyu çəkisiz düşürsən. Mərkəzdə sürətin saniyədə 8 kilometri keçir.",
+      "cap": "Bütün yol boyu çəkisiz düşürsən. Mərkəzdə sürətin saniyədə 8 km-i keçir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L11",
+      "say": "Sonra yavaşlayırsan və Yerin o biri üzünə cəmi 38 dəqiqəyə çatırsan.",
+      "cap": "Sonra yavaşlayırsan və Yerin o biri üzünə cəmi 38 dəqiqəyə çatırsan.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L12",
+      "say": "Bəs ora haradır? Bakının tam əks nöqtəsi Sakit okeanın ortasıdır.",
+      "cap": "Bəs ora haradır? Bakının tam əks nöqtəsi Sakit okeanın ortasıdır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13",
+      "say": "Ən yaxın yaşayış yeri 1700 kilometr uzaqdakı Pitkern adasıdır.",
+      "cap": "Ən yaxın yaşayış yeri 1 700 km uzaqdakı Pitkern adasıdır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L14",
+      "say": "Bir şeydən tutmasan, geri düşürsən — və hər 76 dəqiqədən bir Bakıya qayıdırsan.",
+      "cap": "Bir şeydən tutmasan, geri düşürsən — və hər 76 dəqiqədən bir Bakıya qayıdırsan.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L15",
+      "say": "Sən tuneldən hara çıxmaq istərdin? Şərhlərdə yaz.",
+      "cap": "Sən tuneldən hara çıxmaq istərdin? Şərhlərdə yaz.",
+      "tr": "",
+      "en": ""
+    }
+  ]
+}
