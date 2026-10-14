@@ -1,0 +1,134 @@
+{
+  "name": "ismayil2_babek",
+  "voice": "az-AZ-BabekNeural",
+  "rate": "+0%",
+  "pitch": "+0Hz",
+  "lines": [
+    {
+      "id": "L00",
+      "say": "Şah İsmayıl olsaydın, nə olardı?",
+      "cap": "Şah İsmayıl olsaydın, nə olardı?",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L01",
+      "say": "Təsəvvür et: sən Şah İsmayılsan. Arxanda minlərlə qızılbaş dayanıb. Hamısı sənin bir əmrini gözləyir.",
+      "cap": "Təsəvvür et: sən Şah İsmayılsan. Arxanda minlərlə qızılbaş dayanıb — hamısı sənin bir əmrini gözləyir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L02",
+      "say": "Amma hər şey çox ağır başlayır. Min dörd yüz səksən yeddidə Ərdəbildə doğulursan. Atan, Səfəvi təriqətinin başçısı Şeyx Heydərdir.",
+      "cap": "Amma hər şey çox ağır başlayır. 1487-də Ərdəbildə doğulursan. Atan — Səfəvi təriqətinin başçısı Şeyx Heydərdir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L03",
+      "say": "Hələ bir yaşın var. Atan Təbərsəranda, Şirvanşahla döyüşdə həlak olur.",
+      "cap": "Hələ bir yaşın var. Atan Təbərsəranda, Şirvanşahla döyüşdə həlak olur.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L04",
+      "say": "Yeddi yaşında böyük qardaşın Sultan Əli də öldürülür. Səni gecə ilə Lahıcana qaçırırlar. Beş il gizlənirsən.",
+      "cap": "7 yaşında böyük qardaşın Sultan Əli də öldürülür. Səni gecə ilə Lahıcana qaçırırlar. 5 il gizlənirsən.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L05",
+      "say": "On iki yaşında gizləndiyin yerdən çıxırsan. Ərzincanda ətrafına yeddi min qızılbaş toplanır. Onlar səni öz lideri sayırlar.",
+      "cap": "12 yaşında gizləndiyin yerdən çıxırsan. Ərzincanda ətrafına 7 000 qızılbaş toplanır. Onlar səni öz lideri sayırlar.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L06",
+      "say": "İlk böyük döyüşün Şirvandadır. Cabanıda atanın qatili Fərrux Yasarın ordusuna hücum edirsən, və qalib gəlirsən.",
+      "cap": "İlk böyük döyüşün Şirvandadır. Cabanıda atanın qatili Fərrux Yasarın ordusuna hücum edirsən — və qalib gəlirsən.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L07",
+      "say": "Sonra Bakı qalasını mühasirəyə alırsan. Divarın bir hissəsi uçurulur, və şəhər sənin olur.",
+      "cap": "Sonra Bakı qalasını mühasirəyə alırsan. Divarın bir hissəsi uçurulur və şəhər sənin olur.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L08",
+      "say": "Şərurda Ağqoyunlu hökmdarı Əlvəndin, deyilənə görə, dörd dəfə böyük ordusunu darmadağın edirsən.",
+      "cap": "Şərurda Ağqoyunlu hökmdarı Əlvəndin, deyilənə görə, 4 dəfə böyük ordusunu darmadağın edirsən.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L09",
+      "say": "Və Təbrizə girirsən. On dörd yaşındasan, və artıq şahsan. Xalq qarşında baş əyir.",
+      "cap": "Və Təbrizə girirsən. 14 yaşındasan — və artıq şahsan. Xalq qarşında baş əyir.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L10",
+      "say": "Sonrakı illərdə İran və İraq torpaqlarını birləşdirirsən. Mərvdə özbək hökmdarı Şeybani xanı məğlub edirsən.",
+      "cap": "Sonrakı illərdə İran və İraq torpaqlarını birləşdirirsən. 1510-da Mərvdə özbək hökmdarı Şeybani xanı məğlub edirsən.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L11",
+      "say": "Döyüşlərin arasında isə qələm götürürsən. Xətai təxəllüsü ilə ana dilində şeirlər yazırsan, Dəhnamə poemasını yaradırsan.",
+      "cap": "Döyüşlərin arasında isə qələm götürürsən. Xətai təxəllüsü ilə ana dilində şeirlər yazırsan, \"Dəhnamə\" poemasını yaradırsan.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L12",
+      "say": "Sarayında da, ordunda da Azərbaycan türkcəsi danışılır.",
+      "cap": "Sarayında da, ordunda da Azərbaycan türkcəsi danışılır.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L13",
+      "say": "Min beş yüz on dörd. Çaldıran. Osmanlı sultanı Səlim toplar və tüfənglərlə gəlir. Sən isə qılınclı süvarilərinlə onun üstünə gedirsən.",
+      "cap": "1514. Çaldıran. Osmanlı sultanı Səlim toplar və tüfənglərlə gəlir. Sən isə qılınclı süvarilərinlə onun üstünə gedirsən.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L14",
+      "say": "Bu dəfə məğlub olursan. Yaralanırsan, az qala əsir düşürsən. Bundan sonra bir daha döyüşə çıxmırsan.",
+      "cap": "Bu dəfə məğlub olursan. Yaralanırsan, az qala əsir düşürsən. Bundan sonra bir daha döyüşə çıxmırsan.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L15",
+      "say": "Min beş yüz iyirmi dörddə, cəmi otuz altı yaşında dünyadan köçürsən. Ərdəbildə, ulu baban Şeyx Səfinin türbəsində dəfn olunursan.",
+      "cap": "1524-də, cəmi 36 yaşında dünyadan köçürsən. Ərdəbildə, ulu baban Şeyx Səfinin türbəsində dəfn olunursan.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L16",
+      "say": "Amma qurduğun Səfəvi dövləti səndən sonra da iki yüz otuz beş il yaşayacaq.",
+      "cap": "Amma qurduğun Səfəvi dövləti səndən sonra da 235 il yaşayacaq.",
+      "tr": "",
+      "en": ""
+    },
+    {
+      "id": "L17",
+      "say": "Sən Şah İsmayıl olsaydın, Çaldırana gedərdinmi? Şərhlərdə yaz.",
+      "cap": "Sən Şah İsmayıl olsaydın, Çaldırana gedərdinmi? Şərhlərdə yaz.",
+      "tr": "",
+      "en": ""
+    }
+  ]
+}
