@@ -1,20 +1,2 @@
 edge-tts 7.3.1 2-143.0.3650.75
 az voices: ['az-AZ-BabekNeural', 'az-AZ-BanuNeural'] total 322
-ok L00 19296
-ok L01 55728
-ok L02 64224
-ok L03 30528
-ok L04 55728
-ok L05 61632
-ok L06 51696
-ok L07 42912
-ok L08 38592
-ok L09 49104
-ok L10 51408
-ok L11 53568
-ok L12 25056
-ok L13 72864
-ok L14 52704
-ok L15 56160
-ok L16 32256
-ok L17 36144
