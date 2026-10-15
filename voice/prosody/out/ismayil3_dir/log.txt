@@ -1,0 +1,40 @@
+ok L00 med 104 mood epic hits ['İsmayıl@0.48', 'olardı@1.81'] words 5
+ok L01a med 115 mood calm hits ['Təsəvvür@0.21', 'İsmayılsan@1.54'] words 5
+ok L01b med 115 mood epic hits ['minlərlə@0.80', 'qızılbaş@1.42'] words 4
+ok L01c med 106 mood proud hits ['bir@1.18', 'əmrini@1.34'] words 5
+ok L02a med 114 mood sad hits ['çox@1.11', 'ağır@1.39'] words 6
+ok L02b med 100 mood calm hits ['Ərdəbildə@1.94', 'doğulursan@2.55'] words 7
+ok L02c med 107 mood proud hits ['Atan@0.20', 'Heydərdir@2.63'] words 6
+ok L03a med 108 mood sad hits ['bir@0.52'] words 4
+ok L03b med 105 mood sad hits ['Təbərsəranda@0.55', 'həlak@2.82'] words 6
+ok L04a med 107 mood sad hits ['qardaşın@1.46', 'öldürülür@2.83'] words 8
+ok L04b med 98 mood tense hits ['gecə@0.53', 'qaçırırlar@1.55'] words 5
+ok L04c med 97 mood calm hits ['Beş@0.25'] words 3
+ok L05a med 108 mood epic hits ['çıxırsan@2.22'] words 6
+ok L05b med 116 mood epic hits ['yeddi@1.43', 'min@1.75'] words 6
+ok L05c med 112 mood proud hits ['lideri@1.18'] words 5
+ok L06a med 107 mood tense hits ['İlk@0.21', 'döyüşün@0.79'] words 4
+ok L06b med 107 mood epic hits ['qatili@1.22', 'hücum@2.91', 'qalib@3.76'] words 11
+ok L07a med 101 mood tense hits ['Bakı@0.60', 'mühasirəyə@1.38'] words 5
+ok L07b med 107 mood epic hits ['uçurulur@1.19', 'sənin@2.25'] words 8
+ok L08 med 102 mood epic hits ['dörd@3.21', 'böyük@3.71', 'darmadağın@4.46'] words 12
+ok L09a med 109 mood proud hits ['Təbrizə@0.36'] words 3
+ok L09b med 109 mood epic hits ['dörd@0.44', 'şahsan@1.97'] words 6
+ok L09c med 104 mood proud hits ['baş@1.15'] words 4
+ok L10a med 105 mood proud hits ['birləşdirirsən@2.74'] words 7
+ok L10b med 106 mood epic hits ['Mərvdə@1.26', 'məğlub@3.33'] words 11
+ok L11a med 109 mood calm hits ['qələm@1.68'] words 5
+ok L11b med 106 mood calm hits ['Xətai@0.18', 'ana@1.36', 'Dəhnamə@3.24'] words 10
+ok L12 med 107 mood proud hits ['Azərbaycan@1.71'] words 7
+ok L13a med 110 mood tense hits ['dörd@1.33'] words 5
+ok L13b med 95 mood tense hits ['Çaldıran@0.23'] words 1
+ok L13c med 108 mood tense hits ['toplar@1.71', 'tüfənglərlə@2.28'] words 7
+ok L13d med 104 mood epic hits ['qılınclı@0.75', 'üstünə@2.32'] words 7
+ok L14a med 94 mood sad hits ['məğlub@0.62'] words 4
+ok L14b med 109 mood sad hits ['Yaralanırsan@0.22', 'əsir@1.64'] words 5
+ok L14c med 107 mood sad hits ['bir@1.07', 'daha@1.26'] words 6
+ok L15a med 103 mood sad hits ['cəmi@1.89', 'otuz@2.19', 'altı@2.53'] words 11
+ok L15b med 108 mood sad hits ['ulu@0.98', 'Səfinin@1.83'] words 8
+ok L16 med 108 mood proud hits ['iki@3.10', 'yüz@3.30', 'otuz@3.50', 'beş@3.85', 'yaşayacaq@4.20'] words 13
+ok L17a med 99 mood calm hits ['Sən@0.18', 'gedərdinmi@2.42'] words 6
+ok L17b med 115 mood proud hits ['yaz@0.84'] words 2
