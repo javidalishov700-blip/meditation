@@ -1,0 +1,19 @@
+edge-tts 7.3.1 2-143.0.3650.75
+az voices: ['az-AZ-BabekNeural', 'az-AZ-BanuNeural'] total 322
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+FAILED S1
+retry S2 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S2 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S2 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S2 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+FAILED S2
+abort: service refuses
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+retry S1 NoAudioReceived No audio was received. Please verify that your parameters are correct.
+FAILED S1
+abort: service refuses
