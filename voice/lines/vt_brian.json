@@ -1,0 +1,29 @@
+{
+ "name": "vt_brian",
+ "voice": "en-US-BrianMultilingualNeural",
+ "rate": "+0%",
+ "pitch": "+0Hz",
+ "lines": [
+  {
+   "id": "S1",
+   "say": "Təsəvvür et: sən Şah İsmayılsan. Arxanda minlərlə qızılbaş dayanıb. Hamısı sənin bir əmrini gözləyir.",
+   "cap": "",
+   "tr": "",
+   "en": ""
+  },
+  {
+   "id": "S2",
+   "say": "Min beş yüz on dörd. Çaldıran. Osmanlı sultanı Səlim toplar və tüfənglərlə gəlir. Sən isə qılınclı süvarilərinlə onun üstünə gedirsən!",
+   "cap": "",
+   "tr": "",
+   "en": ""
+  },
+  {
+   "id": "S3",
+   "say": "Ərdəbildə, ulu baban Şeyx Səfinin türbəsində dəfn olunursan.",
+   "cap": "",
+   "tr": "",
+   "en": ""
+  }
+ ]
+}
