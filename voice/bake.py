@@ -8,6 +8,19 @@ Mətni dəyişməyən kliplər yenidən sintez olunmur.
 import asyncio, hashlib, json, sys
 from pathlib import Path
 import edge_tts
+import edge_tts.communicate as _C
+
+# İstəyə görə dil: çoxdilli səslərə mətni hansı dildə oxumağı bildirmək üçün (<lang>).
+LANG = {'v': None}
+_orig_mkssml = _C.mkssml
+def _mkssml(tc, text):
+    s = _orig_mkssml(tc, text)
+    if LANG['v']:
+        s = s.replace("xml:lang='en-US'", f"xml:lang='{LANG['v']}'")
+        s = s.replace("<prosody", f"<lang xml:lang='{LANG['v']}'><prosody", 1)
+        s = s.replace("</prosody>", "</prosody></lang>", 1)
+    return s
+_C.mkssml = _mkssml
 
 ROOT = Path(__file__).resolve().parent
 
@@ -26,12 +39,13 @@ async def bake(path: Path):
     mpath = out / "manifest.json"
     man = json.loads(mpath.read_text("utf-8")) if mpath.exists() else {}
     voice, rate, pitch = d["voice"], d.get("rate", "+0%"), d.get("pitch", "+0Hz")
+    LANG['v'] = d.get("lang")
     for ln in d["lines"]:
         text = ln["say"].strip()
         if "<speak" in text.lower():
             raise SystemExit("SSML olmaz")
         lrate, lpitch = ln.get("rate", rate), ln.get("pitch", pitch)
-        key = h(voice, lrate, lpitch, text)
+        key = h(voice, lrate, lpitch, text + (f"|{LANG['v']}" if LANG['v'] else ""))
         dest = out / f"{ln['id']}.mp3"
         if man.get(ln["id"]) == key and dest.exists():
             continue
