@@ -31,6 +31,21 @@ def log(*a):
     line = " ".join(str(x) for x in a)
     print(line, flush=True); LOG.append(line)
 
+async def synth_words(text, voice, rate, pitch, dest):
+    """səs + söz sərhədləri (dest.words.json: saniyə ilə)"""
+    try:
+        c = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, boundary="WordBoundary")
+    except TypeError:
+        c = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch)
+    words = []
+    with open(dest, "wb") as f:
+        async for ch in c.stream():
+            if ch["type"] == "audio":
+                f.write(ch["data"])
+            elif ch["type"] in ("WordBoundary", "SentenceBoundary"):
+                words.append({"t": ch["type"][0], "o": ch["offset"] / 1e7, "d": ch["duration"] / 1e7, "w": ch["text"]})
+    Path(str(dest)[:-4] + ".words.json").write_text(json.dumps(words, ensure_ascii=False, indent=0), "utf-8")
+
 async def bake(path: Path):
     d = json.loads(path.read_text("utf-8"))
     out = ROOT / "out" / d["name"]; out.mkdir(parents=True, exist_ok=True)
@@ -50,7 +65,10 @@ async def bake(path: Path):
         ok = False
         for attempt in range(4):
             try:
-                await edge_tts.Communicate(text, voice, rate=lrate, pitch=lpitch).save(str(dest))
+                if d.get("words"):
+                    await synth_words(text, voice, lrate, lpitch, dest)
+                else:
+                    await edge_tts.Communicate(text, voice, rate=lrate, pitch=lpitch).save(str(dest))
                 if dest.stat().st_size > 1000:
                     ok = True
                     break
