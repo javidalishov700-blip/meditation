@@ -1,6 +1,9 @@
-voice/asr/samples/voice3_L01.wav	Təsəvür etsən Şah-i İsmailsan, arxanda minlərlə qızılbaş dayanıb. Hamısı sənin bir emrini gözləyir.
-voice/asr/samples/voice3_L13.wav	1514. Çaldıran Osmanlı sultanı Səlim toplar və tüfənglərlə gəlir. Sən isə qılınclı sivarilərinlə onun üstünə gedirsən.
-voice/asr/samples/voice3_L15.wav	1524-də Cəmi 36 yaşında dünyadan köçürsən, ərdə bil də ulu baban Şəyq Səfi'nin türbəsində dəfnə olunursan.
-voice/asr/samples/voice4_L01.wav	Təsəvvür etsən Şah-i İsmail san, arxanda minlərlə qızılbaş dayanıb. Hamısı, sənin bir əmrini gözləyir.
-voice/asr/samples/voice4_L13.wav	1514. Çaldıran. Osmanlı sultanı Səlim toplar və tüfənglərlə gəlir. Sən isə qılınçlı sivarlərinlə onun üstünə gedirsən.
-voice/asr/samples/voice4_L15.wav	1524-də Cəmi 36 yaşında dünyadan köçürsən, ərdə bildə ulu baban Şəyq Səfi'nin türbəsində dəfna olunursan.
+voice/out/vr_andrew/S1.mp3	Svür əsənsə isməylsən, arksanda mineral kizilbəs dəyənəb, həməsür sinin bir midinə qözlif.
+voice/out/vr_andrew/S2.mp3	Minimum 514 Kaldrin Osmanlı sultanı silim toplar və tüfun gülül gülür, sene iskılınclı süvarilin onun üstün gedirsin.
+voice/out/vr_andrew/S3.mp3	Red-Build, Ulu Babin saks, Sfinan Tripsin, D.F.A.N.O. Lunarsın.
+voice/out/vr_florian/S1.mp3	Svüri əsən səizməl sən Arxsandə minlural kizilbəz dəinib Hamısı sinin bir mirini gözləyir.
+voice/out/vr_florian/S2.mp3	Minimum 514 Calderon Osmanlı sultanı silim toplar və tüfun gülilgülir. S.N.I.S. Kılıncılı süvarilinin onun üstün qedirsin.
+voice/out/vr_florian/S3.mp3	Red-Build, Ulu Bəbən Saks Finan-Tripsind DFN Oloonəsən.
+voice/out/vr_remy/S1.mp3	Zvür-i əsənsə-i isməl-sən Arxsandə mineral kazilbəs dəyinəb Hamısı sinin bir milini gözlür
+voice/out/vr_remy/S2.mp3	Minimum 514 Kaldırın Osmanlı sultanı silim toplar və tüfənglir ilgülir. Sene is kılınclı süvarilrin onun üstün gedirsin.
+voice/out/vr_remy/S3.mp3	Red-Build, Ulu Bəbən səks fine-intripsin DFN Olunarsın.
