@@ -6,8 +6,17 @@ req, out = sys.argv[1], sys.argv[2]
 files = [l.strip() for l in open(req, encoding='utf-8') if l.strip() and not l.startswith('#')]
 model = WhisperModel('small', device='cpu', compute_type='int8')
 def load(p):
-    raw = subprocess.run(['ffmpeg', '-loglevel', 'error', '-i', p, '-ac', '1', '-ar', '16000', '-f', 'f32le', '-'], capture_output=True).stdout
-    return np.frombuffer(raw, np.float32).copy()
+    import av
+    c = av.open(p)
+    rs = av.AudioResampler(format='flt', layout='mono', rate=16000)
+    out = []
+    for fr in c.decode(audio=0):
+        res = rs.resample(fr)
+        for r in (res if isinstance(res, list) else [res]):
+            if r is not None: out.append(r.to_ndarray().reshape(-1))
+    for r in (rs.resample(None) or []):
+        out.append(r.to_ndarray().reshape(-1))
+    return np.concatenate(out).astype(np.float32)
 res = []
 for f in files:
     try:
