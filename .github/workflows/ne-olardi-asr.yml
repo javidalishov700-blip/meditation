@@ -1,0 +1,46 @@
+name: Ne olardi ASR check
+
+# Səsləndirmə kliplərinin tələffüzünü yoxlamaq üçün Whisper ilə transkripsiya.
+on:
+  push:
+    branches: [ne-olardi-voice]
+    paths:
+      - 'voice/asr/request.txt'
+      - '.github/workflows/ne-olardi-asr.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ne-olardi-asr
+  cancel-in-progress: false
+
+jobs:
+  asr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ne-olardi-voice
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Transcribe
+        run: |
+          pip install -q faster-whisper
+          python voice/asr/asr.py voice/asr/request.txt voice/asr/out.txt || true
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "ne-olardi-voice-bot"
+          git config user.email "ne-olardi-voice-bot@users.noreply.github.com"
+          git add -A voice/asr
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git commit -m "ASR transcripts"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin ne-olardi-voice && git push origin HEAD:ne-olardi-voice && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
