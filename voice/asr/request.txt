@@ -1,26 +1,6 @@
-voice/out/vt_andrew/S1.mp3
-voice/out/vt_andrew/S2.mp3
-voice/out/vt_andrew/S3.mp3
-voice/out/vt_brian/S1.mp3
-voice/out/vt_brian/S2.mp3
-voice/out/vt_brian/S3.mp3
-voice/out/vt_florian/S1.mp3
-voice/out/vt_florian/S2.mp3
-voice/out/vt_florian/S3.mp3
-voice/out/vt_giuseppe/S1.mp3
-voice/out/vt_giuseppe/S2.mp3
-voice/out/vt_giuseppe/S3.mp3
-voice/out/vt_remy/S1.mp3
-voice/out/vt_remy/S2.mp3
-voice/out/vt_remy/S3.mp3
-voice/out/vt_william/S1.mp3
-voice/out/vt_william/S2.mp3
-voice/out/vt_william/S3.mp3
-voice/out/vt_hyunsu/S1.mp3
-voice/out/vt_hyunsu/S2.mp3
-voice/out/vt_hyunsu/S3.mp3
-voice/out/vt_babek/S1.mp3
-voice/out/vt_babek/S2.mp3
-voice/out/vt_babek/S3.mp3
-# retry 1792056313
-# retry 1792056419
+voice/asr/samples/voice3_L01.wav
+voice/asr/samples/voice3_L13.wav
+voice/asr/samples/voice3_L15.wav
+voice/asr/samples/voice4_L01.wav
+voice/asr/samples/voice4_L13.wav
+voice/asr/samples/voice4_L15.wav
