@@ -1,0 +1,47 @@
+name: Ne olardi prosody
+
+# Səsləndirmə kliplərində intonasiya diapazonunu Praat (PSOLA) ilə genişləndirir.
+on:
+  push:
+    branches: [ne-olardi-voice]
+    paths:
+      - 'voice/prosody/request.json'
+      - 'voice/prosody/prosody.py'
+      - '.github/workflows/ne-olardi-prosody.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ne-olardi-prosody
+  cancel-in-progress: false
+
+jobs:
+  prosody:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ne-olardi-voice
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Process
+        run: |
+          pip install -q praat-parselmouth
+          python voice/prosody/prosody.py voice/prosody/request.json || true
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "ne-olardi-voice-bot"
+          git config user.email "ne-olardi-voice-bot@users.noreply.github.com"
+          git add -A voice/prosody
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git commit -m "Prosody-processed narration"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin ne-olardi-voice && git push origin HEAD:ne-olardi-voice && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
