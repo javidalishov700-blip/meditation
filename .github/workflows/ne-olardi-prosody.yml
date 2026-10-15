@@ -6,6 +6,7 @@ on:
     branches: [ne-olardi-voice]
     paths:
       - 'voice/prosody/request.json'
+      - 'voice/prosody/request2.json'
       - 'voice/prosody/prosody.py'
       - '.github/workflows/ne-olardi-prosody.yml'
   workflow_dispatch:
@@ -31,7 +32,7 @@ jobs:
       - name: Process
         run: |
           pip install -q praat-parselmouth
-          python voice/prosody/prosody.py voice/prosody/request.json || true
+          python voice/prosody/director.py voice/prosody/request2.json || true
       - name: Commit
         if: always()
         run: |

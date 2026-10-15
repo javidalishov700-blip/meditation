@@ -1,0 +1,280 @@
+{
+ "src": "voice/out/ismayil3w",
+ "dst": "voice/prosody/out/ismayil3_dir",
+ "clips": {
+  "L00": {
+   "mood": "epic",
+   "emph": [
+    "İsmayıl",
+    "olardı"
+   ]
+  },
+  "L01a": {
+   "mood": "calm",
+   "emph": [
+    "Təsəvvür",
+    "İsmayılsan"
+   ]
+  },
+  "L01b": {
+   "mood": "epic",
+   "emph": [
+    "minlərlə",
+    "qızılbaş"
+   ]
+  },
+  "L01c": {
+   "mood": "proud",
+   "emph": [
+    "bir",
+    "əmrini"
+   ]
+  },
+  "L02a": {
+   "mood": "sad",
+   "emph": [
+    "çox",
+    "ağır"
+   ]
+  },
+  "L02b": {
+   "mood": "calm",
+   "emph": [
+    "Ərdəbildə",
+    "doğulursan"
+   ]
+  },
+  "L02c": {
+   "mood": "proud",
+   "emph": [
+    "Atan",
+    "Heydərdir"
+   ]
+  },
+  "L03a": {
+   "mood": "sad",
+   "emph": [
+    "bir"
+   ]
+  },
+  "L03b": {
+   "mood": "sad",
+   "emph": [
+    "Təbərsəranda",
+    "həlak"
+   ]
+  },
+  "L04a": {
+   "mood": "sad",
+   "emph": [
+    "qardaşın",
+    "öldürülür"
+   ]
+  },
+  "L04b": {
+   "mood": "tense",
+   "emph": [
+    "gecə",
+    "qaçırırlar"
+   ]
+  },
+  "L04c": {
+   "mood": "calm",
+   "emph": [
+    "Beş"
+   ]
+  },
+  "L05a": {
+   "mood": "epic",
+   "emph": [
+    "çıxırsan"
+   ]
+  },
+  "L05b": {
+   "mood": "epic",
+   "emph": [
+    "yeddi",
+    "min"
+   ]
+  },
+  "L05c": {
+   "mood": "proud",
+   "emph": [
+    "lideri"
+   ]
+  },
+  "L06a": {
+   "mood": "tense",
+   "emph": [
+    "İlk",
+    "döyüşün"
+   ]
+  },
+  "L06b": {
+   "mood": "epic",
+   "emph": [
+    "qatili",
+    "hücum",
+    "qalib"
+   ]
+  },
+  "L07a": {
+   "mood": "tense",
+   "emph": [
+    "Bakı",
+    "mühasirəyə"
+   ]
+  },
+  "L07b": {
+   "mood": "epic",
+   "emph": [
+    "uçurulur",
+    "sənin"
+   ]
+  },
+  "L08": {
+   "mood": "epic",
+   "emph": [
+    "dörd",
+    "böyük",
+    "darmadağın"
+   ]
+  },
+  "L09a": {
+   "mood": "proud",
+   "emph": [
+    "Təbrizə"
+   ]
+  },
+  "L09b": {
+   "mood": "epic",
+   "emph": [
+    "dörd",
+    "şahsan"
+   ]
+  },
+  "L09c": {
+   "mood": "proud",
+   "emph": [
+    "baş"
+   ]
+  },
+  "L10a": {
+   "mood": "proud",
+   "emph": [
+    "birləşdirirsən"
+   ]
+  },
+  "L10b": {
+   "mood": "epic",
+   "emph": [
+    "Mərvdə",
+    "məğlub"
+   ]
+  },
+  "L11a": {
+   "mood": "calm",
+   "emph": [
+    "qələm"
+   ]
+  },
+  "L11b": {
+   "mood": "calm",
+   "emph": [
+    "Xətai",
+    "ana",
+    "Dəhnamə"
+   ]
+  },
+  "L12": {
+   "mood": "proud",
+   "emph": [
+    "Azərbaycan"
+   ]
+  },
+  "L13a": {
+   "mood": "tense",
+   "emph": [
+    "dörd"
+   ]
+  },
+  "L13b": {
+   "mood": "tense",
+   "emph": [
+    "Çaldıran"
+   ]
+  },
+  "L13c": {
+   "mood": "tense",
+   "emph": [
+    "toplar",
+    "tüfənglərlə"
+   ]
+  },
+  "L13d": {
+   "mood": "epic",
+   "emph": [
+    "qılınclı",
+    "üstünə"
+   ]
+  },
+  "L14a": {
+   "mood": "sad",
+   "emph": [
+    "məğlub"
+   ]
+  },
+  "L14b": {
+   "mood": "sad",
+   "emph": [
+    "Yaralanırsan",
+    "əsir"
+   ]
+  },
+  "L14c": {
+   "mood": "sad",
+   "emph": [
+    "bir",
+    "daha"
+   ]
+  },
+  "L15a": {
+   "mood": "sad",
+   "emph": [
+    "cəmi",
+    "otuz",
+    "altı"
+   ]
+  },
+  "L15b": {
+   "mood": "sad",
+   "emph": [
+    "ulu",
+    "Səfinin"
+   ]
+  },
+  "L16": {
+   "mood": "proud",
+   "emph": [
+    "iki",
+    "yüz",
+    "otuz",
+    "beş",
+    "yaşayacaq"
+   ]
+  },
+  "L17a": {
+   "mood": "calm",
+   "emph": [
+    "Sən",
+    "gedərdinmi"
+   ]
+  },
+  "L17b": {
+   "mood": "proud",
+   "emph": [
+    "yaz"
+   ]
+  }
+ }
+}
