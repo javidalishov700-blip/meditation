@@ -1,9 +1,4 @@
-voice/out/vr_andrew/S1.mp3
-voice/out/vr_andrew/S2.mp3
-voice/out/vr_andrew/S3.mp3
-voice/out/vr_florian/S1.mp3
-voice/out/vr_florian/S2.mp3
-voice/out/vr_florian/S3.mp3
-voice/out/vr_remy/S1.mp3
-voice/out/vr_remy/S2.mp3
-voice/out/vr_remy/S3.mp3
+voice/asr/samples/voice5_L01.wav
+voice/asr/samples/voice5_L06.wav
+voice/asr/samples/voice5_L13.wav
+voice/asr/samples/voice5_L15.wav
