@@ -17,8 +17,6 @@ def _mkssml(tc, text):
     s = _orig_mkssml(tc, text)
     if LANG['v']:
         s = s.replace("xml:lang='en-US'", f"xml:lang='{LANG['v']}'")
-        s = s.replace("<prosody", f"<lang xml:lang='{LANG['v']}'><prosody", 1)
-        s = s.replace("</prosody>", "</prosody></lang>", 1)
     return s
 _C.mkssml = _mkssml
 
